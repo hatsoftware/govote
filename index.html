@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="theme-color" content="#00ffff"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="gfx/favicon.ico">
+<link rel="icon" href="gfx/favicon.ico">
+<link rel="apple-touch-icon" href="../../main_gfx/apple-touch-icon.png">
+
+<!--link rel="manifest" href="./manifest.webmanifest"-->
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+<!-- ********************* -->
+<title>GOVOTE ELECTION MONITORING SYSTEM</title>
+<script src="js/eruda.min.js"></script>
+<script>eruda.init();</script>
+<script>  
+  var CURR_CLIENT='NPC';
+  var CURR_SITE='npc';    
+
+  var JBE_API='https://aidfimonitoring.com/govote_api/';  
+  var pathloc=window.location.origin.substring(0,16);
+  
+  if(pathloc == 'http://localhost') { 
+    JBE_API=window.location.origin+'/govote_api/';  
+  }
+    
+  var CURR_CLIENTNO=''; 
+
+  var CURR_PROJID=''; 
+  var JBE_MOBILE=true;
+  
+  var aryREPS=[];
+   
+  var DB_WATCHER = [];
+  var DB_CANDIDATE = [];
+  var DB_MSG = [];
+  var DB_USER = [];
+  var DB_TRAN_VOTES = [];
+  
+  var CURR_REC='';
+  var CURR_PAGE=2;  
+  
+  var CURR_USER=''; 
+  var CURR_PASS=''; 
+  var CURR_NAME='';    
+  var CURR_AXTYPE=0;
+  var CURR_AXES=''; 
+  var CURR_AXLEVEL='';   
+
+  var CURR_MAP_WIDTH=0;
+  
+</script>
+<!-- ********************* -->
+
+</head>
+
+<!--body style="color:#252526;background:#E8E8E8;padding:0px;"-->
+<body style="font-weight:bold;" onresize="myResizeFunction()">
+
+
+<audio id="myAudio">
+  <source src="gfx/snd/chimes.ogg" type="audio/ogg">
+  <source src="gfx/snd/chimes.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<div id="snackbar"></div> 
+<!--************************* blocker-->
+<!--************************* blocker-->
+<div id="je_msg" tabindex="0" data-rval="SAGBAYAN" class="modal" style="display:none;" onkeydown="javascript:if(event.keyCode==27) closeModal()">
+  <div class="modal-content" style="border:1px solid black;">
+    <div id="modal-header" class="modal-header head_color">
+      <!--span class="closeBtn" onclick="closeModal()">&times;</span-->
+      <span id="DivPrompt">
+        <h1>Modal Header</h1>
+      </span>				
+    </div>
+    <div id="modal-body" class="modal-body" style="background:lightgrey;">
+      <div id="msgBody">        
+      </div>	
+      <div style="height:auto;text-align:center;margin-top:5px;background:none;">
+        <div id="msgDivPrompt" style="display:none;margin-bottom:5px;">
+          <input class="je_msg_btn" type="text" id="txtPrompt" onkeydown="javascript:if(event.keyCode==13) MSG_CLICK(1)" style="width:40%;height:20px;border:1px solid black;text-align:center;" value="" />
+        </div>
+        <div id="msgDivOk" style="display:none;">
+          <!--input type="button" onclick="closeModal()" class="button" value="OK" /-->
+          <input type="text" id="txOk" style="display:none;width:100px;"/>
+          <input class="je_msg_btn" type="button" id="btnOk" onclick="MSG_CLICK(1)" onkeydown="javascript:if(event.keyCode==13) MSG_CLICK(1)" value="OK" />
+        </div>
+        <div id="msgDivYesNo" style="display:none;">
+          <input class="je_msg_btn" type="button" id="btnYes" onclick="MSG_CLICK(1)" value="Yes" />
+          <input class="je_msg_btn" type="button" id="btnNo"  onclick="MSG_CLICK(2)" value="No" style="margin-left: 2%;" />
+        </div>
+      </div>				
+    </div>
+    <div id="div_jelo" class="modal-footer head_color" style="color:white;text-align:right;height:auto;">
+      HAT Software Dialog Ver 1.01 (c) 2018
+    </div>
+  </div>	
+</div>  
+<!--################################################################################################################ -->
+<div id="div_sap" class="modal" style="display:none;">
+  <div id="div_sap_dtl" style="position:absolute;width:600px;height:300px;">
+    DIV SAP
+  </div>    
+</div>
+<!--################################################################################################################ -->
+
+
+<div id="repOpt" data-div="" data-rep="" data-targ="" data-date="no" class="repOpt" style="display:none;">
+  
+</div>  
+<!--################################################################################################################ -->
+
+<!--************************* winpop-->
+<div id="winpop" data-sel=0 class="modal" style="display:none;width:100%;height:100%;">
+  <div id="winpop_box" style="width:300px;height:200px;z-index:1600;position:absolute;
+      font-size:10px;padding:0px;
+      top: 50%;  left: 50%;  -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">  
+
+    <div id="winpop-head" class="head_color" style="width:100%;height:30px;padding:5px;background:white;">
+      <div id="wp_title" style="float:left;width:85%;height:100%;font-size:17px;color:white;">Select</div>      
+      <input type="button" onclick="winpop(false)" style="float:right;width:20px;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" value="X"/>
+    </div> 
+  
+    <div id="div_winpop" style="width:100%;overflow-y:scroll;overflow-x:hidden;padding:5px;border:1px solid lightgray;background-color:#f1f1f1;">
+      <!-- body here -->
+    </div>   
+    
+    <div id="winpop-foot" style="width:100%;height:35px;margin-top:0px;padding:5px;text-align:center;background-color:white;">
+      <input id="wp_btn" class="head_color" type="button" value="SELECT" onclick="winpop_go()" style="width:50%;height:100%;" />
+    </div>
+  </div>   
+</div>
+
+<div id="lookup" class="lookup" style="display:none;">  
+  <div style="width:100%;height:30px;">    
+    <input style="float:left;width:85%;height:100%;padding:0 0 0 6px;border:1px solid lightgray;" id="myInput" type="text" placeholder="Select a Barangay here...">
+    <input onclick="closeLookup()" style="float:right;width:8%;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" type="button" value="X"/>
+  </div> 
+  
+  <div class="autocom">  
+    <div id="myInput2"> </div>
+  </div>    
+</div>
+
+<div id="uploading" class="modal" style="display:none;z-index:1450;">      
+  <div style="width:150px;height:150px;background:none;
+          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
+          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
+    <div id="vid_progress" style="display:none;width:100%;height:40px;text-align:center;border:1px solid black;background:gray;">
+      <img src="gfx/proc_logo.gif" alt="proc image" style="float:right;height:20%;width:auto;background:none;" />
+      <div style="width:100%;height:20%;font-size:11px;padding:1px;text-align:center;color:navy;background:white;">Uploading: <span id="vid_progress_title"></span></div>
+      <div id="vid_progress_bar" style="width:0%;height:60%;background:navy;"></div>
+    </div>    
+  </div>
+</div>
+
+<div id="sap_modal" class="modal" style="display:none;position:relative;z-index:1455;">
+  <div id="xsap_dtl" style="position:absolute;">sadf sadf asdf sdafdsf</div>
+</div>
+
+<div id="loading" class="modal" style="display:block;z-index:1450;">      
+  <div style="width:150px;height:150px;background:none;
+          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
+          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
+    <img src="gfx/proc_logo.gif" alt="proc image" style="float:right;height:100%;width:100%;background:none;" />
+  </div>
+</div>
+
+<!-- *************************PAGES***************************************************
+******************************************************************************** -->
+<!--*************************LOG-IN blocker-->
+<div id="firstlogin" data-jbe="" class="modal" style="display:none;background-color: rgba(0,0,0,0.9);">
+  <div id="dv_log" class="modal-content">	
+    
+    <div id="dv_left_log" style="background:none;">
+      <img src="gfx/logo.png"/>
+      <span>
+        G O V O T E<br>Election Monitoring System
+      </span>	
+    </div>	
+
+    <div id="dv_right_log">	
+            
+      <div class="dv_right_box">	          
+        <form>
+        <div>User ID</div>
+        <input id="fuser" type="text" placeholder="User ID" onclick="dispfmsg()"  maxlength=20 onkeydown="javascript:if(event.keyCode==13) document.getElementById('fpass').focus()"
+              value=""/>
+
+        <div style="margin-top:5%;">Password</div>
+        <input id="fpass" type="password" autocomplete="new-password" placeholder="Password" maxlength=20 onkeydown="javascript:if(event.keyCode==13) chkFirstLogin(fuser.value,fpass.value);"
+              value=""/>
+        </form>
+
+        <div id="fmsg">
+          Make sure your password is more than 10 or at least 8 characters, including a number, and a lowercase letter. Don't use any special characters. Only letters & numbers are allowed.
+        </div>
+        
+        <button id="lognow" class="head_color" onclick="chkFirstLogin(fuser.value,fpass.value,'')">Log In</button>              
+        
+        <p>Today is: <span id="sagb"></span></p>
+      </div>
+
+    </div>	
+
+  </div>
+</div>
+  
+<!--  *************************PAGES***************************************************
+      **************************************************************************
+      ************************************************************************** -->
+<div id="wrapper" class="head_color" style="display:block;position:relative;height:100%;margin:0;overflow:auto;background:white;">  
+
+  <div id="div_header" class="cls_fixed" style="width:100%;height:50px;text-align:center;margin:0;border:0px solid gray;padding:0px;color:white;">        
+
+    <div style="float:left;position:relative;width:auto;height:100%;text-align:center;padding:0px;border:0px solid gray;background:none;">       
+      <img src="gfx/logo.png" onclick="jeff()" style="float:left;margin-left:5px;height:100%;padding:5px;background:none;"/>               
+    </div>
+    <div id="sys_tilt">       
+      GOVOTE ELECTION MONITORING SYSTEM
+    </div>
+   
+    <div id="dv_user" style="z-index:100;">
+      <img id="img_admin" src="gfx/avatar.png" onclick="toggle_admin(true)" />  
+      <span id="logger">USERNAME</span>
+    </div>
+    <div id="popadmin">
+      <a href="javascript:proc_admin()">Log In</a>     
+      <hr>
+      <a href="javascript:logout()">Log Out</a>          
+      <div id="div_creator" style="display:none;">            
+        <hr>
+        <a href="https://updesktop.github.io/portfolio" >Creator</a>              
+        <hr>
+        <a href="javascript:task1()">Put FCODE, MCODE to projhist</a>  
+        <hr>
+        <a href="javascript:task2()">Clear All Water Delivered</a>  
+      </div>            
+    </div>
+
+    <div id="div_pass" class="head_color2" style="display:none;position:absolute;width:250px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;">
+      <form>
+      <input type="text" id="txUser"  autocomplete="username" onkeydown="javascript:if(event.keyCode==13) document.getElementById('txPass').focus()" 
+              style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
+                    border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="User ID"/>
+      <input type="password" id="txPass"  autocomplete="current-password" onkeydown="javascript:if(event.keyCode==13) chkPass(txUser.value,this.value)" style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
+          border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="Password"/>    
+      <input type="button" id="btn_login" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;font-size:12px;margin-top:5px;
+          border:1px solid black;border-radius:0px;background-color:lightblue;" value="Log In"/>        
+      </form>
+    </div>
+
+    <!--************************* loading img-->
+    <div id="zzzloading" style="display:none;position:absolute;top:0px;width:100%;text-align:center;height:50px;z-index:511;">    
+      <img src="gfx/proc_logo.gif" style="height:100%;background:none;" />    
+    </div> 
+    
+  </div>
+
+  <!--  ************************* BODY *************************************************** -->
+  <div id="div_body_main" style="display:block;position:relative;width:100%;overflow:auto;border:0px solid cyan;background:white;">
+    <div id="div_main_left" class="head_color" style="float:left;position:relative;height:100%;width:80px;overflow:auto;border:0px solid gray;text-align:center;">        
+      <div class="nw_menu" onclick="dispBoard(true,CURR_PROJID)">
+        <img src="gfx/jhome.png"/>
+        <span>Dashboard</span>
+      </div>
+      <div id="m_arrow2" class="nw_menu_sel"></div>
+
+      <div class="nw_menu" style="position:relative;" onclick="dispMessages(true,CURR_PROJID);">
+        <img src="gfx/jmessage.png"/>
+        <span>Messages</span>
+        <div id="gt_msg" style="display:none;position:absolute;right:2px;top:0px;width:25px;height:25px;font-size:12px;text-align:center;padding:4px 0 0 0;border-radius:50%;border:1px solid white;background:red;"></div>
+      </div>
+      <div id="m_arrow3" class="nw_menu_sel"></div>
+
+      <div class="nw_menu" onclick="dispAdmin(CURR_PROJID)">
+        <img src="gfx/jadmin.png"/>
+        <span>Admin</span>
+      </div>
+      <div id="m_arrow1" class="nw_menu_sel"></div>
+
+      <div class="nw_menu" onclick="dispSetting(CURR_PROJID)">
+        <img src="gfx/setting.png"/>
+        <span>Setting</span>
+      </div>
+      <div id="m_arrow7" class="nw_menu_sel"></div>
+
+      <div style="position:absolute;bottom:10px;width:78px;height:100px;padding:2px;background:none;">
+        <div style="display:block;width:100%;height:70%;padding:2px;background:none;">
+          <span id="id_LiveTime" style="display:none;width:100%;height:30%;font-size:12px;color:white;background:none;"></span>
+          <img id="id_LiveImg" src="gfx/live.gif" style="display:none;width:100%;height:70%;background:white;"/>        
+        </div>
+        <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:28%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
+      </div>      
+    
+    </div>      
+
+    <div id="div_main_right" style="float:left;display:block;height:100%;width:100%;color:black;padding:0px;border:0px solid red;
+        background-image:url('gfx/web_bg.jpg');
+        background-size:100% 100%;
+        background-repeat:no-repeat;"> 
+    </div>
+
+  </div>
+    
+  <!--************************* footer -->
+  <div class="cls_fixed head_color" id="div_footer" style="height:35px;border:0px;">
+    <div id="copyright" style="font-size:12px;padding:6px;background:none;">HAT Software &copy; Copyright 2018. Bacolod City.</div>    
+  </div>
+  
+</div> <!--wrapper div-->
+ 
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="jmobile.css" />
+
+<link rel="stylesheet" type="text/css" href="css/leaflet2013.css" />
+<link rel="stylesheet" type="text/css" href="css/MarkerCluster.css" />
+<link rel="stylesheet" type="text/css" href="css/Default.css" />
+
+<script type='text/javascript' src='refbrgy.js'></script> 
+<script type='text/javascript' src='refcitymun.js'></script> 
+<script type='text/javascript' src='refprovince.js'></script> 
+
+<!--link rel="manifest" href="./manifest.json"-->
+<script type='text/javascript' src='js/leaflet2013.js'></script>
+<script type='text/javascript' src='js/MarkerCluster.js'></script>
+<!--script type='text/javascript' src='js/kakas.js'></script-->
+
+<script type='text/javascript' src='js/axios.min.js'></script>
+<script type='text/javascript' src='js/je_msg.js'></script>
+<script type='text/javascript' src='js/coke.js'></script>
+<script type='text/javascript' src='js/Chart.min.js'></script>
+
+<script type='text/javascript' src='js/enadlib.js'></script>
+
+<script type='text/javascript' src='jbe_map.js'></script>
+<script type='text/javascript' src='jbe_fmlib.js'></script>
+
+<script src="jbe_admin.js"></script>
+<script src="jbe_board.js"></script>
+<script src="jbe_message.js"></script>
+
+<script src="lookup.js"></script>
+
+<script src="main.js"></script>
+<script src="security.js"></script>
+<script type='text/javascript' src='lookup.js'></script>
+
+<script>
+  
+  var jbe_screen_mode=0;
+  
+  var aryCLOR_ndx=0;
+  var aryCLOR_head=[];  aryCLOR_head[0]="red";    aryCLOR_head[1]="#3b5998";
+  var aryCLOR_bar=[];   aryCLOR_bar[0]="#ffb2b2"; aryCLOR_bar[1]="#8b9dc3";
+  var aryCLOR_bg=[];    aryCLOR_bg[0]="#dfe3ee";
+  var aryCLOR_dirty=[]; aryCLOR_dirty[0]="#f7f7f7";
+  var aryCLOR_gray=[];  aryCLOR_gray[0]="#C0C0C0";
+
+  var aryAXES=[];
+  aryAXES[0]='Admin Page';
+  aryAXES[1]='Dashboard Page';
+  aryAXES[2]='Messages Page';
+  aryAXES[3]='Projects Page';
+  aryAXES[4]='Project File Maintenance';
+  aryAXES[5]='History Page';
+  aryAXES[6]='Reports Page';
+  var aryAXES2=[];
+  aryAXES2[0]='inp_admin';
+  aryAXES2[1]='inp_board';
+  aryAXES2[2]='inp_msg';
+  aryAXES2[3]='inp_proj';
+  aryAXES2[4]='inp_projFM';
+  aryAXES2[5]='inp_hist';
+  aryAXES2[6]='inp_rep';
+
+  var JBE_STORE_CANDIDATE = [
+    { "pos":"01", "posname":"President", "display":"block" },
+    { "pos":"02", "posname":"Vice-President", "display":"block" },
+    { "pos":"03", "posname":"Senators", "display":"block" },
+
+    { "pos":"04", "posname":"Governor", "display":"block" },
+    { "pos":"05", "posname":"Vice-Governor", "display":"block" },
+    { "pos":"06", "posname":"Board Members", "display":"block" },
+
+    { "pos":"07", "posname":"Congressman", "display":"block" },
+
+    { "pos":"08", "posname":"Mayor", "display":"block" },
+    { "pos":"09", "posname":"Vice-Mayor", "display":"block" },
+    { "pos":"10", "posname":"Councilors", "display":"block" },
+
+    { "pos":"11", "posname":"Brgy. Chairman", "display":"block" },
+    { "pos":"12", "posname":"Brgy. Councilors", "display":"block" }
+  ];
+    
+  var JBE_CLOR='#333f50'; 
+  var JBE_CLOR2='gray'; 
+  var JBE_CLOR3='darkgray'; 
+  var JBE_CLOR4='lightgray'; 
+
+  var JBE_TXCLOR1='#ffffff'; 
+  var JBE_TXCLOR2='#000000'; 
+  var JBE_TXCLOR3='#ffffff'; 
+  var JBE_TXCLOR4='#ffffff'; 
+
+  var JBE_ONLINE=true;
+  var JBE_ONLINE_NAVI=true;
+
+  var H_WRAPPER=0;
+  var H_HEADER=0;
+  var H_FOOTER=0;
+  var H_BODY=0;
+  var H_PAGE=0;
+  var H_VIEW=0;
+
+  var CURR_BACKER=0;
+  var f_MainPage=false;
+  var f_reload=true;
+  
+
+  const JBE_HEADER = {
+    "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+    "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Origin": "*"
+  }
+
+  function jeff(){  
+    alert(
+      'DB_CANDIDATE: '+DB_CANDIDATE.length+      
+      '\nDB_WATCHER: '+DB_WATCHER.length+
+      '\nDB_USER: '+DB_USER.length+
+      '\nDB_MSG: '+DB_MSG.length
+    );
+  }
+
+  CURR_USER=readCookie('cookie_user'); 
+  CURR_PASS=readCookie('cookie_pass'); 
+  CURR_NAME=readCookie('cookie_name'); 
+  CURR_AXTYPE=readCookie('cookie_axtype'); 
+  CURR_AXES=readCookie('cookie_axes'); 
+  CURR_AXLEVEL=readCookie('cookie_axlevel'); 
+  CURR_PROJID=readCookie('cookie_projid'); 
+
+  window.addEventListener('load', function() {
+    window.history.pushState({ noBackExitsApp: true }, '');    
+  })
+
+  window.addEventListener('popstate', function(event) {
+    window.history.pushState({ noBackExitsApp: true }, '');
+    console.log(event.state);
+    
+    if (event.state) {
+      if(f_MainPage){                
+        refreshIDX();
+        MSG_SHOW(vbYesNo,"CONFIRM: ","Close the App?",function(){          
+          window.history.go(0);
+          f_reload=true;
+        },function(){});                  
+      }
+    }
+  })
+
+
+  window.onclick = function(event) {  
+    if(event.target.id !== 'img_admin') {   
+      document.getElementById('popadmin').style.display="none";    
+    }
+    if(event.target.id != 'txUser' && event.target.id != 'txPass' && event.target.id != 'logger') {   
+      document.getElementById('div_pass').style.display="none";    
+    }
+  }
+  
+  
+  //=========START ENGINE=================
+
+  //document.getElementById('wrapper').style.display='block';
+  //document.getElementById('div_header').style.backgroundColor=JBE_CLOR;
+  //showProgress(false);
+  /*
+  var COOK_CLIENT=readCookie('cok_client_'+CURR_CLIENT);
+  CURR_USER=readCookie('cok_user_'+CURR_CLIENT);
+  CURR_NAME=readCookie('cok_name_'+CURR_CLIENT);
+  CURR_AXTYPE=readCookie('cok_axtype_'+CURR_CLIENT);
+  */
+  var d = new Date();  
+  var n = d.toLocaleTimeString('it-IT');
+
+  if(!CURR_USER){ CURR_USER='';  }
+  
+  JBE_SET_COLOR_BY_CLASS('head_color','white',JBE_CLOR);
+  JBE_SET_COLOR_BY_CLASS('head_color2','red','blue');
+  JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR3);
+  JBE_SET_COLOR_BY_CLASS('head_color4','white',JBE_CLOR4);
+    
+  myResizeFunction(true);
+  start_app();  
+
+</script>
+
+</body>
+</html>

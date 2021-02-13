@@ -1,0 +1,910 @@
+@media only screen and (max-width:900px) {  /* For 1366: */
+  .divLeft{
+    width:650px;    
+  }
+  .divRight{
+    width:50%;   
+  }
+  
+  .db_panel_title{
+    color:white;
+    font-size: 1em;     
+  }
+  .nomobile {
+    display: block;
+  }
+
+  .centroHD {
+    width:24%; height:100%;   
+    margin-left:1.3%;
+  }
+
+  .w3-padding {
+    padding:5px!important
+  }
+  
+  /* --------------------------------------------------------new jrepo class */
+  .jreponew {    	  
+    float:left;		
+    width:125px;height:125px;  
+    font-size:13px;  
+    box-shadow: 0px 0px 0px;
+    background-color: none;  
+    border:1px solid #dfe3ee;
+    border-radius:15px;padding:1%;
+    cursor:pointer;    
+    margin-top:50px;
+    margin-bottom:80px;
+    margin-left:22px;
+    margin-right:22px;
+  }
+
+  .jreponew a {
+    padding: 2%;  
+    color:grey;
+    transition: 0.3s;
+    text-decoration: none;
+    display: block;
+    border-radius:10px;    
+    width:96%;height:96%;
+    
+  }
+
+  .jreponew a:hover {
+    color:black;    
+    background-color:#333333;     
+    background-color:lightblue;     
+  }
+
+  .jrepobox {
+    float:left;width:100%;height:100%;
+    padding:0%;
+    border-radius:10px;
+    position:relative;
+    margin-left:0%;
+  }
+
+  .repMainBox{
+    position:relative;width:100%;height:100%;margin-top:5px;background-color:none;
+    padding:5px;margin:0 auto;margin-top:0;
+  }
+
+  /* dashboard current messages page */
+  .col_bmsg_box { font-size:9px; color:black; } 
+  .col_bmsg_date { float:left;width:55px;height:100%;margin-left:0%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_time { float:left;width:45px;height:100%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_proj { float:left;width:60px;height:100%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_comm { float:left;width:185px;height:100%;text-align:left;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_msg { float:left;width:185px;height:100%;text-align:left;padding:3px;border:1px solid gray;background-color:none; }
+
+  /* dashboard current reports page */
+  .col_board_repo_box { font-size:9px; color:black; } 
+  .col_board_repo_code { float:left;width:50px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_comm { float:left;width:266px;height:100%;padding:3px; border:1px solid gray; text-align: left; }
+  .col_board_repo_date { float:left;width:55px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_time { float:left;width:45px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_reading { float:left;width:50px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_collection { float:left;width:60px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_status { float:left;width:60px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+
+  /* project page */
+  .proj_main_dtl { height:90%; }
+  .mnu4_proj{ height:35px; }
+  .col_proj_box { font-size:9px; color:black; } 
+
+  .col_proj_comm { width:200px;height:100%;text-align:left; }
+  .col_proj_code { width:45px;height:100%;text-align:center; }
+  .col_proj_fundyear { width:33px;height:100%;text-align:center; }
+  .col_proj_funder { width:103px;height:100%;text-align:left; }
+  .col_proj_status { width:60px;height:100%;text-align:center; }
+  .col_proj_assign { width:103px;height:100%;text-align:left; }
+  .col_proj_convey {width:55px;height:100%;text-align:center; }
+
+  .col_proj_select_hd {width:100%;height:35px;margin-top:5%;font-size:12px;box-shadow: 0px 0px 2px;padding:1%;color:red;background-color:none;}
+  .col_proj_select{ float:right;width:27%;height:100%;margin-left:1%; }
+
+  .fld_box_img{ width:60px;height:60px;top:106px;right:10px; }
+
+  .fld_box_1{ width:60px; }
+  .fld_box_2{ width:55px; }
+  .fld_box_3{ width:126px; }
+  .fld_box_4{ width:125px; }
+  .fld_box_4a{ width:80px; }
+  .fld_box_5{ width:126px; }
+
+  .fld_box_6{ width:130px; }
+  .fld_box_7{ width:130px; }
+  .fld_box_8{ width:130px; }
+  .fld_box_9{ width:130px; }
+  .fld_box_10{ width:57px; }
+
+  .fld_box_11{ width:140px; }
+  .fld_box_12{ width:140px; }
+  .fld_box_13{ width:95px; }
+  .fld_box_14{ width:145px; }
+
+  .fld_box_15{ width:35px; }
+  .fld_box_16{ width:100px; }
+  .fld_box_17{ width:75px; }
+  .fld_box_18{ width:55px; }
+  .fld_box_19{ width:55px; }
+  .fld_box_20{ width:130px; }
+  .fld_box_21{ width:55px; }
+
+
+.geo,.geo_final { width:60px;font-size:10px; }
+.geo_final{ width:80px; }
+
+  .fld_box_22{ width:49%; }
+  .fld_box_23{ width:49%; }
+  .fld_box_24{ width:70px; }
+  .fld_box_25{ width:100px; }
+
+  .fld_box_26{ width:65px; }
+  .fld_box_27{ width:110px; }
+  .fld_box_28{ width:108px; }
+  .fld_box_29{ width:120px; }
+  .fld_box_30{ width:115px; }
+
+  .fld_box_31{ width:100px; }
+  .fld_box_32{ width:90px; }
+  .fld_box_33{ width:70px; }
+  .fld_box_34{ width:60px; }
+  .fld_box_35{ width:70px; }
+
+  .fld_box_36{ width:107px; }
+  .fld_box_37{ width:71px; }
+
+  /* history page */
+  .mnu5_filter{ width:85%; }
+  .col_hist_code { width:65px;height:100%;text-align:center; }
+  .col_hist_comm { width:242px;height:100%;text-align:left; }
+  .col_hist_date { width:60px;height:100%;text-align:center; }
+  .col_hist_time { width:50px;height:100%;text-align:center; }
+  .col_hist_reading { width:54px;height:100%;text-align:center; }
+  .col_hist_collection { width:70px;height:100%;text-align:center; }
+  .col_hist_status {width:60px;height:100%;text-align:center; }
+}
+/*** =========================================================================================
+/*** =========================================================================================
+/*** ========================================================================================= */
+@media only screen and (max-width:1024px) {  /* For mobile phones: */
+  .page_class{
+    width:100%;
+  }
+  .db_stat { 
+    font-size: 16px; 
+    height: 80px;    
+    color:red;
+    background-color: gray;
+  }
+
+  .sidenav {
+    color:red;
+  }
+
+  #logger{  
+    padding:18px 10px 0 0;
+  }
+
+  .db_panel_title{
+    color:white;
+    font-size: 1em;     
+  }
+
+  .poptxt{ width:200px;height:auto;margin-top:10px;font-size:0.6rem;color:black; }
+
+  .class_btn_axes { float:right;margin-top:1%;margin-right:1%;width:30%;height:80%;cursor:pointer;color:white; font-size:9px;}
+
+  .centro {  
+    margin: auto;    
+    height:100%;
+    border: 1px solid gray;
+    padding: 5px 3px 0px 2px;
+    text-align: center;
+    float:left;
+    background-color:none;
+  }
+  
+  .menu, .jheader, .xmain, .divLeft, .divRight {
+    width:100%; 
+  }  
+  .xmain{
+    height:auto;    
+  }
+  .divLeft { 
+    height: 100%;        
+  }
+  .divRight { 
+    padding: 10px 20px 10px 20px;    
+    background-color: #8b9dc3;
+    /* height is in myResize function */
+    height:100%;    
+    margin-top:10px;
+    margin-bottom:50px;    
+  }
+  
+  .db_stat { 
+    font-size: 15px; 
+    height: 80px;    
+    color:black;
+    background-color: lightblue;
+  }
+  .jfooter {    
+    color:white;
+  }
+
+  .inatay {
+    width: 180px;    
+  }
+  .divTilt1 {            
+    font-size: 10.8px;
+    padding: 5px 0 0 0;
+    height: 70%;
+  }
+  .divTilt2 {            
+    font-size: 11.8px;
+    padding: 0px 0 0 0;
+    height: 30%;
+  }
+  .ProjID {
+    color:yellow;
+  }  
+  .nomobile {
+    display: none;
+  }
+ 
+  #divFilter_box{    
+    right:10px;top:0px;
+    width:300px;height:200px;
+    border:2px solid white;
+    font-size:14px;    
+  }
+    #divFilter_box span{    
+      float:left;width:50%;height:20px;margin-top:5px;color:black;
+    }
+    #divFilter_box input[type="date"]{
+      float:left;width:50%;height:20px;margin-top:0px;background:white;
+    }
+    #divFilter_box input{    
+      float:left;width:50%;height:20px;margin-top:5px;
+    }
+    #divFilter_box select{    
+      float:left;width:50%;height:20px;margin-top:5px;
+    }
+  .repOpt{  
+    width:300px;
+  }
+  .modal-content {
+    width:80%;    
+  }  
+
+  .m_col_comm {
+    width:160px;
+    color:black;
+    background-color: none;
+  }
+  .m_col_msg {
+    width:50px;
+    background-color: none
+  }
+  .map_direc { display:none; }
+
+  /* menu messages */
+  .f_msg_1 {
+    font-size:8px;
+  }
+
+  .h_proj_1 {
+    height:100px; width:100%;
+    background:coral;
+  }
+  .centroHD {
+    width:50%; height:50%;   
+    margin-left:0px;
+  }
+
+  .class_cutoff{
+    font-size:0.6rem;
+  }
+  /*
+  .col_board_repo_comm { width:129px; margin-left:0px;}
+  .col_board_repo_date { width:35px; }
+  .col_board_repo_time { width:45px; }
+  .col_board_repo_reading { width:45px; }
+  .col_board_repo_collection { width:50px; }
+  .col_board_repo_status { width:65px; }
+*/
+  /* --------------------------------------------------------new jrepo class */
+
+  .jreponew {    	  
+    float:left;		
+    width:87px;height:150px;  
+    font-size:12px;  
+    box-shadow: 0px 0px 0px;    
+    border:1px solid #dfe3ee;
+    border-radius:15px;padding:1%;
+    cursor:pointer;
+    background:none;
+    margin-top:5px;
+    margin-bottom:25px;
+    margin-left:4px;
+    margin-right:4px;
+  }
+
+  .jreponew a {
+    padding: 2%;  
+    color:grey;
+    transition: 0.3s;
+    text-decoration: none;
+    display: block;
+    border-radius:10px;    
+    width:96%;height:96%;
+    
+  }
+
+  .jreponew a:hover {
+    color:black;    
+    background-color:#333333;     
+    background-color:lightblue;     
+  }
+
+  .jrepobox {
+    float:left;width:100%;height:100%;
+    padding:0%;
+    border-radius:10px;
+    position:relative;
+    margin-left:0%;
+  }
+  .repMainBox{
+    width:100%;height:400px;background:none;
+  }
+
+  .class_msg_font{
+    font-size:12px;  
+  }  
+  
+  /* dashboard current messages page */
+  .col_bmsg_box { font-size:.5rem; color:black; } 
+  .col_bmsg_date { float:left;width:16vw;height:100%;margin-left:0%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_time { float:left;width:12vw;height:100%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_proj { float:left;width:30vw;height:100%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_comm { float:left;width:46vw;height:100%;text-align:left;padding:3px;border:1px solid gray;background-color:none; }
+  .col_bmsg_msg { float:left;width:185px;height:100%;text-align:left;padding:3px;border:1px solid gray;background-color:none; }
+  /* dashboard current reports page */
+  .col_board_repo_box { font-size:.5rem; color:black; } 
+  .col_board_repo_code { float:left;width:50px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_comm { float:left;width:35vw;height:100%;padding:3px; border:1px solid gray; text-align: left; }
+  .col_board_repo_date { float:left;width:12vw;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_time { float:left;width:15vw;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_reading { float:left;width:10vw;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_collection { float:left;width:16vw;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+  .col_board_repo_status { float:left;width:17vw;height:100%;padding:3px; border:1px solid gray; text-align: center; }
+
+
+  /* project page */
+   .proj_main_dtl { height:81%;width:100%;  } 
+
+  .mnu4_proj{ height:25px;padding:0px;margin:0px; }
+  .col_proj_box { font-size:11px;color:black; } 
+
+  .col_proj_comm { width:100%;height:100%;text-align:center; }
+  .col_proj_code { width:12vw;height:100%;text-align:center; }
+  .col_proj_fundyear { width:10vw;height:100%;text-align:center; }
+  .col_proj_funder { width:103px;height:100%;text-align:left; }
+  .col_proj_status { width:60px;height:100%;text-align:center; }
+  .col_proj_assign { width:103px;height:100%;text-align:left; }
+  .col_proj_convey {width:55px;height:100%;text-align:center; }
+
+  .col_proj_select_hd {width:100%;height:25px;margin-top:0px;font-size:10px;background-color:none;}
+  .col_proj_select{ float:right;width:23%;height:100%;margin-left:1%; }
+
+  /* history page */  
+  .mnu5_filter{ width:74%; }
+  .col_hist_comm { width:150px;height:100%;text-align:left; }
+  .col_hist_date { width:35px;height:100%;text-align:center; }
+  .col_hist_time { width:40px;height:100%;text-align:center; }
+  .col_hist_reading { width:40px;height:100%;text-align:center; }
+  .col_hist_collection { width:50px;height:100%;text-align:center; }
+    /*
+    .col_hist_collection:after {
+      content:"COH";
+    }
+    */
+  .col_hist_status {width:60px;height:100%;text-align:center; }
+
+  .sidenav {    				
+    width:0;
+    position: fixed;
+    z-index: 9000;
+    overflow-x: hidden;
+    transition: 0.5s; 
+    padding-top: 40px;    
+    background-color: #525253;    
+    opacity:1;
+  }
+  
+  .sidenav a {
+    padding: 1px 1px 1px 1px;
+    text-decoration: none;
+    font-size: 20px;    
+    color: gray;
+    display: block;
+    transition: 0.3s;
+    height: 40px;  
+  }
+  .sidenav img {
+    float:left;width:35px;height:100%;margin-left:20px;margin-right:20px;
+  }
+  .sidenav span {
+    float:left;height:100%;margin-top:8px;
+  }
+  
+  #zoom_pic { height:100%; background: none; }  
+  #zoom_tilt { height:40px;font-size:12px; }
+  #xdivViewer { display:none; }
+  #xdivMeters { width:100%; }
+  #zoom_tilt2 { height:250px; }
+  #zoom_dtl { height:42px;font-size:10px; }
+  #zoom_foot { height:30px; }
+  .view_dtl_HD { height:12px; }
+  .view_dtl_L { width:40%; }
+  .view_dtl_R { width:60%; }
+	
+  .pageBacker{
+    color:#3b5998;padding:2px;width:100%;height:30px; background:none;
+  }
+  .pageBacker h1{
+	 float:left;width:auto;height:auto;background:none;
+     font-size:20px;margin:0 auto;  
+	 margin-top:2px;margin-left:5px;
+  }
+  .pageBacker img{
+	  float:left;width:auto;height:100%;
+  }
+  .pageBacker span{
+    float:right;width:auto;height:100%;padding:6px 0 0 0;margin-left:2px;
+	font-size:12px;text-align:right;background:none;	
+  }
+  
+  .geo {
+    float:left;width:50px;height:100%;font-size:11px;
+    text-align: center;background:blue;
+    border:1px solid red;
+  }
+  
+  .noborder {  
+    border:0px solid red;
+  }
+  
+  /* winpop CSS  */
+  #winpop {  
+    width: 100%;
+  }
+  #div_winpop{  
+    height:300px;
+  }
+
+  .lookup{ 
+    z-index:1600;  
+    border:0px solid black;  
+    box-shadow: 0px 0px 8px;
+    position:absolute;
+    width:90%;height:80%;
+    font: 14px Arial;
+    background-color:white;
+    padding:0.5%;
+    
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+	
+  /* version 2 */
+  
+  #dv_user {
+    float:right;width:auto;height:100%;background:none;
+  }
+    #dv_user img{
+      float:left;height:100%;padding:15px 0 15px 5px;background:none;
+    }
+    #dv_user span{
+      float:left;font-size:12px;width:auto;background:none;
+    }
+  
+  
+  #dv_log{
+    top: 50%;  left: 50%;
+    -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);width:300px;height:200px;padding:0px;background:none;
+  }
+  #dv_left_log{
+    float:left;position:relative;width:50%;height:100%;padding:10% 0 10% 0;color:white;top:0;font-weight:bold;background-color:none;
+  }
+    #dv_left_log img{
+      width:100%;opacity:.5;background:none;
+    }
+    #dv_left_log span{
+      position:absolute;width:100%;height:100%;top:45px;left:0px;padding:2%;font-size:135%;text-shadow: 2px 2px 8px black;background:none;
+    }
+  
+  #dv_right_log{
+    float:right;width:50%;height:100%;background:none;
+  }
+
+  .dv_right_box{
+    width:100%;height:100%; border-radius:5px; padding:10px; text-align:center;background:lightgray;
+  }
+    .dv_right_box div{
+      text-align:left;height:auto; font-size:12px;width:100%;background:none;
+    }
+    .dv_right_box input{
+      width:100%;height:20px;text-align:center;border-radius:5px;
+      background:white;
+    }
+
+    .dv_right_box button{
+      margin-top:5px;width:80%;height:20px;color:white;border:1px solid gray;border-radius:5px;cursor:pointer;
+    }
+    .dv_right_box p{
+      width:100%;height:auto;padding:0px;margin:0px;margin-top:2px;font-size:10px;text-align:center;
+    }
+    
+  #fmsg{
+    margin-top:5px; padding:0px;overflow:auto;height:55px;text-align:left; font-size:10px;width:100%;background:none;
+  }
+
+  .nw_menu, .nw_menu_sel{ height:50px;margin-top:20px; }
+		
+  .nw_menu{
+    float:left;
+    width:85%;text-align:center;padding:0px;cursor:pointer;background:none;
+  }
+  .nw_menu img{
+    height:65%;padding:0px;
+  }
+  .nw_menu span{
+    float:left;height:35%;width:100%;font-size:12px;color:white;
+    background:none;
+  }
+
+  .nw_menu_sel{
+    display:none;
+    float:left;padding:0px;width:15%;
+    background-image:url('gfx/leftArrow.png');  
+    /* background-position: 0px 1px; */
+    background-size:100%;
+    background-repeat:no-repeat;
+    background-color:none; 
+  }  
+  #sys_tilt {
+    float:left;height:100%;text-align:center;padding:10px 0 0 0;
+    width:150px; font-size:12px;background:none;
+  }
+  
+  .div_main_left{
+    padding:20px 0 0 0;
+  }
+  .del_edit {
+    float:right;padding:1px;width:12.5%;height:100%;text-align:center;
+   }
+     .del_edit img {
+       height:100%;padding:2px;
+     }
+
+  #div_axes_left{
+    float:none;width:100%;height:220px;border:0px solid red;
+  }
+  #div_axes_right{
+    float:none;width:100%;height:200px;padding:10px;background:cyan;
+  }
+  
+  .div_axes_boxdtl{
+    width:100%;height:30px;margin-top:1%;padding:2px;
+  }
+    .div_axes_boxdtl span{
+      float:left;width:40%;margin-top:6px;margin-left:5%;color:black;
+    }
+    .div_axes_boxdtl input{
+      float:right;width:50%;height:100%;margin-left:0%;text-align:center;
+    }
+  
+  .class_pass {   
+      bottom:30px;      
+  }
+/*
+  #admin2{
+    width:100%;height:50px;font-size:10px;color:red;padding:0px 0 0 0;
+  } 
+  */
+
+  .mnu1_page{
+    display:none;height:250px;border:1px solid black;background:none;padding:0px;
+  }   
+  #mnu1_box {
+    width:100%;height:100%;margin-top:0px;font-size:10px;padding:5px;color:green;background-color:none;
+  }
+  .mnu1_div_btns{
+    /* position:absolute;left:0px;bottom:0px; */
+    width:100%;height:30px;font-size:14px;padding:2px;background:cyan;
+  }
+      .mnu1_div_btns input{
+        float:right;margin-right:5px;width:60px;height:100%;cursor:pointer;color:white;
+      }
+
+  #mnu1_panel, #mnu1_access {
+    float:none;width:100%;height:200px;border:1px solid cyan;
+  }
+  .mnu1_head {
+    width:100%;height:40px;font-size:11px;color:white;border:0px solid red;
+  }  
+  .axes_width_uid{ width:22%;}
+  .axes_width_upass{ width:22%;}
+  .axes_width_uname{ width:22%;}
+  .axes_width_utype{ width:17%;}
+  .axes_width_ucode{ width:17%;}
+  .axes_width_command{ width:20%;}
+
+  .funder_width_code{ width:20%; }
+  .funder_width_name{ width:55%; }
+  .funder_width_command{ width:25%; }
+
+  .mngr_width_code{ width:20%; }
+  .mngr_width_name{ width:55%; }
+  .mngr_width_command{ width:25%; }
+
+  #mnu2_left{
+    width:100%;
+    height:100%;
+    padding:2px;
+    background:none;
+  }
+
+  #mnu3_left{
+    float:none;
+    margin-top:0px;
+    padding:5px;
+    width:100%;height:38%;
+    border:0px solid black;
+    background:none; 
+  }
+  #mnu3_right{
+    float:none;
+    padding:0px 5px 5px 5px;
+    width:100%;height:60%;
+    font-size:10px;
+    border:0px solid black;
+    background:none; 
+  }
+  
+  #mnu3_filter{
+    width:100%;height:25px;font-size:12px;border:1px solid black;padding:0px;background-color:none;
+  }
+    .mnu3_filter_title{
+      float:left;width:30%;height:100%;padding:5px 0 0 0;
+    }
+    .mnu3_filter_select{
+      float:left;width:70%;height:100%;padding:0px;
+    }
+
+  #div_chatters{ width:100%;height:100px;text-align:left;padding:0px;border:1px solid gray;overflow-y:scroll;overflow-x:hidden; }
+
+  #fm_msg{
+    width:100%;height:30px;margin:0px;padding:2px;border:1px solid gray;background-color:none;
+  }
+
+  
+  #mnu4_left{
+    float:none;
+    margin-top:0px;
+    padding:5px;
+    width:100%;height:38%;
+    border:0px solid black;
+    background:none; 
+  }
+  #mnu4_right{
+    float:none;
+    padding:5px;
+    width:100%;
+    font-size:10px;
+    border:0px solid red;
+    margin-top:5px;
+    background:none; 
+  }
+  #mnu4_dtl{
+    width:100%;height:100%;padding:5px;border:1px solid gold;overflow:auto;
+  }
+  
+  #div_projects{ height:100%;border:0px solid yellow; }
+
+  #div_btns{ 
+    /* width:100%;height:25px;margin-top:4px;padding:0px;font-size:14px;background:red; */
+    width:100%;height:30px;
+    position:absolute;bottom:0px;right:0px;font-size:14px;padding:2px;background:none;
+  }
+  .cls_proj_btns{
+    float:right;margin-right:6%;width:60px;height:100%;font-size:10px;border-radius:8px;cursor:pointer;color:white;background-color:coral;
+  }
+  
+
+  
+  /* board box panel */
+  #db_panel_maine{
+    display:block;margin:0px auto;
+    width:97%;height:27%;padding:0px;margin-top:10px;
+    background:yellow;padding:2px;
+  }
+  #db_panel_box {
+    height:100%;background:none;
+  }
+.cls_bordbox {
+  float:left;width:33.33333333333333%;height:100%;padding:3% 0 0 0;
+}
+  .cls_bordbox_small, .cls_bordbox_big, .cls_bordbox_gfx {
+    width:100%;height:33.33333333333333%;
+  }
+
+  .cls_bordbox_small{
+    padding:8% 0 0 0;
+    font-size:10px;background:none;
+  }
+  .cls_bordbox_big{    
+    padding:6% 0 0 0;
+    font-size:12px;font-weight:bold;   
+  }
+
+  .cls_bordbox_gfx{    
+    background-size:80% 100%;    
+    background-position: center;
+    background-repeat:no-repeat;
+  }
+
+  #btnViewMap{ display: block; }
+    
+  #div_grp3{ width:100%;height:100px; }
+  
+  .m4_datum {
+    width:100%;height:15px;margin-top:1px;font-size:12px;text-align:left;border:0px solid black;background:none;
+  }
+    .m4_datum span{
+      float:left;height:100%;width:160px;padding:0px;background:none;
+    }
+    .m4_datum input[type="text"]{
+      float:left;height:100%;width:180px;font-size:12px;border:0px;overflow:auto;border-radius:0px;color:black;background:none;
+    }
+    .m4_datum input[type="checkbox"]{
+      float:left;height:100%;width:20px;font-size:10px;border:0px;overflow:none;margin:0px;padding:0px;
+    }
+    
+    .m4_datum button{
+      float:left;width:20px;height:100%;border:2px solid black;cursor:pointer;font-size:12px;padding:0px;color:white;background:none;
+    }
+    .m4_datum select{
+      float:left;height:100%;width:180px;font-size:12px;border:0px;padding:0px;margin:0px auto;border-radius:5px;color:black;background:white;
+    }
+    .m4_datum div{
+      height:95px;width:160px;overflow:auto;margin:0px;border:1px solid black;color:black;background:none;
+    }
+    .m4_datum p{ 
+        float:left;height:100%;width:140px;margin:0px;padding:0px;background:none; 
+    }
+
+  #div_datum{
+    height:555px;margin-top:10px;overflow:auto;font-size:12px;
+  }
+  #m4_contact{ margin-top:36px; }
+  #m4_site{ margin-top:20px; }
+  #m4_projstart{ margin-top:17px; }
+  #m4_projteam{ margin-top:72px; }
+  .site_imgbox{
+    float:left;position:relative;margin-top:0px;width:180px;height:80px;text-align:center;overflow:none;border:1px solid black;
+  }
+
+  .div_txComm{
+    height:25px;margin:0px auto;
+  }
+  
+  #mnu6_head{
+    height:40px; width:100%;
+    background:none;
+    padding:5px;
+  }
+  #mnu6_head span{
+    padding:6px 0 0 0;
+    margin-right:10px;
+    font-size:12px;
+  } 
+  #mnu6_head div{
+    float:right;width:100px;border:0px;border-radius:5px;
+    height:100%; font-size: 10px;
+    margin-right:10px;
+    padding:3px 0 0 0;
+    cursor: pointer;
+  }
+ 
+  #mnu6_body{
+    padding:0px;overflow:none;
+    background:none;
+    border:0px solid gold;
+  }
+  #mnu6_box{
+    width:180px; 
+    height:50px;
+    background:none;
+  }
+  .cls_rep{
+    float:none;padding:0px;margin:0px;margin-top:3%;
+    width:100%;height:120px;border:3px solid black;border-radius:10px;text-align:center;background:white;
+  }
+    .cls_rep div{ font-size:12px;width:100%;height:15%;padding:2px 0 0 0;background:none; }
+    .cls_rep img{ height:26%;padding:0px;margin:0px; background:none; }
+    .cls_rep h1{ font-size:14px;width:100%;height:12%;margin:0px;padding:0% 0 0 0;background: none; }
+    .cls_rep h2{ font-size:11px;width:100%;height:12%;margin:0px;padding:0% 0 0 0;background:none; }
+    .cls_rep button{ font-size:10px;width:70%;height:15%;margin-top:0%;border-radius:8px;border:0px solid white;cursor: pointer; }
+
+  #div_add_axes{ overflow:auto; }
+
+  .cls_vid_box{
+    float:left;width:48.5%;height:auto;font-size:10px;
+  }
+  
+  #fm_videos{
+    height:257px;
+  }  
+  #head_fm_video{
+    width:100%;height:25px;padding:2px;
+  }  
+  #left_fm_video{
+    width:100%;height:110px;background:gray;padding:2px;
+  }
+  #right_fm_video{
+    width:100%;height:120px;background:darkgray;padding:5px;
+  }  
+  .cls_vid_btn {
+    float:left;cursor:pointer;height:35px;width:70px;border:1px solid lightgray;border-radius:10px;color:white;
+  }
+
+  .class_footer{
+    float:left;height:100%;width:100%;text-align:center;cursor:pointer;
+  }
+      .class_footer img{
+        height:auto;max-height:70%;
+        float:none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: auto;
+      }
+      .class_footer span{
+        font-size:12px; padding:0px; margin:0px; text-align:center;height:30%;width:100%;
+      }
+
+  .cls_pos_head{
+    width:100%;height:35px;padding:5px;font-size:20px;text-align:center;font-weight:bold;color:yellow;background:#840303;
+  }    
+  .cls_pos_body{
+    width:100%;height:auto;padding:0 5px 0px 5px;border:0px solid white;
+  }
+  
+  #user_main{ font-size:10px;width:100%;height:100%; }
+  /*
+  #user_main_left{ width:100%;height:60%; }
+  #user_main_right{ width:100%;height:40%; }
+  */
+  .cls_shadow_dispboard { height:35px;margin-top:5px; } 
+  .cls_dispboard {
+    width:100%;height:100%;font-size:12px;width:100%;font-size:16px;text-align:left;padding:5px;color:yellow;text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;margin-bottom:5px;background:none;border:0px solid white;
+  }
+
+    .cls_dispboard div {
+      border:0px solid black;
+    }
+    .cls_dispboard_ctr { float:left;width:10%;height:100%;padding:3px 0 0 2px;font-size:15px;background:none; }
+    .cls_dispboard_img { float:left;width:10%;height:100%; }
+    .cls_dispboard_candi { float:left;width:50%;height:100%;background:none; }
+      .cls_dispboard_candi_1 { width:100%;height:60%;font-size:12px;padding:2px 0 0 0;background:none; }
+      .cls_dispboard_candi_2 { width:100%;height:40%;font-size:8px;color:white;background:none; }
+    .cls_dispboard_votes { float:right;width:30%;height:100%;padding:3px 5px 0 0;font-size:15px;text-align:right;background:none; }
+  
+}
+  
