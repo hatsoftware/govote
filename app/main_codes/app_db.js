@@ -28,9 +28,7 @@ function initDb() {
   }
 
   request.onupgradeneeded = function(e) {
-    db = e.target.result;
-    db.createObjectStore('Category', { keyPath:'id' });
-    db.createObjectStore('Stock', { keyPath:'id' });    
+    db = e.target.result;    
     db.createObjectStore('SysFile', { keyPath:'id' });
     db.createObjectStore('User', { keyPath:'id' });    
     dbReady = true;
@@ -123,35 +121,8 @@ function getDataFromIDX(i,db2) {
     var cursor = event.target.result;    
     if (cursor) {
       var key = cursor.primaryKey;
-      var ob;
-      if(i==0){ //Category
-        ob = {
-          id:idx,
-          catno:cursor.value.catno,
-          descrp:cursor.value.descrp,
-          photo:cursor.value.photo, 
-          orient:cursor.value.orient,              
-          bal:cursor.value.bal
-        };  
-      }else if(i==1){ //Stock
-        ob = {
-          id:idx,
-          stockno:cursor.value.stockno,
-          stockname:cursor.value.stockname,
-          descrp:cursor.value.descrp,
-          photo:cursor.value.photo, 
-          photo2:cursor.value.photo2, 
-          photo3:cursor.value.photo3,
-          photo4:cursor.value.photo4,
-          photo5:cursor.value.photo5,
-          orient:cursor.value.orient,
-          catno:cursor.value.catno,
-          cost:cursor.value.cost,
-          price:cursor.value.price,
-          bal:cursor.value.bal,
-          promo:cursor.value.promo
-        };        
-      }else if(i==2){ //Sysfile
+      var ob;      
+      if(i==2){ //Sysfile
         ob = {
           id:i,
           banner:cursor.value.banner,
@@ -188,17 +159,10 @@ function getDataFromIDX(i,db2) {
       idx++;
       cursor.continue();
     }else{
-      if(i==0){
-        DB_CAT=[]; DB_CAT=aryIDB;              
-        //showCategories();           
-      }else if(i==1){
-        DB_STOCK=[]; DB_STOCK=aryIDB;        
-        //showItems();        
-        //showPromos();           
-      }else if(i==2){          
+      if(i==0){          
         DB_SYS=[]; DB_SYS=aryIDB;
         //showSystem();
-      }else if(i==3){          
+      }else if(i==1){          
         DB_USER=[]; DB_USER=aryIDB;
         //showProfile(2);      
       }

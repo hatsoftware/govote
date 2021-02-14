@@ -38,6 +38,7 @@ function start_app(){
 }
 
 function showOnline(){
+  //alert('show online');
   JBE_ONLINE=true;    
   
   document.getElementById('div_bar').style.display='block';
@@ -63,6 +64,7 @@ function showOnline(){
 }
 
 function showOffline(){    
+  //alert('show offline');
   JBE_ONLINE=false;
   CURR_USER='';
   CURR_AXTYPE=0;
@@ -95,7 +97,7 @@ function get_app_default(){
 function get_db_candidate(){  
   DB_CANDIDATE=[];  
   DB_TRAN_VOTES=[];  
-  axios.post(JBE_API+'zz_candidate.php', { clientno:CURR_CLIENT, request:1 },JBE_HEADER)
+  axios.post(JBE_API+'zz_candidate.php', { clientno:CURR_CLIENT, watcherno:CURR_USER, request:1 },JBE_HEADER)
   .then(function (response) {    
     DB_CANDIDATE = response.data[0];    
     DB_TRAN_VOTES = response.data[1];    
@@ -105,19 +107,6 @@ function get_db_candidate(){
   })    
   .catch(function (error) { console.log(error); allow_start(true); });
 }
-/*
-function get_db_tran_votes(){  
-  DB_TRAN_VOTES=[];  
-  axios.post(JBE_API+'zz_votes.php', { clientno:CURR_CLIENT, watcherno:CURR_USER,request: 1 },JBE_HEADER)
-  .then(function (response) {    
-    DB_TRAN_VOTES = response.data;    
-    alert('get_db_tran_votes '+DB_TRAN_VOTES.length);
-    show_candidates();
-    allow_start(true);
-  })    
-  .catch(function (error) { console.log(error); allow_start(true); });
-}
-*/
 
 function get_db_user(u){
   DB_USER=[];
@@ -140,7 +129,7 @@ function get_db_sys(){
     console.log(DB_SYS);             
     //alert('get_db_sys:  Slider : '+response.data);
     DB_SYS = response.data[0];
-    showSystem(); 
+    //showSystem(); 
   })    
   .catch(function (error) { showOffline(); console.log(error); }); 
 }
@@ -174,10 +163,6 @@ function showMainPage(){
   //showMenu('mnu_main'); 
   var vmenu='mnu_main';  
   var v_curr_user=CURR_USER;    
-  if(CURR_AXTYPE > 0){ 
-    v_curr_user=''; //user current client
-    vmenu='mnu_main_owner';
-  }
   dispMenu(true,vmenu);
   if(!JBE_ONLINE) { return; }
 }
@@ -191,15 +176,11 @@ function dispHeaderMode(){
     document.getElementById("page_login").style.display="none";        
   }
   if(CURR_AXTYPE > 0){
-    //document.getElementById("div_logo").style.width='80%';
-    //document.getElementById("div_logo").style.textAlign='left';
     document.getElementById("menu_open").style.display='block';
     document.querySelectorAll('.dots').forEach(function(el) {
       el.style.display = 'block';
     });
   }else{
-    //document.getElementById("div_logo").style.width='100%';
-    //document.getElementById("div_logo").style.textAlign='center';
     document.getElementById("menu_open").style.display='none';
     document.querySelectorAll('.dots').forEach(function(el) {
       el.style.display = 'none';
@@ -209,7 +190,6 @@ function dispHeaderMode(){
 
 // ** ======================= SHOW ROUTINES ===================================
 function showProfile(){  
-  //alert('showprofile: '+v);
   //dispHeaderMode();
   document.getElementById('div_bar').style.display='block';
   var n = new Date().toLocaleTimeString('it-IT');
@@ -246,7 +226,7 @@ function showSystem(){
   var v_banner='gfx/banner.jpg';  
   //alert('showSystem JBE_ONLINE: '+JBE_ONLINE);
   if(!JBE_ONLINE){
-    v_banner='data:image/png;base64,' + btoa(aryDB[0]['banner']);
+    //v_banner='data:image/png;base64,' + btoa(aryDB[0]['banner']);
   }   
 
   //document.getElementById('div_header').style.background='url("'+v_banner+'") center no-repeat';
@@ -392,8 +372,7 @@ function dispMenu(f_main,m){
   document.querySelectorAll('.menu_class').forEach(function(el) {
     el.style.display = 'none';  
   });
-  document.getElementById('mnu_main').style.display='none';
-  document.getElementById('mnu_main_owner').style.display='none';
+  document.getElementById('mnu_main').style.display='none';  
   if(f_main){
     document.getElementById('mnu_mainmenu').style.display='block';    
     document.getElementById(m).style.display='block';

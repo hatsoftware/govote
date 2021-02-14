@@ -95,8 +95,6 @@ function chk_lognow(){
       document.getElementById('fpass').disabled=true;
       document.getElementById('signUp').style.pointerEvents='none';
       document.getElementById('signUp').style.color='gray';
-
-      //document.getElementById("div_logo").style.width='100%';
       document.getElementById("menu_open").style.display='none';
     }
   })    
@@ -113,19 +111,15 @@ function login_ok(v){
   createCookie('cok_name_'+CURR_CLIENT,CURR_NAME,1);
   
   var aryDB=JBE_GETARRY(DB_USER,'usercode',CURR_USER);
+  alert('clusterno '+aryDB['clusterno']);
   //document.getElementById('bar_avatar').src=JBE_API+'upload/users/'+aryDB['photo'];
   document.getElementById('logger').innerHTML=aryDB['username'];
   document.getElementById('div_cluster').innerHTML='Cluster: '+aryDB['clusterno'];
   showProfile();
   
   var vmenu='mnu_main';        
-  if(CURR_AXTYPE > 0){
-    document.getElementById("menu_open").style.display='block';
-    vmenu='mnu_main_owner';
-  }else{
-    document.getElementById("menu_open").style.display='none';
-  }
   dispMenu(true,vmenu);
+  get_db_candidate();
   closeLogin();  
   //refreshNOTIF('');
 }
@@ -260,12 +254,13 @@ function logout(){
   JBE_TRANS=[];
   JBE_TRANS2=[];    
   showProfile(5);
+  get_db_candidate();
   //refreshNOTIF('');
   closeLogin();
 
 
   var vmenu='mnu_main'; 
-  if(CURR_AXTYPE > 0){ vmenu='mnu_main_owner'; }  
+  //if(CURR_AXTYPE > 0){ vmenu='mnu_main_owner'; }  
   dispMenu(true,vmenu);
 }
 
