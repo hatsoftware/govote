@@ -146,6 +146,52 @@ function do_fm_cluster(){
   FM_MAIN(fm_ob,db,fm_layout);
 }
 
+//################################################################################################################
+function do_fm_watcher(){    
+  var db=DB_USER;  
+  lu_db[0]=[];
+  for(var i=0;i<db.length;i++){
+    lu_db[0][i]=db[i]['lname']+', '+db[i]['fname']+' | '+db[i]['code'];
+  }
+  var fm_ob = {
+    title:"WATCHER File Maintenance",
+    top:"", left:"", bottom:"10%", right:"5%",
+    width:"600px",height:"400px"
+  };  
+
+  var fm_fields = ["userid","username"];
+
+  if(JBE_MOBILE){ 
+    fm_ob.width="300px"; 
+    fm_ob.height="400px";
+    fm_ob.right="5px";  
+    fm_ob.top="30px"; 
+  }
+
+  //var lu_ob = ['dv_brgy','dv_city','dv_province','dv_region']; 
+  var lu_ob = ["dv_brgy","dv_city","dv_province","dv_region"]; 
+  
+  var fm_layout=
+    '<div style="width:100%;height:100%;margin-top:0px;text-align:left;padding:0px;background:white;">'+
+      '<div style="width:100%;height:25px;text-align:center;padding:5px;background:lightgray;">WATCHER ENTRY</div>'+
+
+      '<div style="width:100%;height:auto;padding:5px;border:0px solid green;">'+        
+        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
+          '<span style="float:left;width:25%;height:100%;padding:5px;">Code:</span>'+
+          '<input type="image" src="gfx/jsearch.png" onclick="openLookup(dv_clusterno.value,lu_db,uxxlu_ob)" style="float:left;width:4.5%;height:100%;margin-right:0.5%;border:1px solid black;"/>'+
+          '<input id="dv_watcherno" type="text" style="float:left;width:70%;height:100%;" value="" />'+
+        '</div>'+
+        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
+          '<div style="float:left;width:30%;height:100%;padding:5px;">Name of Watcher:</div>'+
+          '<input id="txWatcherName" type="text" style="float:left;width:70%;height:100%;" value="" />'+
+        '</div>'+
+      '</div>'+
+
+    '</div>';
+  
+  FM_MAIN(fm_ob,db,fm_fields,fm_layout);
+}
+
 function toggle_admin(f_true){    
   var vdisp='none';
   if(f_true){ vdisp='block'; }  

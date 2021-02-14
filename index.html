@@ -15,8 +15,8 @@
 
 <!-- ********************* -->
 <title>GOVOTE ELECTION MONITORING SYSTEM</title>
-<script src="js/eruda.min.js"></script>
-<script>eruda.init();</script>
+<!--script src="js/eruda.min.js"></script>
+<script>eruda.init();</script-->
 <script>  
   var CURR_CLIENT='NPC';
   var CURR_SITE='npc';    
@@ -67,8 +67,8 @@
   <source src="gfx/snd/chimes.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
-
-<div id="snackbar"></div> 
+ 
+<div id="snackbar"></div>
 <!--************************* blocker-->
 <!--************************* blocker-->
 <div id="je_msg" tabindex="0" data-rval="SAGBAYAN" class="modal" style="display:none;" onkeydown="javascript:if(event.keyCode==27) closeModal()">
@@ -102,6 +102,21 @@
     </div>
   </div>	
 </div>  
+<!--################################################################################################################ -->
+<div id="DIV_JBE_LOOKUP" class="modal" style="display:none;">
+  <div id="DIV_JBE_LOOKUP_DTL" style="position:absolute;width:600px;height:300px;">
+    
+    <div style="width:100%;height:30px;">    
+      <input style="float:left;width:85%;height:100%;padding:0 0 0 6px;border:1px solid lightgray;" id="MYINPUT" type="text" placeholder="Select a Barangay here...">
+      <input onclick="closeLookup()" style="float:right;width:8%;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" type="button" value="X"/>
+    </div> 
+    
+    <div class="AUTOCOM">  
+      <div id="MYINPUT2"> </div>
+    </div>    
+
+  </div>    
+</div>
 <!--################################################################################################################ -->
 <div id="div_sap" class="modal" style="display:none;">
   <div id="div_sap_dtl" style="position:absolute;width:600px;height:300px;">
@@ -179,7 +194,7 @@
   <div id="dv_log" class="modal-content">	
     
     <div id="dv_left_log" style="background:none;">
-      <img src="gfx/logo.png"/>
+      <img src="gfx/icon-192x192.png"/>
       <span>
         G O V O T E<br>Election Monitoring System
       </span>	
@@ -219,8 +234,8 @@
 
   <div id="div_header" class="cls_fixed" style="width:100%;height:50px;text-align:center;margin:0;border:0px solid gray;padding:0px;color:white;">        
 
-    <div style="float:left;position:relative;width:auto;height:100%;text-align:center;padding:0px;border:0px solid gray;background:none;">       
-      <img src="gfx/logo.png" onclick="jeff()" style="float:left;margin-left:5px;height:100%;padding:5px;background:none;"/>               
+    <div id="div_logo" style="float:left;height:100%;text-align:center;padding:4px;background:none;">       
+      <img src="gfx/icon-192x192.png" onclick="jeff()" style="height:100%;border:1px solid white;"/>               
     </div>
     <div id="sys_tilt">       
       GOVOTE ELECTION MONITORING SYSTEM
@@ -265,8 +280,8 @@
 
   <!--  ************************* BODY *************************************************** -->
   <div id="div_body_main" style="display:block;position:relative;width:100%;overflow:auto;border:0px solid cyan;background:white;">
-    <div id="div_main_left" class="head_color" style="float:left;position:relative;height:100%;width:80px;overflow:auto;border:0px solid gray;text-align:center;">        
-      <div class="nw_menu" onclick="dispBoard(true,CURR_PROJID)">
+    <div id="div_main_left" class="head_color4" style="float:left;position:relative;height:100%;overflow:auto;border:0px solid gray;text-align:center;">        
+      <div class="nw_menu" onclick="get_db_candidate()">
         <img src="gfx/jhome.png"/>
         <span>Dashboard</span>
       </div>
@@ -291,9 +306,9 @@
       </div>
       <div id="m_arrow7" class="nw_menu_sel"></div>
 
-      <div style="position:absolute;bottom:10px;width:78px;height:100px;padding:2px;background:none;">
+      <div style="position:absolute;bottom:10px;width:100%;height:100px;padding:2px;background:none;">
         <div style="display:block;width:100%;height:70%;padding:2px;background:none;">
-          <span id="id_LiveTime" style="display:none;width:100%;height:30%;font-size:12px;color:white;background:none;"></span>
+          <span id="id_LiveTime" style="display:none;width:100%;height:30%;color:white;background:none;"></span>
           <img id="id_LiveImg" src="gfx/live.gif" style="display:none;width:100%;height:70%;background:white;"/>        
         </div>
         <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:28%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
@@ -345,6 +360,7 @@
 <script src="jbe_admin.js"></script>
 <script src="jbe_board.js"></script>
 <script src="jbe_message.js"></script>
+<script src="jbe_setting.js"></script>
 
 <script src="lookup.js"></script>
 
@@ -402,7 +418,7 @@
   var JBE_CLOR='#333f50'; 
   var JBE_CLOR2='gray'; 
   var JBE_CLOR3='darkgray'; 
-  var JBE_CLOR4='lightgray'; 
+  var JBE_CLOR4='#262c34'; 
 
   var JBE_TXCLOR1='#ffffff'; 
   var JBE_TXCLOR2='#000000'; 
@@ -494,7 +510,7 @@
   if(!CURR_USER){ CURR_USER='';  }
   
   JBE_SET_COLOR_BY_CLASS('head_color','white',JBE_CLOR);
-  JBE_SET_COLOR_BY_CLASS('head_color2','red','blue');
+  JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR2);
   JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR3);
   JBE_SET_COLOR_BY_CLASS('head_color4','white',JBE_CLOR4);
     

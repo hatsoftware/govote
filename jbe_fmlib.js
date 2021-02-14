@@ -1,4 +1,4 @@
-function FM_MAIN(fm_ob,db,fm_layout){  
+function FM_MAIN(fm_ob,db,fm_fields,fm_layout){  
   /*
   document.getElementById('div_sap_dtl').innerHTML='jeffrey enad';
   document.getElementById('div_sap').style.display='block';

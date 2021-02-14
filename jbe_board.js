@@ -36,7 +36,7 @@ function dispBoard(){
           var vdisp=JBE_STORE_CANDIDATE[i]["display"];
           var vpos=JBE_STORE_CANDIDATE[i]["pos"];
           dtl2+=
-            '<div id="candi_'+vpos+'" onclick="dispChart(&quot;'+vpos+'&quot;)" style="display:'+vdisp+';width:auto;max-width:100%;height:auto;margin-top:20px;padding:0px;background:none;">'+
+            '<div id="candi_'+vpos+'" onclick="dispChart(&quot;'+vpos+'&quot;)" style="display:'+vdisp+';width:auto;max-width:100%;height:auto;margin-top:0px;padding:20px 0 10px 0;background:none;">'+
               '<div class="cls_pos_head">'+JBE_STORE_CANDIDATE[i]["posname"]+'</div>'+
               '<div id="candi_dtl_'+vpos+'" class="cls_pos_body">'+
               
@@ -115,13 +115,13 @@ function dispBoardDtl(){
     if(vpos != sv_pos){ ctr=1; }
    
     vdtl=          
-      '<div class="cls_shadow_dispboard" style="position:relative;width:100%;">'+
+      '<div class="cls_shadow_dispboard" style="position:relative;width:100%;border:1px solid black;">'+
         '<div style="width:100%;height:100%;margin-top:0px;background:white;opacity:0.2;border:0px solid orange;border-radius:8px;"></div>'+
         '<div style="position:absolute;width:100%;height:100%;top:0px;left:0px;margin-top:0px;border:0px solid blue;color:white;background:none;">'+
           
           '<div class="cls_dispboard">'+
             '<div class="cls_dispboard_ctr">'+
-              (ctr+0)+'.'+
+              (ctr+10)+'.'+
             '</div>'+
             '<div class="cls_dispboard_img">'+
               '<img src="gfx/jorg.png" style="height:100%;border:1px solid gray;border-radius:8px;background:white;"/>'+
@@ -161,10 +161,18 @@ function dispBoardDtl(){
     ctr++;
   }
 
+  //if(ctr > 10){
+  //  document.getElementById('candi_'+vpos).style.display='none';
+  //}else{
+
   for (var i=0;i<dtl.length;i++){
     var vvpos=JBE_STORE_CANDIDATE[i]["pos"];  
-    //alert('vvpos: '+dtl[i]);
-    if(dtl[i]){ document.getElementById('candi_dtl_'+vvpos).innerHTML=dtl[i]; }
+    
+    if(dtl[i]){ 
+      document.getElementById('candi_dtl_'+vvpos).innerHTML=dtl[i]; 
+    }else{
+      document.getElementById('candi_'+vvpos).style.display='none';
+    }
   }
 }
 

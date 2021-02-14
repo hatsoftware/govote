@@ -805,17 +805,16 @@ function myResizeFunction(){
     //alert('MAY SCROLL BAR');
   }
 
+  var px_left=80;//parseFloat(document.getElementById('div_main_left').style.width);
   JBE_MOBILE=false;
   var vdisp='none';
   if(w <= 900) { //for mobile only
     JBE_MOBILE=true;
-    vdisp='block';  
+    vdisp='block';      
   } 
-
-  var px_left=parseFloat(document.getElementById('div_main_left').style.width);
   
-  if(w <= 1000){
-    px_left=80;
+  if(JBE_MOBILE){
+    px_left=60;
   }  
   
   //alert('scrollWidth '+scrollWidth);
