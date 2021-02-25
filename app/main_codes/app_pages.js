@@ -169,7 +169,7 @@ function send_votes(){
   var citymunCode=aryDB['citymunCode'];
   var provCode=aryDB['provCode'];
   var regCode=aryDB['regCode'];
-
+/*
   alert(
     'b '+brgyCode+'\n'+
     'c '+citymunCode+'\n'+
@@ -177,7 +177,7 @@ function send_votes(){
     'r '+regCode
   );
 
-
+*/
   var aryItems=[];
   for(var i=0;i<ctr;i++){
     var v_code=document.getElementById('inpVote_'+(i+1)).getAttribute('data-code');
