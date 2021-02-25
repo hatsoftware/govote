@@ -43,10 +43,10 @@
   var CURR_CLIENT='NPC';
   var CURR_SITE='site';    
   
-  var JBE_API='https://aidfimonitoring.com/govote_api/app/';  
+  var JBE_API='https://aidfimonitoring.com/govote_api/';  
   var pathloc=window.location.origin.substr(0,16);
   if(pathloc == 'http://localhost') { 
-    JBE_API=window.location.origin+'/govote_api/app/';  
+    JBE_API=window.location.origin+'/govote_api/';  
   }
 </script>
 <!-- ****************************************************************** -->
@@ -172,7 +172,7 @@
     <div id="div_header" class="jheader" style="width:100%;height:70px;text-align:left;padding:0px;border:0px solid gray;color:black;background:green;">
       <div style="width:100%;height:40%;padding:5px;color:white;background:none;">GOVOTE APP</div>
       <div id="div_party" style="width:100%;height:30%;padding:2px 0 0 5px;font-size:16px;color:black;background:none;"></div>
-      <div id="div_cluster" style="width:100%;height:20%;padding:2px 0 0 5px;font-size:14px;color:black;background:none;">Please Log In.</div>
+      <div style="width:100%;height:20%;padding:2px 0 0 5px;font-size:14px;color:black;background:none;">Cluster: <span id="div_cluster" style="background:none;"></span></div>
     </div>
         
     <div id="user_main" style="width:100%;margin-top:0px;padding:0px;overflow:auto;
@@ -461,8 +461,7 @@
   var DB_USER=[];  
   var DB_CLIENTS=[];    
   var DB_CANDIDATE=[];
-  var DB_TRAN_VOTES=[];  
-  var DB_WATCHER=[];  
+  var DB_TRAN_VOTES=[]; 
   var DB_CLUSTER=[];  
   var DB_CHAT=[];
   
@@ -497,7 +496,7 @@
   var CURR_REC='';
   var CURR_USER=''; 
   var CURR_NAME='';    
-  var CURR_AXTYPE=0;
+  var CURR_AXTYPE=0;  
   //var aryServTitle=[]; var aryServImg=[]; aryServClr=[];
 
   var V_DESCRP='';
@@ -592,7 +591,8 @@
   var d = new Date();  
   var n = d.toLocaleTimeString('it-IT');
 
-  //if(!CURR_USER){ CURR_USER=''; }
+  
+
   document.getElementById('div_party').innerHTML=CURR_CLIENT;
   
   myResizeFunction();   
