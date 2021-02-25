@@ -137,7 +137,8 @@ function JBE_PICK_IMAGE(id,inp_file,targ_div,cb){
   real_ImgBtn.click();
 }
 
-function uploadNOW(file,newName,dir,ndiv,keepSize,likod){    
+function uploadNOW(file,newName,dir,ndiv,keepSize,likod){   
+  //alert('ksize: '+keepSize); 
   var ddir=dir.substr(JBE_API.length); 
   var phpDir=ddir;
 
@@ -324,13 +325,14 @@ function JBE_OPEN_VIEW(dtl,cap,xclose) {
   document.getElementById("cap_myView"+m).innerHTML=cap;  
 
   if(m==1){
-    openPage('myView'+m);
+    openPage('myView'+m);    
   }else{
     document.getElementById("myView"+(m-1)).style.display='none';
     //alert('second page view');
     document.getElementById("myView"+m).style.display='block';
   }
   document.getElementById("myView1").setAttribute('data-JBEpage',m);    
+  //alert(document.getElementById("dtl_myView"+m).innerHTML);
 }
 
 function JBE_CLOSE_VIEW(){
@@ -575,6 +577,17 @@ function snackBar(s) {
   x.innerHTML=s;
   x.className = "show";
   var xiix=setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+function JBE_SEEK_ARRAY(db,fld,seek){
+  var rval=false;
+  for(var i=0;i<db.length;i++){
+    if(db[i][fld]==seek){
+      rval=true;
+      break;
+    }
+  }
+  return rval;
 }
 
 function clear_THISFILE(){
