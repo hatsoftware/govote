@@ -1,4 +1,4 @@
-var city = [
+var ref_city = [
   {
   "id":1,
   "psgcCode":"012801000",

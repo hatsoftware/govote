@@ -2,19 +2,22 @@ function dispSetting(){
   var h_candi=window.innerHeight-(50+85);
   var dtl=
   '<div style="width:100%;height:100%;padding:0px;color:white;background:none;">'+
-    '<div style="width:100%;height:50px;border:1px solid gray;">'+
-      '<div style="float:right;width:auto;height:100%;padding:5px 0 0 0;background:none;">'+
-        '<div style="float:left;width:auto;padding:10px;">Filter:</div><img src="gfx/filter.png" style="float:left;height:100%;"/>'+
-      '</div>'+
-    '</div>'+
+
     '<div style="width:100%;height:'+h_candi+'px;overflow:auto;padding:0px;background:none;">'+   
       '<div class="cls_ds_main" style="padding:0px;border:1px solid lightgray;padding:50px;background:none;">'+ 
         '<input type="button" onclick="reset_votes()" value="Reset Votes Only" />'+        
       '</div>'+
     '</div>'+
+    
   '</div>';
 
-  document.getElementById("div_main_right").innerHTML=dtl; 
+  //document.getElementById("div_main_right").innerHTML=dtl; 
+  modal_ON(true);
+  JBE_OPEN_VIEW(dtl,'Settings','close_setting');  
+}
+function close_setting(){  
+  modal_ON(false);
+  showMainPage(); 
 }
 
 function reset_votes(){
@@ -27,7 +30,7 @@ function reset_votes(){
         DB_TRAN_VOTES = response.data[1];    
         alert('get_db_candidate '+DB_CANDIDATE.length+' vs '+DB_TRAN_VOTES.length);
         snackBar('Votes Resetted Successfully');
-        get_db_candidate();
+        showMainPage();
       })    
       .catch(function (error) { console.log(error); allow_start(true); });
 

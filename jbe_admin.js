@@ -1,195 +1,25 @@
-var lu_ob = []; 
-var lu_db = [];
-var FM_TABLE;
 //var uxxlu_ob = ['dv_brgy','dv_city','dv_province','dv_region']; 
 function dispAdmin(){    
-  var dtl='<div style="width:100%;height:100%;overflow:auto;">'+
-            '<div style="margin:0 auto;width:80%;height:500px;margin-top:100px;text-align:center;padding:2px;background:cyan;">'+
+  //document.getElementById('page_main').style.display='none';
+  var dtl='<div id="dv_fm_main" style="width:100%;height:100%;overflow:auto;">'+
+            '<div style="margin:0 auto;width:500px;height:300px;margin-top:150px;text-align:center;padding:10px;border:1px solid white;background:none;">'+
 
-              '<div style="width:80%;margin:10%;height:auto;margin-top:100px;text-align:center;padding:10px;background:orange;">'+
-                '<input type="button" onclick="do_fm_candidate()" style="width:100%;height:30px;" value="FM Candidate" />'+
-                '<input type="button" onclick="do_fm_cluster()" style="width:100%;height:30px;margin-top:10px;" value="FM Cluster" />'+
-                '<input type="button" onclick="do_fm_watcher()" style="width:100%;height:30px;margin-top:10px;" value="FM Watcher" />'+
+              '<div style="width:100%;height:100%;text-align:center;padding:10px;background:none;">'+
+                '<input type="button" onclick="do_fm_candidate()" style="width:100%;height:50px;margin-top:40px;" value="FM Candidate" />'+
+                '<input type="button" onclick="do_fm_cluster()" style="width:100%;height:50px;margin-top:10px;" value="FM Cluster" />'+
+                '<input type="button" onclick="do_fm_watcher()" style="width:100%;height:50px;margin-top:10px;" value="FM Watcher" />'+
               '</div>'+
-
+              
             '</div>'+
+            
           '</div>';
 
-  document.getElementById("div_main_right").innerHTML=dtl; 
-  
+  JBE_OPEN_VIEW(dtl,'ADMIN','close_admin');    
+  modal_ON(true);
 }
 
-
-
-//################################################################################################################
-function do_fm_candidate(){    
-  var db=DB_CANDIDATE;  
-  lu_db[0]=[];
-  for(var i=0;i<db.length;i++){
-    lu_db[0][i]=db[i]['lname']+', '+db[i]['fname']+' | '+db[i]['code'];
-  }
-  var fm_ob = {
-    title:"My File Maintenance",
-    top:"", left:"", bottom:"10%", right:"5%",
-    width:"600px",height:"400px"
-  };  
-
-  var db=DB_CANDIDATE;  
-
-  if(JBE_MOBILE){ 
-    fm_ob.width="300px"; 
-    fm_ob.height="400px";
-    fm_ob.right="5px";  
-    fm_ob.top="30px"; 
-  }
-
-  //var lu_ob = ['dv_brgy','dv_city','dv_province','dv_region']; 
-  var lu_ob = ["dv_brgy","dv_city","dv_province","dv_region"]; 
-  
-  var fm_layout=
-    '<div style="width:100%;height:100%;margin-top:0px;text-align:left;padding:0px;background:white;">'+
-      '<div style="width:100%;height:25px;text-align:center;padding:5px;background:lightgray;">CANDIDATE ENTRY</div>'+
-
-      '<div style="width:100%;height:auto;padding:5px;border:0px solid green;">'+        
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<span style="float:left;width:25%;height:100%;padding:5px;">Code:</span>'+
-          '<input type="image" src="gfx/jsearch.png" onclick="openLookup(dv_clusterno.value,lu_db,uxxlu_ob)" style="float:left;width:4.5%;height:100%;margin-right:0.5%;border:1px solid black;"/>'+
-          '<input id="dv_clusterno" type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:30%;height:100%;padding:5px;">Name of Candidate:</div>'+
-          '<input id="candi_name" type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-      '</div>'+
-
-    '</div>';
-  
-  FM_MAIN(fm_ob,db,fm_layout);
-}
-//################################################################################################################
-function do_fm_cluster(){   
-  alert(brgy.length);
-  
-  lu_db[0]=[];
-
-  var db=brgy;  
-  lu_db[1]=[];
-  for(var i=0;i<db.length;i++){
-    lu_db[1][i]=db[i]['brgyDesc']+', '+lgetCityByCode(db[i]['citymunCode'])[0].citymunDesc+', '+ 
-    lgetProvByCode(db[i]['provCode'])[0].provDesc+', '+db[i]['regCode'];  
-  }
-
-  var fm_ob = {
-    title:"CLUSTER MASTER FILE",
-    top:"10%", left:"", bottom:"", right:"10%",
-    width:"600px",height:"400px"
-  };  
-
-  var fm_db = {
-    title:"CLUSTER MASTER FILE",
-    top:"10%", left:"", bottom:"", right:"10%",
-    width:"600px",height:"400px"
-  };  
-
-  if(JBE_MOBILE){ 
-    fm_ob.width="300px"; 
-    fm_ob.height="400px";
-    fm_ob.right="5px";  
-    fm_ob.top="30px"; 
-  }
-
-  //var lu_ob = ['dv_brgy','dv_city','dv_province','dv_region']; 
-  lu_ob = ["dv_brgy","dv_city","dv_province","dv_region"]; 
-    
-  var fm_layout=
-    '<div style="width:100%;height:100%;margin-top:0px;text-align:left;padding:0px;background:white;">'+
-      '<div style="width:100%;height:25px;text-align:center;padding:5px;background:lightgray;">CLUSTER MASTER FILE</div>'+
-
-      '<div style="width:100%;height:auto;padding:5px;border:0px solid green;">'+        
-
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:25%;height:100%;padding:5px;">Code:</div>'+
-          '<input type="image" src="gfx/jsearch.png" style="float:left;width:4.5%;height:100%;padding:2px;margin-right:0.5%;border:1px solid gray;"/>'+
-          '<input id="clusterno" type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:30%;height:100%;padding:5px;">Cluster Name:</div>'+
-          '<input id="clustername" type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:30%;height:100%;padding:5px;">Precincts:</div>'+
-          '<input id="precincts" type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:25%;height:100%;padding:5px;">Barangay:</div>'+
-          '<input type="image" src="gfx/jsearch.png" onclick="openLookup(dv_brgy.value,lu_db[1],lu_ob)" style="float:left;width:4.5%;height:100%;padding:2px;margin-right:0.5%;border:1px solid gray;"/>'+
-          '<input id="dv_brgy" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:30%;height:100%;padding:5px;">Municipal/City:</div>'+
-          '<input id="dv_city" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:30%;height:100%;padding:5px;">Province:</div>'+
-          '<input id="dv_province" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:30%;height:100%;padding:5px;">Region:</div>'+
-          '<input id="dv_region" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-
-      '</div>'+
-
-    '</div>';
-  
-  FM_MAIN(fm_ob,db,fm_layout);
-}
-
-//################################################################################################################
-function do_fm_watcher(){    
-  var db=DB_USER;  
-  lu_db[0]=[];
-  for(var i=0;i<db.length;i++){
-    lu_db[0][i]=db[i]['lname']+', '+db[i]['fname']+' | '+db[i]['code'];
-  }
-  var fm_ob = {
-    title:"WATCHER File Maintenance",
-    top:"", left:"", bottom:"10%", right:"5%",
-    width:"600px",height:"400px"
-  };  
-
-  var fm_fields = ["userid","username"];
-
-  if(JBE_MOBILE){ 
-    fm_ob.width="300px"; 
-    fm_ob.height="400px";
-    fm_ob.right="5px";  
-    fm_ob.top="30px"; 
-  }
-
-  //var lu_ob = ['dv_brgy','dv_city','dv_province','dv_region']; 
-  var lu_ob = ["dv_brgy","dv_city","dv_province","dv_region"]; 
-  
-  var fm_layout=
-    '<div style="width:100%;height:100%;margin-top:0px;text-align:left;padding:0px;background:white;">'+
-      '<div style="width:100%;height:25px;text-align:center;padding:5px;background:lightgray;">WATCHER ENTRY</div>'+
-
-      '<div style="width:100%;height:auto;padding:5px;border:0px solid green;">'+        
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<span style="float:left;width:25%;height:100%;padding:5px;">Code:</span>'+
-          '<input type="image" src="gfx/jsearch.png" onclick="openLookup(dv_clusterno.value,lu_db,uxxlu_ob)" style="float:left;width:4.5%;height:100%;margin-right:0.5%;border:1px solid black;"/>'+
-          '<input id="dv_watcherno" type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-        '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-          '<div style="float:left;width:30%;height:100%;padding:5px;">Name of Watcher:</div>'+
-          '<input id="txWatcherName" type="text" style="float:left;width:70%;height:100%;" value="" />'+
-        '</div>'+
-      '</div>'+
-
-    '</div>';
-  
-  FM_MAIN(fm_ob,db,fm_fields,fm_layout);
+function close_admin(){
+  showMainPage();
 }
 
 function toggle_admin(f_true){    
@@ -249,7 +79,6 @@ function toggle_close(v){
   $('#admin2').css('pointer-events',v_flag);   
   $('#div_manager').css('pointer-events',v_flag);    
   pageBacker_events(v_flag);
-  
 }
 
 

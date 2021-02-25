@@ -1,4 +1,4 @@
-var prov = [
+var ref_prov = [
   {
   "id":1,
   "psgcCode":"012800000",

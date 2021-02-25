@@ -8,7 +8,7 @@
 
 <link rel="shortcut icon" href="gfx/favicon.ico">
 <link rel="icon" href="gfx/favicon.ico">
-<link rel="apple-touch-icon" href="../../main_gfx/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="gfx/apple-touch-icon.png">
 
 <!--link rel="manifest" href="./manifest.webmanifest"-->
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -40,7 +40,9 @@
   var DB_MSG = [];
   var DB_USER = [];
   var DB_TRAN_VOTES = [];
-  
+  var DB_POSITION = [];
+  var DB_PARTY = [];
+    
   var CURR_REC='';
   var CURR_PAGE=2;  
   
@@ -52,6 +54,13 @@
   var CURR_AXLEVEL='';   
 
   var CURR_MAP_WIDTH=0;
+
+  var H_WRAPPER=0;
+  var H_HEADER=0;
+  var H_FOOTER=0;
+  var H_BODY=0;
+  var H_PAGE=0;
+  var H_VIEW=0;
   
 </script>
 <!-- ********************* -->
@@ -69,9 +78,13 @@
 </audio>
  
 <div id="snackbar"></div>
+
+<div id="sap_modal" class="modal" style="display:none;position:relative;">
+  <div id="xsap_dtl" style="position:absolute;">sadf sadf asdf sdafdsf</div>
+</div>
 <!--************************* blocker-->
 <!--************************* blocker-->
-<div id="je_msg" tabindex="0" data-rval="SAGBAYAN" class="modal" style="display:none;" onkeydown="javascript:if(event.keyCode==27) closeModal()">
+<div id="je_msg" tabindex="0" data-rval="SAGBAYAN" class="modal" style="display:none;z-index:500;" onkeydown="javascript:if(event.keyCode==27) closeModal()">
   <div class="modal-content" style="border:1px solid black;">
     <div id="modal-header" class="modal-header head_color">
       <!--span class="closeBtn" onclick="closeModal()">&times;</span-->
@@ -102,27 +115,34 @@
     </div>
   </div>	
 </div>  
-<!--################################################################################################################ -->
-<div id="DIV_JBE_LOOKUP" class="modal" style="display:none;">
-  <div id="DIV_JBE_LOOKUP_DTL" style="position:absolute;width:600px;height:300px;">
-    
-    <div style="width:100%;height:30px;">    
-      <input style="float:left;width:85%;height:100%;padding:0 0 0 6px;border:1px solid lightgray;" id="MYINPUT" type="text" placeholder="Select a Barangay here...">
-      <input onclick="closeLookup()" style="float:right;width:8%;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" type="button" value="X"/>
-    </div> 
-    
-    <div class="AUTOCOM">  
-      <div id="MYINPUT2"> </div>
-    </div>    
 
-  </div>    
+<div id="loading" class="modal" style="display:block;z-index:1450;">      
+  <div style="width:150px;height:150px;background:none;
+          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
+          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
+    <img src="gfx/proc_logo.gif" alt="proc image" style="float:right;height:100%;width:100%;background:none;" />
+  </div>
 </div>
+
+<div id="uploading" class="modal" style="display:none;z-index:1450;">      
+  <div style="width:150px;height:150px;background:none;
+          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
+          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
+    <div id="vid_progress" style="display:none;width:100%;height:40px;text-align:center;border:1px solid black;background:gray;">
+      <img src="gfx/proc_logo.gif" alt="proc image" style="float:right;height:20%;width:auto;background:none;" />
+      <div style="width:100%;height:20%;font-size:11px;padding:1px;text-align:center;color:navy;background:white;">Uploading: <span id="vid_progress_title"></span></div>
+      <div id="vid_progress_bar" style="width:0%;height:60%;background:navy;"></div>
+    </div>    
+  </div>
+</div>
+
 <!--################################################################################################################ -->
 <div id="div_sap" class="modal" style="display:none;">
   <div id="div_sap_dtl" style="position:absolute;width:600px;height:300px;">
     DIV SAP
   </div>    
 </div>
+
 <!--################################################################################################################ -->
 
 
@@ -152,40 +172,18 @@
   </div>   
 </div>
 
-<div id="lookup" class="lookup" style="display:none;">  
-  <div style="width:100%;height:30px;">    
-    <input style="float:left;width:85%;height:100%;padding:0 0 0 6px;border:1px solid lightgray;" id="myInput" type="text" placeholder="Select a Barangay here...">
-    <input onclick="closeLookup()" style="float:right;width:8%;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" type="button" value="X"/>
+<div id="lookup" class="lookup" style="display:none;position:absolute; z-index:509;">  
+  <div style="width:100%;height:30px;cursor:move;z-index:10;">    
+    <div style="width:100%;height:100%">    
+      <input style="float:left;width:85%;height:100%;padding:0 0 0 6px;border:1px solid lightgray;" id="myInput" type="text" placeholder="">
+      <input onclick="closeLookup()" style="float:right;width:8%;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" type="button" value="X"/>
+    </div> 
   </div> 
-  
   <div class="autocom">  
-    <div id="myInput2"> </div>
+    <div id="myInput2"></div>
   </div>    
 </div>
 
-<div id="uploading" class="modal" style="display:none;z-index:1450;">      
-  <div style="width:150px;height:150px;background:none;
-          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
-          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
-    <div id="vid_progress" style="display:none;width:100%;height:40px;text-align:center;border:1px solid black;background:gray;">
-      <img src="gfx/proc_logo.gif" alt="proc image" style="float:right;height:20%;width:auto;background:none;" />
-      <div style="width:100%;height:20%;font-size:11px;padding:1px;text-align:center;color:navy;background:white;">Uploading: <span id="vid_progress_title"></span></div>
-      <div id="vid_progress_bar" style="width:0%;height:60%;background:navy;"></div>
-    </div>    
-  </div>
-</div>
-
-<div id="sap_modal" class="modal" style="display:none;position:relative;z-index:1455;">
-  <div id="xsap_dtl" style="position:absolute;">sadf sadf asdf sdafdsf</div>
-</div>
-
-<div id="loading" class="modal" style="display:block;z-index:1450;">      
-  <div style="width:150px;height:150px;background:none;
-          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
-          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
-    <img src="gfx/proc_logo.gif" alt="proc image" style="float:right;height:100%;width:100%;background:none;" />
-  </div>
-</div>
 
 <!-- *************************PAGES***************************************************
 ******************************************************************************** -->
@@ -242,7 +240,7 @@
     </div>
    
     <div id="dv_user" style="z-index:100;">
-      <img id="img_admin" src="gfx/avatar.png" onclick="toggle_admin(true)" />  
+      <img id="img_admin" src="gfx/javatar.png" onclick="toggle_admin(true)" />  
       <span id="logger">USERNAME</span>
     </div>
     <div id="popadmin">
@@ -279,9 +277,9 @@
   </div>
 
   <!--  ************************* BODY *************************************************** -->
-  <div id="div_body_main" style="display:block;position:relative;width:100%;overflow:auto;border:0px solid cyan;background:white;">
-    <div id="div_main_left" class="head_color4" style="float:left;position:relative;height:100%;overflow:auto;border:0px solid gray;text-align:center;">        
-      <div class="nw_menu" onclick="get_db_candidate()">
+  <div id="div_body_main" style="display:block;position:relative;width:100%;height:900px;border:0px solid red;">
+    <div id="div_main_left" class="head_color4" style="display:block;float:left;position:relative;width:80px;height:100%;overflow:auto;border:0px solid gray;text-align:center;">        
+      <div class="nw_menu" onclick="get_db_all()">
         <img src="gfx/jhome.png"/>
         <span>Dashboard</span>
       </div>
@@ -306,6 +304,12 @@
       </div>
       <div id="m_arrow7" class="nw_menu_sel"></div>
 
+      <div class="nw_menu" onclick="dummy()">
+        <img src="gfx/landmark.png"/>
+        <span>Dummy</span>
+      </div>
+      <div id="m_arrow7" class="nw_menu_sel"></div>
+
       <div style="position:absolute;bottom:10px;width:100%;height:100px;padding:2px;background:none;">
         <div style="display:block;width:100%;height:70%;padding:2px;background:none;">
           <span id="id_LiveTime" style="display:none;width:100%;height:30%;color:white;background:none;"></span>
@@ -316,16 +320,108 @@
     
     </div>      
 
-    <div id="div_main_right" style="float:left;display:block;height:100%;width:100%;color:black;padding:0px;border:0px solid red;
+    <div id="div_main_right" style="float:left;display:block;height:500px;width:200px;overflow:auto;color:black;padding:0px;border:0px solid red;
         background-image:url('gfx/web_bg.jpg');
         background-size:100% 100%;
         background-repeat:no-repeat;"> 
+
+      <div id="page_main" class="page_class" style="display:block;width:100%;height:100%;overflow:auto;">
+
+        <div style="width:80%;height:100%;margin:0 auto;padding:0px;color:white;background:none;">
+          <div id="dv_fix" style="position:fixed;top:50px;left:80px;width:100%;height:50px;z-index:100;opacity:0.8;border:1px solid gray;background:dimgray;">
+            <div style="float:right;width:auto;height:100%;padding:5px 10px 0 0;background:none;">
+              <div style="float:left;width:auto;padding:10px;">Filter:</div><img src="gfx/filter.png" style="float:left;height:100%;"/>
+            </div>
+          </div>
+          <div id="dv_umain" style="margin-top:50px;width:100%;height:100%;padding:0px;background:none;">
+            <div id="user_main" style="width:100%;height:100%;margin-top:0px;padding:0px;background:none;">
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div id="myView1" data-page=0 data-open=0 data-close="" data-JBEpage=0 class="page_class myView" style="display:none;">
+        <div style="width:100%;height:0px;"></div>
+        <div class="back_main">      
+          <div id="back_view1" onclick="JBE_CLOSE_VIEW(1)" class="back_class">
+            <img id="back_view_img1" src="gfx/jback.png" style="height:100%;" />
+            <span>Back</span>
+          </div>      
+          <div id="cap_myView1" class="cap_class"></div>
+          <div id="cap_viewMid1" class="cap_mid_class"></div>
+        </div>
+        <div id="dtl_myView1" class="myView_dtl">
+        </div>        
+      </div>  
+        
+      <div id="myView2" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+        <div style="width:100%;height:0px;"></div>
+        <div class="back_main">
+          <div id="back_view2" onclick="JBE_CLOSE_VIEW(2)" class="back_class">
+            <img id="back_view_img2" src="gfx/jback.png" style="height:100%;" />
+            <span>Back</span>
+          </div>
+          <div id="cap_myView2" class="cap_class"></div>
+          <div id="cap_viewMid2" class="cap_mid_class"></div>
+        </div>
+        <div id="dtl_myView2" class="myView_dtl">
+          <!--dtl-->
+        </div>       
+      </div>
+    
+      <div id="myView3" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+        <div style="width:100%;height:0px;"></div>    
+        <div class="back_main">
+          <div id="back_view3" onclick="JBE_CLOSE_VIEW(3)" class="back_class">
+            <img id="back_view_img3" src="gfx/jback.png" style="height:100%;" />
+            <span>Back</span>
+          </div>
+          <div id="cap_myView3" class="cap_class"></div>
+          <div id="cap_viewMid3" class="cap_mid_class"></div>
+        </div>
+        <div id="dtl_myView3" class="myView_dtl">
+          <!--dtl-->
+        </div>       
+      </div>
+      
+      <div id="myView4" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+        <div style="width:100%;height:0px;"></div> 
+        <div class="back_main">
+          <div id="back_view4" onclick="JBE_CLOSE_VIEW(4)" class="back_class">
+            <img id="back_view_img4" src="gfx/jback.png" style="height:100%;" />
+            <span>Back</span>
+          </div>
+          <div id="cap_myView4" class="cap_class"></div>
+          <div id="cap_viewMid4" class="cap_mid_class"></div>
+        </div>
+        <div id="dtl_myView4" class="myView_dtl">
+          <!--dtl-->
+        </div>       
+      </div>
+    
+      <div id="myView5" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+        <div style="width:100%;height:0px;"></div> 
+        <div class="back_main">
+          <div id="back_view5" onclick="JBE_CLOSE_VIEW(5)" class="back_class">
+            <img id="back_view_img5" src="gfx/jback.png" style="height:100%;" />
+            <span>Back</span>
+          </div>
+          <div id="cap_myView5" class="cap_class"></div>
+          <div id="cap_viewMid5" class="cap_mid_class"></div>
+        </div>
+        <div id="dtl_myView5" class="myView_dtl">
+          <!--dtl-->
+        </div>       
+      </div>
+
     </div>
 
   </div>
     
   <!--************************* footer -->
-  <div class="cls_fixed head_color" id="div_footer" style="height:35px;border:0px;">
+  <div class="cls_fixed head_color" id="div_footer" style="height:35px;width:100%;border:0px;">
     <div id="copyright" style="font-size:12px;padding:6px;background:none;">HAT Software &copy; Copyright 2018. Bacolod City.</div>    
   </div>
   
@@ -341,6 +437,7 @@
 <script type='text/javascript' src='refbrgy.js'></script> 
 <script type='text/javascript' src='refcitymun.js'></script> 
 <script type='text/javascript' src='refprovince.js'></script> 
+<script type='text/javascript' src='refregion.js'></script> 
 
 <!--link rel="manifest" href="./manifest.json"-->
 <script type='text/javascript' src='js/leaflet2013.js'></script>
@@ -361,8 +458,7 @@
 <script src="jbe_board.js"></script>
 <script src="jbe_message.js"></script>
 <script src="jbe_setting.js"></script>
-
-<script src="lookup.js"></script>
+<script src="jbe_fm.js"></script>
 
 <script src="main.js"></script>
 <script src="security.js"></script>
@@ -427,14 +523,7 @@
 
   var JBE_ONLINE=true;
   var JBE_ONLINE_NAVI=true;
-
-  var H_WRAPPER=0;
-  var H_HEADER=0;
-  var H_FOOTER=0;
-  var H_BODY=0;
-  var H_PAGE=0;
-  var H_VIEW=0;
-
+ 
   var CURR_BACKER=0;
   var f_MainPage=false;
   var f_reload=true;
@@ -513,8 +602,9 @@
   JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR2);
   JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR3);
   JBE_SET_COLOR_BY_CLASS('head_color4','white',JBE_CLOR4);
+  document.getElementById('div_body_main').style.backgroundColor=JBE_CLOR;
     
-  myResizeFunction(true);
+  myResizeFunction();
   start_app();  
 
 </script>

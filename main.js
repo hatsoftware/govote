@@ -1,15 +1,4 @@
 var live_id;
-var barangays = [];
-var citymun = [];
-
-for(var i=0;i<brgy.length;i++){
-  barangays[i]=brgy[i]['brgyDesc']+', '+lgetCityByCode(brgy[i]['citymunCode'])[0].citymunDesc+', '+ 
-  lgetProvByCode(brgy[i]['provCode'])[0].provDesc+', '+brgy[i]['regCode'];  
-}
-
-//initiate the autocom function on the "myInput" element, and pass along the barangays array as possible autocom values:/
-//autocom(document.getElementById("myInput"), barangays, lu_ob);
-/************************************************************************************** */
 
 function start_app(){    
   JBE_MOBILE=false;  
@@ -25,6 +14,7 @@ function start_app(){
   
   CURR_REC='';
   get_db_all();
+  showMainPage(); 
 /*
   get_db_candidate(true);
   get_db_watcher();
@@ -55,6 +45,9 @@ function get_db_all(){
   DB_WATCHER=[];  
   DB_MSG=[];  
   DB_USER=[];  
+  DB_POSITION = [];
+  DB_PARTY = [];
+
   showProgress(true);    
   axios.post(JBE_API+'z_all.php', { clientno:CURR_CLIENT,request:0 }) 
   .then(function (response) {     
@@ -63,8 +56,12 @@ function get_db_all(){
     DB_WATCHER = response.data[1];   
     DB_MSG = response.data[2];   
     DB_USER = response.data[3];   
-    //barangays = response.data[4];
+    DB_CLUSTER = response.data[4];
+    DB_POSITION = response.data[5];   
+    DB_PARTY = response.data[6];
+    DB_TRAN_VOTES = response.data[7];
     showProgress(false);
+    //alert('DB_PARTY '+DB_PARTY.length);
     dispBoard();
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
@@ -142,24 +139,13 @@ function get_db_tran_votes(){
 
 
 function lgetCityByCode(code) {
-  return city.filter(
-      function(city){ return city.citymunCode == code }
+  return ref_city.filter(
+      function(ref_city){ return ref_city.citymunCode == code }
   );
 }
 function lgetProvByCode(code) {
-  return prov.filter(
-      function(prov){ return prov.provCode == code }
-  );
-}
-
-function getCommunity(code) {
-  return JBE_PROJ.filter(
-      function(JBE_PROJ){ return JBE_PROJ.projcode == code }
-  );
-}
-function getCodeByCommunity(code) {
-  return JBE_PROJ.filter(
-      function(JBE_PROJ){ return JBE_PROJ.projcode == code }
+  return ref_prov.filter(
+      function(ref_prov){ return ref_prov.provCode == code }
   );
 }
 
@@ -184,19 +170,6 @@ function onHover(div,n,c) {
   } else {    
     $('#'+div).css('background-color',obg);
   }
-}
-
-function JBE_GETARRY(r_arry,r_fld,r_key){   
-  //JBE_GETFLD('usertype',DB_CLIENTS,'usercode',usercode);  
-  var rval=[];
-  for(var i=0; i<r_arry.length; i++) {    
-    if(r_key==r_arry[i][r_fld]){
-      rval=r_arry[i];
-      //alert(rval['clientno']);
-      break;
-    }
-  }      
-  return rval;
 }
 
 function searchPlot(divname,divno,lat,lng){    
@@ -783,74 +756,86 @@ function closeMapBox() {
   //event.stopPropagation();    
 }
 
-function myResize(){  
+function myResize(){    
   if(!JBE_MOBILE){ myResizeFunction(); }
 }
 
-
 function myResizeFunction(){  
-  var w = window.innerWidth;
-  document.getElementById('div_body_main').style.height='0px';
+  //return;
   
-  var scrollWidth = window.innerWidth - document.width;
-  //alert('scrollWidth 1 '+scrollWidth);
-  //var scrollWidth = window.innerWidth-$(document).width();
-  var scrollWidth = document.body.offsetWidth - document.body.clientWidth;
-  //alert('scrollWidth 2 '+scrollWidth);
+ document.getElementById('div_body_main').style.height='0px';
+
+  const box = document.querySelector('#div_body_main');
+  var scrollWidth = box.offsetWidth - box .clientWidth;
+  //alert(scrollWidth);
+    
   var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
-  //alert('hasScrollbar '+hasScrollbar);
   //scrollWidth=20;
-  if(!hasScrollbar){            
-    //scrollWidth=0;
-    //alert('MAY SCROLL BAR');
+  if(hasScrollbar){   
+    //alert('MAY SCROLL BAR '+scrollWidth);
+    scrollWidth=0;
   }
 
-  var px_left=80;//parseFloat(document.getElementById('div_main_left').style.width);
+  var w = window.innerWidth;
+
   JBE_MOBILE=false;
   var vdisp='none';
   if(w <= 900) { //for mobile only
     JBE_MOBILE=true;
-    vdisp='block';      
+    vdisp='block';  
   } 
-  
-  if(JBE_MOBILE){
+
+  var px_left=80;
+  //alert('px_left '+px_left);
+  if(w <= 900){
     px_left=60;
   }  
   
-  //alert('scrollWidth '+scrollWidth);
-  //var px_right=w-px_left-scrollWidth;  
   var px_right=w-px_left-scrollWidth;
-  /*
-  alert(
-    'px_left '+px_left+'\n'+
-    'px_right '+px_right+'\n'+
-    'scroll '+scrollWidth
-  );
-  */
-
-
-
+  
   var h = window.innerHeight;
   var h_head=parseFloat(document.getElementById('div_header').style.height);
   var h_foot=parseFloat(document.getElementById('div_footer').style.height);
   var h_body=h-(h_head+h_foot);
-/*
-  alert(
-    'h_head '+h_head+'\n'+
-    'h_foot '+h_foot+'\n'+
-    'h_body '+h_body
-  );
-*/
+
+  H_HEADER=parseInt(document.getElementById('div_header').style.height);  
+  H_FOOTER=parseInt(document.getElementById('div_footer').style.height);
+  
+  H_WRAPPER=window.innerHeight;
+  H_BODY=window.innerHeight - (H_HEADER+H_FOOTER);
+  H_PAGE=window.innerHeight - (H_FOOTER);
+  H_VIEW=window.innerHeight - (H_HEADER+H_FOOTER+50);
+
   document.getElementById('div_body_main').style.width='100%';
-  document.getElementById('div_body_main').style.height=(h_body)+'px';
+  document.getElementById('div_body_main').style.height=(H_BODY)+'px';
 
   document.getElementById('div_main_left').style.width=px_left+'px';
   document.getElementById('div_main_left').style.height='100%';
 
   document.getElementById('div_main_right').style.width=px_right+'px';
-  document.getElementById('div_main_right').style.height='100%';  
-  
-  //document.getElementById('sagbohol').style.width='100%';  
+  document.getElementById('div_main_right').style.height='100%';
+
+  document.querySelectorAll('.myView').forEach(function(el) {
+    el.style.height=H_BODY+'px';
+    el.style.width='100%';
+  });
+
+  document.getElementById('dv_fix').style.width=px_right+'px';
+}
+
+function openPage(m){ 
+  document.querySelectorAll('.page_class').forEach(function(el) {
+    //alert(el.id);
+    el.style.display = 'none';
+  });
+  document.getElementById(m).style.display='block';    
+}
+
+function showMainPage(){  
+  document.getElementById("myView1").setAttribute('data-JBEpage',0); //reset openview page to 0 
+  console.log('mainpage '+f_MainPage);
+  openPage('page_main');  
+  modal_ON(false);
 }
 
 function openWindow(t){
@@ -864,13 +849,24 @@ function openWindow(t){
 }
 
 function openDoor(div,t){
-  var pE='auto';
-  if(t){ pE='none'; }
+  var pE='auto';  
   document.getElementById('img_admin').style.pointerEvents=pE;
   document.getElementById('div_main_left').style.pointerEvents=pE;
   document.getElementById('admin2').style.pointerEvents=pE;
   document.getElementById(div).style.pointerEvents=pE;
 }
+
+function modal_ON(vmode){
+  var pE='auto';
+  var vopacity='1';
+  if(vmode){ pE='none';vopacity='0.2'; }
+
+  document.getElementById('img_admin').style.pointerEvents=pE; document.getElementById('img_admin').style.opacity=vopacity;
+  document.getElementById('div_main_left').style.pointerEvents=pE; document.getElementById('div_main_left').style.opacity=vopacity;
+  //document.getElementById('admin2').style.pointerEvents=pE;
+  //document.getElementById(div).style.pointerEvents=pE;
+}
+div_header
 
 function nowLive() {
   var f_live=document.getElementById('btn_Live').getAttribute('data-live');
@@ -900,5 +896,6 @@ function refresh_votes(){
   var n =  new Date().toLocaleTimeString();
   document.getElementById('id_LiveTime').innerHTML=n;  
   get_db_candidate(false);  
+  get_db_tran_votes(false);  
   JBE_AUDIO('gfx/snd/chimes',5);
 }
