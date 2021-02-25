@@ -61,28 +61,28 @@ function showMap(vmode,usercode){
 
       '<div onclick="refMap()" style="float:left;width:20%;height:100%;color:'+JBE_TXCLOR1+';background:none;">'+        
         '<div class="footer_gfxs">'+
-          '<img src="../../main_gfx/jrefresh.png"  style="height:100%;" alt="save image" />'+
+          '<img src="../app/main_gfx/jrefresh.png"  style="height:100%;" alt="save image" />'+
         '</div>'+
         '<span class="footer_fonts">View</span>'+
       '</div>'+
 
       '<div onclick="gotoMarker(marker_client)" style="float:left;width:20%;height:100%;color:'+JBE_TXCLOR1+';background:none;">'+        
         '<div class="footer_gfxs">'+
-          '<img src="../../main_gfx/jsite.png"  style="height:100%;" alt="save image" />'+
+          '<img src="../app/main_gfx/jsite.png"  style="height:100%;" alt="save image" />'+
         '</div>'+
         '<span class="footer_fonts">Client</span>'+
       '</div>'+
       
       '<div onclick="gotoMarker(marker_me)" style="float:left;width:20%;height:100%;color:'+JBE_TXCLOR1+';background:none;">'+        
         '<div class="footer_gfxs">'+
-          '<img src="../../main_gfx/avatar.png"  style="height:100%;" alt="del image" />'+
+          '<img src="../app/main_gfx/avatar.png"  style="height:100%;" alt="del image" />'+
         '</div>'+
         '<span class="footer_fonts">Me</span>'+
       '</div>'+  
 
       '<div onclick="showRoute()" style="float:right;width:20%;height:100%;color:'+JBE_TXCLOR1+';background:none;">'+        
         '<div class="footer_gfxs">'+
-          '<img src="../../main_gfx/jsend.png"  style="height:100%;" alt="del image" />'+
+          '<img src="../app/main_gfx/jsend.png"  style="height:100%;" alt="del image" />'+
         '</div>'+
         '<span class="footer_fonts">Route</span>'+
       '</div>'+  
@@ -104,14 +104,14 @@ function showMap(vmode,usercode){
       
       '<div id="divCANCEL" onclick="procAUTO()" style="display:block;float:right;width:auto;height:100%;cursor:pointer;color:'+JBE_TXCLOR1+';background:none;">'+        
         '<div class="footer_gfxs">'+
-          '<img id="imgCancel" src="../../main_gfx/jsite.png"  style="height:100%;" alt="site image" />'+
+          '<img id="imgCancel" src="../app/main_gfx/jsite.png"  style="height:100%;" alt="site image" />'+
         '</div>'+
         '<span id="txtAUTO" class="footer_fonts">Auto</span>'+
       '</div>'+
 
       '<div onclick="procSave()" style="float:right;width:auto;height:100%;cursor:pointer;margin-right:2%;color:'+JBE_TXCLOR1+';background:none;">'+        
         '<div class="footer_gfxs">'+
-          '<img id="imgLatLng" src="../../main_gfx/jedit.png"  style="height:100%;" alt="site image" />'+
+          '<img id="imgLatLng" src="../app/main_gfx/jedit.png"  style="height:100%;" alt="site image" />'+
         '</div>'+
         '<span id="txtEDIT" class="footer_fonts">Edit</span>'+
       '</div>'+
@@ -246,8 +246,8 @@ function procAUTO(){
 }
 
 function procPANEL(v){
-  var vsrc='../../main_gfx/jedit.png';
-	var vsrc2='../../main_gfx/jsite.png';
+  var vsrc='../app/main_gfx/jedit.png';
+	var vsrc2='../app/main_gfx/jsite.png';
 	var vcap='Edit';
 	var vcap2='Auto';
 	var vdis1=true;
@@ -255,8 +255,8 @@ function procPANEL(v){
   var vdispcan='none';
 
   if(v==1){    
-    vsrc='../../main_gfx/jsave.png';
-    vsrc2='../../main_gfx/jcancel.png';
+    vsrc='../app/main_gfx/jsave.png';
+    vsrc2='../app/main_gfx/jcancel.png';
     vcap='Save';
     vcap2='Cancel';
     vdis1=false;
@@ -293,8 +293,8 @@ function showClientBox(meLat,meLng){
                 '<br/><b>Longitude:</b> ' + vlng +                   
                 '<hr>'+
                 '<div style="width:100%;height:35px;padding:5px;text-align:center;border:0px solid gray;background-color:#2e75b6;">'+
-                '   <img src="../../main_gfx/jcall.png" onclick="callTextGO(&quot;call&quot;,&quot;'+vcelno+'&quot;)" style="float:left;margin-left:4%;height:100%;"/>' +
-                '   <img src="../../main_gfx/jsms.png"  onclick="callTextGO(&quot;txt&quot; ,&quot;'+vcelno+'&quot;)" style="float:right;margin-right:4%;height:100%;"/>' +     
+                '   <img src="../app/main_gfx/jcall.png" onclick="callTextGO(&quot;call&quot;,&quot;'+vcelno+'&quot;)" style="float:left;margin-left:4%;height:100%;"/>' +
+                '   <img src="../app/main_gfx/jsms.png"  onclick="callTextGO(&quot;txt&quot; ,&quot;'+vcelno+'&quot;)" style="float:right;margin-right:4%;height:100%;"/>' +     
                 '</div>'+
               '</div>';    
 
@@ -365,7 +365,7 @@ function jlocate(f,z) {
 function saveUserPosition(lat,lng){
   // record your current position  
   var usercode=document.getElementById('div_showmap').getAttribute('data-usercode');
-  axios.post(JBE_API+'zz_user.php', {  clientno:CURR_CLIENT, request: 302, 
+  axios.post(JBE_API+'app/zz_user.php', {  clientno:CURR_CLIENT, request: 302, 
     usercode: usercode, 
     lat:lat,
     lng:lng

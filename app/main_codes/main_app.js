@@ -7,7 +7,7 @@ function start_app(){
   //****************
   JBE_ONLINE_NAVI=true;
   //****************   
-  axios.post(JBE_API+'zz_online.php',JBE_HEADER)  
+  axios.post(JBE_API+'app/zz_online.php',JBE_HEADER)  
   .then(function (response) {
     var res=parseInt(response.data);
     //alert('zz_online:  '+res);    
@@ -88,19 +88,22 @@ function allow_start(v){
 //=======APP DB AND DISPLAY==========================================================
 function get_app_default(){    
   //alert('tan awa : '+CURR_CLIENT);
+  get_db_user(CURR_USER);  
   get_db_candidate();
+  
   //get_db_tran_votes();  
   get_db_sys();  
-  get_db_user(CURR_USER);  
+  
 }
 
 function get_db_candidate(){  
   DB_CANDIDATE=[];  
   DB_TRAN_VOTES=[];  
-  axios.post(JBE_API+'zz_candidate.php', { clientno:CURR_CLIENT, watcherno:CURR_USER, request:1 },JBE_HEADER)
+  axios.post(JBE_API+'app/zz_candidate.php', { clientno:CURR_CLIENT, watcherno:CURR_USER, request:1 },JBE_HEADER)
   .then(function (response) {    
     DB_CANDIDATE = response.data[0];    
-    DB_TRAN_VOTES = response.data[1];    
+    DB_TRAN_VOTES = response.data[1];   
+    
     //alert('get_db_candidate '+DB_CANDIDATE.length+' vs '+DB_TRAN_VOTES.length);
     allow_start(true);
     show_candidates();
@@ -108,13 +111,17 @@ function get_db_candidate(){
   .catch(function (error) { console.log(error); allow_start(true); });
 }
 
-function get_db_user(u){
+function get_db_user(u){  
   DB_USER=[];
-  axios.post(JBE_API+'zz_user.php', { clientno:CURR_CLIENT, request: 1, usercode: u },JBE_HEADER)
+  DB_CLUSTER=[];
+  //alert('DI A KO DIRI');
+  axios.post(JBE_API+'app/zz_user.php', { clientno:CURR_CLIENT, request: 1, usercode: u }, JBE_HEADER)
   .then(function (response) {    
-    DB_USER = response.data;    
-    document.getElementById('div_cluster').innerHTML='Cluster: '+JBE_GETFLD('clusterno',DB_USER,'usercode',u);
-    document.getElementById('logger').innerHTML=JBE_GETFLD('username',DB_USER,'usercode',u);    
+    DB_USER = response.data[0];    
+    DB_CLUSTER = response.data[1];
+    //alert('DB_CANDIDATE lname '+DB_CANDIDATE[0]['lname']);
+    var clusterno=JBE_GETFLD('clusterno',DB_USER,'usercode',u);
+    document.getElementById('div_cluster').innerHTML=clusterno;
     showProfile();
     allow_start(true);
   })    
@@ -124,7 +131,7 @@ function get_db_user(u){
 function get_db_sys(){  
   //alert('get_db_sys:  clientno: '+CURR_CLIENT);
   DB_SYS=[]; DB_SLIDER=[];
-  axios.post(JBE_API+'zz_sysfile.php', { clientno:CURR_CLIENT,site:CURR_SITE,request: 1 },JBE_HEADER) 
+  axios.post(JBE_API+'app/zz_sysfile.php', { clientno:CURR_CLIENT,site:CURR_SITE,request: 1 },JBE_HEADER) 
   .then(function (response) { 
     console.log(DB_SYS);             
     //alert('get_db_sys:  Slider : '+response.data);
@@ -140,7 +147,7 @@ function get_db_chat(u){
   if(CURR_AXTYPE > 0){
     req=0;
   }
-  axios.post(JBE_API+'zz_chat.php', { clientno:CURR_CLIENT,request: req, usercode: u },JBE_HEADER)     
+  axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT,request: req, usercode: u },JBE_HEADER)     
   .then(function (response) { console.log(response.data); DB_CHAT = response.data; })    
   .catch(function (error) { console.log(error); });
 }
@@ -199,7 +206,7 @@ function showProfile(){
   if(!CURR_USER){
     document.getElementById('bar_avatar').src=v_mphoto;
     document.getElementById('log_avatar').src=v_mphoto;
-    document.getElementById('logger').innerHTML='';
+    document.getElementById('logger').innerHTML='Pls. Log In';
     return;
   }
 
@@ -211,8 +218,7 @@ function showProfile(){
   
   document.getElementById('bar_avatar').src=v_mphoto;
   document.getElementById('log_avatar').src=v_mphoto;
-  document.getElementById('logger').innerHTML=CURR_NAME;
-  
+  document.getElementById('logger').innerHTML=CURR_NAME;  
 }
 
 function showSystem(){  
@@ -399,4 +405,15 @@ function closeDropdown(){
       openDropdown.classList.remove('show');
     }
   }
+}
+
+function jeff(){    
+  alert(
+    'field: '+DB_CANDIDATE[0]['lname']+'\n'+
+    'DB_CANDIDATE: '+DB_CANDIDATE.length+'\n'+
+    'field: '+DB_USER[0]['clusterno']+'\n'+
+    'DB_USER: '+DB_USER.length+'\n'+
+    'field: '+DB_CLUSTER[0]['clustername']+'\n'+
+    'DB_CLUSTER: '+DB_CLUSTER.length
+  );
 }

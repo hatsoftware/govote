@@ -144,9 +144,9 @@ function view_box_candidate(vpos){
     //alert(v_votes+' candino '+v_candi_no);
     
     vdtl+=
-      '<div id="vbc_'+ctr+'" style="width:100%;height:30px;margin-top:20px;margin-bottom:20px;padding:2px;background:lightgray;">'+
-        '<div style="float:left;width:80%;height:100%;text-align:left;padding:2px;">'+ctr+'. '+aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+'</div>'+        
-        '<input id="inpVote_'+ctr+'" data-votes='+v_votes+' data-code="'+v_candi_no+'" type="number" value="'+v_votes+'" style="float:left;width:20%;height:100%;" />'+
+      '<div id="vbc_'+ctr+'" style="width:100%;height:25px;font-size:14px;margin-top:20px;margin-bottom:20px;padding:2px;background:lightgray;">'+
+        '<div style="float:left;width:70%;height:100%;text-align:left;padding:2px;">'+ctr+'. '+aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+'</div>'+        
+        '<input id="inpVote_'+ctr+'" data-votes='+v_votes+' data-code="'+v_candi_no+'" type="number" value="'+v_votes+'" style="float:left;text-align:right;width:30%;height:100%;" />'+
       '</div>';
     ctr++;
   } 
@@ -160,6 +160,24 @@ function close_view_box_candidate(){
 function send_votes(){
   var ctr=document.getElementById('candi_dtl').getAttribute('data-ctr');
   //alert('CTR: '+ctr);  
+
+  var clusterno=JBE_GETFLD('clusterno',DB_USER,'usercode',CURR_USER);
+  //alert('send votes: '+clusterno);
+  var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',clusterno);
+  
+  var brgyCode=aryDB['brgyCode'];
+  var citymunCode=aryDB['citymunCode'];
+  var provCode=aryDB['provCode'];
+  var regCode=aryDB['regCode'];
+
+  alert(
+    'b '+brgyCode+'\n'+
+    'c '+citymunCode+'\n'+
+    'p '+provCode+'\n'+
+    'r '+regCode
+  );
+
+
   var aryItems=[];
   for(var i=0;i<ctr;i++){
     var v_code=document.getElementById('inpVote_'+(i+1)).getAttribute('data-code');
@@ -167,6 +185,9 @@ function send_votes(){
     var cur_votes=parseInt(JBE_GETFLD('votes',DB_CANDIDATE,'code',v_code));
     var old_votes=parseInt(document.getElementById('inpVote_'+(i+1)).getAttribute('data-votes'));
     var new_votes=parseInt(document.getElementById('inpVote_'+(i+1)).value);
+
+    //var aryDB=JBE_GETARRY(DB_,'brgyCode',v_code);
+
     if(!new_votes){ new_votes=0; }
 
     var upd_votes=(cur_votes-old_votes)+new_votes;
@@ -189,9 +210,13 @@ function send_votes(){
     //alert('ary '+aryItems[i]['votes']);
   }
 
-  axios.post(JBE_API+'zz_votes.php', { clientno:CURR_CLIENT, request: 2,   
+  axios.post(JBE_API+'app/zz_votes.php', { clientno:CURR_CLIENT, request: 2,   
     watcherno:CURR_USER,   
-    clusterno:document.getElementById('div_cluster').innerHTML,
+    clusterno:clusterno,
+    brgyCode:brgyCode,
+    citymunCode:citymunCode,
+    provCode:provCode,
+    regCode:regCode,    
     aryItems:JSON.stringify(aryItems)
   },JBE_HEADER)
   .then(function (response) { 

@@ -71,7 +71,7 @@ function disp_bell(v){
 
 function markBellAsRead(trano,usercode){
   showProgress(true);      
-  axios.post(JBE_API+'zz_notif.php', { clientno: CURR_CLIENT, request: 301, 
+  axios.post(JBE_API+'app/zz_notif.php', { clientno: CURR_CLIENT, request: 301, 
     trano: trano,
     usercode: usercode
   },JBE_HEADER)
@@ -89,7 +89,7 @@ function markBellAsRead(trano,usercode){
 
 function delNotif(trano,usercode){
   showProgress(true);      
-  axios.post(JBE_API+'zz_notif.php', { clientno: CURR_CLIENT, request: 4, 
+  axios.post(JBE_API+'app/zz_notif.php', { clientno: CURR_CLIENT, request: 4, 
     trano: trano,
     usercode: usercode
   },JBE_HEADER)

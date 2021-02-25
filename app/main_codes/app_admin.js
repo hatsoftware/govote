@@ -74,7 +74,7 @@ function chk_lognow(){
   }
 
   showProgress(true);
-  axios.post(JBE_API+'zz_user.php',{ clientno:CURR_CLIENT, request: 101,     
+  axios.post(JBE_API+'app/zz_user.php',{ clientno:CURR_CLIENT, request: 101,     
     userid: u, 
     pword: p 
   },JBE_HEADER)     
@@ -85,7 +85,7 @@ function chk_lognow(){
       DB_USER=response.data;
       CURR_USER=DB_USER[0]['usercode']; 
       CURR_NAME=DB_USER[0]['username']; 
-      CURR_AXTYPE=DB_USER[0]['usertype'];        
+      CURR_AXTYPE=DB_USER[0]['usertype'];       
       login_ok(0);            
     }else{
       document.getElementById("fmsg").style.color="red";
@@ -111,10 +111,9 @@ function login_ok(v){
   createCookie('cok_name_'+CURR_CLIENT,CURR_NAME,1);
   
   var aryDB=JBE_GETARRY(DB_USER,'usercode',CURR_USER);
-  alert('clusterno '+aryDB['clusterno']);
-  //document.getElementById('bar_avatar').src=JBE_API+'upload/users/'+aryDB['photo'];
   document.getElementById('logger').innerHTML=aryDB['username'];
-  document.getElementById('div_cluster').innerHTML='Cluster: '+aryDB['clusterno'];
+  document.getElementById('div_cluster').innerHTML=aryDB['clusterno'];  
+  
   showProfile();
   
   var vmenu='mnu_main';        
@@ -404,7 +403,7 @@ function chk_fld(u,p,vmode){
     return;
   }
   
-  axios.post(JBE_API+'zz_user.php',{ clientno:CURR_CLIENT, request: 101, userid: u, pword:p },JBE_HEADER)     
+  axios.post(JBE_API+'app/zz_user.php',{ clientno:CURR_CLIENT, request: 101, userid: u, pword:p },JBE_HEADER)     
   .then(function (response) {     
     console.log(response.data);  
     if(response.data.length > 0){
@@ -473,7 +472,7 @@ function save_profile(){
 
   var targetDIR=JBE_API+'upload/users/';
   showProgress(true);
-  axios.post(JBE_API+'zz_user.php', { clientno:CURR_CLIENT, request: req, 
+  axios.post(JBE_API+'app/zz_user.php', { clientno:CURR_CLIENT, request: req, 
       usercode:usercode,
       userid:u,
       pword:p,
@@ -606,7 +605,7 @@ function disp_editStaff(){
 
 function chgLevel(usercode,usertype){  
   showProgress(true);      
-  axios.post(JBE_API+'zz_user.php', { clientno:CURR_CLIENT, request: 301, 
+  axios.post(JBE_API+'app/zz_user.php', { clientno:CURR_CLIENT, request: 301, 
     usercode: usercode,
     usertype: usertype
   },JBE_HEADER)
@@ -634,7 +633,7 @@ function del_staff(usercode){
 
   MSG_SHOW(vbYesNo,"CONFIRM: ","Are you sure to Delete user: "+username+"?",function(){
     showProgress(true);      
-    axios.post(JBE_API+'zz_user.php', { clientno:CURR_CLIENT, request: 4, 
+    axios.post(JBE_API+'app/zz_user.php', { clientno:CURR_CLIENT, request: 4, 
       usercode: usercode,
       photo: photo,
       ddir:ddir

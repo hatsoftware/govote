@@ -225,7 +225,7 @@ function save_system(){
   telno=document.getElementById('telno').value;
   celno=document.getElementById('celno').value;
   showProgress(true);
-  axios.post(JBE_API+'zz_sysfile.php', { clientno:CURR_CLIENT, request: 3,  
+  axios.post(JBE_API+'app/zz_sysfile.php', { clientno:CURR_CLIENT, request: 3,  
     keepRatio:true,  
     bannerImg:bannerImg,
     arySlides:arySlides, 

@@ -49,7 +49,7 @@ function markAsRead(){
   var sender=1;
   if(CURR_AXTYPE > 0){ sender=0; }
   //showProgress(true);        
-  axios.post(JBE_API+'zz_chat.php', { clientno:CURR_CLIENT, request: 5, usercode: usercode, sender:sender },JBE_HEADER)
+  axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT, request: 5, usercode: usercode, sender:sender },JBE_HEADER)
   .then(function (response) {       
     //showProgress(false);      
     console.log(response.data);
@@ -87,7 +87,7 @@ function sendMsg(){
   
   if(msg != '' || newName != ''){    
     showProgress(true);
-    axios.post(JBE_API+'zz_chat.php', { clientno:CURR_CLIENT, request: 2,
+    axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT, request: 2,
       usercode: usercode,
       admin: v_admin,
       trano: trano,
@@ -130,7 +130,7 @@ function getChats(){
   var usercode=document.getElementById('div_main_chat').getAttribute('data-usercode');
   DB_CHAT=[];  
   showProgress(true);    
-  axios.post(JBE_API+'zz_chat.php', { clientno:CURR_CLIENT, request: 1, usercode: usercode }) 
+  axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT, request: 1, usercode: usercode }) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);
@@ -278,7 +278,7 @@ function delChat(v_trano){
   MSG_SHOW(vbYesNo,"CONFIRM:","Are you sure to Delete this Item?",
     function(){   
       showProgress(true);    
-      axios.post(JBE_API+'zz_chat.php', { clientno:CURR_CLIENT, request: 4,
+      axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT, request: 4,
         trano: v_trano,
         usercode: usercode,
         f_owner:f_owner,
@@ -365,7 +365,7 @@ function close_chat_owner(){
 function disp_chat_owner(){  
   mnu_chat_owner();
   showProgress(true);
-  axios.post(JBE_API+'zz_chat.php', { clientno:CURR_CLIENT, request: 0 }) 
+  axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT, request: 0 }) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);
