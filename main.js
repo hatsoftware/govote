@@ -14,6 +14,7 @@ function start_app(){
   
   CURR_REC='';
   get_db_all();
+  document.getElementById('wrapper').style.display='block';
   showMainPage(); 
 /*
   get_db_candidate(true);
