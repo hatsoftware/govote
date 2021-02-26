@@ -444,7 +444,8 @@ function disp_place_votes(candi_no,place_type,place_no){
     var xvotes=aryNew[i]['votes'];
     dtl+=
     '<div style="width:100%;height:35px;margin-top:5px;padding:2px;background:dimgray;">'+    
-      '<input type="button" onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)" style="float:left;width:60%;height:100%;cursor:pointer;border-radius:8px;" value="'+xname+'" />'+
+      //'<input type="button" onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)" style="float:left;width:60%;height:100%;cursor:pointer;border-radius:8px;" value="'+xname+'" />'+
+      '<div onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)" style="float:left;width:60%;height:100%;cursor:pointer;border-radius:8px;border:1px solid black;padding:2px;font-size:12px;overflow-x:auto;overflow-y:hidden;background:white;">'+xname+'</div>'+
       '<span id="dv_votes_'+i+'" style="float:left;width:40%;height:100%;padding:2px 12px 2px 2px;text-align:right;font-size:22px;text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;color:white;background:none;">'+        
         jformatNumber(xvotes)+
       '</div>'+
