@@ -62,7 +62,7 @@ function get_db_all(){
     DB_TRAN_VOTES = response.data[7];
     ref_brgy = response.data[8];
     showProgress(false);
-    //alert('DB_PARTY '+DB_PARTY.length);
+    alert('ref_brgy '+ref_brgy.length);
     dispBoard();
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
