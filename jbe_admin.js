@@ -1,5 +1,9 @@
 //var uxxlu_ob = ['dv_brgy','dv_city','dv_province','dv_region']; 
 function dispAdmin(){    
+  if(CURR_AXTYPE <4){
+    snackBar('ACCESS DENIED...');
+    return;
+  }
   //document.getElementById('page_main').style.display='none';
   var dtl='<div id="dv_fm_main" style="width:100%;height:100%;overflow:auto;">'+
             '<div style="margin:0 auto;width:500px;height:300px;margin-top:150px;text-align:center;padding:10px;border:1px solid white;background:none;">'+
@@ -29,8 +33,10 @@ function toggle_admin(f_true){
 }
 
 function proc_admin(){
+  //logout();
+  //return;
   toggle_admin(false);
-  document.getElementById("div_mapbox").style.display='none';
+  //document.getElementById("div_mapbox").style.display='none';
   document.getElementById("div_pass").style.display='block';
   document.getElementById("txUser").value="";
   document.getElementById("txPass").value="";        

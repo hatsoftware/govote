@@ -251,23 +251,23 @@
       <a href="javascript:logout()">Log Out</a>          
       <div id="div_creator" style="display:none;">            
         <hr>
-        <a href="https://updesktop.github.io/portfolio" >Creator</a>              
-        <hr>
+        <a href="https://updesktop.github.io/portfolio" target="_blank">Creator</a>              
+        <!--hr>
         <a href="javascript:task1()">Put FCODE, MCODE to projhist</a>  
         <hr>
-        <a href="javascript:task2()">Clear All Water Delivered</a>  
+        <a href="javascript:task2()">Clear All Water Delivered</a-->  
       </div>            
     </div>
 
-    <div id="div_pass" class="head_color2" style="display:none;position:absolute;width:250px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;">
+    <div id="div_pass" class="head_color2" style="display:none;position:absolute;width:250px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;border:1px solid black;background:darkgray;">
       <form>
       <input type="text" id="txUser"  autocomplete="username" onkeydown="javascript:if(event.keyCode==13) document.getElementById('txPass').focus()" 
               style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
                     border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="User ID"/>
       <input type="password" id="txPass"  autocomplete="current-password" onkeydown="javascript:if(event.keyCode==13) chkPass(txUser.value,this.value)" style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
           border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="Password"/>    
-      <input type="button" id="btn_login" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;font-size:12px;margin-top:5px;
-          border:1px solid black;border-radius:0px;background-color:lightblue;" value="Log In"/>        
+      <input type="button" id="btn_login" class="head_color" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;font-size:12px;margin-top:5px;
+          border:1px solid black;border-radius:0px;" value="Log In"/>        
       </form>
     </div>
 
@@ -303,12 +303,6 @@
       <div class="nw_menu" onclick="dispSetting(CURR_PROJID)">
         <img src="gfx/setting.png"/>
         <span>Setting</span>
-      </div>
-      <div id="m_arrow7" class="nw_menu_sel"></div>
-
-      <div class="nw_menu" onclick="dummy()">
-        <img src="gfx/landmark.png"/>
-        <span>Dummy</span>
       </div>
       <div id="m_arrow7" class="nw_menu_sel"></div>
 

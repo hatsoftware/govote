@@ -683,6 +683,7 @@ function task2(){ //clear All Watered Delivered
 }
 
 function redisplay(){  
+  off_for_login(false);
   dispBoard();  
 }
 

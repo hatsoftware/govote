@@ -1,4 +1,8 @@
 function dispSetting(){
+  if(CURR_AXTYPE <4){
+    snackBar('ACCESS DENIED...');
+    return;
+  }
   var h_candi=window.innerHeight-(50+85);
   var dtl=
   '<div style="width:100%;height:100%;padding:0px;color:white;background:none;">'+
