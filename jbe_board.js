@@ -149,37 +149,37 @@ function dispVotesGraph(candi_no){
         '<input id="id_brgy" data-rec="" data-votes="" type="button" onclick="menu_folder(4)" class="cls_id_places" value="Barangay" />'+
       '</div>'+        
 
-      '<div style="width:100%;height:685px;padding:10px 40px 10px 40px;background:none;">'+    
+      '<div style="width:100%;height:685px;padding:10px 0px 10px 0px;background:none;">'+    
 
         '<div style="width:100%;height:100%;padding:10px;border:1px solid white;">'+   
 
           '<div id="dv_summary" style="width:100%;height:100%;background:none;">'+
 
             '<div id="summ1" style="display:block;width:100%;height:100%;">'+
-              '<div id="sumbox1" style="float:left;width:40%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:60%;height:100%;color:white;background:white;">'+
-                '<canvas id="pie-chart1" width="800" height="450" style="padding:10px;"></canvas>'+
+              '<div id="sumbox1" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
+              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
+                '<canvas id="pie-chart1" width="0" height="100%" style="padding:10px;background:none;"></canvas>'+
               '</div>'+
             '</div>'+
 
             '<div id="summ2" style="display:none;width:100%;height:100%;">'+
-              '<div id="sumbox2" style="float:left;width:40%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:60%;height:100%;color:white;background:white;">'+
-                '<canvas id="pie-chart2" width="800" height="450" style="padding:10px;"></canvas>'+
+              '<div id="sumbox2" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
+              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
+                '<canvas id="pie-chart2" width="0" height="100%" style="padding:10px;background:none;"></canvas>'+
               '</div>'+
             '</div>'+
 
             '<div id="summ3" style="display:none;width:100%;height:100%;">'+
-              '<div id="sumbox3" style="float:left;width:40%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:60%;height:100%;color:white;background:white;">'+
-                '<canvas id="pie-chart3" width="800" height="450" style="padding:10px;"></canvas>'+
+              '<div id="sumbox3" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
+              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
+                '<canvas id="pie-chart3" width="0" height="100%" style="padding:10px;background:none;"></canvas>'+
               '</div>'+
             '</div>'+
 
             '<div id="summ4" style="display:none;width:100%;height:100%;">'+
-              '<div id="sumbox4" style="float:left;width:40%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:60%;height:100%;color:white;background:white;">'+
-                '<canvas id="pie-chart4" width="800" height="450" style="padding:10px;"></canvas>'+
+              '<div id="sumbox4" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
+              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
+                '<canvas id="pie-chart4" width="0" height="100%" style="padding:10px;overflow:auto;background:none;"></canvas>'+
               '</div>'+
             '</div>'+
             
@@ -340,7 +340,7 @@ function disp_place_votes(candi_no,place_type,place_no){
   if(place_type=='reg'){
     vtitle='Region';
     vcode='regCode';
-    vdesc='regDesc';    
+    vdesc='regDesc2';    
     aryPlace=ref_reg;
     vplace_no='';
     grap_no=1;
@@ -394,7 +394,7 @@ function disp_place_votes(candi_no,place_type,place_no){
     ];
 
   var COLORS = [];
-  while (COLORS.length < 100) {
+  while (COLORS.length < 200) {
       COLORS.push(`rgb(${rand(0, 255)}, ${rand(0, 255)}, ${rand(0, 255)})`);
   }
   
