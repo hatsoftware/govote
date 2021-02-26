@@ -60,9 +60,9 @@ function get_db_all(){
     DB_POSITION = response.data[5];   
     DB_PARTY = response.data[6];
     DB_TRAN_VOTES = response.data[7];
-    ref_brgy = response.data[8];
+    //ref_brgy = response.data[8];
     showProgress(false);
-    alert('ref_brgy '+ref_brgy.length);
+    //alert('DB_PARTY '+DB_PARTY.length);
     dispBoard();
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
