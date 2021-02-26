@@ -55,7 +55,7 @@ function dispBoard(){
     var vcode=aryCandidate[i]['code'];
    
     vdtl=          
-      '<div class="cls_shadow_dispboard" onclick="dispVotesGraph(&quot;'+aryCandidate[i]['code']+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+      '<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+aryCandidate[i]['code']+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
         '<div style="width:100%;height:100%;margin-top:0px;background:white;opacity:0.2;border:0px solid orange;border-radius:8px;"></div>'+
         '<div style="position:absolute;width:100%;height:100%;top:0px;left:0px;margin-top:0px;border:0px solid blue;color:white;background:none;">'+
           
@@ -64,7 +64,7 @@ function dispBoard(){
               (ctr+0)+'.'+
             '</div>'+
             '<div class="cls_dispboard_img">'+
-              '<img src="'+JBE_API+'upload/photo/'+vcode+'.jpg" style="height:100%;border:1px solid gray;border-radius:8px;background:white;"/>'+              
+              '<img id="candi_img_'+i+'" src="'+JBE_API+'upload/photo/'+vcode+'.jpg" style="height:100%;border:1px solid gray;border-radius:8px;background:white;"/>'+              
             '</div>'+
             '<div class="cls_dispboard_candi">'+
             
@@ -104,10 +104,11 @@ function dispBoard(){
   }
 }
 
-function dispVotesGraph(candi_no){
+function dispVotesGraph(i,candi_no){
   var aryDB=JBE_GETARRY(DB_CANDIDATE,'code',candi_no);
   var candi_name=aryDB['lname']+', '+aryDB['fname'];
   var candi_votes=aryDB['votes'];
+  var img=document.getElementById('candi_img_'+i).src;
   //alert('candi_votes '+candi_votes);
   
   var dtl=
@@ -119,7 +120,7 @@ function dispVotesGraph(candi_no){
 
           '<div class="cls_dtl_dispboard">'+
             '<div class="cls_dtl_dispboard_img">'+
-              '<img src="gfx/jorg.png" style="height:100%;border:1px solid gray;border-radius:8px;background:white;"/>'+
+              '<img src='+img+' style="height:100%;border:1px solid gray;border-radius:8px;background:white;"/>'+
             '</div>'+
             '<div class="cls_dtl_dispboard_candi">'+
             
