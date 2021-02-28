@@ -26,7 +26,7 @@ function dispBoard(){
     var vdisp=JBE_STORE_CANDIDATE[i]["display"];
     var vpos=JBE_STORE_CANDIDATE[i]["pos"];
     vdtl+=
-      '<div id="candi_'+vpos+'" style="display:'+vdisp+';width:100%;max-width:100%;height:auto;margin-top:0px;padding:20px 0 10px 0;background:none;">'+
+      '<div id="candi_'+vpos+'" style="display:'+vdisp+';width:100%;max-width:100%;height:auto;margin-top:20px;padding:20px 0 10px 0;background:none;">'+
         '<div class="cls_pos_head">'+JBE_STORE_CANDIDATE[i]["posname"]+'</div>'+
         '<div id="candi_dtl_'+vpos+'" class="cls_pos_body">'+
         
@@ -105,6 +105,11 @@ function dispBoard(){
 }
 
 function dispVotesGraph(i,candi_no){
+  //alert(CURR_SCOPE_TYPE + ' = '+CURR_SCOPE_NO);
+  if(CURR_SCOPE_TYPE > 0 && CURR_SCOPE_NO==''){
+    snackBar('ERROR: System Scope Invalid...');
+    return;
+  } 
   var aryDB=JBE_GETARRY(DB_CANDIDATE,'code',candi_no);
   var candi_name=aryDB['lname']+', '+aryDB['fname'];
   var candi_votes=aryDB['votes'];
@@ -197,10 +202,25 @@ function dispVotesGraph(i,candi_no){
   //document.getElementById("View2").innerHTML=dtl;
   JBE_OPEN_VIEW(dtl,'','close_graph');
   modal_ON(true);
-  //disp_reg_votes(candi_no);
-  //disp_place_votes(candi_no,'reg','');  
-  //disp_place_votes(candi_no,'prov','07');
-  show_region(candi_no,'');
+
+  //CURR_SCOPE_TYPE=1;
+  //CURR_SCOPE_NO='0712';
+  /*
+  alert(
+    'CURR_SCOPE_TYPE '+CURR_SCOPE_TYPE+
+    '\nCURR_SCOPE_NO '+CURR_SCOPE_NO
+    );
+    */
+  
+  if(CURR_SCOPE_TYPE==0){    
+    show_region(candi_no,'');
+  }else if(CURR_SCOPE_TYPE==1){    
+    show_citymun(candi_no,CURR_SCOPE_NO);
+  }else if(CURR_SCOPE_TYPE==2){
+    show_district(candi_no,CURR_SCOPE_NO);  
+  }else if(CURR_SCOPE_TYPE==3){
+    show_brgy(candi_no,CURR_SCOPE_NO);    
+  }
 }
 function close_graph(){
   modal_ON(false);
@@ -275,8 +295,11 @@ function show_region(candi_no,vCode){
 }
 
 function show_province(candi_no,vCode){  
-  //alert('show_province vCode '+vCode);
   disp_place_votes(candi_no,'prov',vCode);
+}
+//
+function show_district(candi_no,vCode){
+  disp_place_votes(candi_no,'district',vCode);
 }
 //
 function show_citymun(candi_no,vCode){
@@ -297,6 +320,8 @@ function getPlaceVotes(candi_no,place_type,place_no){
     vcode='regCode';
   }else if(place_type=='prov'){
     vcode='provCode';
+  }else if(place_type=='district'){
+    vcode='citymunCode';  
   }else if(place_type=='citymun'){
     vcode='citymunCode';
   }else if(place_type=='brgy'){
@@ -337,6 +362,7 @@ function disp_place_votes(candi_no,place_type,place_no){
   var vplace_no='';
   var grap_no=0;
   var vfunc;
+  var aryPlace=[];
 
   if(place_type=='reg'){
     vtitle='Region';
@@ -354,8 +380,32 @@ function disp_place_votes(candi_no,place_type,place_no){
     vplace_no='regCode';
     grap_no=2;
     vfunc='show_citymun';
+  }else if(place_type=='district'){
+    aryPlace=[];
+    var ctr=0;
+    for(var i=0;i<ref_city.length;i++){
+      if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
+      
+      let ob={       
+        "disCode":ref_city[i]['disCode'],
+        "citymunCode":ref_city[i]['citymunCode'],
+        "citymunDesc":ref_city[i]['citymunDesc'], 
+        "provCode":ref_city[i]['provCode'],
+        "regCode":ref_city[i]['regCode']
+      };
+      aryPlace[ctr]=ob;
+      ctr++;
+    }
+    //alert(aryPlace.length);
+    vtitle='District '+CURR_SCOPE_NO;
+    vcode='citymunCode';
+    vdesc='citymunDesc';
+    //aryPlace=ref_district;
+    vplace_no='disCode';
+    grap_no=3;
+    vfunc='show_brgy';
   }else if(place_type=='citymun'){
-    vtitle='Municicapl/City';
+    vtitle='Municipal/City';
     vcode='citymunCode';
     vdesc='citymunDesc';
     aryPlace=ref_city;
@@ -411,11 +461,11 @@ function disp_place_votes(candi_no,place_type,place_no){
   var dtl='';  
   var aryNewPlace=[];
   var ctr=0;
-    
+
   for(var i=0;i<aryPlace.length;i++){
     //alert(place_type+' = '+i);
-    if(place_type != 'reg'){      
-      if(aryPlace[i][vplace_no] != place_no){ continue; }            
+    if(place_type != 'reg'){            
+      if(aryPlace[i][vplace_no].trim() != place_no.trim()){ continue; }            
     }
           
     var vvcode=aryPlace[i][vcode];    
@@ -443,10 +493,10 @@ function disp_place_votes(candi_no,place_type,place_no){
     var xname=aryNew[i]['name'];
     var xvotes=aryNew[i]['votes'];
     dtl+=
-    '<div style="width:100%;height:35px;margin-top:5px;padding:2px;background:dimgray;">'+    
+    '<div class="cls_votes_dtl">'+    
       //'<input type="button" onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)" style="float:left;width:60%;height:100%;cursor:pointer;border-radius:8px;" value="'+xname+'" />'+
-      '<div onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)" style="float:left;width:60%;height:100%;cursor:pointer;border-radius:8px;border:1px solid black;padding:2px;font-size:12px;overflow-x:auto;overflow-y:hidden;background:white;">'+xname+'</div>'+
-      '<span id="dv_votes_'+i+'" style="float:left;width:40%;height:100%;padding:2px 12px 2px 2px;text-align:right;font-size:22px;text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;color:white;background:none;">'+        
+      '<div onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)">'+xname+'</div>'+
+      '<span id="dv_votes_'+i+'">'+        
         jformatNumber(xvotes)+
       '</div>'+
     '</div>';

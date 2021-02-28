@@ -133,7 +133,7 @@ function off_for_login(m){
   var vdisp='block';
   if(m){ vdisp='none'; }
 
-  document.getElementById('dv_fix').style.display=vdisp;
+  //document.getElementById('dv_fix').style.display=vdisp;
   document.getElementById('dv_user').style.display=vdisp;
 }
 

@@ -135,7 +135,7 @@ function FM_MAIN_BOX(mode){
   document.getElementById('txt_FM_CANCEL_EXIT').innerHTML='Cancel';
 
   if(mode==1){
-    document.getElementById('img_FM_CANCEL_EXIT').src='gfx/jback.png';
+    document.getElementById('img_FM_CANCEL_EXIT').src='gfx/jcancel.png';
     document.getElementById('txt_FM_CANCEL_EXIT').innerHTML='Exit';
   }
 }
@@ -348,6 +348,8 @@ function FM_CANCEL(){
   }else{
     FM_INIT_REC();
   }
+  var fn = window[FM_FUNC.cancel];
+  if (typeof fn === "function"){ if(fn(recno,true)==false){ return; }}  
 }
 //
 function FM_CLOSE(){

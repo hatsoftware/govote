@@ -4,19 +4,19 @@ function dispAdmin(){
     snackBar('ACCESS DENIED...');
     return;
   }
-  //document.getElementById('page_main').style.display='none';
-  var dtl='<div id="dv_fm_main" style="width:100%;height:100%;overflow:auto;">'+
-            '<div style="margin:0 auto;width:500px;height:300px;margin-top:150px;text-align:center;padding:10px;border:1px solid white;background:none;">'+
+    
+  var dtl=
+  '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:none;">'+
 
-              '<div style="width:100%;height:100%;text-align:center;padding:10px;background:none;">'+
-                '<input type="button" onclick="do_fm_candidate()" style="width:100%;height:50px;margin-top:40px;" value="FM Candidate" />'+
-                '<input type="button" onclick="do_fm_cluster()" style="width:100%;height:50px;margin-top:10px;" value="FM Cluster" />'+
-                '<input type="button" onclick="do_fm_watcher()" style="width:100%;height:50px;margin-top:10px;" value="FM Watcher" />'+
-              '</div>'+
-              
-            '</div>'+
-            
-          '</div>';
+      '<div id="sys_menu1" class="cls_ds_main" style="height:380px;">'+ 
+        '<p>Admin File Maintenance</p>'+   
+        '<button onclick="do_fm_candidate()">FM Candidate</button>'+   
+        '<button onclick="do_fm_cluster()">FM Cluster</button>'+   
+        '<button onclick="do_fm_watcher()">FM Watcher</button>'+   
+        '<button onclick="close_admin()" style="margin-top:40px;color:white;background:'+JBE_CLOR+';">Exit</button>'+   
+      '</div>'+
+    
+  '</div>';          
 
   JBE_OPEN_VIEW(dtl,'ADMIN','close_admin');    
   modal_ON(true);

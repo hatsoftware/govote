@@ -61,10 +61,17 @@ function get_db_all(){
     DB_POSITION = response.data[5];   
     DB_PARTY = response.data[6];
     DB_TRAN_VOTES = response.data[7];
+    DB_DISTRICT = response.data[8];
+    DB_SYS = response.data[9];
+    ref_city = response.data[10];
     //ref_brgy = response.data[8];
     showProgress(false);
     //alert('DB_PARTY '+DB_PARTY.length);
+    if(DB_SYS.length > 0){      
+      show_scope();
+    }
     dispBoard();
+
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
@@ -823,7 +830,7 @@ function myResizeFunction(){
     el.style.width='100%';
   });
 
-  document.getElementById('dv_fix').style.width=px_right+'px';
+  //document.getElementById('dv_fix').style.width=px_right+'px';
 }
 
 function openPage(m){ 
@@ -836,7 +843,7 @@ function openPage(m){
 
 function showMainPage(){  
   document.getElementById("myView1").setAttribute('data-JBEpage',0); //reset openview page to 0 
-  console.log('mainpage '+f_MainPage);
+  //console.log('mainpage '+f_MainPage);
   openPage('page_main');  
   modal_ON(false);
 }
@@ -869,7 +876,6 @@ function modal_ON(vmode){
   //document.getElementById('admin2').style.pointerEvents=pE;
   //document.getElementById(div).style.pointerEvents=pE;
 }
-div_header
 
 function nowLive() {
   var f_live=document.getElementById('btn_Live').getAttribute('data-live');
@@ -901,4 +907,22 @@ function refresh_votes(){
   get_db_candidate(false);  
   get_db_tran_votes(false);  
   JBE_AUDIO('gfx/snd/chimes',5);
+}
+
+function show_scope(){
+  let ob=[
+    { "tilt":"National Scope","db":"","fld":"","fld2":"" },
+    { "tilt":"Province : ","db":ref_prov,"fld":"provCode","fld2":"provDesc" },
+    { "tilt":"District : ","db":DB_DISTRICT,"fld":"disCode","fld2":"disDesc" },
+    { "tilt":"City/Municipality : ","db":ref_city,"fld":"citymunCode","fld2":"citymunDesc" }
+  ];
+  CURR_SCOPE_NO=DB_SYS[0]['scope_no'];
+  CURR_SCOPE_TYPE=DB_SYS[0]['scope_type'];
+
+  var tilt=ob[CURR_SCOPE_TYPE]["tilt"];
+  var retfld=ob[CURR_SCOPE_TYPE]["fld2"];
+  var db=ob[CURR_SCOPE_TYPE]["db"];
+  var skey=ob[CURR_SCOPE_TYPE]["fld"];
+  var subtilt=tilt + JBE_GETFLD(retfld,db,skey,CURR_SCOPE_NO);
+  document.getElementById('sys_subtilt').innerHTML=subtilt;
 }
