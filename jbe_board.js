@@ -1,3 +1,4 @@
+var map;
 function dispBoard(){  
   //return;
   /* note:
@@ -26,8 +27,8 @@ function dispBoard(){
     var vdisp=JBE_STORE_CANDIDATE[i]["display"];
     var vpos=JBE_STORE_CANDIDATE[i]["pos"];
     vdtl+=
-      '<div id="candi_'+vpos+'" style="display:'+vdisp+';width:100%;max-width:100%;height:auto;margin-top:20px;padding:20px 0 10px 0;background:none;">'+
-        '<div class="cls_pos_head">'+JBE_STORE_CANDIDATE[i]["posname"]+'</div>'+
+      '<div id="candi_'+vpos+'" style="display:'+vdisp+';width:100%;max-width:100%;height:auto;margin-top:0px;padding:20px 0 10px 0;background:none;">'+
+        '<div class="cls_pos_head">'+JBE_STORE_CANDIDATE[i]["posname"].toUpperCase()+'</div>'+
         '<div id="candi_dtl_'+vpos+'" class="cls_pos_body">'+
         
         '</div>'+  
@@ -56,27 +57,27 @@ function dispBoard(){
    
     vdtl=          
       '<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+aryCandidate[i]['code']+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
-        '<div style="width:100%;height:100%;margin-top:0px;background:white;opacity:0.2;border:0px solid orange;border-radius:8px;"></div>'+
-        '<div style="position:absolute;width:100%;height:100%;top:0px;left:0px;margin-top:0px;border:0px solid blue;color:white;background:none;">'+
+        '<div class="cls_shadow_box1"></div>'+
+        '<div class="cls_shadow_box2">'+
           
           '<div class="cls_dispboard">'+
-            '<div class="cls_dispboard_ctr">'+
+            '<div id="candi_ctr_'+i+'" class="cls_dispboard_ctr">'+
               (ctr+0)+'.'+
             '</div>'+
             '<div class="cls_dispboard_img">'+
-              '<img id="candi_img_'+i+'" src="'+JBE_API+'upload/photo/'+vcode+'.jpg" style="height:100%;border:1px solid gray;border-radius:8px;background:white;"/>'+              
+              '<img id="candi_img_'+i+'" src="'+JBE_API+'upload/photo/'+vcode+'.jpg" style="height:100%;width:55px;border:1px solid black;border-radius:8px;background:white;"/>'+              
             '</div>'+
             '<div class="cls_dispboard_candi">'+
             
-              '<div class="cls_dispboard_candi_1">'+
+              '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">'+
                 aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+
               '</div>'+
-              '<div class="cls_dispboard_candi_2">'+
+              '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+
                 'NPC - National People\'s Coalition'+
               '</div>'+
             
             '</div>'+
-            '<div class="cls_dispboard_votes">'+
+            '<div id="candi_votes_'+i+'" class="cls_dispboard_votes">'+
               jformatNumber(aryCandidate[i]['votes'])+
             '</div>'+
           '</div>'+
@@ -105,113 +106,21 @@ function dispBoard(){
 }
 
 function dispVotesGraph(i,candi_no){
-  //alert(CURR_SCOPE_TYPE + ' = '+CURR_SCOPE_NO);
   if(CURR_SCOPE_TYPE > 0 && CURR_SCOPE_NO==''){
     snackBar('ERROR: System Scope Invalid...');
     return;
-  } 
-  var aryDB=JBE_GETARRY(DB_CANDIDATE,'code',candi_no);
-  var candi_name=aryDB['lname']+', '+aryDB['fname'];
-  var candi_votes=aryDB['votes'];
-  var img=document.getElementById('candi_img_'+i).src;
-  //alert('candi_votes '+candi_votes);
+  }
+  openPage('page_viewer');
   
-  var dtl=
-    '<div class="cls_dtl_shadow_dispboard" style="position:relative;width:100%;height:100%;padding:10px;border:0px solid black;background:none;">'+
-      '<div style="width:100%;height:70px;background:white;opacity:0.5;border:1px solid black;border-radius:8px;margin-top:0px;"></div>'+
-      '<div style="position:absolute;width:96%;height:70px;top:10px;border:0px solid white;border-radius:8px;color:white;background:none;">'+
-    
-        '<div style="width:100%;height:100%;text-align:left;">'+ 
-
-          '<div class="cls_dtl_dispboard">'+
-            '<div class="cls_dtl_dispboard_img">'+
-              '<img src='+img+' style="height:100%;border:1px solid gray;border-radius:8px;background:white;"/>'+
-            '</div>'+
-            '<div class="cls_dtl_dispboard_candi">'+
-            
-              '<div class="cls_dtl_dispboard_candi_1">'+
-                candi_name+
-              '</div>'+
-              '<div class="cls_dtl_dispboard_candi_2">'+
-                'NPC - National People\'s Coalition'+
-              '</div>'+
-            
-            '</div>'+
-            '<div class="cls_dtl_dispboard_votes">'+
-              jformatNumber(candi_votes)+
-            '</div>'+
-          '</div>'+
-
-        '</div>'+
- 
-      '</div>'+
-
-      '<div style="width:100%;height:30px;margin-top:10px;text-align:left;border:1px solid white;padding:2px;color:white;background:dimgray;">'+        
-        '<div style="float:left;width:50px;padding:3px;"> TAB: </div>'+
-        '<div id="id_tot" data-rec="" data-votes="" style="display:none;float:left;width:50px;padding:3px;"></div>'+
-        '<input id="id_reg" data-rec="" data-votes="" type="button" onclick="menu_folder(1)" class="cls_id_places" value="Region" />'+
-        '<input id="id_prov" data-rec="" data-votes="" type="button" onclick="menu_folder(2)" class="cls_id_places" value="Province" />'+
-        '<input id="id_citymun" data-rec="" data-votes="" type="button" onclick="menu_folder(3)" class="cls_id_places" value="City/Municipality" />'+
-        '<input id="id_brgy" data-rec="" data-votes="" type="button" onclick="menu_folder(4)" class="cls_id_places" value="Barangay" />'+
-      '</div>'+        
-
-      '<div style="width:100%;height:685px;padding:10px 0px 10px 0px;background:none;">'+    
-
-        '<div style="width:100%;height:100%;padding:10px;border:1px solid white;">'+   
-
-          '<div id="dv_summary" style="width:100%;height:100%;background:none;">'+
-
-            '<div id="summ1" style="display:block;width:100%;height:100%;">'+
-              '<div id="sumbox1" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
-                '<canvas id="pie-chart1" width="0" height="100%" style="padding:10px;background:none;"></canvas>'+
-              '</div>'+
-            '</div>'+
-
-            '<div id="summ2" style="display:none;width:100%;height:100%;">'+
-              '<div id="sumbox2" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
-                '<canvas id="pie-chart2" width="0" height="100%" style="padding:10px;background:none;"></canvas>'+
-              '</div>'+
-            '</div>'+
-
-            '<div id="summ3" style="display:none;width:100%;height:100%;">'+
-              '<div id="sumbox3" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
-                '<canvas id="pie-chart3" width="0" height="100%" style="padding:10px;background:none;"></canvas>'+
-              '</div>'+
-            '</div>'+
-
-            '<div id="summ4" style="display:none;width:100%;height:100%;">'+
-              '<div id="sumbox4" style="float:left;width:45%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>'+
-              '<div style="float:left;width:55%;height:100%;overflow:auto;color:white;background:white;">'+
-                '<canvas id="pie-chart4" width="0" height="100%" style="padding:10px;overflow:auto;background:none;"></canvas>'+
-              '</div>'+
-            '</div>'+
-            
-          '</div>'+
-
-        '</div>'+
-
-      '</div>'+  
-
-    '</div>'+  
-
-  '</div>';
-
-  //document.getElementById("View2").innerHTML=dtl;
-  JBE_OPEN_VIEW(dtl,'','close_graph');
   modal_ON(true);
-
-  //CURR_SCOPE_TYPE=1;
-  //CURR_SCOPE_NO='0712';
-  /*
-  alert(
-    'CURR_SCOPE_TYPE '+CURR_SCOPE_TYPE+
-    '\nCURR_SCOPE_NO '+CURR_SCOPE_NO
-    );
-    */
+  document.getElementById('dtv_img').src = document.getElementById('candi_img_'+i).src;
+  document.getElementById('dtv_name').innerHTML = document.getElementById('candi_name_'+i).innerHTML;
+  document.getElementById('dtv_party').innerHTML = document.getElementById('candi_party_'+i).innerHTML;
+  document.getElementById('dtv_votes').innerHTML = document.getElementById('candi_votes_'+i).innerHTML;
   
+  //map.invalidateSize();
+  //map.setView([11.8787, 121.7740],6);
+    
   if(CURR_SCOPE_TYPE==0){    
     show_region(candi_no,'');
   }else if(CURR_SCOPE_TYPE==1){    
@@ -222,80 +131,54 @@ function dispVotesGraph(i,candi_no){
     show_brgy(candi_no,CURR_SCOPE_NO);    
   }
 }
-function close_graph(){
-  modal_ON(false);
-  showMainPage();
-}
+
 //
 function show_folder(v,vCode,votes){  
   //alert(v+' = '+vCode+' votes:'+votes);  
-  var vvotes=jformatNumber(votes);
-  var ary_id=['reg','prov','citymun','brgy'];
-  var tilt,otilt,oldrec,ovotes;
+  var vvotes=jformatNumber(votes);  
+  var tilt='';
+  var ary_scope=['National:','Province:','District:','City/Municipal:'];
+  var ary_label=['Region:','Province:','District:','City/Municipal:','Barangay:'];
 
-  if(v==0){
-    tilt='[ Region: ('+vvotes+') ]'; 
-    document.getElementById('id_'+ary_id[v]).setAttribute('data-votes',vvotes);
-    document.getElementById('id_'+ary_id[v]).value=tilt;
-    document.getElementById('id_'+ary_id[v]).style.display='block';
+  if(CURR_SCOPE_TYPE==0){ 
+    var ary_label=['','Region:','Province:','City/Municipal:','Barangay:'];
+  }
 
-    document.getElementById('id_tot').setAttribute('data-votes',vvotes);
-    document.getElementById('id_tot').innerHTML=vvotes;
-    return;
-  } 
-
-  ovotes=document.getElementById('id_'+ary_id[v-1]).getAttribute('data-votes');    
-  oldrec=document.getElementById('id_'+ary_id[v-1]).getAttribute('data-rec');    
-
-  if(v==1){         
-    otilt='Region:[ '+JBE_GETFLD('regDesc',ref_reg,'regCode',vCode)+' ('+vvotes+') ] ';
-    tilt='[ Province ('+vvotes+') ]'; 
+  document.getElementById('id_label').innerHTML=ary_scope[CURR_SCOPE_TYPE];    
+  tilt='[ '+ary_label[(v)]+' ('+vvotes+') ]';   
+  document.getElementById('id_tab'+v).value=tilt;
+  document.getElementById('id_tab'+v).style.display='block';
+  document.getElementById('id_label').setAttribute('data-regCode',vCode);
+  //display map
+  if(v==1){
+    document.getElementById('pmap').src='maps/main.jpg';
+  }else if(v==2){
+    document.getElementById('pmap').src='maps/reg_'+vCode+'.png';
   }
-  if(v==2){     
-    otilt='Province[ '+JBE_GETFLD('provDesc',ref_prov,'provCode',vCode)+' ('+vvotes+') ] ';
-    tilt='[ City/Municipal ('+vvotes+') ]'; 
-  }
-  if(v==3){     
-    otilt='City/Municipal:[ '+JBE_GETFLD('citymunDesc',ref_city,'citymunCode',vCode)+' ('+vvotes+') ] ';
-    tilt='[ Barangay ('+vvotes+') ]'; 
-  }
-  
-  //alert('oldrec:'+oldrec+'  vcode:'+vCode);
-  if(vCode!=oldrec){
-    //alert('not equal: '+v);
-    for(var i=v;i<4;i++){
-      document.getElementById('id_'+ary_id[i]).style.display='none'; 
-    }
-  }
-  document.getElementById('id_'+ary_id[v-1]).setAttribute('data-rec',vCode);
-  document.getElementById('id_'+ary_id[v]).setAttribute('data-votes',ovotes);
-  
-  document.getElementById('id_'+ary_id[v-1]).value=otilt;
-  //document.getElementById('id_'+ary_id[v-1]).value=ovotes;
-  document.getElementById('id_'+ary_id[v]).value=tilt;
-  document.getElementById('id_'+ary_id[v]).setAttribute('data-votes',vvotes);
-  document.getElementById('id_'+ary_id[v]).style.display='block';
 }  
 
 //
 function menu_folder(v){
   var ary_id=['reg','prov','citymun','brgy'];
   for(var i=1;i<=4;i++){ document.getElementById('summ'+i).style.display='none';  }
-  document.getElementById('summ'+v).style.display='block';
-  var x=document.getElementById('id_'+ary_id[v-1]).getAttribute('data-rec');
-  var y=document.getElementById('id_tot').getAttribute('data-votes');
-  if(v==1){ 
-    var tilt='[ Region ('+y+') ]'; 
-    document.getElementById('id_'+ary_id[0]).value=tilt;
+  document.getElementById('summ'+v).style.display='block';  
+  for(var i=(v+1);i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
+  if(v==1){
+    document.getElementById('pmap').src='maps/main.jpg';
   }
 }
 //
 function show_region(candi_no,vCode){   
-  disp_place_votes(candi_no,'reg',vCode);
+  disp_place_votes(candi_no,'reg',vCode);  
 }
 
-function show_province(candi_no,vCode){  
-  disp_place_votes(candi_no,'prov',vCode);
+function show_province(candi_no,vCode){      
+  disp_place_votes(candi_no,'prov',vCode);  
+  var aryDB=JBE_GETARRY(ref_reg,'regCode',vCode);    
+  var lat=parseFloat(aryDB['lat']);
+  var lng=parseFloat(aryDB['lng']);
+  var zm=parseFloat(aryDB['zoom']);
+  //map.setView([lat, lng], zm);
 }
 //
 function show_district(candi_no,vCode){
@@ -321,7 +204,7 @@ function getPlaceVotes(candi_no,place_type,place_no){
   }else if(place_type=='prov'){
     vcode='provCode';
   }else if(place_type=='district'){
-    vcode='citymunCode';  
+    vcode='citymunCode'; 
   }else if(place_type=='citymun'){
     vcode='citymunCode';
   }else if(place_type=='brgy'){
@@ -331,25 +214,14 @@ function getPlaceVotes(candi_no,place_type,place_no){
   //alert('candi_no: '+candi_no+'\n vcode: '+vcode+'\n place_no: '+place_no);
 
   var rvotes=0;
-  var ctr=0;
+
   for(var i=0;i<DB_TRAN_VOTES.length;i++){
     if(DB_TRAN_VOTES[i]['candi_no'] != candi_no){ continue; }
     if(DB_TRAN_VOTES[i][vcode] != place_no){ continue; }    
 
-    rvotes+=parseInt(DB_TRAN_VOTES[i]['votes']);
-    ctr++;
+    rvotes+=parseInt(DB_TRAN_VOTES[i]['votes']);  
   }
   return rvotes;
-}
-
-function dummy(){
-  var dtl='<div style="width:100%;height:100%;color:white;background:none;">sdfa dsf dsaf asdf dsf</div>';
-  JBE_OPEN_VIEW(dtl,'DUMMY','close_dummy');    
-  modal_ON(true);
-}
-
-function close_dummy(){
-  showMainPage();
 }
 
 //====================================================================
@@ -367,7 +239,7 @@ function disp_place_votes(candi_no,place_type,place_no){
   if(place_type=='reg'){
     vtitle='Region';
     vcode='regCode';
-    vdesc='regDesc2';    
+    vdesc='regDesc';    
     aryPlace=ref_reg;
     vplace_no='';
     grap_no=1;
@@ -469,7 +341,8 @@ function disp_place_votes(candi_no,place_type,place_no){
     }
           
     var vvcode=aryPlace[i][vcode];    
-    var votes=getPlaceVotes(candi_no,place_type,vvcode);
+    var votes=0;
+    votes=getPlaceVotes(candi_no,place_type,vvcode);
 
     let ob={
       "code":aryPlace[i][vcode],
@@ -493,12 +366,13 @@ function disp_place_votes(candi_no,place_type,place_no){
     var xname=aryNew[i]['name'];
     var xvotes=aryNew[i]['votes'];
     dtl+=
-    '<div class="cls_votes_dtl">'+    
+    '<div class="cls_votes_dtl" onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)">'+    
       //'<input type="button" onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)" style="float:left;width:60%;height:100%;cursor:pointer;border-radius:8px;" value="'+xname+'" />'+
-      '<div onclick="'+vfunc+'(&quot;'+candi_no+'&quot;,&quot;'+xcode+'&quot;)">'+xname+'</div>'+
+      '<div>'+xname+'</div>'+
       '<span id="dv_votes_'+i+'">'+        
         jformatNumber(xvotes)+
       '</div>'+
+      
     '</div>';
     aryName[i]=xname;
     aryVotes[i]=xvotes;
@@ -507,8 +381,9 @@ function disp_place_votes(candi_no,place_type,place_no){
   document.getElementById("sumbox"+grap_no).innerHTML=dtl;
   
   //alert('grap_no:'+grap_no+' s_votes: '+tot_votes);
-  show_folder((grap_no-1),place_no,tot_votes);
+  show_folder(grap_no,place_no,tot_votes);
 
+  /*
   new Chart(document.getElementById("pie-chart"+grap_no), {
     type: 'doughnut',
     data: {
@@ -530,5 +405,6 @@ function disp_place_votes(candi_no,place_type,place_no){
       }
     }
   });
+  */
 
 }

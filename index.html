@@ -14,7 +14,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
 <!-- ********************* -->
-<title>GOVOTE ELECTION MONITORING SYSTEM</title>
+<title>VOTEMON ELECTION MONITORING SYSTEM</title>
 <!--script src="js/eruda.min.js"></script>
 <script>eruda.init();</script-->
 <script>  
@@ -37,8 +37,7 @@
   var JBE_MOBILE=true;
   
   var aryREPS=[];
-   
-  var DB_WATCHER = [];
+  
   var DB_CANDIDATE = [];
   var DB_MSG = [];
   var DB_USER = [];
@@ -46,7 +45,10 @@
   var DB_POSITION = [];
   var DB_PARTY = [];
   var DB_DISTRICT = [];
+  var DB_DISTRICT2 = [];
   var DB_SYS = [];
+
+  var DB_PARTYMAST = [];
 
   //var ref_brgy = [];
   //var ref_prov = [];
@@ -245,7 +247,7 @@
       <img src="gfx/icon-192x192.png" onclick="jeff()" style="height:100%;border:1px solid white;"/>               
     </div>
     <div id="sys_tilt">     
-      <div style="height:60%;width:100%;font-size:20px;padding:2px 0 0 0;background:none;">GOVOTE ELECTION MONITORING SYSTEM</div>  
+      <div style="height:60%;width:100%;font-size:20px;padding:2px 0 0 0;background:none;">VOTEMON ELECTION MONITORING SYSTEM</div>  
       <div id="sys_subtilt" style="height:40%;width:100%;font-size:12px;padding:2px 0 0 0;background:none;">Province</div>  
     </div>
    
@@ -324,10 +326,13 @@
     
     </div>      
 
-    <div id="div_main_right" style="float:left;display:block;height:500px;width:200px;overflow:auto;color:black;padding:0px;border:0px solid red;
+    <!--div id="div_main_right" style="float:left;display:block;height:500px;width:200px;overflow:auto;color:black;padding:0px;border:0px solid red;
         background-image:url('gfx/web_bg.jpg');
         background-size:100% 100%;
-        background-repeat:no-repeat;"> 
+        background-repeat:no-repeat;"--> 
+
+    <div id="div_main_right" style="float:left;display:block;height:500px;width:200px;overflow:auto;color:black;padding:0px;border:0px solid red;        
+        background:white;"> 
 
       <div id="page_main" class="page_class" style="display:block;width:100%;height:100%;overflow:auto;">
 
@@ -338,12 +343,98 @@
             </div>
           </div-->
           <div id="dv_umain" style="margin-top:0px;width:100%;height:100%;padding:0px;background:none;">
+
             <div id="user_main" style="width:100%;height:100%;margin-top:0px;padding:0px;background:none;">
               
             </div>
           </div>
         </div>
         
+      </div>
+
+      <div id="page_viewer" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;background:dimgray;">
+        
+        <div class="back_main">      
+          <div id="back_viewer" onclick="showMainPage()" class="back_class">
+            <img id="back_viewer_img1" src="gfx/jback.png" style="height:100%;" />
+            <span>Balik</span>
+           
+          </div>      
+          <div id="cap_viewer" class="cap_class">
+            <input type="text" disabled id="d_lng" style="float:right;width:300px;color:black;background:white;" value="" />
+            <input type="text" disabled id="d_lat" style="float:right;width:300px;color:black;background:white;margin-right:10px;" value="" />
+          </div>
+          <div id="cap_viewerMid1" class="cap_mid_class"></div>
+        </div>
+        <div id="dtl_viewer" class="myView_dtl">
+
+          <div class="cls_dtl_shadow_dispboard" style="position:relative;width:100%;height:100%;padding:10px;border:0px solid black;background:none;">
+            <div style="width:100%;height:70px;background:white;opacity:0.5;border:1px solid black;border-radius:8px;margin-top:0px;"></div>
+            <div style="position:absolute;width:96%;height:70px;top:10px;border:0px solid white;border-radius:8px;color:white;background:none;">
+            
+            <div style="width:100%;height:100%;text-align:left;"> 
+        
+              <div class="cls_dtl_dispboard">
+                <div class="cls_dtl_dispboard_img">
+                  <img id="dtv_img" src="" style="height:100%;width:60px;border:1px solid white;border-radius:8px;background:white;"/>
+                  </div>
+                  <div class="cls_dtl_dispboard_candi">        
+                    <div id="dtv_name" class="cls_dtl_dispboard_candi_1"></div>
+                    <div id="dtv_party" class="cls_dtl_dispboard_candi_2"></div>        
+                  </div>
+                  <div id="dtv_votes" class="cls_dtl_dispboard_votes"></div>
+                </div>
+              </div>
+        
+            </div>
+        
+            <div style="width:100%;height:30px;margin-top:10px;text-align:left;border:1px solid black;padding:2px;color:white;background:dimgray;">        
+              <div style="float:right;width:auto;height:100%;">
+                <div id="id_label" data-regCode="" style="float:left;width:auto;padding:3px;margin-right:10px;background:none;"></div>        
+                <input id="id_tab1" data-rec="" data-votes="" type="button" onclick="menu_folder(1)" class="cls_id_places" value="Region" />
+                <input id="id_tab2" data-rec="" data-votes="" type="button" onclick="menu_folder(2)" class="cls_id_places" value="Province" />
+                <input id="id_tab3" data-rec="" data-votes="" type="button" onclick="menu_folder(3)" class="cls_id_places" value="City/Municipality" />
+                <input id="id_tab4" data-rec="" data-votes="" type="button" onclick="menu_folder(4)" class="cls_id_places" value="Barangay" />
+              </div>        
+            </div>        
+        
+            <div style="width:100%;height:686px;border:0px solid black;background:white;">    
+        
+              <div style="width:100%;height:100%;">    
+
+                <div style="float:left;width:50%;height:100%;color:white;background:none;">
+                  <div id="jmap" style="width:100%;height:100%;border:0px solid red;padding:10px;text-align:right;background:none;">
+                    <img id="pmap" src="maps/main.jpg" style="height:100%;" />
+                  </div>            
+                </div> 
+
+                <div style="float:left;width:50%;height:100%;border:1px solid lightray;background:none;">        
+
+                  <div id="dv_summary" style="float:right;width:600px;height:100%;padding:20px 0 20px 5px;border:1px solid lightray;background:none;">        
+                    <div id="summ1" style="display:block;width:100%;height:100%;">
+                      <div id="sumbox1" style="float:left;width:100%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>                      
+                    </div>        
+                    <div id="summ2" style="display:none;width:100%;height:100%;">
+                      <div id="sumbox2" style="float:left;width:100%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>                      
+                    </div>        
+                    <div id="summ3" style="display:none;width:100%;height:100%;">
+                      <div id="sumbox3" style="float:left;width:100%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>                      
+                    </div>        
+                    <div id="summ4" style="display:none;width:100%;height:100%;border:1px solid lightray;">
+                      <div id="sumbox4" style="float:left;width:100%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>                      
+                    </div>                    
+                  </div>
+
+                </div>
+        
+                       
+              </div>  
+
+            </div>          
+        
+          </div>  
+
+        </div>        
       </div>
 
       <div id="myView1" data-page=0 data-open=0 data-close="" data-JBEpage=0 class="page_class myView" style="display:none;">
@@ -439,12 +530,13 @@
 <link rel="stylesheet" type="text/css" href="css/Default.css" />
 
 <script type='text/javascript' src='refbrgy.js'></script> 
-<!--script type='text/javascript' src='refcitymun.js'></script--> 
+<!--script type='text/javascript' src='refcitymun.js'></script> 
 <script type='text/javascript' src='refprovince.js'></script> 
-<script type='text/javascript' src='refregion.js'></script> 
+<script type='text/javascript' src='refregion.js'></script--> 
 
 <!--link rel="manifest" href="./manifest.json"-->
 <script type='text/javascript' src='js/leaflet2013.js'></script>
+<script type='text/javascript' src='js/ajaxJSON.js'></script>
 <script type='text/javascript' src='js/MarkerCluster.js'></script>
 <!--script type='text/javascript' src='js/kakas.js'></script-->
 
@@ -455,7 +547,7 @@
 
 <script type='text/javascript' src='js/enadlib.js'></script>
 
-<script type='text/javascript' src='jbe_map.js'></script>
+<!--script type='text/javascript' src='jbe_map.js'></script-->
 <script type='text/javascript' src='jbe_fmlib.js'></script>
 
 <script src="jbe_admin.js"></script>
@@ -463,6 +555,8 @@
 <script src="jbe_message.js"></script>
 <script src="jbe_setting.js"></script>
 <script src="jbe_fm.js"></script>
+
+<!--script src="lilmap.js"></script-->
 
 <script src="main.js"></script>
 <script src="security.js"></script>
@@ -542,11 +636,13 @@
   function jeff(){  
     alert(
       '\nref_city: '+ref_city.length+      
+      '\nref_prov: '+ref_prov.length+      
+      '\nref_reg: '+ref_reg.length+      
       '\nDB_DISTRICT: '+DB_DISTRICT.length+      
       '\nDB_SYS: '+DB_SYS.length+
-      '\nDB_CANDIDATE: '+DB_CANDIDATE.length+    
-      '\nDB_WATCHER: '+DB_WATCHER.length+
+      '\nDB_CANDIDATE: '+DB_CANDIDATE.length+          
       '\nDB_USER: '+DB_USER.length+
+      '\nDB_PARTYMAST: '+DB_PARTYMAST.length+
       '\nDB_MSG: '+DB_MSG.length
     );
   }

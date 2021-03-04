@@ -37,6 +37,7 @@ function reset_votes(){
         DB_TRAN_VOTES = response.data[1];    
         //alert('get_db_candidate '+DB_CANDIDATE.length+' vs '+DB_TRAN_VOTES.length);
         snackBar('Votes Resetted Successfully');
+        get_db_all();
         showMainPage();
       })    
       .catch(function (error) { console.log(error); allow_start(true); });

@@ -18,7 +18,7 @@ function start_app(){
   showMainPage(); 
 /*
   get_db_candidate(true);
-  get_db_watcher();
+  get_db_party();
   get_db_msg();
   get_db_user();
 */
@@ -43,7 +43,7 @@ function start_app(){
 
 function get_db_all(){
   DB_CANDIDATE=[];  
-  DB_WATCHER=[];  
+  DB_PARTYMAST=[];  
   DB_MSG=[];  
   DB_USER=[];  
   DB_POSITION = [];
@@ -54,7 +54,7 @@ function get_db_all(){
   .then(function (response) {     
     console.log(response.data);    
     DB_CANDIDATE = response.data[0];   
-    DB_WATCHER = response.data[1];   
+    DB_PARTYMAST = response.data[1];   
     DB_MSG = response.data[2];   
     DB_USER = response.data[3];   
     DB_CLUSTER = response.data[4];
@@ -64,12 +64,26 @@ function get_db_all(){
     DB_DISTRICT = response.data[8];
     DB_SYS = response.data[9];
     ref_city = response.data[10];
-    //ref_brgy = response.data[8];
+    ref_prov = response.data[11];
+    ref_reg = response.data[12];
     showProgress(false);
     //alert('DB_PARTY '+DB_PARTY.length);
     if(DB_SYS.length > 0){      
       show_scope();
     }
+    /*
+    CURR_SCOPE_TYPE=DB_SYS[0]['scope_type'];
+    CURR_SCOPE_NO=DB_SYS[0]['scope_no'];
+    if(CURR_SCOPE_TYPE == 2){ //district
+      DB_DISTRICT2=[];
+      var ctr=0;
+      for(var i=0;i<ref_city.length;i++){
+        if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
+        DB_DISTRICT2[ctr][];
+      }
+    }
+    if(SCO)
+    */
     dispBoard();
 
   },JBE_HEADER)    
@@ -89,14 +103,14 @@ function get_db_candidate(m){
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
-function get_db_watcher(){
-  DB_WATCHER=[];  
+function get_db_party(){
+  DB_PARTYMAST=[];  
   showProgress(true);    
-  axios.post(JBE_API+'z_watcher.php', { clientno:CURR_CLIENT, request:0 }) 
+  axios.post(JBE_API+'z_party.php', { clientno:CURR_CLIENT, request:0 }) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);    
-    DB_WATCHER = response.data;   
+    DB_PARTYMAST = response.data;   
     //alert(JBE_PROJ); 
     //dispBoardDtl(normal_mode,pram);
   },JBE_HEADER)    
@@ -831,6 +845,8 @@ function myResizeFunction(){
   });
 
   //document.getElementById('dv_fix').style.width=px_right+'px';
+  document.getElementById('dtl_viewer').style.height=(H_VIEW-0)+'px';
+  
 }
 
 function openPage(m){ 
@@ -877,12 +893,30 @@ function modal_ON(vmode){
   //document.getElementById(div).style.pointerEvents=pE;
 }
 
+function show_scope(){
+  let ob=[
+    { "tilt":"National Scope","db":"","fld":"","fld2":"" },
+    { "tilt":"Province : ","db":ref_prov,"fld":"provCode","fld2":"provDesc" },
+    { "tilt":"District : ","db":DB_DISTRICT,"fld":"disCode","fld2":"disDesc" },
+    { "tilt":"City/Municipality : ","db":ref_city,"fld":"citymunCode","fld2":"citymunDesc" }
+  ];
+  CURR_SCOPE_NO=DB_SYS[0]['scope_no'];
+  CURR_SCOPE_TYPE=DB_SYS[0]['scope_type'];
+
+  var tilt=ob[CURR_SCOPE_TYPE]["tilt"];
+  var retfld=ob[CURR_SCOPE_TYPE]["fld2"];
+  var db=ob[CURR_SCOPE_TYPE]["db"];
+  var skey=ob[CURR_SCOPE_TYPE]["fld"];
+  var subtilt=tilt + JBE_GETFLD(retfld,db,skey,CURR_SCOPE_NO);
+  document.getElementById('sys_subtilt').innerHTML=subtilt;
+}
+
 function nowLive() {
   var f_live=document.getElementById('btn_Live').getAttribute('data-live');
   
   if(f_live==0) {
     document.getElementById('id_LiveTime').innerHTML=new Date().toLocaleTimeString();
-    live_id = setInterval(function(){ refresh_votes(); }, 9999);		
+    live_id = setInterval(function(){ refresh_votes(); }, 20000);		
     
     document.getElementById('btn_Live').style.backgroundColor='red';
     document.getElementById('btn_Live').innerHTML='STOP';
@@ -909,20 +943,3 @@ function refresh_votes(){
   JBE_AUDIO('gfx/snd/chimes',5);
 }
 
-function show_scope(){
-  let ob=[
-    { "tilt":"National Scope","db":"","fld":"","fld2":"" },
-    { "tilt":"Province : ","db":ref_prov,"fld":"provCode","fld2":"provDesc" },
-    { "tilt":"District : ","db":DB_DISTRICT,"fld":"disCode","fld2":"disDesc" },
-    { "tilt":"City/Municipality : ","db":ref_city,"fld":"citymunCode","fld2":"citymunDesc" }
-  ];
-  CURR_SCOPE_NO=DB_SYS[0]['scope_no'];
-  CURR_SCOPE_TYPE=DB_SYS[0]['scope_type'];
-
-  var tilt=ob[CURR_SCOPE_TYPE]["tilt"];
-  var retfld=ob[CURR_SCOPE_TYPE]["fld2"];
-  var db=ob[CURR_SCOPE_TYPE]["db"];
-  var skey=ob[CURR_SCOPE_TYPE]["fld"];
-  var subtilt=tilt + JBE_GETFLD(retfld,db,skey,CURR_SCOPE_NO);
-  document.getElementById('sys_subtilt').innerHTML=subtilt;
-}

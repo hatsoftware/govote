@@ -37,6 +37,7 @@ function chkPass(u,p){
     createCookie('cookie_axlevel',CURR_AXLEVEL,1);
     createCookie('cookie_projid',CURR_PROJID,1);
     redisplay(); 
+    //location.reload(true);
   }else{
     MSG_SHOW(vbOk,"USER ID & PASSWORD","Invalid User ID or Password..., please try again.",
       function(){},

@@ -8,9 +8,10 @@ function dispAdmin(){
   var dtl=
   '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:none;">'+
 
-      '<div id="sys_menu1" class="cls_ds_main" style="height:380px;">'+ 
+      '<div id="sys_menu1" class="cls_ds_main" style="height:440px;">'+ 
         '<p>Admin File Maintenance</p>'+   
         '<button onclick="do_fm_candidate()">FM Candidate</button>'+   
+        '<button onclick="do_fm_party()">FM Political Party</button>'+   
         '<button onclick="do_fm_cluster()">FM Cluster</button>'+   
         '<button onclick="do_fm_watcher()">FM Watcher</button>'+   
         '<button onclick="close_admin()" style="margin-top:40px;color:white;background:'+JBE_CLOR+';">Exit</button>'+   

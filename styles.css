@@ -1165,6 +1165,7 @@
   scroll-behavior: smooth; 
   /* transition: 0.5s;  */
   background-color: rgba(0,0,0,0.6);
+  background:dimgray;
 }
 
 .myView_dtl{
@@ -1245,20 +1246,18 @@
       font-size:12px; padding:0px; margin:0px; text-align:center;height:30%;width:100%;
     }
 
+#user_main{ margin:0 auto;width:1200px;font-size:14px; }
+
+/* design 1 */
 .cls_pos_head{
-  width:100%;height:35px;padding:5px;font-size:20px;text-align:center;font-weight:bold;color:black;background:darkgray;
+  width:100%;height:35px;padding:5px;font-size:20px;text-align:center;font-weight:bold;color:black;background:gray;
 }
 .cls_pos_body{
   width:100%;height:auto;padding:0 20px 0px 20px;border:0px solid white;
 }
-
-#user_main{ margin:0 auto;width:1200px;font-size:14px; }
-/*
-#user_main_left{ float:left;width:50%;height:100%; }
-#user_main_right{ float:left;width:50%;height:100%; }
-*/
-
 .cls_shadow_dispboard { height:65px;margin-top:10px; } 
+.cls_shadow_box1{ width:100%;height:100%;margin-top:0px;background:gray;opacity:0.5;border:0px solid orange;border-radius:8px; }
+.cls_shadow_box2{ position:absolute;width:100%;height:100%;top:0px;left:0px;margin-top:0px;border:0px solid blue;color:white;background:none; }
 .cls_dispboard {
   width:100%;height:100%;font-size:16px;text-align:left;padding:5px;color:white;text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;margin-bottom:5px;background:none;border:0px solid white;
 }
@@ -1278,6 +1277,36 @@
   .cls_ds_main p{ width:100%;height:50px;font-size:24px;margin-top:0px;padding:10px 0 0 0;background:dimgray; }  
   .cls_ds_main button { width:80%;height:50px;font-size:24px;margin-top:10px; }  
 
+/* design 2 ======================================================= */
+.cls_pos_head{
+  width:100%;height:auto;padding:2px;font-size:35px;text-align:left;font-weight:bold;color:black;background:none;
+}
+.cls_pos_body{
+  width:100%;height:auto;padding:0 20px 0px 20px;border:0px solid red;
+}
+.cls_shadow_dispboard { height:65px;margin-top:10px; } 
+.cls_shadow_box1{ width:100%;height:100%;margin-top:0px;background:black;opacity:0.5;border:0px solid orange;border-radius:8px; }
+.cls_shadow_box2{ position:absolute;width:100%;height:100%;top:0px;left:0px;margin-top:0px;border:0px solid blue;color:white;background:none; }
+
+.cls_dispboard {
+  width:100%;height:100%;font-size:16px;text-align:left;padding:5px;color:white;text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;margin-bottom:5px;background:none;border:0px solid white;
+}
+  .cls_dispboard div {
+    border:0px solid black;
+  }
+  .cls_dispboard_ctr { float:left;width:10%;height:100%;padding:0px 0 0 10px;font-size:45px;background:none; }
+  .cls_dispboard_img { float:left;width:10%;height:100%; }
+  .cls_dispboard_candi { float:left;width:50%;height:100%;background:none; }
+    .cls_dispboard_candi_1 { width:100%;height:60%;font-size:25px;padding:5px 0 0 0;background:none; }
+    .cls_dispboard_candi_2 { width:100%;height:40%;font-size:15px;color:black;font-weight:bold;background:none; 
+       text-shadow: none;text-shadow: -1px 0 lightgray, 0 1px lightgray, 1px 0 lightgray, 0 -1px lightgray;
+    }
+  .cls_dispboard_votes { float:right;width:30%;height:100%;padding:0px 10px 0 0;font-size:45px;text-align:right;background:none; }
+
+.cls_ds_main{ margin:0 auto;width:600px;height:auto;font-size:14px;margin-top:150px;border:1px solid white; }  
+  .cls_ds_main p{ width:100%;height:50px;font-size:24px;margin-top:0px;padding:10px 0 0 0;background:gray; }  
+  .cls_ds_main button { width:80%;height:50px;font-size:24px;margin-top:10px; }    
+
 
 
 .cls_dtl_shadow_dispboard{ height:70px; }
@@ -1293,7 +1322,7 @@
     .cls_dtl_dispboard_candi_2 { width:100%;height:40%;font-size:18px;color:black;font-weight:bold;background:none; 
         text-shadow: none;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
     }
-  .cls_dtl_dispboard_votes { float:left;width:30%;height:100%;font-size:45px;padding:2px 10px 0 0;text-align:right;background:none; }  
+  .cls_dtl_dispboard_votes { float:left;width:30%;height:100%;font-size:45px;padding:2px 10px 0 0;text-align:left;background:none; }  
 
 .cls_id_places{
   display:none;float:left;width:auto;height:100%;margin-left:10px;padding:0 10px 0 10px;cursor:pointer;font-size:13px;font-weight:normal;
@@ -1305,12 +1334,43 @@
     color:black;
   }
 
-.cls_votes_dtl{ width:100%;height:35px;margin-top:5px;padding:2px;background:dimgray; }  
-  .cls_votes_dtl div{ float:left;width:60%;height:100%;cursor:pointer;border-radius:8px;border:1px solid black;
-    padding:7px;font-size:12px;overflow-x:hidden;overflow-y:auto;background:white;
+.cls_votes_dtl{ width:100%;height:30px;margin-top:5px;padding:1px;cursor:pointer;color:black;background:none; }  
+  .cls_votes_dtl div{ float:left;width:65%;height:100%;border-radius:8px;border:0px solid black;
+    padding:7px;font-size:12px;text-align:right;background:none;
   }
-  .cls_votes_dtl span{ float:left;width:40%;height:100%;padding:2px 12px 2px 2px;text-align:right;font-size:22px;
-    text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;color:white;background:none;
+  .cls_votes_dtl span{ float:right;width:35%;height:100%;padding:2px 12px 2px 2px;text-align:right;font-size:22px;
+    text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;
   }
+.cls_votes_dtl:hover{color:red;}  
 
 #page_main2{ width:80%; }
+
+/* design 3 ======================================================= */
+.cls_pos_head{
+  width:100%;height:auto;padding:2px 0 0 10px;font-size:35px;text-align:left;font-weight:bold;color:black;background:none;
+}
+.cls_pos_body{
+  width:100%;height:auto;padding:0 20px 0px 20px;border:0px solid lightgray;
+}
+.cls_shadow_dispboard { height:65px;margin-top:5px; } 
+.cls_shadow_box1{ width:100%;height:100%;margin-top:0px;background:gray;opacity:0.5;border:0px solid orange;border-radius:8px; }
+.cls_shadow_box2{ position:absolute;width:100%;height:100%;top:0px;left:0px;margin-top:0px;border:0px solid blue;color:white;background:none; }
+
+.cls_dispboard {
+  width:100%;height:100%;font-size:16px;text-align:left;padding:5px;color:black;text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;margin-bottom:5px;background:none;border:0px solid white;
+}
+  .cls_dispboard div {
+    border:0px solid black;
+  }
+  .cls_dispboard_ctr { float:left;width:10%;height:100%;padding:0px 0 0 10px;font-size:45px;background:none; }
+  .cls_dispboard_img { float:left;width:10%;height:100%; }
+  .cls_dispboard_candi { float:left;width:50%;height:100%;background:none; }
+    .cls_dispboard_candi_1 { width:100%;height:60%;font-size:25px;padding:5px 0 0 0;background:none; }
+    .cls_dispboard_candi_2 { width:100%;height:40%;font-size:15px;color:black;font-weight:bold;background:none; 
+       text-shadow: none;text-shadow: -1px 0 lightgray, 0 1px lightgray, 1px 0 lightgray, 0 -1px lightgray;
+    }
+  .cls_dispboard_votes { float:right;width:30%;height:100%;padding:0px 10px 0 0;font-size:45px;text-align:right;background:none; }
+
+.cls_ds_main{ margin:0 auto;width:600px;height:auto;font-size:14px;margin-top:150px;border:1px solid white; }  
+  .cls_ds_main p{ width:100%;height:50px;font-size:24px;margin-top:0px;padding:10px 0 0 0;background:gray; }  
+  .cls_ds_main button { width:80%;height:50px;font-size:24px;margin-top:10px; }    
