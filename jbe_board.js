@@ -120,7 +120,8 @@ function dispVotesGraph(i,candi_no){
   
   //map.invalidateSize();
   //map.setView([11.8787, 121.7740],6);
-    
+  for(var i=1;i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
+  
   if(CURR_SCOPE_TYPE==0){    
     show_region(candi_no,'');
   }else if(CURR_SCOPE_TYPE==1){    
@@ -162,6 +163,7 @@ function menu_folder(v){
   var ary_id=['reg','prov','citymun','brgy'];
   for(var i=1;i<=4;i++){ document.getElementById('summ'+i).style.display='none';  }
   document.getElementById('summ'+v).style.display='block';  
+
   for(var i=(v+1);i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
   if(v==1){
     document.getElementById('pmap').src='maps/main.jpg';
