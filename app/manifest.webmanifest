@@ -1,6 +1,6 @@
 {
-      "name": "GOVOTE",
-      "short_name": "GOVOTE",
+      "name": "VOTEMON",
+      "short_name": "VOTEMON",
       "start_url": ".",
       "display": "standalone",
       "orientation": "portrait",
