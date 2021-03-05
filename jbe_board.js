@@ -71,7 +71,13 @@ function dispBoard(){
                 aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+
               '</div>'+
               '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+
-                'NPC - National People\'s Coalition'+
+                //'NPC - National People\'s Coalition'+
+                JBE_GETFLD('partyname',DB_PARTYMAST,'partyno',aryCandidate[i]['partyno'])+
+              '</div>'+
+              '<div id="candi_pos_'+i+'" class="cls_dispboard_candi_3">'+
+                //'NPC - National People\'s Coalition'+
+                //var ppos=aryCandidate[i]['pos']+
+                JBE_STORE_CANDIDATE[vpos]['posname']+
               '</div>'+
             
             '</div>'+
@@ -114,6 +120,7 @@ function dispVotesGraph(i,candi_no){
   document.getElementById('dtv_img').src = document.getElementById('candi_img_'+i).src;
   document.getElementById('dtv_name').innerHTML = document.getElementById('candi_name_'+i).innerHTML;
   document.getElementById('dtv_party').innerHTML = document.getElementById('candi_party_'+i).innerHTML;
+  document.getElementById('dtv_pos').innerHTML = document.getElementById('candi_pos_'+i).innerHTML;
   document.getElementById('dtv_votes').innerHTML = document.getElementById('candi_votes_'+i).innerHTML;
   
   //map.invalidateSize();

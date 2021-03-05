@@ -741,110 +741,6 @@
   border:0px solid red;
 }
 
-/* dashboard current messages page */
-.col_bmsg_box { font-size:10px; color:black; } 
-.col_bmsg_date { float:left;width:60px;height:100%;margin-left:0%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
-.col_bmsg_time { float:left;width:50px;height:100%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
-.col_bmsg_proj { float:left;width:55px;height:100%;text-align:center;padding:3px;border:1px solid gray;background-color:none; }
-.col_bmsg_comm { float:left;width:300px;height:100%;text-align:left;padding:3px;border:1px solid gray;background-color:none; overflow:auto; }
-.col_bmsg_msg { float:left;width:300px;height:100%;text-align:left;padding:3px;border:1px solid gray;background-color:none; }
-
-/* dashboard current reports page */
-.col_board_repo_box { font-size:10px; color:black; } 
-.col_board_repo_code { float:left;width:80px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
-.col_board_repo_comm { float:left;width:366px;height:100%;padding:3px; border:1px solid gray; text-align: left; overflow:auto;}
-.col_board_repo_date { float:left;width:70px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
-.col_board_repo_time { float:left;width:60px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
-.col_board_repo_reading { float:left;width:70px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
-.col_board_repo_collection { float:left;width:90px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
-.col_board_repo_status { float:left;width:85px;height:100%;padding:3px; border:1px solid gray; text-align: center; }
-
-/* project page */
-.proj_main_dtl { width:777px;height:650px; }
-.mnu4_proj{ height:35px; }
-.col_proj_box { font-size:10px;margin:0 auto;color:black; } 
-
-.col_proj_comm { width:200px;height:100%;text-align:left; overflow:auto; }
-.col_proj_code { width:50px;height:100%;text-align:center; }
-.col_proj_fundyear { width:40px;height:100%;text-align:center; }
-.col_proj_funder { width:182px;height:100%;text-align:left; overflow:auto; }
-.col_proj_status { width:65px;height:100%;text-align:center; }
-.col_proj_assign { width:160px;height:100%;text-align:left; overflow:auto; }
-.col_proj_convey {width:60px;height:100%;text-align:center; }
-
-.col_proj_select_hd {width:100%;height:45px;margin-top:10px;font-size:18px;box-shadow: 0px 0px 2px;padding:1%;background-color:none;}
-.col_proj_select{ float:right;width:25%;height:100%;margin-left:1%; }
-
-.fld_box_img{ position:absolute;width:102px;height:80px;top:106px;right:10px;border:1px solid black;background-color:black; }
-
-.fld_box_1{ width:92px; }
-.fld_box_2{ width:70px; }
-.fld_box_3{ width:190px; }
-.fld_box_4{ width:190px; }
-.fld_box_4a{ width:80px; }
-.fld_box_5{ width:190px; }
-
-.fld_box_6{ width:193px; }
-.fld_box_7{ width:188px; }
-.fld_box_8{ width:188px; }
-.fld_box_9{ width:188px; }
-.fld_box_10{ width:60px; }
-
-.fld_box_11{ width:188px; }
-.fld_box_12{ width:190px; }
-.fld_box_13{ width:135px; }
-.fld_box_14{ width:205px; }
-.fld_box_15{ width:45px; }
-
-.fld_box_16{ width:205px; }
-.fld_box_17{ width:80px; }
-.fld_box_18{ width:64px; }
-.fld_box_19{ width:64px; }
-.fld_box_20{ width:183px; }
-
-.geo,.geo_final {
-  width:70px;font-size:11px;
-  text-align: center;
-}
-.geo_final{
-  width:120px; color:blue;
-}
-
-.geo {
-  width:20px;height:100%;font-size:11px;
-  text-align: center;background:red;
-}
-
-.fld_box_21{ width:62px; }
-.fld_box_22{ width:415px; }
-.fld_box_23{ width:415px; }
-.fld_box_24{ width:115px; }
-.fld_box_25{ width:130px; }
-
-.fld_box_26{ width:130px; }
-.fld_box_27{ width:130px; }
-.fld_box_28{ width:145px; }
-.fld_box_29{ width:162px; }
-.fld_box_30{ width:100px; }
-
-.fld_box_31{ width:130px; }
-.fld_box_32{ width:110px; }
-.fld_box_33{ width:130px; }
-.fld_box_34{ width:60px; }
-.fld_box_35{ width:150px; }
-
-.fld_box_36{ width:132px; }
-.fld_box_37{ width:95px; }
-
-/* history page */
-.mnu5_filter{ width:90%; }
-.col_hist_code { width:70px;height:100%;text-align:center; }
-.col_hist_comm { width:442px;height:100%;text-align:left; }
-.col_hist_date { width:70px;height:100%;text-align:center; }
-.col_hist_time { width:50px;height:100%;text-align:center; }
-.col_hist_reading { width:70px;height:100%;text-align:center; }
-.col_hist_collection { width:70px;height:100%;text-align:center; }
-.col_hist_status {width:70px;height:100%;text-align:center; }
 
 /* version 2 */
 #dv_user {
@@ -1298,7 +1194,7 @@
   .cls_dispboard_img { float:left;width:10%;height:100%; }
   .cls_dispboard_candi { float:left;width:50%;height:100%;background:none; }
     .cls_dispboard_candi_1 { width:100%;height:60%;font-size:25px;padding:5px 0 0 0;background:none; }
-    .cls_dispboard_candi_2 { width:100%;height:40%;font-size:15px;color:black;font-weight:bold;background:none; 
+    .cls_dispboard_candi_2 { width:100%;height:40%;font-size:15px;color:red;font-weight:bold;background:none; 
        text-shadow: none;text-shadow: -1px 0 lightgray, 0 1px lightgray, 1px 0 lightgray, 0 -1px lightgray;
     }
   .cls_dispboard_votes { float:right;width:30%;height:100%;padding:0px 10px 0 0;font-size:45px;text-align:right;background:none; }
@@ -1318,9 +1214,12 @@
   }    
   .cls_dtl_dispboard_img { float:left;width:10%;height:100%;background:none; }
   .cls_dtl_dispboard_candi { float:left;width:50%;height:100%;background:none; }
-    .cls_dtl_dispboard_candi_1 { width:100%;height:60%;font-size:25px;padding:5px 0 0 0;color:white;background:none; }
-    .cls_dtl_dispboard_candi_2 { width:100%;height:40%;font-size:18px;color:black;font-weight:bold;background:none; 
+    .cls_dtl_dispboard_candi_1 { width:100%;height:42%;font-size:20px;padding:0px 0 0 0;color:white;background:none; }
+    .cls_dtl_dispboard_candi_2 { width:100%;height:35%;color:black;font-size:18px;font-weight:bold;background:none; 
         text-shadow: none;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    }
+    .cls_dtl_dispboard_candi_3 { width:100%;height:23%;color:black;font-size:14px;font-weight:bold;background:none; 
+      text-shadow: none;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
     }
   .cls_dtl_dispboard_votes { float:left;width:30%;height:100%;font-size:45px;padding:2px 10px 0 0;text-align:left;background:none; }  
 
@@ -1366,9 +1265,12 @@
   .cls_dispboard_img { float:left;width:10%;height:100%; }
   .cls_dispboard_candi { float:left;width:50%;height:100%;background:none; }
     .cls_dispboard_candi_1 { width:100%;height:60%;font-size:25px;padding:5px 0 0 0;background:none; }
-    .cls_dispboard_candi_2 { width:100%;height:40%;font-size:15px;color:black;font-weight:bold;background:none; 
+    .cls_dispboard_candi_2 { width:100%;height:40%;font-size:15px;color:dimgray;font-weight:bold;background:none; 
        text-shadow: none;text-shadow: -1px 0 lightgray, 0 1px lightgray, 1px 0 lightgray, 0 -1px lightgray;
     }
+    .cls_dispboard_candi_3 { display:none;width:100%;height:40%;font-size:15px;color:dimgray;font-weight:bold;background:none; 
+      text-shadow: none;text-shadow: -1px 0 lightgray, 0 1px lightgray, 1px 0 lightgray, 0 -1px lightgray;
+   }
   .cls_dispboard_votes { float:right;width:30%;height:100%;padding:0px 10px 0 0;font-size:45px;text-align:right;background:none; }
 
 .cls_ds_main{ margin:0 auto;width:600px;height:auto;font-size:14px;margin-top:150px;border:1px solid white; }  

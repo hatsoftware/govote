@@ -69,7 +69,7 @@ function sys_scope(){
       '<div id="dv_scope" style="display:none;width:100%;height:auto;max-height:400px;text-align:left;overflow:auto;background:none;">'+
         '<div style="width:100%;height:30px;padding:0px;margin-top:10px;border:0px solid white;">'+        
           '<div id="cap_scope" style="float:left;width:30%;height:100%;padding:5px;">Scope Area:</div>'+
-          '<select id="sel_scope2" disabled data-code="" name="sel_scope2" onchange="chg_scope2(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
+          '<select id="sel_scope2" disabled data-code="" name="sel_scope2" value="" onchange="chg_scope2(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
           '</select>'+  
         '</div>'+ 
       '</div>'+
@@ -90,9 +90,58 @@ function sys_scope(){
     '</div>'+
 
   '</div>';
-  document.getElementById('sys_menu2').innerHTML=dtl;
-  
+  document.getElementById('sys_menu2').innerHTML=dtl; 
   init_sys_scope();
+}
+
+//
+function init_sys_scope(){
+  var aryDb=[];
+  var fld2='';
+  if(CURR_SCOPE_TYPE==1){ aryDb=ref_prov; fld='provCode'; fld2='provDesc'; }
+  else if(CURR_SCOPE_TYPE==2){ aryDb=DB_DISTRICT; fld='disCode'; fld2='disDesc'; }
+  else if(CURR_SCOPE_TYPE==3){ aryDb=ref_city; fld='citymunCode'; fld2='citymunDesc'; }
+  aryDb.sort(sortByMultipleKey([fld2]));  
+  var voption='';
+  for(var i=0;i<aryDb.length;i++){
+    voption+='<option value='+aryDb[i][fld]+'>'+aryDb[i][fld2]+'</option>';
+  }
+  document.getElementById('sel_scope2').innerHTML=voption; 
+  
+  var dtl='';
+  var vdisp;
+  for(var i=0;i<DB_POSITION.length;i++){
+    vdisp='';
+    if(DB_POSITION[i]['hide']==0){ vdisp='checked'; }
+    dtl+=
+    '<div style="width:100%;height:20px;margin-top:5px;padding:2px;background:none;">'+
+      '<div style="float:left;width:5%;height:100%;padding:0px;background:none;">'+
+        '<input disabled id="can_pos'+i+'" class="can_pos"  type="checkbox" '+vdisp+' style="margin:0px;margin-left:5px;width:20px;height:100%;background:none;" />'+
+      '</div>'+
+      '<div stlyle="float:left;width:95%;height:100%;padding:0px;">'+DB_POSITION[i]['descrp']+'</div>'+
+    '</div>';
+  }
+  document.getElementById('chkbox').innerHTML=dtl;
+
+  document.getElementById('sel_scope').value=CURR_SCOPE_TYPE;
+  document.getElementById('sel_scope').setAttribute('data-type',CURR_SCOPE_TYPE);
+  //chg_scope(CURR_SCOPE_TYPE);
+  //alert('init_sys_scope '+CURR_SCOPE_NO);
+  document.getElementById('sel_scope2').value=CURR_SCOPE_NO;
+  document.getElementById('sel_scope2').setAttribute('data-code',CURR_SCOPE_NO);
+
+  document.getElementById('sel_scope').disabled=true;
+  document.getElementById('sel_scope2').disabled=true;
+  con_pos(true);
+  
+  if(CURR_SCOPE_TYPE==0){
+    document.getElementById('dv_scope').style.display='none';
+  }else{
+    document.getElementById('dv_scope').style.display='block';
+  }
+  
+  document.getElementById('dv_layas1').style.display='block';
+  document.getElementById('dv_layas2').style.display='none';  
 }
 //
 function edit_sys_scope(){
@@ -104,44 +153,31 @@ function edit_sys_scope(){
   con_pos(false);
 }
 //
-function chg_scope(v){  
+function chg_scope(v){    
   var aryScope=["Scope of Area","Province:","District:","City/Municipality:"]; 
   var aryDb=[];
   var voption='<option value=""> - none - </option>';
   var fld='',fld2='';
-
-  //if(v==0){
-  //  document.getElementById('dv_scope').style.display='none';
-  //  return;
-  //}  
-
-  if(v==0){
-    document.getElementById('dv_scope').style.display='none';
-    return;
-  }
   
   document.getElementById('dv_scope').style.display='block';
+  if(v==0){
+    document.getElementById('dv_scope').style.display='none';
+  }
+  disp_sel_positions(v);
+  
   document.getElementById('cap_scope').innerHTML=aryScope[v];
   if(v==1){ aryDb=ref_prov; fld='provCode'; fld2='provDesc'; }
   else if(v==2){ aryDb=DB_DISTRICT; fld='disCode'; fld2='disDesc'; }
   else if(v==3){ aryDb=ref_city; fld='citymunCode'; fld2='citymunDesc'; }
   
   aryDb.sort(sortByMultipleKey([fld2]));  
-  //alert(v+' aryDb= '+aryDb.length);
   for(var i=0;i<aryDb.length;i++){
     voption+='<option value='+aryDb[i][fld]+'>'+aryDb[i][fld2]+'</option>';
   }
-  document.getElementById('sel_scope2').innerHTML=voption;
-
-  var otype=document.getElementById('sel_scope').getAttribute('data-type');
-  //alert(v+' vs '+ocode);
-  if(v != otype){
-    
-  }  
-  //disp_sel_positions(v);
+  document.getElementById('sel_scope2').innerHTML=voption; 
 }
 
-function disp_sel_positions(v){  
+function disp_sel_positions(v){    
   var aary=[
     { "pattern":[1,1,1,1,1,1,1,1,1,1,1,1] },
     { "pattern":[0,0,0,1,1,1,1,1,1,1,1,1] },
@@ -157,6 +193,7 @@ function disp_sel_positions(v){
     document.getElementById('can_pos'+i).checked=chk;
   }
 }
+//
 function chg_scope2(v){  
   var ocode=document.getElementById('sel_scope2').getAttribute('data-code');
   //alert(v+' vs '+ocode);
@@ -180,41 +217,7 @@ function close_sys_scope(){
   document.getElementById('sys_menu2').style.display='none';
 }
 
-function init_sys_scope(){
-  document.getElementById('sel_scope').value=CURR_SCOPE_TYPE;
-  document.getElementById('sel_scope').setAttribute('data-type',CURR_SCOPE_TYPE);
-  chg_scope(CURR_SCOPE_TYPE);
-  document.getElementById('sel_scope2').value=CURR_SCOPE_NO;
-  document.getElementById('sel_scope2').setAttribute('data-code',CURR_SCOPE_NO);
 
-  document.getElementById('sel_scope').disabled=true;
-  document.getElementById('sel_scope2').disabled=true;
-  con_pos(true);
-  
-  if(CURR_SCOPE_TYPE==0){
-    document.getElementById('dv_scope').style.display='none';
-  }else{
-    document.getElementById('dv_scope').style.display='block';
-  }
-  
-  document.getElementById('dv_layas1').style.display='block';
-  document.getElementById('dv_layas2').style.display='none';  
-
-  var dtl='';
-  var vdisp;
-  for(var i=0;i<DB_POSITION.length;i++){
-    vdisp='';
-    if(DB_POSITION[i]['hide']==0){ vdisp='checked'; }
-    dtl+=
-    '<div style="width:100%;height:20px;margin-top:5px;padding:2px;background:none;">'+
-      '<div style="float:left;width:5%;height:100%;padding:0px;background:none;">'+
-        '<input disabled id="can_pos'+i+'" class="can_pos"  type="checkbox" '+vdisp+' style="margin:0px;margin-left:5px;width:20px;height:100%;background:none;" />'+
-      '</div>'+
-      '<div stlyle="float:left;width:95%;height:100%;padding:0px;">'+DB_POSITION[i]['descrp']+'</div>'+
-    '</div>';
-  }
-  document.getElementById('chkbox').innerHTML=dtl;
-}
 
 function save_sys_scope(){
   var vtype=document.getElementById('sel_scope').value;
