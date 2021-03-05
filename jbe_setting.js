@@ -16,6 +16,7 @@ function dispSetting(){
       '</div>'+
 
       '<div id="sys_menu2" style="display:none;"></div>'+
+      
     
   '</div>';
 
@@ -51,13 +52,13 @@ function sys_scope(){
   document.getElementById('sys_menu1').style.display='none';
   document.getElementById('sys_menu2').style.display='block';
   var dtl=
-  '<div class="cls_ds_main" style="width:600px;height:auto;margin-top:100px;">'+      
+  '<div class="cls_ds_main" style="width:600px;height:auto;margin-top:100px;background:darkgray;">'+      
     '<p>Facility</p>'+
     '<div style="width:96%;height:auto;padding:10px;border:1px solid lightgray;margin:0 2% 0 2%;background:none;">'+
 
       '<div style="width:100%;height:30px;text-align:left;background:none;">'+
         '<div style="float:left;width:30%;height:100%;padding:5px;">Scope Type: </div>'+
-        '<select id="sel_scope" data-type=0 name="sel_scope" value="" onchange="chg_scope(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
+        '<select id="sel_scope" disabled data-type=0 name="sel_scope" value="" onchange="chg_scope(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
           '<option value=0>National</option>'+
           '<option value=1>Provincial</option>'+
           '<option value=2>District</option>'+
@@ -68,14 +69,20 @@ function sys_scope(){
       '<div id="dv_scope" style="display:none;width:100%;height:auto;max-height:400px;text-align:left;overflow:auto;background:none;">'+
         '<div style="width:100%;height:30px;padding:0px;margin-top:10px;border:0px solid white;">'+        
           '<div id="cap_scope" style="float:left;width:30%;height:100%;padding:5px;">Scope Area:</div>'+
-          '<select id="sel_scope2" data-code="" name="sel_scope2" onchange="chg_scope2(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
+          '<select id="sel_scope2" disabled data-code="" name="sel_scope2" onchange="chg_scope2(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
           '</select>'+  
         '</div>'+ 
       '</div>'+
 
     '</div>'+
-    '<div id="dv_layas1" style="height:40px;margin-bottom:20px;">'+        
-      '<button onclick="close_sys_scope()" style="height:100%;color:white;background:'+JBE_CLOR+';">Exit</button>'+        
+
+    '<div id="chkbox"style="width:96%;height:320px;padding:5px 10px 0px 10px;border:1px solid lightgray;color:black;overflow:auto;text-align:left;margin:0 2% 0 2%;background:none;">'+
+      
+    '</div>'+
+
+    '<div id="dv_layas1" style="height:40px;margin-bottom:20px;padding:0 10px 0 10px">'+        
+      '<button onclick="edit_sys_scope()" style="float:left;width:100px;height:100%;color:white;background:'+JBE_CLOR+';">Edit</button>'+        
+      '<button onclick="close_sys_scope()" style="float:right;width:100px;height:100%;color:white;background:'+JBE_CLOR+';">Exit</button>'+        
     '</div>'+
     '<div id="dv_layas2" style="display:none;height:40px;margin-bottom:20px;padding:0 10px 0 10px;">'+        
       '<button onclick="save_sys_scope()" style="float:left;width:40%;height:100%;color:white;background:'+JBE_CLOR+';">Save</button>'+        
@@ -84,10 +91,20 @@ function sys_scope(){
 
   '</div>';
   document.getElementById('sys_menu2').innerHTML=dtl;
+  
   init_sys_scope();
 }
 //
-function chg_scope(v){
+function edit_sys_scope(){
+  document.getElementById('dv_layas1').style.display='none';
+  document.getElementById('dv_layas2').style.display='block';
+
+  document.getElementById('sel_scope').disabled=false;
+  document.getElementById('sel_scope2').disabled=false;
+  con_pos(false);
+}
+//
+function chg_scope(v){  
   var aryScope=["Scope of Area","Province:","District:","City/Municipality:"]; 
   var aryDb=[];
   var voption='<option value=""> - none - </option>';
@@ -97,6 +114,11 @@ function chg_scope(v){
   //  document.getElementById('dv_scope').style.display='none';
   //  return;
   //}  
+
+  if(v==0){
+    document.getElementById('dv_scope').style.display='none';
+    return;
+  }
   
   document.getElementById('dv_scope').style.display='block';
   document.getElementById('cap_scope').innerHTML=aryScope[v];
@@ -114,12 +136,27 @@ function chg_scope(v){
   var otype=document.getElementById('sel_scope').getAttribute('data-type');
   //alert(v+' vs '+ocode);
   if(v != otype){
-    document.getElementById('dv_layas1').style.display='none';
-    document.getElementById('dv_layas2').style.display='block';
-  }
-  //document.getElementById('sel_scope').setAttribute('data-code',v);
+    
+  }  
+  //disp_sel_positions(v);
 }
 
+function disp_sel_positions(v){  
+  var aary=[
+    { "pattern":[1,1,1,1,1,1,1,1,1,1,1,1] },
+    { "pattern":[0,0,0,1,1,1,1,1,1,1,1,1] },
+    { "pattern":[0,0,0,0,0,0,1,1,1,1,1,1] },
+    { "pattern":[0,0,0,0,0,0,0,1,1,1,1,1] }
+  ];
+
+  var xxx=aary[v]["pattern"];
+  
+  for(var i=0;i<xxx.length;i++){    
+    var chk=false;
+    if(xxx[i]==1){ chk=true; }
+    document.getElementById('can_pos'+i).checked=chk;
+  }
+}
 function chg_scope2(v){  
   var ocode=document.getElementById('sel_scope2').getAttribute('data-code');
   //alert(v+' vs '+ocode);
@@ -128,6 +165,14 @@ function chg_scope2(v){
     document.getElementById('dv_layas2').style.display='block';
   }
   document.getElementById('sel_scope2').setAttribute('data-code',v);
+  con_pos(false);
+}
+//
+function con_pos(m){
+  document.querySelectorAll('.can_pos').forEach(function(el) {
+    //alert(el.id);
+    el.disabled = m;
+  }); 
 }
 
 function close_sys_scope(){
@@ -142,8 +187,33 @@ function init_sys_scope(){
   document.getElementById('sel_scope2').value=CURR_SCOPE_NO;
   document.getElementById('sel_scope2').setAttribute('data-code',CURR_SCOPE_NO);
 
+  document.getElementById('sel_scope').disabled=true;
+  document.getElementById('sel_scope2').disabled=true;
+  con_pos(true);
+  
+  if(CURR_SCOPE_TYPE==0){
+    document.getElementById('dv_scope').style.display='none';
+  }else{
+    document.getElementById('dv_scope').style.display='block';
+  }
+  
   document.getElementById('dv_layas1').style.display='block';
-  document.getElementById('dv_layas2').style.display='none';
+  document.getElementById('dv_layas2').style.display='none';  
+
+  var dtl='';
+  var vdisp;
+  for(var i=0;i<DB_POSITION.length;i++){
+    vdisp='';
+    if(DB_POSITION[i]['hide']==0){ vdisp='checked'; }
+    dtl+=
+    '<div style="width:100%;height:20px;margin-top:5px;padding:2px;background:none;">'+
+      '<div style="float:left;width:5%;height:100%;padding:0px;background:none;">'+
+        '<input disabled id="can_pos'+i+'" class="can_pos"  type="checkbox" '+vdisp+' style="margin:0px;margin-left:5px;width:20px;height:100%;background:none;" />'+
+      '</div>'+
+      '<div stlyle="float:left;width:95%;height:100%;padding:0px;">'+DB_POSITION[i]['descrp']+'</div>'+
+    '</div>';
+  }
+  document.getElementById('chkbox').innerHTML=dtl;
 }
 
 function save_sys_scope(){
@@ -165,18 +235,34 @@ function save_sys_scope(){
     }
   }
 
+  JBE_STORE_CANDIDATE=[];
+  for(var i=0;i<DB_POSITION.length;i++){
+    var vdisp='none';
+    if(document.getElementById('can_pos'+i).checked){ vdisp='block'; }    
+    let ob={
+      "pos":DB_POSITION[i]['pos'],
+      "posname":DB_POSITION[i]['descrp'],
+      "display":vdisp
+    }
+    JBE_STORE_CANDIDATE[i]=ob;    
+  }
+  showProgress(true); 
   axios.post(JBE_API+'z_sysfile.php', { clientno:CURR_CLIENT, request: 301,    
     vtype:vtype,
-    vcode:vcode
+    vcode:vcode,
+    aryItems:JSON.stringify(JBE_STORE_CANDIDATE)
   },JBE_HEADER)
   .then(function (response) {    
     showProgress(false); 
     console.log(response.data); 
-    DB_SYS=response.data;    
+    DB_SYS=response.data[0];    
+    DB_POSITION=response.data[1];    
+    update_positions();
     CURR_SCOPE_TYPE=vtype;
     CURR_SCOPE_NO=vcode;
+    dispBoard();
     show_scope();
-    init_sys_scope();
+    init_sys_scope();    
   })    
   .catch(function (error) { console.log(error); showProgress(false); });
 }

@@ -71,23 +71,26 @@ function get_db_all(){
     if(DB_SYS.length > 0){      
       show_scope();
     }
-    /*
-    CURR_SCOPE_TYPE=DB_SYS[0]['scope_type'];
-    CURR_SCOPE_NO=DB_SYS[0]['scope_no'];
-    if(CURR_SCOPE_TYPE == 2){ //district
-      DB_DISTRICT2=[];
-      var ctr=0;
-      for(var i=0;i<ref_city.length;i++){
-        if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
-        DB_DISTRICT2[ctr][];
-      }
-    }
-    if(SCO)
-    */
+    // define to show position
+    update_positions();
     dispBoard();
 
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
+}
+
+function update_positions(){
+  JBE_STORE_CANDIDATE = [];
+  for(var i=0;i<DB_POSITION.length;i++){
+    var vdisp='block';
+    if(DB_POSITION[i]['hide']==1){ vdisp='none'; }
+    let ob={
+      "pos":DB_POSITION[i]['pos'],
+      "posname":DB_POSITION[i]['descrp'],
+      "display":vdisp
+    }
+    JBE_STORE_CANDIDATE[i]=ob;
+  }
 }
 
 function get_db_candidate(m){
@@ -113,6 +116,30 @@ function get_db_party(){
     DB_PARTYMAST = response.data;   
     //alert(JBE_PROJ); 
     //dispBoardDtl(normal_mode,pram);
+  },JBE_HEADER)    
+  .catch(function (error) { console.log(error); showProgress(false); }); 
+}
+
+function get_db_position(){
+  DB_POSITION=[];  
+  JBE_STORE_CANDIDATE = [];
+  showProgress(true);    
+  axios.post(JBE_API+'z_position.php', { clientno:CURR_CLIENT, request:0 }) 
+  .then(function (response) { 
+    showProgress(false);
+    console.log(response.data);    
+    DB_POSITION = response.data;   
+    for(var i=0;i<DB_POSITION.length;i++){
+      var vdisp='block';
+      if(DB_POSITION[i]['hide']==1){ vdisp='none'; }
+      let ob={
+        "pos":DB_POSITION[i]['pos'],
+        "posname":DB_POSITION[i]['descrp'],
+        "display":vdisp
+      }
+      JBE_STORE_CANDIDATE[i]=ob;
+    }
+
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
@@ -862,6 +889,7 @@ function showMainPage(){
   //console.log('mainpage '+f_MainPage);
   openPage('page_main');  
   modal_ON(false);
+  //dispBoard();
 }
 
 function openWindow(t){
@@ -908,7 +936,7 @@ function show_scope(){
   var db=ob[CURR_SCOPE_TYPE]["db"];
   var skey=ob[CURR_SCOPE_TYPE]["fld"];
   var subtilt=tilt + JBE_GETFLD(retfld,db,skey,CURR_SCOPE_NO);
-  document.getElementById('sys_subtilt').innerHTML=subtilt;
+  document.getElementById('sys_subtilt').innerHTML=subtilt;  
 }
 
 function nowLive() {

@@ -34,9 +34,7 @@ function dispBoard(){
         '</div>'+  
       '</div>';
   }      
-  
-
-  showMainPage();
+    
   document.getElementById("user_main").innerHTML=vdtl; 
 
 
