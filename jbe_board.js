@@ -52,9 +52,11 @@ function dispBoard(){
     if(vpos != sv_pos){ ctr=1; }
 
     var vcode=aryCandidate[i]['code'];
+    var pos=parseInt(aryCandidate[i]['pos']);
+    var regCode=aryCandidate[i]['regCode'];    
    
     vdtl=          
-      '<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+aryCandidate[i]['code']+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+      '<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+vcode+'&quot;,&quot;'+pos+'&quot;,&quot;'+regCode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
         '<div class="cls_shadow_box1"></div>'+
         '<div class="cls_shadow_box2">'+
           
@@ -68,7 +70,8 @@ function dispBoard(){
             '<div class="cls_dispboard_candi">'+
             
               '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">'+
-                aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+
+                //aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+
+                aryCandidate[i]['name']+
               '</div>'+
               '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+
                 //'NPC - National People\'s Coalition'+
@@ -109,14 +112,16 @@ function dispBoard(){
   }
 }
 
-function dispVotesGraph(i,candi_no){
+function dispVotesGraph(i,candi_no,pos,regCode){
   if(CURR_SCOPE_TYPE > 0 && CURR_SCOPE_NO==''){
     snackBar('ERROR: System Scope Invalid...');
     return;
   }
-  openPage('page_viewer');
-  
+  openPage('page_viewer');  
   modal_ON(true);
+
+  document.getElementById('dtl_viewer').setAttribute('data-regCode',regCode);
+  
   document.getElementById('dtv_img').src = document.getElementById('candi_img_'+i).src;
   document.getElementById('dtv_name').innerHTML = document.getElementById('candi_name_'+i).innerHTML;
   document.getElementById('dtv_party').innerHTML = document.getElementById('candi_party_'+i).innerHTML;
@@ -124,23 +129,49 @@ function dispVotesGraph(i,candi_no){
   document.getElementById('dtv_votes').innerHTML = document.getElementById('candi_votes_'+i).innerHTML;
   
   //map.invalidateSize();
-  //map.setView([11.8787, 121.7740],6);
+  //map.setView([11.8787, 121.7740],6);  
   for(var i=1;i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
-  
+  //alert(pos+'  CURR_SCOPE_TYPE '+CURR_SCOPE_TYPE+' regCode:'+regCode);
   if(CURR_SCOPE_TYPE==0){    
-    show_region(candi_no,'');
-  }else if(CURR_SCOPE_TYPE==1){    
+    if(pos < 4){      
+      show_region(candi_no,'');
+      document.getElementById('pmap').src='maps/main.jpg';
+      //alert(222);
+      return;
+    }
+    if(pos < 8){
+      var vCode=JBE_GETFLD('provCode',DB_CANDIDATE,'code',candi_no);
+      //alert('vcode: '+vCode);
+      show_citymun(candi_no,vCode); 
+      //alert(8);
+    }else{
+      var vCode=JBE_GETFLD('citymunCode',DB_CANDIDATE,'code',candi_no);
+      //alert('vcode: '+vCode);
+      show_brgy(candi_no,vCode); 
+      //alert(1);
+    }
+    //document.getElementById('pmap').src='maps/reg_'+regCode+'.png';   
+
+  }if(CURR_SCOPE_TYPE==1){    
     show_citymun(candi_no,CURR_SCOPE_NO);
   }else if(CURR_SCOPE_TYPE==2){
-    show_district(candi_no,CURR_SCOPE_NO);  
+    //alert(DB_DISTRICT2.length);
+    if(DB_DISTRICT2.length==1){ //lone district
+      var vCode=JBE_GETFLD('citymunCode',DB_CANDIDATE,'code',candi_no);
+      show_brgy(candi_no,vCode);   
+    }else{
+      show_district(candi_no,CURR_SCOPE_NO);  
+    }
   }else if(CURR_SCOPE_TYPE==3){
-    show_brgy(candi_no,CURR_SCOPE_NO);    
+    show_brgy(candi_no,CURR_SCOPE_NO);   
   }
+  //document.getElementById('pmap').src='maps/reg_'+regCode+'.png'; 
 }
 
 //
 function show_folder(v,vCode,votes){  
-  //alert(v+' = '+vCode+' votes:'+votes);  
+  //alert(v+' vs vcode:'+vCode+' votes:'+votes);  
+  var vregCode=document.getElementById('dtl_viewer').getAttribute('data-regCode');
   var vvotes=jformatNumber(votes);  
   var tilt='';
   var ary_scope=['National:','Province:','District:','City/Municipal:'];
@@ -156,11 +187,13 @@ function show_folder(v,vCode,votes){
   document.getElementById('id_tab'+v).style.display='block';
   document.getElementById('id_label').setAttribute('data-regCode',vCode);
   //display map
+  
   if(v==1){
     document.getElementById('pmap').src='maps/main.jpg';
-  }else if(v==2){
-    document.getElementById('pmap').src='maps/reg_'+vCode+'.png';
-  }
+  }else{
+    document.getElementById('pmap').src='maps/reg_'+vCode.substring(0,2)+'.png';
+  } 
+  
 }  
 
 //
@@ -181,11 +214,13 @@ function show_region(candi_no,vCode){
 
 function show_province(candi_no,vCode){      
   disp_place_votes(candi_no,'prov',vCode);  
+  /*
   var aryDB=JBE_GETARRY(ref_reg,'regCode',vCode);    
   var lat=parseFloat(aryDB['lat']);
   var lng=parseFloat(aryDB['lng']);
   var zm=parseFloat(aryDB['zoom']);
-  //map.setView([lat, lng], zm);
+  map.setView([lat, lng], zm);
+  */
 }
 //
 function show_district(candi_no,vCode){
@@ -346,6 +381,14 @@ function disp_place_votes(candi_no,place_type,place_no){
     if(place_type != 'reg'){            
       if(aryPlace[i][vplace_no].trim() != place_no.trim()){ continue; }            
     }
+
+    if(CURR_SCOPE_TYPE==1 && aryPlace[i]['provCode']==CURR_SCOPE_NO && parseInt(aryPlace[i]['ic'])==1){ continue; }
+    /*
+      alert(CURR_SCOPE_NO+' vs '+aryPlace[i]['provCode']);
+      alert(aryPlace[i]['citymunDesc']);
+      return;
+    }
+    */
           
     var vvcode=aryPlace[i][vcode];    
     var votes=0;

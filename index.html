@@ -81,7 +81,6 @@
 <!--body style="color:#252526;background:#E8E8E8;padding:0px;"-->
 <body style="font-weight:bold;" onresize="myResizeFunction()">
 
-
 <audio id="myAudio">
   <source src="gfx/snd/chimes.ogg" type="audio/ogg">
   <source src="gfx/snd/chimes.mp3" type="audio/mpeg">
@@ -160,41 +159,34 @@
 <div id="repOpt" data-div="" data-rep="" data-targ="" data-date="no" class="repOpt" style="display:none;">
   
 </div>  
+
 <!--################################################################################################################ -->
 
-<!--************************* winpop-->
-<div id="winpop" data-sel=0 class="modal" style="display:none;width:100%;height:100%;">
-  <div id="winpop_box" style="width:300px;height:200px;z-index:1600;position:absolute;
+<!--************************* lookup-->
+<div id="lookup" data-sel=0 data-targdiv="" data-recno="" class="modal" style="display:none;width:100%;height:100%;">
+  <div id="lookup-box" style="width:500px;height:500px;z-index:1600;position:absolute;
       font-size:10px;padding:0px;
       top: 50%;  left: 50%;  -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">  
 
-    <div id="winpop-head" class="head_color" style="width:100%;height:30px;padding:5px;background:white;">
-      <div id="wp_title" style="float:left;width:85%;height:100%;font-size:17px;color:white;">Select</div>      
-      <input type="button" onclick="winpop(false)" style="float:right;width:20px;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" value="X"/>
+    <div id="lookup-head" class="head_color" style="position:relative;width:100%;height:40px;padding:5px;background:white;">
+      <div id="lookup-title" style="float:left;width:100%;height:100%;font-size:20px;padding:2px;color:white;"></div>            
+      <input type="button" onclick="JBE_LOOKUP(false)" style="position:absolute;top:5px;right:5px;width:30px;height:30px;border:1px solid gray;border-radius:5px;cursor:pointer;" value="X"/>      
     </div> 
+
+    <div style="width:100%;height:40px;padding:5px;background:white;">
+        <input type="text" id="lookup-inp" style="width:100%;height:100%;" autocomplete="off" onkeyup="JBE_LOOKUP_FUNC()" placeholder="Search here..." title="Type in a name">
+    </div>
   
-    <div id="div_winpop" style="width:100%;overflow-y:scroll;overflow-x:hidden;padding:5px;border:1px solid lightgray;background-color:#f1f1f1;">
-      <!-- body here -->
+    <div id="lookup-body" data-recno="" style="width:100%;height:300px;overflow-y:scroll;overflow-x:hidden;font-size:14px;font-weight:normal;padding:5px;border:1px solid gray;background-color:#f1f1f1;">      
+      <table id="lookup-table" style="width:100%;height:100%;">
+      </table>
     </div>   
     
-    <div id="winpop-foot" style="width:100%;height:35px;margin-top:0px;padding:5px;text-align:center;background-color:white;">
-      <input id="wp_btn" class="head_color" type="button" value="SELECT" onclick="winpop_go()" style="width:50%;height:100%;" />
+    <div id="lookup-foot" style="width:100%;height:40px;margin-top:0px;padding:5px;text-align:center;background-color:white;">
+      <input id="lookup-btn" class="head_color" type="button" value="SELECT" onclick="lookup_go()" style="width:50%;height:100%;" />
     </div>
   </div>   
 </div>
-
-<div id="lookup" class="lookup" style="display:none;position:absolute; z-index:509;">  
-  <div style="width:100%;height:30px;cursor:move;z-index:10;">    
-    <div style="width:100%;height:100%">    
-      <input style="float:left;width:85%;height:100%;padding:0 0 0 6px;border:1px solid lightgray;" id="myInput" type="text" placeholder="">
-      <input onclick="closeLookup()" style="float:right;width:8%;height:100%;border:1px solid gray;border-radius:5px;cursor:pointer;" type="button" value="X"/>
-    </div> 
-  </div> 
-  <div class="autocom">  
-    <div id="myInput2"></div>
-  </div>    
-</div>
-
 
 <!-- *************************PAGES***************************************************
 ******************************************************************************** -->
@@ -314,6 +306,7 @@
         <img src="gfx/setting.png"/>
         <span>Setting</span>
       </div>
+      
       <div id="m_arrow7" class="nw_menu_sel"></div>
 
       <div style="position:absolute;bottom:10px;width:100%;height:100px;padding:2px;background:none;">
@@ -366,7 +359,7 @@
           </div>
           <div id="cap_viewerMid1" class="cap_mid_class"></div>
         </div>
-        <div id="dtl_viewer" class="myView_dtl">
+        <div id="dtl_viewer" data-regCode="" class="myView_dtl">
 
           <div class="cls_dtl_shadow_dispboard" style="position:relative;width:100%;height:100%;padding:10px;border:0px solid black;background:none;">
             <div style="width:100%;height:70px;background:white;opacity:0.5;border:1px solid black;border-radius:8px;margin-top:0px;"></div>
@@ -551,11 +544,17 @@
 <!--script type='text/javascript' src='jbe_map.js'></script-->
 <script type='text/javascript' src='jbe_fmlib.js'></script>
 
+<script type='text/javascript' src='fm_cluster.js'></script>
+<script type='text/javascript' src='fm_watcher.js'></script>
+<script type='text/javascript' src='fm_district.js'></script>
+<script type='text/javascript' src='fm_candidate.js'></script>
+<script type='text/javascript' src='fm_party.js'></script>
+
 <script src="jbe_admin.js"></script>
 <script src="jbe_board.js"></script>
 <script src="jbe_message.js"></script>
 <script src="jbe_setting.js"></script>
-<script src="jbe_fm.js"></script>
+
 
 <!--script src="lilmap.js"></script-->
 

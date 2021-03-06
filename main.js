@@ -71,8 +71,25 @@ function get_db_all(){
     if(DB_SYS.length > 0){      
       show_scope();
     }
+    
+    
+    if(CURR_SCOPE_TYPE == 2){
+      var ctr=0;
+      DB_DISTRICT2=[];
+      for(var i=0;i<ref_city.length;i++){
+        if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
+        let ob={
+          "citymunCode":ref_city[i]['citymunCode'],
+          "disCode":CURR_SCOPE_NO
+        }
+        DB_DISTRICT2[ctr]=ob;
+        ctr++;
+      }
+    
+    }
     // define to show position
     update_positions();
+
     dispBoard();
 
   },JBE_HEADER)    
@@ -272,68 +289,6 @@ function JBE_DISPFLD(p0,p1,p2,p3){
   return rval;
 }
 
-function winpop(mode,t='10',l='10',rKey1,rKey2,title,aryJBE,code,name) {    
-  if(!mode)	{
-    document.getElementById('winpop').style.display='none';
-    document.getElementById('div_btns').style.pointerEvents='auto';   
-    return;
-  }  
-
-  RKEY1=rKey1;
-  RKEY2=rKey2;
-  RROW=0;
-  var v_rKey1=document.getElementById(rKey1).value;
-  
-  var ary = aryJBE;    
-  var f_white=0;
-  var bclor='white';
-  
-  var dtl_H='15px;';
-  var details='';    
-
-  document.getElementById('wp_title').innerHTML=title;
-  document.getElementById('div_btns').style.pointerEvents='none';
-  document.getElementById('winpop').setAttribute('data-sele',0);
-  document.getElementById('winpop_box').style.top=t+'px';
-  var details='';
-
-  for(var i=0; i<ary.length; i++) {          
-    var v_code=ary[i][code];
-    if(f_white==0) {				
-      bclor="white";
-      f_white=1;
-    }	else {
-      bclor="lightgray";
-      f_white=0;
-    }		
-    details = details +    
-    '<div id="winpop_line'+v_code+'" class="winpop_class" data="'+bclor+'" data-sel=1 data-row='+i+' onmouseover="subHover(this.id,1,&quot;'+i+'&quot;,&quot;red&quot;)" onmouseout="subHover(this.id,0,&quot;'+i+'&quot;,&quot;none&quot;)"'+ 
-    '     onclick="HLrow(&quot;winpop&quot;,&quot;'+v_code+'&quot;); winpop_sele('+i+')" ondblclick="winpop_go()" style="float:left;margin-bottom:0%;border:0px solid gray;cursor:pointer;width:100%;height:'+(parseInt(dtl_H)+4)+'px;padding:0%;background:'+bclor+';">'+          
-    '  <div id="win_code'+i+'" class="wcentro" style="float:left;width:20%;height:100%;padding:2px 0 0 0;text-align:center;border:1px solid gray;">'+ary[i][code]+'</div>'+            
-    '  <div id="win_name'+i+'" class="wcentro" style="float:left;width:80%;height:100%;padding:2px 0 0 2px;text-align:left;border:1px solid gray;">'+ary[i][name]+'</div>'+				      
-    '</div>';    
-  }  
-  document.getElementById("div_winpop").innerHTML=details;  
-  var v_RROW=(HLrowselect(ary.length,'winpop_line','win_code',v_rKey1));
-  
-  winpop_sele(v_RROW);      
-  document.getElementById("winpop").style.display='block';  
-}
-
-function winpop_sele(s){
-  document.getElementById('winpop').setAttribute('data-sele',s);
-  document.getElementById('wp_btn').disabled=false;
-  RROW=s;
-}
-function winpop_go(){  
-  var x = document.getElementById('winpop').getAttribute('data-sele');   
-  var sel_code=document.getElementById("win_code"+RROW).innerText;
-  var sel_name=document.getElementById("win_name"+RROW).innerText;
-
-  document.getElementById(RKEY1).value=sel_code;
-  document.getElementById(RKEY2).value=sel_name;  
-  winpop(false);
-}
 //**************************************************************************************************** */
 
 function showProcImg(mode,sz='200px',t='10',l='10') {    
@@ -592,98 +547,6 @@ function jeffNumber(mode,div) {
   return;
 }
 
-function chk_aryPROJsele(v){
-  var rval=false;
-  for(var k=0;k<aryPROJsele.length;k++){
-    if(v==aryPROJsele[k]){
-      rval=true;
-      break;
-    }
-  }
-  return rval;
-}
-
-function sort_msg_byDate_Descending(a,b) {
-  if (a.sortdate < b.sortdate)
-    return -1;
-  if (a.sortdate > b.sortdate)
-    return 1;
-  return 0;
-}
-
-function enadfy(arr){
-  //alert('333666');
-  /*
-  var countries = { "ABW": "Aruba", "AFG": "Afghanistan", "AGO": "Angola" };
-  for(code in countries){
-      alert("code: " + code + "\n" + "country: " + countries[code]);
-  }
-  */
-
-  for(var i=0;i<arr.length;i++){          
-    for(var x in arr[0]){      
-      coldata=arr[i][x];  
-     
-      var pos = coldata.search('\"');      
-      if(pos !== -1){        
-        coldata=coldata.replace(/\"/g, "'");
-        //alert(coldata);
-      }
-
-      var pos2 = coldata.search('\~');      
-      if(pos2 !== -1){    
-        //alert(coldata);    
-        coldata=coldata.replace(/\~/g, '"');        
-      }
-
-      arr[i][x]=coldata;      
-    }    
-  }    
-  return arr;
-}
-
-function wrongChr(jClass){
-  var x = document.getElementsByClassName(jClass);
-  var xx=""
-  var retval=false;
-  var i;
-  for (i = 0; i < x.length; i++) {
-    //x[i].style.backgroundColor = "red";
-    var xstr=x[i].value;
-    var pos1 = xstr.search('\&');
-    var pos2 = xstr.search('\#');
-    var pos3 = xstr.search('\~');
-    
-    if(pos1 !== -1){
-      xx='"&" or Ampersand';      
-      retval=true;
-      break;
-    }
-    if(pos2 !== -1){
-      xx='"#" or Hashtag';      
-      retval=true;
-      break;
-    }
-    if(pos3 !== -1){
-      xx='"~" or Tilde';      
-      retval=true;
-      break;
-    }
-    
-    var strHasBackslashes = (/\\/).test(xstr);   
-    if (strHasBackslashes) { 
-      xx='"\\" or Backslash';      
-      retval=true;
-      break;
-    }
-    
-  }
-  if(retval){
-    MSG_SHOW(vbOk,"ERROR","Invalid Entry. "+xx+" is found.",function(){},function(){});    
-  }
-  return retval;
-}
-
 function used_in_other_files(s,f,j,r){ //serch,field,RRY,retcode
   var retval=null;
   for(var i=0; i<j.length; i++) {      
@@ -696,39 +559,6 @@ function used_in_other_files(s,f,j,r){ //serch,field,RRY,retcode
   return retval;
 }
 
-function jdate_diff(startDate,endDate){ 
-  var rval=0;  
-  var timeDiff  = (new Date(endDate)) - (new Date(startDate));
-  rval = timeDiff / (1000 * 60 * 60 * 24);  
-  return rval;
-}
-
-function task1(){ //put FCODE, MCODE to projhist
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {						
-        //document.getElementById("mnu4").innerHTML=xmlhttp.responseText;			
-        var reply = this.responseText;
-        alert(reply);
-      }
-  };  
-  
-  xmlhttp.open("POST", "z_task1.php",true);  
-  xmlhttp.send();  
-}
-function task2(){ //clear All Watered Delivered
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {						
-        //document.getElementById("mnu4").innerHTML=xmlhttp.responseText;			
-        var reply = this.responseText;
-        alert(reply);
-      }
-  };  
-  
-  xmlhttp.open("POST", "z_task2.php",true);  
-  xmlhttp.send();  
-}
 
 function redisplay(){  
   off_for_login(false);
