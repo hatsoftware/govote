@@ -7,12 +7,7 @@ function do_fm_party(){
     { div:"tx_party_photo", fld:"photo", disp:0, save:true  },
     
   ];
-  FM_LK_OB[0]=[
-    { div:"tx_party_no", fld:"partyno" },
-    { div:"tx_party_name", fld:"partyname" },
-    { div:"tx_party_photo", fld:"photo" }
-  ];
-  
+    
   var fm_ob = {
     title:"POLITICAL PARTY MASTER FILE",
     top:"", left:"", bottom:"10%", right:"5%",
@@ -31,7 +26,7 @@ function do_fm_party(){
       
       '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
         '<div style="float:left;width:25%;height:100%;padding:5px;">User Code:</div>'+
-        '<input id="lu_party_no" type="image" src="gfx/jsearch.png" onclick="FM_OPEN_LOOKUP(0,tx_party_name,&quot;partyno&quot;,DB_PARTYMAST,FM_LK_OB[0])" style="float:left;width:auto;height:100%;padding:2px;margin-right:0.5%;border:1px solid gray;"/>'+
+        '<input id="lu_party_no" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_party&quot;,&quot;PARTY LOOKUP&quot;,DB_PARTYMAST,&quot;partyno&quot;,&quot;partyname&quot;)" style="float:left;width:auto;height:100%;padding:2px;margin-right:0.5%;border:1px solid gray;"/>'+
         '<input id="tx_party_no" type="text" data-caption="Party Code" onchange="FM_CHK_REC(this.value,&quot;do_disp_party&quot;)" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_party_name.id).focus()" />'+
       '</div>'+     
       '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
@@ -75,17 +70,10 @@ function putImg_party(){
   document.getElementById('tx_party_photo').value=vimg;
 }
 //
-function do_lu_party(p){  
-  FM_LU_DB=[];
-  if(p==0){    
-    var xdb=DB_PARTYMAST;
-    xdb.sort(sortByMultipleKey(['partyname']));  
-    FM_LU_DB[0]=[];
-    for(var i=0;i<xdb.length;i++){
-      FM_LU_DB[0][i]=xdb[i]['partyname']+', '+xdb[i]['partyno'];
-    }
-  }
-  return FM_LU_DB[p];
+
+function do_lu_party(fld,val){	
+	if(fld=='partyno'){ FM_DISP_REC(val); }  
+  do_look_party(fld);
 }
 //
 function do_init_party(){  
@@ -118,11 +106,11 @@ function do_edit_party(){
   document.getElementById('tx_party_name').focus();
 }
 //look
-function do_look_party(fld){
+function do_look_party(fld,val){
   if(fld=='partyno'){ 
     do_disp_party(0);
     do_disp_party(1);
-  }
+	}  
 }
 //del
 function do_del_party(stat,r){
