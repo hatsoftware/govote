@@ -27,7 +27,7 @@ function dispBoard(){
     var vdisp=JBE_STORE_CANDIDATE[i]["display"];
     var vpos=JBE_STORE_CANDIDATE[i]["pos"];
     vdtl+=
-      '<div id="candi_'+vpos+'" style="display:'+vdisp+';width:100%;max-width:100%;height:auto;margin-top:0px;padding:20px 0 10px 0;background:none;">'+
+      '<div id="candi_'+vpos+'" class="cls_candi_box" style="display:'+vdisp+';">'+
         '<div class="cls_pos_head">'+JBE_STORE_CANDIDATE[i]["posname"].toUpperCase()+'</div>'+
         '<div id="candi_dtl_'+vpos+'" class="cls_pos_body">'+
         
@@ -65,7 +65,7 @@ function dispBoard(){
               (ctr+0)+'.'+
             '</div>'+
             '<div class="cls_dispboard_img">'+
-              '<img id="candi_img_'+i+'" src="'+JBE_API+'upload/photo/'+vcode+'.jpg" style="height:100%;width:55px;border:1px solid black;border-radius:8px;background:white;"/>'+              
+              '<img id="candi_img_'+i+'" class="cls_dispboard_img_in" src="'+JBE_API+'upload/photo/'+vcode+'.jpg" />'+              
             '</div>'+
             '<div class="cls_dispboard_candi">'+
             
@@ -127,7 +127,13 @@ function dispVotesGraph(i,candi_no,pos,regCode){
   document.getElementById('dtv_party').innerHTML = document.getElementById('candi_party_'+i).innerHTML;
   document.getElementById('dtv_pos').innerHTML = document.getElementById('candi_pos_'+i).innerHTML;
   document.getElementById('dtv_votes').innerHTML = document.getElementById('candi_votes_'+i).innerHTML;
-  
+
+  if(JBE_MOBILE){
+    var h_dtl_view=H_VIEW-95;
+    document.getElementById('dv_dtl_view').style.height=h_dtl_view+'px';
+    document.getElementById('pmap').style.width='100%';
+  }
+
   //map.invalidateSize();
   //map.setView([11.8787, 121.7740],6);  
   for(var i=1;i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
@@ -185,6 +191,7 @@ function show_folder(v,vCode,votes){
   tilt='[ '+ary_label[(v)]+' ('+vvotes+') ]';   
   document.getElementById('id_tab'+v).value=tilt;
   document.getElementById('id_tab'+v).style.display='block';
+  if(JBE_MOBILE && v > 1) { document.getElementById('id_tab'+v).style.display='none'; }
   document.getElementById('id_label').setAttribute('data-regCode',vCode);
   //display map
   

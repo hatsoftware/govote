@@ -7,12 +7,12 @@ function dispSetting(){
   var dtl=
   '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:none;">'+
 
-      '<div id="sys_menu1" class="cls_ds_main" style="height:390px;">'+ 
+      '<div id="sys_menu1" class="cls_ds_main">'+ 
         '<p>System Facility</p>'+   
         '<button onclick="reset_votes()">Clear Votes</button>'+   
         '<button onclick="sys_scope()">System Scope</button>'+           
         '<button onclick="do_fm_district()">District File</button>'+           
-        '<button onclick="close_setting()" style="margin-top:50px;color:white;background:'+JBE_CLOR+';">Exit</button>'+   
+        '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+
 
       '<div id="sys_menu2" style="display:none;"></div>'+
@@ -52,7 +52,7 @@ function sys_scope(){
   document.getElementById('sys_menu1').style.display='none';
   document.getElementById('sys_menu2').style.display='block';
   var dtl=
-  '<div class="cls_ds_main" style="width:600px;height:auto;margin-top:100px;background:darkgray;">'+      
+  '<div class="cls_ds_main">'+      
     '<p>Facility</p>'+
     '<div style="width:96%;height:auto;padding:10px;border:1px solid lightgray;margin:0 2% 0 2%;background:none;">'+
 
