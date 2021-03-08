@@ -1292,7 +1292,7 @@
 .cls_tbl{ cursor:pointer;overflow:auto;width:100%; }    
 .cls_tbl:hover{ color:red; }  
 
-.cls_fm_dtl{ width:100%;height:30px;padding:2px;border:1px solid green; }
+.cls_fm_dtl{ width:100%;height:30px;padding:2px;border:0px solid green; }
   .cls_fm_dtl div { float:left;width:25%;height:100%;padding:0px;background:none; }  
   .cls_fm_dtl input[type="image"] { float:right;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
   .cls_fm_dtl input[type="text"] { float:left;width:75%;height:100%; }  
