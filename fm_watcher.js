@@ -35,86 +35,91 @@ function do_fm_watcher(){
   var fm_ob = {
     title:"WATCHER File Maintenance",
     top:"8%", left:"", bottom:"", right:"5%",
-    width:"600px",height:"600px"
+    width:"600px",height:"570px",
+    h_photo:"100px"
   };  
 
   if(JBE_MOBILE){ 
-    fm_ob.width="300px"; 
-    fm_ob.height="400px";
+    fm_ob.width="95%"; 
+    fm_ob.height="465px";
     fm_ob.right="5px";  
     fm_ob.top="30px"; 
+    fm_ob.h_photo="50px";
   }
 
   var fm_layout=
-    '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+      
-            
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:25%;height:100%;padding:5px;">User Code:</div>'+
-        '<input id="lu_usercode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;WATCHER LOOKUP&quot;,DB_USER,&quot;usercode&quot;,&quot;username&quot;)" style="float:left;width:auto;height:100%;padding:2px;margin-right:0.5%;border:1px solid gray;"/>'+
-        '<input id="tx_usercode" type="text" data-caption="User Code" onchange="FM_CHK_REC(this.value,&quot;do_disp_watcher&quot;)" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_username.id).focus()" />'+
-      '</div>'+     
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Username:</div>'+
-        '<input id="tx_username" type="text" data-caption="Username" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_userid.id).focus()" />'+
-      '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">User ID:</div>'+
-        '<input id="tx_userid" type="text" data-caption="Username" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
-      '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Password:</div>'+
-        '<input id="tx_pword" type="text" data-caption="Password" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+    '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+    
+    
+      '<div class="cls_fm_dtl">'+
+        '<div>User Code:'+
+          '<input id="lu_usercode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;usercode&quot;,&quot;username&quot;)" />'+
+        '</div>'+
+        '<input id="tx_usercode" type="text" data-caption="User Code." onchange="FM_CHK_REC(this.value,&quot;do_disp_watcher&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_username.id).focus()" />'+
       '</div>'+
 
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">User Type:</div>'+        
+      '<div class="cls_fm_dtl">'+
+        '<div>Username:</div>'+
+        '<input id="tx_username" type="text" data-caption="Username" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_userid.id).focus()" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>User ID:</div>'+
+        '<input id="tx_userid" type="text" data-caption="Username" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>Password:</div>'+
+        '<input id="tx_pword" type="text" data-caption="Password" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>User Type:</div>'+        
         '<input id="tx_usertype" type="text" data-caption="User Type" value="" />'+                
-        '<select id="tx_usertype_name" name="tx_usertype_name" value="" onchange="chg_usertype(tx_usertype.id,this.value)" style="float:left;width:70%;height:100%;font-size:11px;padding:0px;">'+
+        '<select id="tx_usertype_name" name="tx_usertype_name" value="" onchange="chg_usertype(tx_usertype.id,this.value)">'+
           '<option value=0>Watcher</option>'+
           '<option value=5>Administrator</option>'+
         '</select>'+        
       '</div>'+
 
-      '<div style="width:100%;height:85px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:25%;height:30px;padding:5px;">Photo:</div>'+
-
-        '<div id="lu_watcher_photo" style="float:left;pointer-events:none;width:26px;height:25px;cursor:pointer;padding:2px;margin-right:0.5%;border:1px solid gray;background:dimgray;">'+            
-          '<input type="file" id="inpfile_watcher" data-orig="" data-sel=0 name="inpfile_watcher" value="" hidden="hidden" />'+
-          '<input id="tx_watcher_photo" type="text" data-caption="Photo" value="" />'+          
-          '<img src="gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_watcher.id,img_watcher.id,&quot;put_Img_watcher&quot;)" style="width:100%;"/>'+
+      '<input type="file" id="inpfile_watcher" data-orig="" data-sel=0 name="inpfile_watcher" value="" hidden="hidden" />'+
+      '<input id="tx_watcher_photo" type="text" data-caption="Photo" style="display:none;" value="" />'+          
+      '<div class="cls_fm_dtl" style="height:'+fm_ob.h_photo+';">'+
+        '<div style="height:25px;">Photo:'+
+          '<input id="lu_watcher_photo" type="image" style="height:100%;background:dimgray;" src="gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_watcher.id,img_watcher.id,&quot;put_Img_watcher&quot;)">'+
         '</div>'+
-
-        '<div style="float:left;width:70%;height:100%;padding:2px;text-align:center;border:1px solid lightgray;">'+
+        '<p>'+
           '<img id="img_watcher" data-img="" name="img_watcher" src="gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
-        '</div>'+   
-
+        '</p>'+   
       '</div>'+  
 
-      '<div style="margin-top:20px;width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:25%;height:100%;padding:5px;">Cluster No.:</div>'+
-        '<input id="lu_clusterno_watcher" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" style="float:left;height:100%;padding:2px;margin-right:0.5%;opacity:0.5;border:1px solid gray;"/>'+          
-        '<input id="tx_clusterno_watcher" type="text" data-orec="" data-caption="Cluster" style="float:left;width:70%;height:100%;" value="" />'+
-      '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Cluster Name:</div>'+
-        '<input id="tx_clustername_watcher" type="text" data-caption="Cluster" style="float:left;width:70%;height:100%;" value="" />'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>User Code:'+
+          '<input id="lu_clusterno_watcher" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
+        '</div>'+
+        '<input id="tx_clusterno_watcher" type="text" data-caption="Watcger Code." onchange="FM_CHK_REC(this.value,&quot;do_disp_watcher&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_username.id).focus()" />'+
       '</div>'+
 
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Barangay:</div>'+
-        '<input id="tx_brgyName" type="text" data-caption="" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+      '<div class="cls_fm_dtl">'+
+        '<div>Cluster Name:</div>'+
+        '<input id="tx_clustername_watcher" type="text" data-caption="Cluster" value="" />'+
       '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Municipal/City:</div>'+
-        '<input id="tx_cityName" type="text" data-caption="" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>Barangay:</div>'+
+        '<input id="tx_brgyName" type="text" data-caption="" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
       '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Province:</div>'+
-        '<input id="tx_provName" type="text" data-caption="" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+      '<div class="cls_fm_dtl">'+
+        '<div>Municipal/City:</div>'+
+        '<input id="tx_cityName" type="text" data-caption="" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
       '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Region:</div>'+
-        '<input id="tx_regName" type="text" data-caption="" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+      '<div class="cls_fm_dtl">'+
+        '<div>Province:</div>'+
+        '<input id="tx_provName" type="text" data-caption="" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
+      '</div>'+
+      '<div class="cls_fm_dtl">'+
+        '<div>Region:</div>'+
+        '<input id="tx_regName" type="text" data-caption="" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
       '</div>'+
       
     '</div>';

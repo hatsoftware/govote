@@ -39,54 +39,61 @@ function do_fm_cluster(){
   var fm_ob = {
     title:"CLUSTER MASTER FILE",
     top:"10%", left:"", bottom:"", right:"10%",
-    width:"600px",height:"360px"
+    width:"600px",height:"350px"
   };  
  
   if(JBE_MOBILE){ 
-    fm_ob.width="300px"; 
-    fm_ob.height="350px";
+    fm_ob.width="95%"; 
+    fm_ob.height="315px";
     fm_ob.right="5px";  
-    fm_ob.top="30px"; 
+    fm_ob.top="100px"; 
   }
     
   var fm_layout=
     '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+
 
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:25%;height:100%;padding:5px;">Code:</div>'+
-        '<input id="lu_clusterno" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" style="float:left;width:auto;height:100%;padding:2px;margin-right:0.5%;border:1px solid gray;"/>'+
-        '<input id="tx_clusterno" type="text" data-caption="Cluster No." onchange="FM_CHK_REC(this.value,&quot;do_disp_cluster&quot;)" style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_clustername.id).focus()" />'+
-      '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Cluster Name:</div>'+
-        '<input id="tx_clustername" type="text" data-caption="Cluster Name." style="float:left;width:70%;height:100%;" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
-      '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Precincts:</div>'+
-        '<input id="tx_precincts" type="text" data-caption="Precincts" style="float:left;width:70%;height:100%;" value="" />'+
+      '<div class="cls_fm_dtl">'+
+        '<div>Code:'+
+          '<input id="lu_clusterno" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
+        '</div>'+
+        '<input id="tx_clusterno" type="text" data-caption="Cluster No." onchange="FM_CHK_REC(this.value,&quot;do_disp_candi&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_clustername.id).focus()" />'+
       '</div>'+
 
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:25%;height:100%;padding:5px;">Barangay:</div>'+
-        '<input id="lu_brgyCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;BARANGAY LOOKUP&quot;,ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" style="float:left;height:100%;padding:2px;margin-right:0.5%;opacity:0.5;border:1px solid gray;"/>'+          
-        '<input id="tx_brgyCode" type="text" data-caption="Barangay Code" style="display:none;float:left;width:20%;height:100%;" value="" />'+
-        '<input id="tx_brgyName" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
+      '<div class="cls_fm_dtl">'+
+        '<div>Cluster Name:</div>'+
+        '<input id="tx_clustername" type="text" data-caption="Cluster Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
       '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Municipal/City:</div>'+
-        '<input id="tx_citymunCode" type="text" style="display:none;float:left;width:20%;height:100%;" value="" />'+
-        '<input id="tx_cityName" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>Precincts:</div>'+
+        '<input id="tx_precincts" type="text" data-caption="Precincts" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
       '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Province:</div>'+
-        '<input id="tx_provCode" type="text" style="display:none;float:left;width:20%;height:100%;" value="" />'+
-        '<input id="tx_provName" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
+   
+      '<div class="cls_fm_dtl">'+        
+        '<div>Barangay:'+          
+          '<input id="lu_brgyCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;BARANGAY LOOKUP&quot;,ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+
+          '<input id="tx_brgyCode" type="text" data-caption="Barangay Code" style="display:none;" value="" />'+
+        '</div>'+
+        '<input id="tx_brgyName" type="text" />'+
       '</div>'+
-      '<div style="width:100%;height:30px;padding:2px;border:0px solid green;">'+        
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Region:</div>'+
-        '<input id="tx_regCode" type="text" style="display:none;float:left;width:20%;height:100%;" value="" />'+
-        '<input id="tx_regName" disabled type="text" style="float:left;width:70%;height:100%;" value="" />'+
-      '</div>'+        
+      
+      '<div class="cls_fm_dtl">'+
+        '<div>Municipal/City:</div>'+
+        '<input id="tx_citymunCode" type="text" value="" />'+
+        '<input id="tx_cityName" disabled type="text" value="" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>Province:</div>'+
+        '<input id="tx_provCode" type="text" value="" />'+
+        '<input id="tx_provName" disabled type="text" value="" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>Region:</div>'+
+        '<input id="tx_regCode" type="text" value="" />'+
+        '<input id="tx_regName" disabled type="text" value="" />'+
+      '</div>'+  
       
     '</div>';
       

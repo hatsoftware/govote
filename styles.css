@@ -1209,25 +1209,25 @@
   .cls_dtl_shadow_dispboard2{ width:96%;height:70px;top:10px;border:0px solid white;border-radius:8px;color:white;background:none; }
 
 .cls_dtl_dispboard {
-  width:100%;height:100%;font-size:16px;text-align:left;padding:5px;color:white;text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;margin-bottom:5px;background:none;
+  width:100%;height:70px;font-size:16px;text-align:left;padding:5px;margin-bottom:0px;color:black;background:white;
 }
   .cls_dtl_dispboard div {
     border:0px solid black;
   }    
-  .cls_dtl_dispboard_img { float:left;width:10%;height:100%;background:none; }
-    .cls_dtl_dispboard_img2{ height:100%;width:60px;border:1px solid white;border-radius:8px;background:white; }
-  .cls_dtl_dispboard_candi { float:left;width:50%;height:100%;background:none; }
-    .cls_dtl_dispboard_candi_1 { width:100%;height:42%;font-size:20px;padding:0px 0 0 0;color:white;background:none; }
+  .cls_dtl_dispboard_img { float:left;width:70px;height:100%;background:none; }
+    .cls_dtl_dispboard_img2{ height:100%;width:60px;border:1px solid black;border-radius:8px;background:white; }
+  .cls_dtl_dispboard_candi { float:left;width:50%;height:100%;color:black;background:none; }
+    .cls_dtl_dispboard_candi_1 { width:100%;height:42%;font-size:20px;padding:0px 0 0 0;color:black;background:none; }
     .cls_dtl_dispboard_candi_2 { width:100%;height:35%;color:black;font-size:18px;font-weight:bold;background:none; 
         text-shadow: none;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
     }
     .cls_dtl_dispboard_candi_3 { width:100%;height:23%;color:black;font-size:14px;font-weight:bold;background:none; 
       text-shadow: none;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
     }
-  .cls_dtl_dispboard_votes { float:left;width:30%;height:100%;font-size:45px;padding:2px 10px 0 0;text-align:left;background:none; }  
+  .cls_dtl_dispboard_votes { float:left;width:30%;height:100%;font-size:45px;padding:5px 10px 0 0;text-align:left;background:none; }  
 
 
-#dv_summary{ float:right;width:600px;height:100%;padding:20px 0 20px 5px;border:1px solid lightray;background:none; }
+#dv_summary{ float:right;width:100%;height:100%;padding:20px 0 20px 5px;border:1px solid lightray;background:none; }
 
 .cls_id_places{
   display:none;float:left;width:auto;height:100%;margin-left:10px;padding:0 10px 0 10px;cursor:pointer;font-size:13px;font-weight:normal;
@@ -1241,14 +1241,17 @@
 
 .cls_votes_dtl{ width:100%;height:30px;margin-top:5px;padding:1px;cursor:pointer;color:black;background:none; }  
   .cls_votes_dtl div{ float:left;width:65%;height:100%;border-radius:8px;border:0px solid black;
-    padding:7px;font-size:12px;text-align:right;background:none;
+    padding:7px 7px 7px 20px;font-size:12px;text-align:left;background:none;
   }
   .cls_votes_dtl span{ float:right;width:35%;height:100%;padding:2px 12px 2px 2px;text-align:right;font-size:22px;
     text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;
   }
 .cls_votes_dtl:hover{color:red;}  
 
-#page_main2{ width:80%; }
+#page_main2{ padding:0 50px 0 50px; }
+
+#sys_tilt{ height:60%;width:100%;font-size:20px;padding:5px 0 0 0;overflow:auto;background:none; }
+#sys_tilt2{ height:40%;width:100%;font-size:14px;overflow:auto;padding:0px 0 0 0;background:none; }
 
 /* design 3 ======================================================= */
 
@@ -1288,3 +1291,16 @@
 
 .cls_tbl{ cursor:pointer;overflow:auto;width:100%; }    
 .cls_tbl:hover{ color:red; }  
+
+.cls_fm_dtl{ width:100%;height:30px;padding:2px;border:1px solid green; }
+  .cls_fm_dtl div { float:left;width:25%;height:100%;padding:0px;background:none; }  
+  .cls_fm_dtl input[type="image"] { float:right;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
+  .cls_fm_dtl input[type="text"] { float:left;width:75%;height:100%; }  
+  .cls_fm_dtl p { float:left;width:75%;height:100%;margin:0px;padding:2px;text-align:center;border:1px solid lightgray;background:none; }  
+  .cls_fm_dtl select { float:left;width:75%;height:100%;margin:0px;background:none; }  
+  
+#chkbox{ height:320px; }  
+
+#head_main{ font-size:14px; }
+
+.cls_div_map{ float:left;width:60%;height:100%;color:white;background:none; }

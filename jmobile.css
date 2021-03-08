@@ -577,10 +577,9 @@
     background-repeat:no-repeat;
     background-color:none; 
   }  
-  #sys_tilt {
-    float:left;height:100%;text-align:center;padding:10px 0 0 0;
-    width:150px; font-size:12px;background:none;
-  }
+  #sys_tilt{ height:45%;width:100%;font-size:15px;padding:5px 0 0 0;overflow:auto;background:none; }
+  #sys_tilt2{ height:55%;width:100%;font-size:11px;padding:0px 0 0 0;background:none; }
+
   #div_logo, #div_main_left{ width:50px; font-size:12px;color:green; }
   #div_logo{ margin-left:5px; }
   #id_LiveTime{ font-size:9px; }
@@ -922,29 +921,29 @@
         font-size:12px; padding:0px; margin:0px; text-align:center;height:30%;width:100%;
       }
 
-  #page_main2{ width:95%; }      
+  #page_main2{ padding:0 10px 0 10px; }
 
   .cls_dtl_shadow_dispboard{ height:55px;width:100%;padding:5px;border:0px solid black;background:none; }
     .cls_dtl_shadow_dispboard1{ width:100%;height:44px;background:white;opacity:0.5;border:1px solid black;border-radius:8px;margin-top:0px;background:white; }
     .cls_dtl_shadow_dispboard2{ width:96%;height:40px;top:7px;border:0px solid white;border-radius:8px;color:white;background:none; }
 
   .cls_dtl_dispboard {
-    width:100%;height:100%;font-size:12px;text-align:left;padding:0px;color:white;text-shadow: 1px 1px 2px black, 0 0px 10px black, 0 0 5px black;margin-bottom:0px;background:none;
+    width:100%;height:50px;font-size:16px;text-align:left;padding:2px;margin-bottom:0px;color:black;background:white;
   }
     .cls_dtl_dispboard div {
       border:0px solid black;
     }    
-    .cls_dtl_dispboard_img { float:left;width:15%;height:100%;background:none; }
+    .cls_dtl_dispboard_img { float:left;width:20%;height:100%;background:none; }
       .cls_dtl_dispboard_img2{ height:100%;width:40px;border:1px solid white;border-radius:8px;background:white; }
-    .cls_dtl_dispboard_candi { float:left;width:55%;height:100%;background:none; }
-      .cls_dtl_dispboard_candi_1 { width:100%;height:40%;font-size:12px;padding:0px 0 0 0;color:white;background:none; }
+    .cls_dtl_dispboard_candi { float:left;width:50%;height:100%; }
+      .cls_dtl_dispboard_candi_1 { width:100%;height:40%;font-size:12px;padding:0px 0 0 0;color:black;background:none; }
       .cls_dtl_dispboard_candi_2 { width:100%;height:30%;color:black;font-size:10px;font-weight:bold;background:none;text-shadow: none;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; }
       .cls_dtl_dispboard_candi_3 { width:100%;height:30%;color:black;font-size:10px;font-weight:bold;background:none; 
         text-shadow: none;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
       }
     .cls_dtl_dispboard_votes { float:left;width:30%;height:100%;font-size:15px;padding:10px 5px 0 0;text-align:right;background:none; }  
   
-  #dv_summary{ float:right;width:300px;height:100%;padding:20px 0 20px 5px;border:1px solid lightray;background:none; }
+  #dv_summary{ float:left;width:250px;height:100%;padding:20px 0 20px 5px;border:1px solid lightray;background:none; }
 
   .cls_id_places{
     display:none;float:left;width:auto;height:100%;margin-left:10px;padding:0 10px 0 10px;cursor:pointer;font-size:12px;font-weight:normal;
@@ -997,7 +996,7 @@
      }
     .cls_dispboard_votes { float:right;width:30%;height:100%;padding:10px 2px 0 0;font-size:15px;text-align:right;background:none; }
   
-  .cls_ds_main{ margin:0 auto;width:250px;height:auto;font-size:12px;margin-top:100px;border:1px solid white;background:none;}  
+  .cls_ds_main{ margin:0 auto;width:250px;height:auto;font-size:12px;margin-top:10px;border:1px solid white;background:none;}  
     .cls_ds_main p{ width:100%;height:30px;margin-top:0px;font-size:18px;padding:5px 0 0 0;background:gray; }  
     .cls_ds_main button { width:80%;height:30px;font-size:14px;margin-top:5px; } 
     .cls_ds_main input[type="button"]{ width:80%;height:30px;font-size:14px;margin-top:20px;margin-bottom:20px;color:white; }  
@@ -1005,5 +1004,15 @@
   .cls_tbl{ cursor:pointer;overflow:auto;width:100%; }    
   .cls_tbl:hover{ color:red; }  
 
+  .cls_fm_dtl{ width:100%;height:25px;padding:2px;border:1px solid green; }
+    .cls_fm_dtl div { float:left;width:35%;height:100%;padding:0px;background:none; }  
+    .cls_fm_dtl input[type="image"] { float:right;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
+    .cls_fm_dtl input[type="text"] { float:left;width:65%;height:100%; }  
+    .cls_fm_dtl p { float:left;width:65%;height:100%;margin:0px;padding:2px;text-align:center;border:1px solid lightgray;background:none; }  
+    .cls_fm_dtl select { float:left;width:65%;height:100%;margin:0px;background:none; }  
+    
+  #chkbox{ height:250px; }    
+
+  .cls_div_map{ float:left;width:60%;height:100%;color:white;background:none; }
 }
   

@@ -70,8 +70,8 @@ function FM_MAIN(fm_ob,fm_layout){
   var dtl=
     '<div id="DIV_FM_MAIN" style="position:absolute;z-index:9;box-shadow: 0px 0px 8px;width:100%;height:100%;font-size:12px;border:1px solid black;background:white;">'+      
       '<div id="FM_HEAD" data-recno="" style="cursor:move;z-index:10;font-size:14px;width:100%;height:'+h_head+'px;padding:10px;color:white;background:'+JBE_CLOR+';">'+
-        '<span style="float:left;">'+fm_ob.title+'</span>'+
-        '<span style="float:right;">FM Library version 1.1</span>'+
+        '<span style="float:left;width:100%;">'+fm_ob.title+'</span>'+
+        //'<span style="float:right;">FM Library version 1.1</span>'+
       '</div>'+    
       '<div id="FM_MODE" style="width:100%;height:25px;text-align:center;padding:5px 15px 5px 5px;text-align:right;background:lightgray;"></div>'+
       '<div id="FM_BODY" style="width:100%;height:'+h_body+'px;background:white;">BODY</div>'+

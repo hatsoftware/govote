@@ -53,30 +53,31 @@ function sys_scope(){
   document.getElementById('sys_menu2').style.display='block';
   var dtl=
   '<div class="cls_ds_main">'+      
-    '<p>Facility</p>'+
+    '<p>Election Scope</p>'+
     '<div style="width:96%;height:auto;padding:10px;border:1px solid lightgray;margin:0 2% 0 2%;background:none;">'+
 
-      '<div style="width:100%;height:30px;text-align:left;background:none;">'+
-        '<div style="float:left;width:30%;height:100%;padding:5px;">Scope Type: </div>'+
-        '<select id="sel_scope" disabled data-type=0 name="sel_scope" value="" onchange="chg_scope(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
+      '<div style="width:100%;height:25px;text-align:left;background:none;">'+
+        '<div style="float:left;width:40%;height:100%;padding:5px;">Scope Type: </div>'+
+        '<select id="sel_scope" disabled data-type=0 name="sel_scope" value="" onchange="chg_scope(this.value)" style="float:left;width:60%;height:100%;font-size:12px;padding:0px;">'+
           '<option value=0>National</option>'+
           '<option value=1>Provincial</option>'+
           '<option value=2>District</option>'+
           '<option value=3>City / Municipal</option>'+
+          '<option value=4>Barangay</option>'+
         '</select>'+  
       '</div>'+
 
       '<div id="dv_scope" style="display:none;width:100%;height:auto;max-height:400px;text-align:left;overflow:auto;background:none;">'+
-        '<div style="width:100%;height:30px;padding:0px;margin-top:10px;border:0px solid white;">'+        
-          '<div id="cap_scope" style="float:left;width:30%;height:100%;padding:5px;">Scope Area:</div>'+
-          '<select id="sel_scope2" disabled data-code="" name="sel_scope2" value="" onchange="chg_scope2(this.value)" style="float:left;width:70%;height:100%;font-size:14px;padding:0px;">'+
+        '<div style="width:100%;height:25px;padding:0px;margin-top:10px;border:0px solid white;">'+        
+          '<div id="cap_scope" style="float:left;width:40%;height:100%;padding:5px;">Scope Area:</div>'+
+          '<select id="sel_scope2" disabled data-code="" name="sel_scope2" value="" onchange="chg_scope2(this.value)" style="float:left;width:60%;height:100%;font-size:12px;padding:0px;">'+
           '</select>'+  
         '</div>'+ 
       '</div>'+
 
     '</div>'+
 
-    '<div id="chkbox"style="width:96%;height:320px;padding:5px 10px 0px 10px;border:1px solid lightgray;color:black;overflow:auto;text-align:left;margin:0 2% 0 2%;background:none;">'+
+    '<div id="chkbox"style="width:96%;padding:5px 10px 0px 10px;border:1px solid lightgray;color:black;overflow:auto;text-align:left;margin:0 2% 0 2%;background:none;">'+
       
     '</div>'+
 
@@ -98,13 +99,16 @@ function sys_scope(){
 function init_sys_scope(){
   var aryDb=[];
   var fld2='';
-  if(CURR_SCOPE_TYPE==1){ aryDb=ref_prov; fld='provCode'; fld2='provDesc'; }
-  else if(CURR_SCOPE_TYPE==2){ aryDb=DB_DISTRICT; fld='disCode'; fld2='disDesc'; }
-  else if(CURR_SCOPE_TYPE==3){ aryDb=ref_city; fld='citymunCode'; fld2='citymunDesc'; }
+  if(CURR_SCOPE_TYPE==1){ aryDb=ref_prov; fld='provCode'; fld2='provDesc'; fld3='regCode'; db2=ref_reg; skey='regCode'; }
+  else if(CURR_SCOPE_TYPE==2){ aryDb=DB_DISTRICT; fld='disCode'; fld2='disDesc'; fld3='provDesc'; db2=ref_prov; skey='provCode'; }
+  else if(CURR_SCOPE_TYPE==3){ aryDb=ref_city; fld='citymunCode'; fld2='citymunDesc'; fld3='provDesc'; db2=ref_prov; skey='provCode'; }
+  else if(CURR_SCOPE_TYPE==4){ aryDb=ref_brgy; fld='brgyCode'; fld2='brgyDesc'; fld3='citymunDesc'; db2=ref_city; skey='citymunCode'; }
   aryDb.sort(sortByMultipleKey([fld2]));  
   var voption='';
   for(var i=0;i<aryDb.length;i++){
-    voption+='<option value='+aryDb[i][fld]+'>'+aryDb[i][fld2]+'</option>';
+    var vdesc='';
+    if(CURR_SCOPE_TYPE > 0){ vdesc=JBE_GETFLD(fld3,db2,skey,aryDb[i][skey]); }
+    voption+='<option value='+aryDb[i][fld]+'>'+aryDb[i][fld2]+', '+vdesc+'</option>';
   }
   document.getElementById('sel_scope2').innerHTML=voption; 
   
@@ -115,10 +119,10 @@ function init_sys_scope(){
     if(DB_POSITION[i]['hide']==0){ vdisp='checked'; }
     dtl+=
     '<div style="width:100%;height:20px;margin-top:5px;padding:2px;background:none;">'+
-      '<div style="float:left;width:5%;height:100%;padding:0px;background:none;">'+
-        '<input disabled id="can_pos'+i+'" class="can_pos"  type="checkbox" '+vdisp+' style="margin:0px;margin-left:5px;width:20px;height:100%;background:none;" />'+
+      '<div style="float:left;width:10%;height:100%;background:none;">'+
+        '<input disabled id="can_pos'+i+'" class="can_pos"  type="checkbox" '+vdisp+' style="float:right;margin:0px;margin-right:5px;width:20px;height:100%;background:none;" />'+
       '</div>'+
-      '<div stlyle="float:left;width:95%;height:100%;padding:0px;">'+DB_POSITION[i]['descrp']+'</div>'+
+      '<div stlyle="float:left;width:90%;height:100%;padding:2px 0 0 0;">'+DB_POSITION[i]['descrp']+'</div>'+
     '</div>';
   }
   document.getElementById('chkbox').innerHTML=dtl;
@@ -153,12 +157,13 @@ function edit_sys_scope(){
   con_pos(false);
 }
 //
-function chg_scope(v){    
-  var aryScope=["Scope of Area","Province:","District:","City/Municipality:"]; 
+function chg_scope(v){ 
+  var aryScope=["Scope of Area","Province:","District:","City/Municipality:","Barangay:"]; 
   var aryDb=[];
+
   var voption='<option value=""> - none - </option>';
   var fld='',fld2='';
-  
+
   document.getElementById('dv_scope').style.display='block';
   if(v==0){
     document.getElementById('dv_scope').style.display='none';
@@ -166,13 +171,17 @@ function chg_scope(v){
   disp_sel_positions(v);
   
   document.getElementById('cap_scope').innerHTML=aryScope[v];
-  if(v==1){ aryDb=ref_prov; fld='provCode'; fld2='provDesc'; }
-  else if(v==2){ aryDb=DB_DISTRICT; fld='disCode'; fld2='disDesc'; }
-  else if(v==3){ aryDb=ref_city; fld='citymunCode'; fld2='citymunDesc'; }
+  
+  if(v==1){ aryDb=ref_prov; fld='provCode'; fld2='provDesc'; fld3='regDesc'; db2=ref_reg; skey='regCode'; }
+  else if(v==2){ aryDb=DB_DISTRICT; fld='disCode'; fld2='disDesc'; fld3='regDesc'; db2=ref_city; skey='provCode'; }
+  else if(v==3){ aryDb=ref_city; fld='citymunCode'; fld2='citymunDesc'; fld3='provDesc'; db2=ref_prov; skey='provCode'; }
+  else if(v==4){ aryDb=ref_brgy; fld='brgyCode'; fld2='brgyDesc'; fld3='citymunDesc'; db2=ref_city; skey='citymunCode'; }
   
   aryDb.sort(sortByMultipleKey([fld2]));  
   for(var i=0;i<aryDb.length;i++){
-    voption+='<option value='+aryDb[i][fld]+'>'+aryDb[i][fld2]+'</option>';
+    var vdesc='';
+    if(v > 0){ vdesc=JBE_GETFLD(fld3,db2,skey,aryDb[i][skey]); }
+    voption+='<option value='+aryDb[i][fld]+'>'+aryDb[i][fld2]+', '+vdesc+'</option>';
   }
   document.getElementById('sel_scope2').innerHTML=voption; 
 }
@@ -182,7 +191,8 @@ function disp_sel_positions(v){
     { "pattern":[1,1,1,1,1,1,1,1,1,1,1,1] },
     { "pattern":[0,0,0,1,1,1,1,1,1,1,1,1] },
     { "pattern":[0,0,0,0,0,0,1,1,1,1,1,1] },
-    { "pattern":[0,0,0,0,0,0,0,1,1,1,1,1] }
+    { "pattern":[0,0,0,0,0,0,0,1,1,1,1,1] },
+    { "pattern":[0,0,0,0,0,0,0,0,0,0,1,1] }
   ];
 
   var xxx=aary[v]["pattern"];
@@ -222,15 +232,7 @@ function close_sys_scope(){
 function save_sys_scope(){
   var vtype=document.getElementById('sel_scope').value;
   var vcode=document.getElementById('sel_scope2').value;
-  /*
-  if(vtype==0){ 
-    do_save_scope();
-    CURR_SCOPE_TYPE=vtype;
-    CURR_SCOPE_NO='';
-    init_sys_scope();
-    return;
-  }
-  */
+  
   if(!vcode){
     if(vtype!=0){
       snackBar('ERROR: Code is Empty...');

@@ -57,8 +57,8 @@ function dispBoard(){
    
     vdtl=          
       '<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+vcode+'&quot;,&quot;'+pos+'&quot;,&quot;'+regCode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
-        '<div class="cls_shadow_box1"></div>'+
-        '<div class="cls_shadow_box2">'+
+        //'<div class="cls_shadow_box1"></div>'+
+        //'<div class="cls_shadow_box2">'+
           
           '<div class="cls_dispboard">'+
             '<div id="candi_ctr_'+i+'" class="cls_dispboard_ctr">'+
@@ -70,16 +70,12 @@ function dispBoard(){
             '<div class="cls_dispboard_candi">'+
             
               '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">'+
-                //aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+
                 aryCandidate[i]['name']+
               '</div>'+
-              '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+
-                //'NPC - National People\'s Coalition'+
+              '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+                
                 JBE_GETFLD('partyname',DB_PARTYMAST,'partyno',aryCandidate[i]['partyno'])+
               '</div>'+
               '<div id="candi_pos_'+i+'" class="cls_dispboard_candi_3">'+
-                //'NPC - National People\'s Coalition'+
-                //var ppos=aryCandidate[i]['pos']+
                 JBE_STORE_CANDIDATE[vpos]['posname']+
               '</div>'+
             
@@ -89,7 +85,7 @@ function dispBoard(){
             '</div>'+
           '</div>'+
 
-        '</div>'+              
+        //'</div>'+              
       '</div>';
     
     if(vpos==sv_pos){      
@@ -128,11 +124,13 @@ function dispVotesGraph(i,candi_no,pos,regCode){
   document.getElementById('dtv_pos').innerHTML = document.getElementById('candi_pos_'+i).innerHTML;
   document.getElementById('dtv_votes').innerHTML = document.getElementById('candi_votes_'+i).innerHTML;
 
-  if(JBE_MOBILE){
-    var h_dtl_view=H_VIEW-95;
-    document.getElementById('dv_dtl_view').style.height=h_dtl_view+'px';
+  var h_dtl_view=H_VIEW-150;
+  
+  if(JBE_MOBILE){    
+    h_dtl_view=H_VIEW-130;
     document.getElementById('pmap').style.width='100%';
   }
+  document.getElementById('dv_dtl_view').style.height=h_dtl_view+'px';
 
   //map.invalidateSize();
   //map.setView([11.8787, 121.7740],6);  
@@ -343,6 +341,9 @@ function disp_place_votes(candi_no,place_type,place_no){
     vfunc='show_none';  
   }
 
+  var vcandi_pos=parseInt(JBE_GETFLD('pos',DB_CANDIDATE,'code',candi_no));
+  //alert(vcandi_pos);
+
   for(var i=1;i<=4;i++){
     document.getElementById('summ'+i).style.display='none';
   }
@@ -389,7 +390,9 @@ function disp_place_votes(candi_no,place_type,place_no){
       if(aryPlace[i][vplace_no].trim() != place_no.trim()){ continue; }            
     }
 
-    if(CURR_SCOPE_TYPE==1 && aryPlace[i]['provCode']==CURR_SCOPE_NO && parseInt(aryPlace[i]['ic'])==1){ continue; }
+    //if(CURR_SCOPE_TYPE==1 && aryPlace[i]['provCode']==CURR_SCOPE_NO && parseInt(aryPlace[i]['ic'])==1){ continue; }
+    if((vcandi_pos > 3 && vcandi_pos < 7) && aryPlace[i]['provCode']==place_no && parseInt(aryPlace[i]['ic'])==1){ continue; }
+    
     /*
       alert(CURR_SCOPE_NO+' vs '+aryPlace[i]['provCode']);
       alert(aryPlace[i]['citymunDesc']);

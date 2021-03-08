@@ -15,12 +15,12 @@ function do_fm_district(){
   var fm_ob = {
     title:"District File Maintenance",
     top:"", left:"", bottom:"20%", right:"5%",
-    width:"500px",height:"500px"
+    width:"500px",height:"435px"
   };  
 
   if(JBE_MOBILE){ 
     fm_ob.width="300px"; 
-    fm_ob.height="400px";
+    fm_ob.height="435px";
     fm_ob.right="5px";  
     fm_ob.top="30px"; 
   }
@@ -160,7 +160,7 @@ function disp_dis_dtl(){
     var provDesc=JBE_GETFLD('provDesc',ref_prov,'provCode',provCode);
     dtl+=
     '<div id="dis_add'+i+'" data-recno="'+citymunCode+'" style="width:100%;height:30px;border:1px solid gray;padding:2px;margin-bottom:2px;">'+
-      '<div style="float:left;width:80%;height:100%;padding:5px;">'+aryDB[i]['citymunDesc']+', '+provDesc+'</div>'+
+      '<div style="float:left;width:80%;height:100%;padding:5px;overflow:auto;">'+aryDB[i]['citymunDesc']+', '+provDesc+'</div>'+
       '<input type="button" value="X" onclick="del_dis_dtl('+i+',&quot;'+citymunCode+'&quot;,&quot;'+citymunDesc+'&quot;)" style="float:right;height:100%;" />'+
     '</div>';
   }

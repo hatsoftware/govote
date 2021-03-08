@@ -708,6 +708,12 @@ function myResizeFunction(){
 
   //document.getElementById('dv_fix').style.width=px_right+'px';
   document.getElementById('dtl_viewer').style.height=(H_VIEW-0)+'px';
+
+  document.getElementById('head_main').style.width=px_right+'px';
+
+  document.getElementById('page_main2').style.height=(H_BODY-50)+'px';
+  
+  
   
 }
 
@@ -759,23 +765,40 @@ function modal_ON(vmode){
 function show_scope(){
   let ob=[
     { "tilt":"National Scope","db":"","fld":"","fld2":"" },
-    { "tilt":"Province : ","db":ref_prov,"fld":"provCode","fld2":"provDesc" },
-    { "tilt":"District : ","db":DB_DISTRICT,"fld":"disCode","fld2":"disDesc" },
-    { "tilt":"City/Municipality : ","db":ref_city,"fld":"citymunCode","fld2":"citymunDesc" }
+    { "tilt":"Province: ","db":ref_prov,"fld":"provCode","fld2":"provDesc", "fld3":'regDesc',"db2":ref_reg,"skey":"regCode" },
+    { "tilt":"District: ","db":DB_DISTRICT,"fld":"disCode","fld2":"disDesc", "fld3":'provDesc',"db2":ref_prov,"skey":"provCode" },
+    { "tilt":"City/Municipality: ","db":ref_city,"fld":"citymunCode","fld2":"citymunDesc", "fld3":'provDesc',"db2":ref_prov,"skey":"provCode" },
+    { "tilt":"Barangay: ","db":ref_brgy,"fld":"brgyCode","fld2":"brgyDesc", "fld3":'citymunDesc',"db2":ref_city,"skey":"citymunCode" }
   ];
   CURR_SCOPE_NO=DB_SYS[0]['scope_no'];
   CURR_SCOPE_TYPE=DB_SYS[0]['scope_type'];
 
   var tilt=ob[CURR_SCOPE_TYPE]["tilt"];
-  var retfld=ob[CURR_SCOPE_TYPE]["fld2"];
-  var db=ob[CURR_SCOPE_TYPE]["db"];
-  var skey='';
-  var subtilt=tilt;  
-  if(db){    
-    skey=ob[CURR_SCOPE_TYPE]["fld"];
-    subtilt=tilt + JBE_GETFLD(retfld,db,skey,CURR_SCOPE_NO);
+  var desc1='';
+  var desc2='';
+
+  if(CURR_SCOPE_TYPE > 0){
+    var retfld1=ob[CURR_SCOPE_TYPE]["fld2"];
+    var db1=ob[CURR_SCOPE_TYPE]["db"];
+    var srecno=ob[CURR_SCOPE_TYPE]["fld"];
+    var skey=ob[CURR_SCOPE_TYPE]["skey"];
+    
+    var db2=ob[CURR_SCOPE_TYPE]["db2"];
+
+    var aryDB1=JBE_GETARRY(db1,srecno,CURR_SCOPE_NO);    
+    var up_code=aryDB1[skey];
+    desc1=aryDB1[retfld1];
+   
+    var vfld3=ob[CURR_SCOPE_TYPE]["fld3"];
+    var aryDB2=JBE_GETARRY(db2,skey,up_code);    
+    desc2=', '+aryDB2[vfld3];
+  }  
+
+  if(CURR_SCOPE_TYPE==2){
+    desc2='';
   }
-  document.getElementById('sys_tilt2').innerHTML=subtilt;  
+
+  document.getElementById('sys_tilt2').innerHTML=tilt+' '+desc1.trim()+desc2;  
 }
 
 function nowLive() {
