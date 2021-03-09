@@ -1,4 +1,4 @@
-const cacheName = 'VOTEMON_0181101';
+const cacheName = 'VOTEMON_0101101';
 const staticAssets = [
   './',
   './index.html', 
@@ -56,6 +56,7 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
+
 addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
@@ -105,5 +106,4 @@ self.addEventListener('fetch', event => {
   }());
 });
 */
-
 
