@@ -52,7 +52,7 @@ function do_fm_watcher(){
     
       '<div class="cls_fm_dtl">'+
         '<div>User Code:'+
-          '<input id="lu_usercode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_USER,&quot;usercode&quot;,&quot;username&quot;)" />'+
+          '<input id="lu_usercode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CANDIDATE LOOKUP&quot;,DB_USER,&quot;usercode&quot;,&quot;username&quot;)" />'+
         '</div>'+
         '<input id="tx_usercode" type="text" data-caption="User Code." onchange="FM_CHK_REC(this.value,&quot;do_disp_watcher&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_username.id).focus()" />'+
       '</div>'+
