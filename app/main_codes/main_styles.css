@@ -652,7 +652,7 @@ background-color: rgba(241, 128, 23, 0.6) !important;
 }
 
 .cls_pos_head{
-  width:100%;height:20px;padding:2px;font-size:13px;text-align:center;background:red;
+  width:100%;height:20px;padding:2px;font-size:13px;text-align:center;background:none;
 }
 
 .cls_pos_body{

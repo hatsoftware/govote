@@ -1,6 +1,16 @@
 var JBE_EMPTY_IMG='../main_gfx/jimg_error.png';
 
 function start_app(){  
+  JBE_MOBILE=true;  
+  if(window.outerWidth > 500){
+    JBE_MOBILE=false;    
+    document.getElementById('div_header').style.display='none';
+    document.getElementById('div_footer').style.display='none';    
+    document.getElementById('bar_avatar').src='../gfx/icon-192x192.png';    
+    document.getElementById('page_main').innerHTML='This App runs in mobile platform only.';    
+    return;    
+  }
+
   allow_start(false);
   JBE_ONLINE_NAVI=navigator.onLine;    
   JBE_ONLINE=false;   
@@ -87,12 +97,15 @@ function allow_start(v){
 
 //=======APP DB AND DISPLAY==========================================================
 function get_app_default(){    
+  /*
   get_db_user(CURR_USER);  
-  get_db_candidate();
-  
+  get_db_candidate();  
   //get_db_tran_votes();  
   get_db_sys();  
   get_db_places();  
+  */
+  get_db_all();  
+  allow_start(true);
 }
 
 function get_db_candidate(){  
@@ -105,9 +118,73 @@ function get_db_candidate(){
     
     //alert('get_db_candidate '+DB_CANDIDATE.length+' vs '+DB_TRAN_VOTES.length);
     allow_start(true);
+    
     show_candidates();
   })    
   .catch(function (error) { console.log(error); allow_start(true); });
+}
+
+function get_db_all(){
+  DB_CANDIDATE=[];  
+  DB_PARTYMAST=[];  
+  DB_MSG=[];  
+  DB_USER=[];  
+  DB_POSITION = [];
+  DB_PARTY = [];
+
+  showProgress(true);    
+  axios.post(JBE_API+'app/zz_all.php', { clientno:CURR_CLIENT,request:0 }) 
+  .then(function (response) {     
+    console.log(response.data);    
+    DB_CANDIDATE = response.data[0];   
+    DB_PARTYMAST = response.data[1];   
+    DB_MSG = response.data[2];   
+    DB_USER = response.data[3];   
+    DB_CLUSTER = response.data[4];
+    DB_POSITION = response.data[5];   
+    DB_PARTY = response.data[6];
+    DB_TRAN_VOTES = response.data[7];
+    DB_DISTRICT = response.data[8];
+    DB_SYS = response.data[9];
+    ref_city = response.data[10];
+    ref_prov = response.data[11];
+    ref_reg = response.data[12];
+    showProgress(false);
+        
+    if(CURR_SCOPE_TYPE == 2){
+      var ctr=0;
+      DB_DISTRICT2=[];
+      for(var i=0;i<ref_city.length;i++){
+        if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
+        let ob={
+          "citymunCode":ref_city[i]['citymunCode'],
+          "disCode":CURR_SCOPE_NO
+        }
+        DB_DISTRICT2[ctr]=ob;
+        ctr++;
+      }
+    
+    }
+    // define to show position
+    update_positions();
+
+    show_candidates();
+
+  },JBE_HEADER)    
+  .catch(function (error) { console.log(error); showProgress(false); }); 
+}
+function update_positions(){
+  JBE_STORE_CANDIDATE = [];
+  for(var i=0;i<DB_POSITION.length;i++){
+    var vdisp='block';
+    if(DB_POSITION[i]['hide']==1){ vdisp='none'; }
+    let ob={
+      "pos":DB_POSITION[i]['pos'],
+      "posname":DB_POSITION[i]['descrp'],
+      "display":vdisp
+    }
+    JBE_STORE_CANDIDATE[i]=ob;
+  }
 }
 
 function get_db_user(u){  
@@ -307,10 +384,7 @@ function myResizeFunction(){
   document.getElementById('mySidenav').style.height=(window.innerHeight-H_HEADER)+'px';
   document.getElementById('mySidenav').style.top=H_HEADER+'px';
 
-  JBE_MOBILE=true;
-  if(window.outerWidth > 500){
-    JBE_MOBILE=false;
-  }
+  
 }
 
 function refreshMain(){
@@ -399,6 +473,11 @@ function setSysColors(){
   JBE_SET_COLOR_BY_CLASS('back_main',JBE_TXCLOR1,JBE_CLOR);    
   JBE_SET_COLOR_BY_CLASS('class_notif2',JBE_TXCLOR4,JBE_CLOR4);
   JBE_SET_COLOR_BY_CLASS('footer_fonts',JBE_TXCLOR1,'none');
+
+  JBE_SET_COLOR_BY_CLASS('head_color','white',JBE_CLOR);
+  JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR2);
+  JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR3);
+  JBE_SET_COLOR_BY_CLASS('head_color4','white',JBE_CLOR4);
 }
 
 function dispMenu(f_main,m){
