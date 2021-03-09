@@ -205,28 +205,28 @@ function fm_admin(){
         '</div>'+
       '</div>'+
 
-      '<div id="div_dtl_admin" style="width:100%;height:'+(H_VIEW-55)+'px;overflow-x:hidden;overflow-y:auto;margin-top:10px;background:white;padding:2px;">'+
+      '<div id="div_dtl_admin" style="width:100%;height:'+(H_VIEW-55)+'px;overflow-x:hidden;overflow-y:auto;margin-top:10px;background:white;padding:5px;">'+
         menuMenu+
 
-        '<div style="width:100%;height:150px;margin-top:5px;font-size:12px;padding:5px;background:none;">'+
-          '<div style="float:left;width:35%;height:20px;">Watcher Code:</div> <div style="float:left;width:65%;height:20px;">'+
+        '<div style="width:100%;height:150px;margin-top:5px;font-size:12px;padding:10px;border:1px solid black;background:none;">'+
+          '<div style="float:left;width:35%;height:20px;">Watcher Code:</div> <div style="float:left;width:65%;height:20px;font-weight:bold;">'+
               CURR_USER+'</div>'+              
-          '<div style="float:left;width:35%;height:20px;">Watcher Name:</div> <div style="float:left;width:65%;height:20px;">'+
+          '<div style="float:left;width:35%;height:20px;">Watcher Name:</div> <div style="float:left;width:65%;height:20px;font-weight:bold;">'+
               CURR_NAME+'</div>'+
-          '<div style="float:left;width:35%;height:20px;">Cluster:</div> <div style="float:left;width:65%;height:20px;">'+
+          '<div style="float:left;width:35%;height:20px;">Cluster:</div> <div style="float:left;width:65%;height:20px;font-weight:bold;">'+
               clusterno+': '+JBE_GETFLD('clustername',DB_CLUSTER,'clusterno',clusterno)+'</div>'+
-          '<div style="float:left;width:35%;height:20px;">Precincts:</div> <div style="float:left;width:65%;height:20px;">'+
+          '<div style="float:left;width:35%;height:20px;">Precincts:</div> <div style="float:left;width:65%;height:20px;font-weight:bold;">'+
               precincts+'</div>'+
-          '<div style="float:left;width:35%;height:20px;">Barangay:</div> <div style="float:left;width:65%;height:20px;">'+
+          '<div style="float:left;width:35%;height:20px;">Barangay:</div> <div style="float:left;width:65%;height:20px;font-weight:bold;">'+
               JBE_GETFLD('brgyDesc',ref_brgy,'brgyCode',brgyCode)+'</div>'+
-          '<div style="float:left;width:35%;height:20px;">City/Mun.:</div> <div style="float:left;width:65%;height:20px;">'+
+          '<div style="float:left;width:35%;height:20px;">City/Mun.:</div> <div style="float:left;width:65%;height:20px;font-weight:bold;">'+
               JBE_GETFLD('citymunDesc',ref_city,'citymunCode',citymunCode)+'</div>'+
-          '<div style="float:left;width:35%;height:20px;">Province:</div> <div style="float:left;width:65%;height:20px;">'+
+          '<div style="float:left;width:35%;height:20px;">Province:</div> <div style="float:left;width:65%;height:20px;font-weight:bold;">'+
               JBE_GETFLD('provDesc',ref_prov,'provCode',provCode)+', Reg. '+regCode+'</div>'+
 
         '</div>'+
 
-        '<div onclick="my_location()" style="display:block;width:100%;height:40px;margin-top:10px;padding:5px;cursor:pointer;background:none;">'+
+        '<div onclick="my_location()" style="display:block;width:100%;height:40px;margin-top:40px;padding:5px;cursor:pointer;background:none;">'+
           '<img src="main_gfx/landmark.png" style="float:left;height:100%;"/>'+
           '<span style="float:left;margin-left:5px;padding:5px;">My Location</span>'+
         '</div>'+
