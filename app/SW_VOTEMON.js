@@ -56,7 +56,6 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
-/*
 addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
@@ -73,7 +72,7 @@ addEventListener('fetch', function(event) {
                 })
             })
             .catch(function(err) {       // fallback mechanism
-              return caches.open(CACHE_CONTAINING_ERROR_MESSAGES)
+              return caches.open(cacheName)
                 .then(function(cache) {
                   return cache.match('/offline.html');
                 });
@@ -81,10 +80,8 @@ addEventListener('fetch', function(event) {
         }
       })
   );
-});    
-
-*/
-
+});     
+/*
 self.addEventListener('fetch', event => {
   // Let the browser do its default thing
   // for non-GET requests.
@@ -107,5 +104,6 @@ self.addEventListener('fetch', event => {
     return fetch(event.request);
   }());
 });
+*/
 
 
