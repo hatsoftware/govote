@@ -190,7 +190,7 @@ function update_positions(){
 function get_db_user(u){  
   DB_USER=[];
   DB_CLUSTER=[];
-  //alert('DI A KO DIRI');
+  alert('DI A KO DIRI');
   axios.post(JBE_API+'app/zz_user.php', { clientno:CURR_CLIENT, request: 1, usercode: u }, JBE_HEADER)
   .then(function (response) {    
     DB_USER = response.data[0];    
