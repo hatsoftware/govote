@@ -15,7 +15,7 @@ function start_app(){
   JBE_ONLINE_NAVI=navigator.onLine;    
   JBE_ONLINE=false;   
   //****************
-  JBE_ONLINE_NAVI=true;
+  //JBE_ONLINE_NAVI=true;
   //****************   
   axios.post(JBE_API+'app/zz_online.php',JBE_HEADER)  
   .then(function (response) {
