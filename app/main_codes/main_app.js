@@ -305,6 +305,7 @@ function showProfile(){
 
   //v_mphoto='upload/users/'+CURR_USER+'.jpg?'+n;
   v_mphoto=JBE_API+'upload/users/'+CURR_USER+'.jpg?'+n;
+	alertv_mphoto);
   if(!JBE_ONLINE){
     v_mphoto='data:image/png;base64,' + btoa(DB_USER[0]['photo']);
   }
