@@ -87,13 +87,12 @@ function allow_start(v){
 
 //=======APP DB AND DISPLAY==========================================================
 function get_app_default(){    
-  //alert('tan awa : '+CURR_CLIENT);
   get_db_user(CURR_USER);  
   get_db_candidate();
   
   //get_db_tran_votes();  
   get_db_sys();  
-  
+  get_db_places();  
 }
 
 function get_db_candidate(){  
@@ -150,6 +149,23 @@ function get_db_chat(u){
   axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT,request: req, usercode: u },JBE_HEADER)     
   .then(function (response) { console.log(response.data); DB_CHAT = response.data; })    
   .catch(function (error) { console.log(error); });
+}
+
+function get_db_places(){  
+  ref_city = [];
+  ref_prov = [];
+  ref_reg = [];
+
+  showProgress(true);    
+  axios.post(JBE_API+'app/zz_places.php', { clientno:CURR_CLIENT,request:0 }) 
+  .then(function (response) {     
+    console.log(response.data);        
+    ref_city = response.data[0];
+    ref_prov = response.data[1];
+    ref_reg = response.data[2];
+    showProgress(false);
+  },JBE_HEADER)    
+  .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
 //=================================================================================
@@ -219,6 +235,17 @@ function showProfile(){
   document.getElementById('bar_avatar').src=v_mphoto;
   document.getElementById('log_avatar').src=v_mphoto;
   document.getElementById('logger').innerHTML=CURR_NAME;  
+
+  // ----------------------------------------------------
+  
+
+  var aryDB=JBE_GETARRY(DB_USER,'usercode',CURR_USER);
+  var clusterno=aryDB['clusterno'];
+  var aryDB2=JBE_GETARRY(DB_CLUSTER,'clusterno',clusterno);
+  
+  document.getElementById('logger').innerHTML=aryDB['username'];
+  document.getElementById('div_cluster').innerHTML=aryDB2['clustername'];  
+  document.getElementById('div_precincts').innerHTML=aryDB2['precincts'];  
 }
 
 function showSystem(){  

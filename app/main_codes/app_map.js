@@ -273,11 +273,9 @@ function procPANEL(v){
 	//document.getElementById('divCANCEL').style.display=vdispcan;
 }
 
-
-
 function showClientBox(meLat,meLng){ 
   var usercode=document.getElementById('div_showmap').getAttribute('data-usercode');
-  var markers=JBE_GETARRY(DB_CLIENTS,'usercode',usercode);    
+  var markers=JBE_GETARRY(DB_USER,'usercode',usercode);    
   memberClusters.clearLayers();  
   var vname=markers['username'];
   var vtag=vname.substr(0,4);
@@ -293,8 +291,8 @@ function showClientBox(meLat,meLng){
                 '<br/><b>Longitude:</b> ' + vlng +                   
                 '<hr>'+
                 '<div style="width:100%;height:35px;padding:5px;text-align:center;border:0px solid gray;background-color:#2e75b6;">'+
-                '   <img src="../app/main_gfx/jcall.png" onclick="callTextGO(&quot;call&quot;,&quot;'+vcelno+'&quot;)" style="float:left;margin-left:4%;height:100%;"/>' +
-                '   <img src="../app/main_gfx/jsms.png"  onclick="callTextGO(&quot;txt&quot; ,&quot;'+vcelno+'&quot;)" style="float:right;margin-right:4%;height:100%;"/>' +     
+                '   <img src="../../main_gfx/jcall.png" onclick="callTextGO(&quot;call&quot;,&quot;'+vcelno+'&quot;)" style="float:left;margin-left:4%;height:100%;"/>' +
+                '   <img src="../../main_gfx/jsms.png"  onclick="callTextGO(&quot;txt&quot; ,&quot;'+vcelno+'&quot;)" style="float:right;margin-right:4%;height:100%;"/>' +     
                 '</div>'+
               '</div>';    
 
@@ -373,7 +371,7 @@ function saveUserPosition(lat,lng){
   .then(function (response) {
     console.log(response.data);
     //alert(response.data);
-    DB_CLIENTS=response.data;
+    //DB_CLIENTS=response.data;
     DB_USER=response.data;
     marker_client.setLatLng([lat,lng]).update();  
     gotoMarker(marker_client);

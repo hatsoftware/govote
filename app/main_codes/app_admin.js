@@ -109,10 +109,15 @@ function login_ok(v){
   createCookie('cok_user_'+CURR_CLIENT,CURR_USER,1);
   createCookie('cok_axtype_'+CURR_CLIENT,CURR_AXTYPE,1);
   createCookie('cok_name_'+CURR_CLIENT,CURR_NAME,1);
-  
+  /*
   var aryDB=JBE_GETARRY(DB_USER,'usercode',CURR_USER);
+  var clusterno=aryDB['clusterno'];
+  var aryDB2=JBE_GETARRY(DB_CLUSTER,'clusterno',clusterno);
+
   document.getElementById('logger').innerHTML=aryDB['username'];
-  document.getElementById('div_cluster').innerHTML=aryDB['clusterno'];  
+  document.getElementById('div_cluster').innerHTML=aryDB2['clustername'];  
+  document.getElementById('div_precincts').innerHTML=aryDB2['precincts'];  
+  */
   
   showProfile();
   
@@ -170,15 +175,24 @@ function fm_admin(){
       '<span style="float:left;margin-left:5px;padding:5px;">Edit Profile</span>'+
     '</div>';
   
-  menuMenu=menuPurchase+menuEditProfile; 
+  menuMenu='';//menuEditProfile; 
   var vdisp_location='block';
-  if(CURR_AXTYPE > 0){ 
+  if(CURR_AXTYPE >= 5){ 
       menuMenu=menuEditProfile; 
       vdisp_location='none';
   }
   if(CURR_AXTYPE == 5){ menuMenu=menuEditStaff+menuEditProfile; }
-  if(CURR_AXTYPE == 9){ menuMenu=menuEditStaff }
+  //if(CURR_AXTYPE == 9){ menuMenu=menuEditStaff }
 
+  menuMenu='';
+  var clusterno=JBE_GETFLD('clusterno',DB_USER,'usercode',CURR_USER);
+  
+  var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',clusterno);
+  var precincts=aryDB['precincts'];
+  var brgyCode=aryDB['brgyCode'];
+  var citymunCode=aryDB['citymunCode'];
+  var provCode=aryDB['provCode'];
+  var regCode=aryDB['regCode'];
   var dtl=
     '<div id="div_main_admin" style="width:100%;height:100%;padding:0px;overflow-x:hidden;overflow-y:auto;background:'+JBE_CLOR+';">'+
       
@@ -191,14 +205,32 @@ function fm_admin(){
         '</div>'+
       '</div>'+
 
-      '<div id="div_dtl_admin" style="width:100%;height:'+(H_VIEW-55)+'px;overflow-x:hidden;overflow-y:auto;background:white;padding:2px;">'+
-        menuMenu+       
-        //'<div onclick="upd_location()" style="display:'+vdisp_location+';width:100%;height:40px;margin-top:20px;padding:5px;cursor:pointer;background:none;">'+
-          '<div onclick="my_location()" style="display:'+vdisp_location+';width:100%;height:40px;margin-top:20px;padding:5px;cursor:pointer;background:none;">'+
+      '<div id="div_dtl_admin" style="width:100%;height:'+(H_VIEW-55)+'px;overflow-x:hidden;overflow-y:auto;margin-top:10px;background:white;padding:2px;">'+
+        menuMenu+
+
+        '<div style="width:100%;height:150px;margin-top:5px;font-size:12px;padding:5px;background:none;">'+
+          '<div style="float:left;width:35%;height:20px;">Watcher Code:</div> <div style="float:left;width:65%;height:20px;">'+
+              CURR_USER+'</div>'+              
+          '<div style="float:left;width:35%;height:20px;">Watcher Name:</div> <div style="float:left;width:65%;height:20px;">'+
+              CURR_NAME+'</div>'+
+          '<div style="float:left;width:35%;height:20px;">Cluster:</div> <div style="float:left;width:65%;height:20px;">'+
+              clusterno+': '+JBE_GETFLD('clustername',DB_CLUSTER,'clusterno',clusterno)+'</div>'+
+          '<div style="float:left;width:35%;height:20px;">Precincts:</div> <div style="float:left;width:65%;height:20px;">'+
+              precincts+'</div>'+
+          '<div style="float:left;width:35%;height:20px;">Barangay:</div> <div style="float:left;width:65%;height:20px;">'+
+              JBE_GETFLD('brgyDesc',ref_brgy,'brgyCode',brgyCode)+'</div>'+
+          '<div style="float:left;width:35%;height:20px;">City/Mun.:</div> <div style="float:left;width:65%;height:20px;">'+
+              JBE_GETFLD('citymunDesc',ref_city,'citymunCode',citymunCode)+'</div>'+
+          '<div style="float:left;width:35%;height:20px;">Province:</div> <div style="float:left;width:65%;height:20px;">'+
+              JBE_GETFLD('provDesc',ref_prov,'provCode',provCode)+', Reg. '+regCode+'</div>'+
+
+        '</div>'+
+
+        '<div onclick="my_location()" style="display:block;width:100%;height:40px;margin-top:10px;padding:5px;cursor:pointer;background:none;">'+
           '<img src="main_gfx/landmark.png" style="float:left;height:100%;"/>'+
           '<span style="float:left;margin-left:5px;padding:5px;">My Location</span>'+
         '</div>'+
-        
+        /*
         '<div onclick="showQR()" style="width:100%;height:40px;margin-top:20px;padding:5px;cursor:pointer;background:none;">'+
           '<img src="main_gfx/jcategory.png" style="float:left;height:100%;"/>'+
           '<span style="float:left;margin-left:5px;padding:5px;">App QR-Code</span>'+
@@ -208,9 +240,10 @@ function fm_admin(){
           '<img src="main_gfx/jshare.png" style="float:left;height:100%;"/>'+
           '<span style="float:left;margin-left:5px;padding:5px;">Share the App</span>'+
         '</div>'+
+        */
 
-        '<div onclick="layas()" style="width:100%;height:40px;margin-top:50px;padding:5px;cursor:pointer;background:none;">'+
-          '<img src="main_gfx/jedit.png" style="float:left;height:100%;"/>'+
+        '<div onclick="layas()" style="width:100%;height:40px;margin-top:20px;padding:5px;cursor:pointer;background:none;">'+
+          '<img src="main_gfx/jcancel.png" style="float:left;height:100%;"/>'+
           '<span style="float:left;margin-left:5px;padding:5px;color:red;">Log Out</span>'+
         '</div>'+
          
@@ -241,6 +274,9 @@ function layas(){
   return;
 }
 function logout(){ 
+  document.getElementById('div_cluster').innerHTML='';
+  document.getElementById('div_precincts').innerHTML='';
+  
   document.getElementById("logger").innerHTML="Log In";     
   document.getElementById("div_cluster").innerHTML="";       
   eraseCookie('cok_user_'+CURR_CLIENT);
@@ -252,9 +288,10 @@ function logout(){
   DB_USER=[]; DB_CART=[];
   JBE_TRANS=[];
   JBE_TRANS2=[];    
-  showProfile(5);
+  
   get_db_candidate();
   //refreshNOTIF('');
+  showProfile();
   closeLogin();
 
 
