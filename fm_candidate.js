@@ -86,7 +86,7 @@ function do_fm_candidate(){
 
       '<div class="cls_fm_dtl">'+        
         '<div>Barangay:'+          
-          '<input id="lu_brgyCode_candi" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;CANDIDATE&quot;,DB_CANDIDATE,&quot;code&quot;,&quot;name&quot;)" />'+
+          '<input id="lu_brgyCode_candi" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;BARANGAY LOOKUP&quot;,ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
           '<input id="tx_brgyCode" type="text" data-caption="Barangay Code" style="display:none;" value="" />'+
         '</div>'+
         '<input id="tx_brgyName" type="text" />'+
@@ -127,7 +127,7 @@ function do_fm_candidate(){
       '<div class="cls_fm_dtl">'+
         '<div>Political Party:</div>'+
         '<input id="tx_candi_partyno" type="text" data-caption="Position" style="display:none;" value="" />'+
-        '<select id="tx_candi_partyname" name="tx_candi_posname" value="" onchange="chg_party_fld(tx_candi_pos.id,this.value)">';
+        '<select id="tx_candi_partyname" name="tx_candi_posname" value="" onchange="chg_candi_fld(tx_candi_partyno.id,this.value)">';
           var sel_dtl2='';
           for(var i=0;i<DB_PARTY.length;i++){
             var partyno=DB_PARTY[i]["partyno"];
