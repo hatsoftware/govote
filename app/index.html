@@ -41,7 +41,9 @@
 <title>VOTEMON</title>
 <script>
   var CURR_CLIENT='NPC';
-  var CURR_SITE='site';    
+  var CURR_SITE='site'; 
+  var CURR_SCOPE_TYPE=0;
+  var CURR_SCOPE_NO='';   
   
   var JBE_API='https://aidfimonitoring.com/votemon_api/';  
   var pathloc=window.location.origin.substr(0,16);
@@ -169,17 +171,14 @@
     <!--  ************************* PERMANENT *************************************************** -->
   <div id="page_main" class="page_class" style="display:block;width:100%;height:auto;"> 
     
-    <div id="div_header" class="jheader" style="width:100%;height:70px;text-align:left;padding:2px;border:0px solid gray;color:black;background:green;">
+    <div id="div_header" class="head_color jheader" style="width:100%;height:70px;text-align:left;padding:2px;border:0px solid gray;color:black;">
       <div style="width:100%;height:30%;padding:2px;color:white;background:none;">VOTEMON APP</div>
-      <div id="div_party" style="width:100%;height:30%;padding:2px 0 0 5px;font-size:16px;color:black;background:none;"></div>
-      <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:black;background:none;">Cluster: <span id="div_cluster" style="background:none;"></span></div>
-      <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:black;background:none;">Precincts: <span id="div_precincts" style="background:none;"></span></div>
+      <div id="div_party" style="width:100%;height:30%;padding:2px 0 0 5px;font-size:16px;color:lightgray;background:none;"></div>
+      <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Cluster: <span id="div_cluster" style="background:none;"></span></div>
+      <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Precincts: <span id="div_precincts" style="background:none;"></span></div>
     </div>
         
-    <div id="user_main" style="width:100%;margin-top:0px;padding:0px;overflow:auto;
-          background-image:url('../gfx/web_bg.jpg');
-          background-size:100% 100%;
-          background-repeat:no-repeat;">
+    <div id="user_main" style="width:100%;margin-top:0px;padding:0px;overflow:auto;background:white;">
       
     </div>
   </div>
@@ -445,10 +444,15 @@
   //document.getElementById('app-logo').style.display='none';
   var jbe_screen_mode=0;
   
-  var JBE_CLOR='#0080ff';   
-  var JBE_CLOR2='#0080c0'; 
-  var JBE_CLOR3='#0080ff'; 
-  var JBE_CLOR4='#ff0000'; 
+  //var JBE_CLOR='#0080ff';   
+  //var JBE_CLOR2='#0080c0'; 
+  //var JBE_CLOR3='#0080ff'; 
+  //var JBE_CLOR4='#ff0000'; 
+
+  var JBE_CLOR='#333f50'; 
+  var JBE_CLOR2='gray'; 
+  var JBE_CLOR3='darkgray'; 
+  var JBE_CLOR4='#262c34'; 
 
   var JBE_TXCLOR1='#ffffff'; 
   var JBE_TXCLOR2='#000000'; 
@@ -459,15 +463,27 @@
   var JBE_ONLINE_NAVI=true;
 
   var JBE_DEF_IMG='main_gfx/jimage.png';
-
-  var DB_USER=[];  
+  
   var DB_CLIENTS=[];    
-  var DB_CANDIDATE=[];
-  var DB_TRAN_VOTES=[]; 
+  
   var DB_CLUSTER=[];  
   var DB_CHAT=[];
   
-  var DB_SYS=[];  
+  
+
+  var DB_CANDIDATE = [];
+  var DB_MSG = [];
+  var DB_USER = [];
+  var DB_TRAN_VOTES = [];
+  var DB_POSITION = [];  
+  var DB_DISTRICT = [];
+  var DB_DISTRICT2 = [];
+  var DB_SYS = [];
+  var DB_PARTYMAST = [];
+
+  //var ref_brgy = [];
+  //var ref_prov = [];
+  var ref_city = [];
 
   var JBE_STORE_CANDIDATE = [
     { "pos":"01", "posname":"President", "display":"block" },
@@ -606,6 +622,8 @@
   
   document.getElementById('div_bar').style.display='block';
   //EP_SetColorByClass('cls_pos_head',JBE_TXCLOR1,JBE_CLOR4); 
+  
+
   setSysColors();
   start_app();  
 
