@@ -22,7 +22,6 @@ function dispBoard(){
   */
   
   var vdtl='';
-    
   for(var i=0;i<JBE_STORE_CANDIDATE.length;i++){
     var vdisp=JBE_STORE_CANDIDATE[i]["display"];
     var vpos=JBE_STORE_CANDIDATE[i]["pos"];
@@ -40,7 +39,7 @@ function dispBoard(){
 
   var dtl=[];
   dtl[0]='';
-  var aryCandidate=DB_CANDIDATE;
+  var aryCandidate=DB_CANDIDATE;  
   aryCandidate.sort((a, b) => a.pos.localeCompare(b.pos) || b.votes - a.votes);
 
   var vdtl='';
@@ -54,11 +53,11 @@ function dispBoard(){
     var vcode=aryCandidate[i]['code'];
     var pos=parseInt(aryCandidate[i]['pos']);
     var regCode=aryCandidate[i]['regCode'];    
-   
+    
     vdtl=          
       '<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+vcode+'&quot;,&quot;'+pos+'&quot;,&quot;'+regCode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
-        //'<div class="cls_shadow_box1"></div>'+
-        //'<div class="cls_shadow_box2">'+
+        '<div class="cls_shadow_box1"></div>'+
+        '<div class="cls_shadow_box2">'+
           
           '<div class="cls_dispboard">'+
             '<div id="candi_ctr_'+i+'" class="cls_dispboard_ctr">'+
@@ -85,7 +84,7 @@ function dispBoard(){
             '</div>'+
           '</div>'+
 
-        //'</div>'+              
+        '</div>'+              
       '</div>';
     
     if(vpos==sv_pos){      

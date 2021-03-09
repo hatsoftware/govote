@@ -19,13 +19,7 @@ function start_app(){
   get_db_all();
   document.getElementById('wrapper').style.display='block';
   showMainPage(); 
-/*
-  get_db_candidate(true);
-  get_db_party();
-  get_db_msg();
-  get_db_user();
-*/
-  //alert('CURR_PROJID '+CURR_PROJID);
+
   if(!CURR_USER) {   
    // jeff();
     //document.getElementById('div_mapbox').style.display='none';
@@ -34,6 +28,7 @@ function start_app(){
     CURR_AXLEVEL=0;
     document.getElementById('logger').innerHTML="Log In";
   }else{
+    if(CURR_AXTYPE==0){ showLogin(); return; }
     document.getElementById('logger').innerHTML="Hi!, "+CURR_NAME;      
     //fillTheFilter(JBE_FNDR,JBE_MNGR);
   }
