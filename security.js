@@ -134,7 +134,7 @@ function off_for_login(m){
   var vdisp='block';
   if(m){ vdisp='none'; }
 
-  //document.getElementById('dv_fix').style.display=vdisp;
+  document.getElementById('head_main').style.display=vdisp;
   document.getElementById('dv_user').style.display=vdisp;
 }
 
@@ -233,6 +233,9 @@ function chkFirstLogin(u,p,j){
     CURR_AXES=pass[i]['jaxes'];
     CURR_AXLEVEL=pass[i]['jaxlevel'];
     CURR_PROJID=pass[i]['jprojid'];
+    
+    //alert(CURR_AXTYPE+' type:'+CURR_AXTYPE);
+    if(CURR_AXTYPE==0){ snackBar('Access Denied...');return; }
     document.getElementById('logger').innerHTML="Hi!, "+CURR_NAME;
     //document.getElementById('div_pass').style.display="none";
     createCookie('cookie_user',CURR_USER,1);
