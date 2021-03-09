@@ -166,6 +166,7 @@ function get_db_all(){
     
     }
     // define to show position
+    showProfile();
     update_positions();
 
     show_candidates();
@@ -190,7 +191,7 @@ function update_positions(){
 function get_db_user(u){  
   DB_USER=[];
   DB_CLUSTER=[];
-  alert('DI A KO DIRI');
+  //alert('DI A KO DIRI');
   axios.post(JBE_API+'app/zz_user.php', { clientno:CURR_CLIENT, request: 1, usercode: u }, JBE_HEADER)
   .then(function (response) {    
     DB_USER = response.data[0];    
@@ -304,8 +305,7 @@ function showProfile(){
   }
 
   //v_mphoto='upload/users/'+CURR_USER+'.jpg?'+n;
-  v_mphoto=JBE_API+'upload/users/'+CURR_USER+'.jpg?'+n;
-	alertv_mphoto);
+  v_mphoto=JBE_API+'upload/users/'+CURR_USER+'.jpg?'+n;  
   if(!JBE_ONLINE){
     v_mphoto='data:image/png;base64,' + btoa(DB_USER[0]['photo']);
   }
