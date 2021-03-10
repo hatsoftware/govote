@@ -244,6 +244,7 @@ function do_save_candi(stat,r){
       uploadNOW(THISFILE[0],newName,targetDIR,ob,false,false); 
     }  
     DB_CANDIDATE=r; 
+    dispBoard();
   }
 }
 //disp
