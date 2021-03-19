@@ -319,7 +319,7 @@ function JBE_OPEN_VIEW(dtl,cap,xclose) {
   //alert(m);
   document.getElementById("myView"+m).setAttribute('data-page',m);
   document.getElementById("myView"+m).setAttribute('data-close',xclose); 
-  document.getElementById('dtl_myView'+m).style.height=H_VIEW+'px';
+  //document.getElementById('dtl_myView'+m).style.height=H_VIEW_DTL+'px';
   
   document.getElementById("dtl_myView"+m).innerHTML=dtl;  
   document.getElementById("cap_myView"+m).innerHTML=cap;  
@@ -333,6 +333,7 @@ function JBE_OPEN_VIEW(dtl,cap,xclose) {
   }
   document.getElementById("myView1").setAttribute('data-JBEpage',m);    
   //alert(document.getElementById("dtl_myView"+m).innerHTML);
+  //document.getElementById("copyright").innerHTML=m;
 }
 
 function JBE_CLOSE_VIEW(){
@@ -365,6 +366,7 @@ function JBE_CLOSE_VIEW(){
     //document.getElementById('div_nobar').style.display='none';
     document.getElementById("myView1").setAttribute('data-JBEpage',0);
   }
+  //document.getElementById("copyright").innerHTML=m-1;
 }
 
 //function EP_SetColorByClass(cls,clr1,clr2){
@@ -625,7 +627,14 @@ function jeffNumber(mode,div) {
   return;
 }
 
+function JBE_DATE_FORMAT(date) {
+  var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "Septemper", "October", "November", "December" ];
+  let year = date.getFullYear();
+  let month = (1 + date.getMonth()).toString().padStart(2, '0');
+  let day = date.getDate().toString().padStart(2, '0');
 
+  return monthNames[date.getMonth()] + ' ' + day + ', ' + year;
+}
 
 var JBE_COLORHEX = x => '#' + x.match(/\d+/g).map(y = z => ((+z < 16)?'0':'') + (+z).toString(16)).join('');
 //enad
