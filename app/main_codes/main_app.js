@@ -15,7 +15,7 @@ function start_app(){
   JBE_ONLINE_NAVI=navigator.onLine;    
   JBE_ONLINE=false;   
   //****************
-  //JBE_ONLINE_NAVI=true;
+  JBE_ONLINE_NAVI=true;
   //****************   
   axios.post(JBE_API+'app/zz_online.php',JBE_HEADER)  
   .then(function (response) {
@@ -372,6 +372,7 @@ function myResizeFunction(){
   H_BODY=window.innerHeight - (H_FOOTER);
   H_PAGE=window.innerHeight - (H_FOOTER);
   H_VIEW=window.innerHeight - (H_FOOTER+H_BAR+0);
+  H_VIEW_DTL=H_VIEW;
  
   document.getElementById('wrapper').style.height=(window.innerHeight)+'px';
   
@@ -521,6 +522,7 @@ function jeff(){
     'field: '+DB_USER[0]['clusterno']+'\n'+
     'DB_USER: '+DB_USER.length+'\n'+
     'field: '+DB_CLUSTER[0]['clustername']+'\n'+
+    'DB_TRAN_VOTES: '+DB_TRAN_VOTES.length+'\n'+
     'DB_CLUSTER: '+DB_CLUSTER.length
   );
 }

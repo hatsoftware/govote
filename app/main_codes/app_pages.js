@@ -92,14 +92,15 @@ function show_dtl_candidates(){
 function mnu_vbc(){
   var jmenu=
     '<div style="width:100%;height:100%;color:'+JBE_TXCLOR1+';">'+
+    /*
       '<div onclick="send_votes()" style="float:left;width:25%;height:100%;color:'+JBE_TXCLOR1+';background:none;">'+        
         '<div class="footer_gfxs">'+
           '<img src="main_gfx/jsend.png"  style="height:100%;" alt="back image" />'+
         '</div>'+
         '<span class="footer_fonts">Send</span>'+
       '</div>'+
-      
-      '<div onclick="JBE_CLOSE_VIEW()" style="float:right;width:25%;height:100%;color:'+JBE_TXCLOR1+';background: none;">'+        
+    */  
+      '<div onclick="JBE_CLOSE_VIEW()" style="float:right;width:100%;height:100%;color:'+JBE_TXCLOR1+';background: none;">'+        
         '<div class="footer_gfxs">'+
           '<img src="main_gfx/jcancel.png"  style="height:100%;" alt="back image" />'+
         '</div>'+
@@ -110,12 +111,21 @@ function mnu_vbc(){
 }
 
 function view_box_candidate(vpos){
-  //alert(vpos);
   if(!CURR_USER){ MSG_SHOW(vbOk,"ERROR:","Please Log In.",function(){},function(){}); return; }
   var dtl=
     '<div style="width:100%;height:100%;margin-top:0px;padding:5px;overflow:auto;background:white;">'+
       '<div class="cls_pos_head">'+JBE_STORE_CANDIDATE[parseInt(vpos)-1]["posname"]+'</div>'+
       '<div id="candi_dtl" data-ctr=0 style="margin-top:5px;width:100%;height:auto;padding:5px;border:1px solid lightgray;background:none;"></div>'+
+
+      '<div style="width:100%;height:30px;margin-top:5px;background:none;">'+
+        '<div onclick="send_votes()" style="margin:0 auto;width:100px;height:100%;border-radius:5px;padding:2px;color:'+JBE_TXCLOR1+';background:'+JBE_CLOR+';">'+        
+          '<span style="float:left;width:auto;height:100%;padding:4px;background:none;">Send</span>'+
+          '<div style="float:left;width:auto;height:100%;padding:2px;background:none;">'+
+            '<img src="main_gfx/jsend.png"  style="height:100%;" alt="back image" />'+
+          '</div>'+          
+        '</div>'+
+      '</div>'+
+      
     '</div>';
   
   JBE_OPEN_VIEW(dtl,'Vote Entry','close_view_box_candidate');
@@ -141,7 +151,7 @@ function view_box_candidate(vpos){
     //alert(v_votes+' candino '+v_candi_no);
     
     vdtl+=
-      '<div id="vbc_'+ctr+'" style="width:100%;height:25px;font-size:14px;margin-top:20px;margin-bottom:20px;padding:2px;background:lightgray;">'+
+      '<div id="vbc_'+ctr+'" style="width:100%;height:25px;font-size:14px;margin-top:10px;margin-bottom:10px;padding:2px;background:lightgray;">'+
         '<div style="float:left;width:70%;height:100%;text-align:left;padding:2px;">'+ctr+'. '+aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+'</div>'+        
         '<input id="inpVote_'+ctr+'" data-votes='+v_votes+' data-code="'+v_candi_no+'" type="number" value="'+v_votes+'" style="float:left;text-align:right;width:30%;height:100%;" />'+
       '</div>';
@@ -180,6 +190,7 @@ function send_votes(){
     var v_code=document.getElementById('inpVote_'+(i+1)).getAttribute('data-code');
     //alert(i+' = '+v_code);
     var cur_votes=parseInt(JBE_GETFLD('votes',DB_CANDIDATE,'code',v_code));
+    var pos=JBE_GETFLD('pos',DB_CANDIDATE,'code',v_code);
     var old_votes=parseInt(document.getElementById('inpVote_'+(i+1)).getAttribute('data-votes'));
     var new_votes=parseInt(document.getElementById('inpVote_'+(i+1)).value);
 
@@ -199,6 +210,7 @@ function send_votes(){
     
     let ob = {
       candi_no:v_code,
+      pos:pos,
       cur_votes:cur_votes,
       old_votes:old_votes,
       new_votes:new_votes
