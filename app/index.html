@@ -5,26 +5,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="theme-color" content="#000000"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<meta name="description" content="VOTEMON App.">
+<meta name="description" content="TBM App.">
 <meta name="og:image" content="gfx/icon-192x192.png">
 
 <!-- HTML Meta Tags -->
 <!-- Google / Search Engine Tags -->
 <meta itemprop="name" content="E-STORE App">
-<meta itemprop="description" content="VOTEMON App.">
+<meta itemprop="description" content="TBM App.">
 <meta itemprop="image" content="gfx/icon-192x192.png">
  
 <!-- Facebook Meta Tags -->
 <!--meta property="og:url" content="https://nothing.com"-->
 <meta property="og:type" content="website">
 <meta property="og:title" content="E-STORE App">
-<meta property="og:description" content="VOTEMON App.">
+<meta property="og:description" content="TBM App.">
 <meta property="og:image" content="gfx/icon-192x192.png">
  
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="E-STORE App">
-<meta name="twitter:description" content="VOTEMON App.">
+<meta name="twitter:description" content="TBM App.">
 <meta name="twitter:image" content="gfx/icon-192x192.png">
  
 <link rel="shortcut icon" href="main_gfx/favicon.ico">
@@ -38,17 +38,17 @@
 <!-- ****************************************************************** -->
 <!--script src="../js/eruda.min.js"></script>
 <script>eruda.init();</script-->
-<title>VOTEMON</title>
+<title>TBM</title>
 <script>
   var CURR_CLIENT='NPC';
   var CURR_SITE='site'; 
   var CURR_SCOPE_TYPE=0;
   var CURR_SCOPE_NO='';   
   
-  var JBE_API='https://aidfimonitoring.com/votemon_api/';  
+  var JBE_API='https://aidfimonitoring.com/tbm_api/';  
   var pathloc=window.location.origin.substr(0,16);
   if(pathloc == 'http://localhost') { 
-    JBE_API=window.location.origin+'/votemon_api/';  
+    JBE_API=window.location.origin+'/tbm_api/';  
   }
 </script>
 <!-- ****************************************************************** -->
@@ -172,7 +172,7 @@
   <div id="page_main" class="page_class" style="display:block;width:100%;height:auto;"> 
     
     <div id="div_header" class="head_color jheader" style="width:100%;height:70px;text-align:left;padding:2px;border:0px solid gray;color:black;">
-      <div style="width:100%;height:30%;padding:2px;color:white;background:none;">VOTEMON APP</div>
+      <div style="width:100%;height:30%;padding:2px;color:white;background:none;">TBM APP</div>
       <div id="div_party" style="width:100%;height:30%;padding:2px 0 0 5px;font-size:16px;color:lightgray;background:none;"></div>
       <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Cluster: <span id="div_cluster" style="background:none;"></span></div>
       <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Precincts: <span id="div_precincts" style="background:none;"></span></div>
@@ -527,6 +527,7 @@
   var H_BODY=0;
   var H_PAGE=0;
   var H_VIEW=0;
+  var H_VIEW_DTL=0;  
 
   var CURR_BACKER=0;
   var f_MainPage=false;
@@ -553,7 +554,7 @@
   /***************************************************** */
   
 	if ('serviceWorker' in navigator) {
-		navigator.serviceWorker.register('SW_VOTEMON.js', { scope: './' }).then(function(registration) {
+		navigator.serviceWorker.register('SW_TBM.js', { scope: './' }).then(function(registration) {
 			console.log('Service worker registration succeeded:', registration);
 		}).catch(function(error) {
 			console.log('Service worker registration failed:', error);
@@ -615,7 +616,7 @@
   
   myResizeFunction();   
     
-  var CURR_IDX_DB='DB_VOTEMON';      
+  var CURR_IDX_DB='DB_TBM';      
   initDb();      
   window.history.pushState({ noBackExitsApp: true }, '');
   f_MainPage=false;
