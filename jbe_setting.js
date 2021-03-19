@@ -5,27 +5,158 @@ function dispSetting(){
   }
 
   var dtl=
-  '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:none;">'+
+  '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:lightgray;">'+
 
       '<div id="sys_menu1" class="cls_ds_main">'+ 
-        '<p>System Facility</p>'+   
+        '<p style="background:'+JBE_CLOR+';">System Facility</p>'+   
         '<button onclick="reset_votes()">Clear Votes</button>'+   
-        '<button onclick="sys_scope()">System Scope</button>'+           
+        '<button onclick="sys_scope()">Election Scope</button>'+           
         '<button onclick="do_fm_district()">District File</button>'+           
+        '<button onclick="do_setup()">Setup</button>'+           
         '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+
 
-      '<div id="sys_menu2" style="display:none;"></div>'+
-      
+      '<div id="sys_menu2" style="display:none;"></div>'+      
     
   '</div>';
-
-  modal_ON(true);
+  
   JBE_OPEN_VIEW(dtl,'Settings','close_setting');  
+  modal_ON(true);
 }
 function close_setting(){  
-  modal_ON(false);
+  //modal_ON(false);
   showMainPage(); 
+}
+
+function do_setup(){    
+  var citymunCode=DB_SYS[0]['citymunCode'];
+  var aryDB=JBE_GETARRY(ref_city,'citymunCode',citymunCode);
+  
+  var citymunDesc=aryDB['citymunDesc'];
+  var provDesc=JBE_GETFLD('provDesc',ref_prov,'provCode',aryDB['provCode']);
+  var regDesc=JBE_GETFLD('regDesc',ref_reg,'regCode',aryDB['regCode']);
+
+  var dtl=
+  '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:red;">'+
+    '<div class="cls_ds_main">'+      
+      '<p style="background:'+JBE_CLOR+';">System Setup</p>'+
+      '<div style="width:96%;height:auto;padding:10px;border:1px solid lightgray;margin:0 2% 2% 2%;background:none;">'+
+
+        '<div class="cls_fm_dtl">'+        
+          '<div>Municipal/City:'+          
+            '<input id="lu_set_citymunCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_city&quot;,&quot;LOOKUP&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
+            '<input id="tx_set_citymunCode" type="text" data-caption="Barangay Code" style="display:none;" value="'+citymunCode+'" />'+
+          '</div>'+
+          '<input id="tx_set_cityName" style="pointer-events:none;" value="'+citymunDesc+'" type="text" />'+
+        '</div>'+
+
+        '<div class="cls_fm_dtl">'+
+          '<div>Province:</div>'+
+          '<input id="tx_set_provCode" type="text" style="display:none;" value="" />'+
+          '<input id="tx_set_provName" style="pointer-events:none;" type="text" value="'+provDesc+'" />'+
+        '</div>'+
+
+        '<div class="cls_fm_dtl">'+
+          '<div>Region:</div>'+
+          '<input id="tx_set_regCode" type="text" style="display:none;" value="" />'+
+          '<input id="tx_set_regName" style="pointer-events:none;" type="text" value="'+regDesc+'" />'+
+        '</div>'+
+        
+        '<div id="dv_setlayas1" style="height:40px;margin-bottom:20px;padding:0 10px 0 10px;text-align:center;">'+                  
+          '<button onclick="close_do_setup()" style="width:200px;height:100%;color:white;background:'+JBE_CLOR+';">Exit</button>'+        
+        '</div>'+
+        '<div id="dv_setlayas2" style="display:none;height:40px;margin-bottom:20px;padding:0 10px 0 10px;">'+        
+          '<button onclick="do_save_setup()" style="float:left;width:40%;height:100%;color:white;background:'+JBE_CLOR+';">Save</button>'+        
+          '<button onclick="init_set(0)" style="float:right;width:40%;height:100%;color:white;background:'+JBE_CLOR+';">Cancel</button>'+        
+        '</div>'+
+
+      '</div>'+
+    '</div>'+
+  '</div>';
+  
+  JBE_OPEN_VIEW(dtl,'SETUP','close_do_setup');
+}
+function close_do_setup(){
+  alert('buye');
+}
+
+function do_lu_city(fld,val){  
+  //alert(fld+' x '+val);
+  var aryDB=JBE_GETARRY(ref_city,fld,val);
+  var citymunCode=aryDB['citymunCode'];
+  var provCode=aryDB['provCode'];
+  var regCode=aryDB['regCode'];
+  //document.getElementById('btn_set_save').disabled=false;
+
+  document.getElementById('tx_set_citymunCode').value = citymunCode;
+  document.getElementById('tx_set_provCode').value = provCode;
+  document.getElementById('tx_set_regCode').value = regCode;
+  document.getElementById('tx_set_cityName').value = JBE_GETFLD('citymunDesc',ref_city,'citymunCode',citymunCode);
+  document.getElementById('tx_set_provName').value = JBE_GETFLD('provDesc',ref_prov,'provCode',provCode);
+  document.getElementById('tx_set_regName').value = JBE_GETFLD('regDesc',ref_reg,'regCode',regCode);
+  if(val != CURR_CITYMUNCODE){
+    init_set(1);
+  }
+}
+function init_set(v){
+  
+
+  var vdisp1='block';
+  var vdisp2='none';
+  if(v==0){
+    do_lu_city('citymunCode',CURR_CITYMUNCODE);
+  }else{
+    vdisp1='none'; vdisp2='block'; 
+  }  
+
+  document.getElementById('dv_setlayas1').style.display=vdisp1;
+  document.getElementById('dv_setlayas2').style.display=vdisp2;
+}
+function do_save_setup(){
+  var citymunCode = document.getElementById('tx_set_citymunCode').value;
+  var provCode = document.getElementById('tx_set_provCode').value;
+  var regCode = document.getElementById('tx_set_regCode').value;
+    
+  if(!citymunCode){    
+    snackBar('ERROR: Code is Empty...');
+    return;    
+  }
+
+  showProgress(true); 
+  axios.post(JBE_API+'z_sysfile.php', { clientno:CURR_CLIENT, request: 302,    
+    citymunCode:citymunCode,
+    provCode:provCode,
+    regCode:regCode    
+  },JBE_HEADER)
+  .then(function (response) {    
+    showProgress(false); 
+    console.log(response.data); 
+    DB_SYS=response.data;      
+    CURR_CITYMUNCODE=citymunCode;  
+    init_set(0);
+  })      
+  .catch(function (error) { console.log(error); showProgress(false); });
+}
+
+
+function do_print_x(){  
+  var originalContents = document.body.innerHTML;    
+  var printContents = document.getElementById('sys_menu1').innerHTML;//.cloneNode(true);
+    
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
+  
+  /*
+  f_RESIZE=false;
+  
+  var xx=window.innerWidth - parseInt(document.getElementById('div_main_left').style.width)-10;
+  alert(parseInt(window.innerWidth));
+  alert(parseInt(document.getElementById('div_main_left').style.width));
+  alert('xx '+xx);
+  xx=xx-5;
+  document.getElementById('div_main_right').style.width=xx + 'px';
+  */
 }
 
 function reset_votes(){

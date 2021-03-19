@@ -581,7 +581,7 @@
   #sys_tilt2{ height:55%;width:100%;font-size:11px;padding:0px 0 0 0;background:none; }
 
   #div_logo, #div_main_left{ width:50px; font-size:12px;color:green; }
-  #div_logo{ margin-left:5px; }
+  
   #id_LiveTime{ font-size:9px; }
   
   .xdiv_main_left{
@@ -863,7 +863,7 @@
   }
   
   .back_main{
-    height:30px;width:100%;padding:5px;text-align:left;color:white;
+    height:35px;width:100%;padding:7px;text-align:left;color:white;
     position: relative;border:1px solid white;
   }
   
@@ -1016,5 +1016,9 @@
   .cls_div_map{ float:left;width:60%;height:100%;color:white;background:none; }
 
   #lookup-box{ width:90%;height:400px; }
+
+  #div_header{ display:block;width:100%;height:50px;text-align:center;border:0px solid gray;padding:0px;color:white;background:red; }
+  #div_logo{ float:left;width:50px;height:100%;text-align:left;padding:4px;background:yellow; }
+  #hd_datetime{ display:none; }  
 }
   

@@ -1,5 +1,5 @@
-var map;
 function dispBoard(){  
+  showMainPage();
   //return;
   /* note:
     1 - President
@@ -20,14 +20,18 @@ function dispBoard(){
     12 - Brgy. Councilor
 
   */
-  
-  var vdtl='';
+
+  //document.getElementById('head_main').style.width=px_right+'px';
+    
+  var vdtl='<div id="BOARD_MAIN" data-pos="" data-candi_no="" data-div="" data-batch=1>';
   for(var i=0;i<JBE_STORE_CANDIDATE.length;i++){
     var vdisp=JBE_STORE_CANDIDATE[i]["display"];
     var vpos=JBE_STORE_CANDIDATE[i]["pos"];
+    var vname=JBE_STORE_CANDIDATE[i]["posname"].trim().toUpperCase();
+    //alert('v '+vpos);
     vdtl+=
       '<div id="candi_'+vpos+'" class="cls_candi_box" style="display:'+vdisp+';">'+
-        '<div class="cls_pos_head">'+JBE_STORE_CANDIDATE[i]["posname"].toUpperCase()+'</div>'+
+        '<div onclick="disp_batch(1,&quot;'+vpos+'&quot;,&quot;&quot;)" class="cls_pos_head">'+vname+'</div>'+
         '<div id="candi_dtl_'+vpos+'" class="cls_pos_body">'+
         
         '</div>'+  
@@ -55,14 +59,19 @@ function dispBoard(){
     var regCode=aryCandidate[i]['regCode'];    
     
     vdtl=          
-      '<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+vcode+'&quot;,&quot;'+pos+'&quot;,&quot;'+regCode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+    
+      //'<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+vcode+'&quot;,&quot;'+pos+'&quot;,&quot;'+regCode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+      //'<div class="cls_shadow_dispboard" onclick="disp_single(&quot;'+vcode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+      //'<div class="cls_shadow_dispboard" onclick="show2_brgy(true,&quot;'+vcode+'&quot;,&quot;'+CURR_CITYMUNCODE+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+      '<div class="cls_shadow_dispboard" onclick="disp_batch(0,&quot;'+aryCandidate[i]['pos']+'&quot;,&quot;'+vcode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+      //
         '<div class="cls_shadow_box1"></div>'+
         '<div class="cls_shadow_box2">'+
           
           '<div class="cls_dispboard">'+
-            '<div id="candi_ctr_'+i+'" class="cls_dispboard_ctr">'+
-              (ctr+0)+'.'+
-            '</div>'+
+            //'<div id="candi_ctr_'+i+'" class="cls_dispboard_ctr">'+
+            //  (ctr+0)+'.'+
+            //'</div>'+
             '<div class="cls_dispboard_img">'+
               '<img id="candi_img_'+i+'" class="cls_dispboard_img_in" src="'+JBE_API+'upload/photo/'+vcode+'.jpg" />'+              
             '</div>'+
@@ -108,6 +117,7 @@ function dispBoard(){
 }
 
 function dispVotesGraph(i,candi_no,pos,regCode){
+  return;
   if(CURR_SCOPE_TYPE > 0 && CURR_SCOPE_NO==''){
     snackBar('ERROR: System Scope Invalid...');
     return;
@@ -127,18 +137,18 @@ function dispVotesGraph(i,candi_no,pos,regCode){
   
   if(JBE_MOBILE){    
     h_dtl_view=H_VIEW-130;
-    document.getElementById('pmap').style.width='100%';
+    //document.getElementById('pmap').style.width='100%';
   }
   document.getElementById('dv_dtl_view').style.height=h_dtl_view+'px';
 
-  //map.invalidateSize();
-  //map.setView([11.8787, 121.7740],6);  
+  map.invalidateSize();
+  map.setView([11.8787, 121.7740],6);  
   for(var i=1;i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
   //alert(pos+'  CURR_SCOPE_TYPE '+CURR_SCOPE_TYPE+' regCode:'+regCode);
   if(CURR_SCOPE_TYPE==0){    
     if(pos < 4){      
       show_region(candi_no,'');
-      document.getElementById('pmap').src='maps/main.jpg';
+      //document.getElementById('pmap').src='maps/main.jpg';
       //alert(222);
       return;
     }
@@ -178,7 +188,7 @@ function show_folder(v,vCode,votes){
   var vvotes=jformatNumber(votes);  
   var tilt='';
   var ary_scope=['National:','Province:','District:','City/Municipal:'];
-  var ary_label=['Region:','Province:','District:','City/Municipal:','Barangay:'];
+  var ary_label=['Region:','Province:','District:','City/Municipal:','Barangay:','Cluster:'];
 
   if(CURR_SCOPE_TYPE==0){ 
     var ary_label=['','Region:','Province:','City/Municipal:','Barangay:'];
@@ -193,9 +203,9 @@ function show_folder(v,vCode,votes){
   //display map
   
   if(v==1){
-    document.getElementById('pmap').src='maps/main.jpg';
+    //document.getElementById('pmap').src='maps/main.jpg';
   }else{
-    document.getElementById('pmap').src='maps/reg_'+vCode.substring(0,2)+'.png';
+    //document.getElementById('pmap').src='maps/reg_'+vCode.substring(0,2)+'.png';
   } 
   
 }  
@@ -203,12 +213,12 @@ function show_folder(v,vCode,votes){
 //
 function menu_folder(v){
   var ary_id=['reg','prov','citymun','brgy'];
-  for(var i=1;i<=4;i++){ document.getElementById('summ'+i).style.display='none';  }
+  for(var i=1;i<=5;i++){ document.getElementById('summ'+i).style.display='none';  }
   document.getElementById('summ'+v).style.display='block';  
 
   for(var i=(v+1);i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
   if(v==1){
-    document.getElementById('pmap').src='maps/main.jpg';
+    //document.getElementById('pmap').src='maps/main.jpg';
   }
 }
 //
@@ -238,6 +248,9 @@ function show_citymun(candi_no,vCode){
 function show_brgy(candi_no,vCode){  
   disp_place_votes(candi_no,'brgy',vCode);
 }
+function show_cluster(candi_no,vCode){  
+  disp_place_votes(candi_no,'cluster',vCode);
+}
 function show_none(candi_no,vCode){  
   return;
 }
@@ -255,6 +268,8 @@ function getPlaceVotes(candi_no,place_type,place_no){
     vcode='citymunCode';
   }else if(place_type=='brgy'){
     vcode='brgyCode';
+  }else if(place_type=='cluster'){
+    vcode='clusterno';  
   }
 
   //alert('candi_no: '+candi_no+'\n vcode: '+vcode+'\n place_no: '+place_no);
@@ -271,7 +286,7 @@ function getPlaceVotes(candi_no,place_type,place_no){
 }
 
 //====================================================================
-function disp_place_votes(candi_no,place_type,place_no){
+function xxxdisp_place_votes(candi_no,place_type,place_no){
   //alert('place_no '+place_no);
   
   var vtitle='';
@@ -337,13 +352,21 @@ function disp_place_votes(candi_no,place_type,place_no){
     aryPlace=ref_brgy;
     vplace_no='citymunCode';
     grap_no=4;
-    vfunc='show_none';  
+    vfunc='show_cluster';  
+  }else if(place_type=='cluster'){
+    vtitle='Cluster';
+    vcode='clusterno';
+    vdesc='clustername';
+    aryPlace=DB_CLUSTER;
+    vplace_no='brgyCode';
+    grap_no=5;
+    vfunc='show_none';    
   }
 
   var vcandi_pos=parseInt(JBE_GETFLD('pos',DB_CANDIDATE,'code',candi_no));
   //alert(vcandi_pos);
 
-  for(var i=1;i<=4;i++){
+  for(var i=1;i<=5;i++){
     document.getElementById('summ'+i).style.display='none';
   }
   document.getElementById("summ"+grap_no).style.display='block';
@@ -467,3 +490,5 @@ function disp_place_votes(candi_no,place_type,place_no){
   */
 
 }
+
+

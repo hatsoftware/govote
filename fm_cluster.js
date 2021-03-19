@@ -2,8 +2,10 @@ function do_fm_cluster(){
   FM_TABLE=DB_CLUSTER;    
   FM_AXIOS_PHP=JBE_API+"z_cluster.php";
   FM_FIELDS=[ //display on screen
-    { div:"tx_clusterno", fld:"clusterno", disp:1, save:true },
+    { div:"tx_clusterno", fld:"clusterno", disp:-1, save:true },
     { div:"tx_clustername", fld:"clustername", disp:1, save:true  },
+    { div:"tx_regVoters", fld:"regVoters", disp:1, save:true  },
+    { div:"tx_prec_len", fld:"prec_len", disp:1, save:true  },
     { div:"tx_precincts", fld:"precincts", disp:1, save:true  },
 
     { div:"tx_brgyCode", fld:"brgyCode", disp:0, save:true  }, 
@@ -18,50 +20,40 @@ function do_fm_cluster(){
     { div:"tx_regCode", fld:"regCode", disp:0, save:true  },   
         { div:"tx_regName", fld:"regName", disp:2, save:false  }
   ];
-/*
-  FM_LK_OB[0]=[
-    { div:"tx_clusterno", fld:"clusterno" },
-    { div:"tx_clustername", fld:"clustername" },
-    { div:"tx_precincts", fld:"precincts" },
-    { div:"tx_brgyCode", fld:"brgyCode" },  
-    { div:"tx_citymunCode", fld:"citymunCode" },  
-    { div:"tx_provCode", fld:"provCode" },  
-    { div:"tx_regCode", fld:"regCode" }
-  ];
 
-  FM_LK_OB[1]=[
-    { div:"tx_brgyCode", fld:"brgyCode" },  
-    { div:"tx_citymunCode", fld:"citymunCode" },  
-    { div:"tx_provCode", fld:"provCode" },  
-    { div:"tx_regCode", fld:"regCode" }
-  ];
-  */
   var fm_ob = {
     title:"CLUSTER MASTER FILE",
     top:"10%", left:"", bottom:"", right:"10%",
-    width:"600px",height:"350px"
+    width:"600px",height:"420px"
   };  
  
-  if(JBE_MOBILE){ 
-    fm_ob.width="95%"; 
+  if(JBE_MOBILE){
+    fm_ob.width="95%";
     fm_ob.height="315px";
-    fm_ob.right="5px";  
-    fm_ob.top="100px"; 
+    fm_ob.right="5px";
+    fm_ob.top="100px";
   }
     
   var fm_layout=
     '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+
 
-      '<div class="cls_fm_dtl">'+
-        '<div>Code:'+
+      '<input id="tx_clusterno" type="text" style="display:none;" />'+
+
+      '<div class="cls_fm_dtl">'+        
+        '<div>Cluster Name:'+
           '<input id="lu_clusterno" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
         '</div>'+
-        '<input id="tx_clusterno" type="text" data-caption="Cluster No." onchange="FM_CHK_REC(this.value,&quot;do_disp_candi&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_clustername.id).focus()" />'+
+        '<input id="tx_clustername" type="text" data-caption="Cluster Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
       '</div>'+
 
       '<div class="cls_fm_dtl">'+
-        '<div>Cluster Name:</div>'+
-        '<input id="tx_clustername" type="text" data-caption="Cluster Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
+        '<div>Registered Voters:</div>'+
+        '<input id="tx_regVoters" type="number" value="" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>No. of Precincts:</div>'+
+        '<input id="tx_prec_len" type="number" value="" />'+
       '</div>'+
 
       '<div class="cls_fm_dtl">'+
@@ -124,10 +116,10 @@ function do_init_cluster(){
   document.getElementById('lu_clusterno').style.opacity='1';
 }
 //
-function do_add_cluster(stat){
+function do_add_cluster(){
   document.getElementById('lu_brgyCode').disabled=false;
   document.getElementById('lu_brgyCode').style.opacity='1';
-  document.getElementById('tx_clusterno').focus();
+  document.getElementById('tx_clustername').focus();
 }
 //edit
 function do_edit_cluster(){
@@ -149,8 +141,11 @@ function do_look_cluster(fld){
   }
 }
 //del
-function do_del_cluster(r){
-  DB_CLUSTER=r;  
+
+function do_del_cluster(stat,r){  
+  if(stat==2){
+    DB_CLUSTER=r;  
+  }
 }
 //save
 function do_save_cluster(stat,r){

@@ -2,7 +2,7 @@ function do_fm_watcher(){
   FM_TABLE=DB_USER;
   FM_AXIOS_PHP=JBE_API+"z_user.php";
   FM_FIELDS=[ //display on screen
-    { div:"tx_usercode", fld:"usercode", disp:1, save:true  },
+    { div:"tx_usercode", fld:"usercode", disp:-1, save:true  },
     { div:"tx_username", fld:"username", disp:1, save:true  },
     { div:"tx_userid", fld:"userid", disp:1, save:true },
     { div:"tx_pword", fld:"pword", disp:1, save:true },
@@ -48,17 +48,14 @@ function do_fm_watcher(){
   }
 
   var fm_layout=
-    '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+    
+    '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+
+    
+      '<input id="tx_usercode" type="text" style="display:block;" />'+
     
       '<div class="cls_fm_dtl">'+
-        '<div>User Code:'+
+        '<div>Username:'+
           '<input id="lu_usercode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CANDIDATE LOOKUP&quot;,DB_USER,&quot;usercode&quot;,&quot;username&quot;)" />'+
         '</div>'+
-        '<input id="tx_usercode" type="text" data-caption="User Code." onchange="FM_CHK_REC(this.value,&quot;do_disp_watcher&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_username.id).focus()" />'+
-      '</div>'+
-
-      '<div class="cls_fm_dtl">'+
-        '<div>Username:</div>'+
         '<input id="tx_username" type="text" data-caption="Username" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_userid.id).focus()" />'+
       '</div>'+
 
@@ -94,7 +91,7 @@ function do_fm_watcher(){
 
 
       '<div class="cls_fm_dtl">'+
-        '<div>User Code:'+
+        '<div>Cluster No.:'+
           '<input id="lu_clusterno_watcher" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
         '</div>'+
         '<input id="tx_clusterno_watcher" type="text" data-caption="Watcger Code." onchange="FM_CHK_REC(this.value,&quot;do_disp_watcher&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_username.id).focus()" />'+
@@ -169,23 +166,13 @@ function do_init_watcher(){
 }
 //
 function do_add_watcher(){
-  var vDate=new Date();  
-  var vTime = vDate.toLocaleTimeString('it-IT'); 
-  vDate = new Date(vDate.getTime() - (vDate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];  
-  var usercode='U_'+vDate+'_'+vTime;
-  usercode = usercode.replace(/-/g, "").replace(/:/g, "").replace("T", "-");   
-
   document.getElementById('lu_clusterno_watcher').disabled=false;
   document.getElementById('lu_clusterno_watcher').style.opacity='1';
 
   document.getElementById('img_watcher').src='gfx/avatar.png';
   document.getElementById('lu_watcher_photo').style.pointerEvents='auto';
   document.getElementById('lu_watcher_photo').style.opacity='1';
-
-  document.getElementById('tx_usercode').value=usercode;
-  document.getElementById('tx_usercode').disabled=true;
-  document.getElementById('lu_usercode').disabled=true;
-  document.getElementById('lu_usercode').style.opacity='0.5';  
+  
   document.getElementById('tx_username').focus();
 }
 //edit
@@ -296,7 +283,7 @@ function do_disp_watcher(disp_mode){
     var n = new Date().toLocaleTimeString('it-IT');  
     var vimg=JBE_API+'upload/users/'+recno.trim()+'.jpg';
     document.getElementById('img_watcher').setAttribute('data-img',vimg);
-    document.getElementById('img_watcher').src=vimg;//+'?'+n;
+    document.getElementById('img_watcher').src=vimg;+'?'+n;
     //alert(n);
   }else if(disp_mode==2){        
     var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',vclusterno); //last error gabii    

@@ -205,15 +205,13 @@ function FM_CHK_REC(recno){
 
 
 
-function FM_DISP_REC(recno){  
+function FM_DISP_REC(recno){
+  //alert('FM_DISP_REC:'+recno);
   FM_MAIN_BOX(1);
   document.getElementById('FM_HEAD').setAttribute('data-recno',recno);
 
-  
-  //if (typeof fn === "function") fn(recno,true);   
-
   FM_ADD_FLAG=false;
-  var fld=FM_FIELDS[0]['fld'];
+  var fld=FM_FIELDS[0]['fld'];  
 
   for(var i=0;i<FM_TABLE.length;i++){
     var tbl_fld=FM_TABLE[i][fld].trim();
@@ -224,19 +222,16 @@ function FM_DISP_REC(recno){
       var vdiv=FM_FIELDS[ii]['div'];
       var vfld=FM_FIELDS[ii]['fld'];
       var vval=FM_TABLE[i][vfld];  
-      //alert(vval);
-      //alert(vdiv);
+      
+      //alert(vdiv+' vs '+vval);
       document.getElementById(vdiv).value=vval;    
       document.getElementById(vdiv).disabled=true; 
     }                   
   }   
-  
-  
+    
   var fn = window[FM_FUNC.look];  
   if(typeof fn === "function") fn(fld);   
 }
-
-
 
 //
 function FM_ADD_REC(){
@@ -247,14 +242,14 @@ function FM_ADD_REC(){
   for(var i=0;i<FM_FIELDS.length;i++){
     var div=FM_FIELDS[i]['div'];    
     var disp=FM_FIELDS[i]['disp'];    
+    
     document.getElementById(div).value='';
     if(disp==1){     
       document.getElementById(div).disabled=false;
     }
   }
 
-  //if (typeof fn === "function"){ if(fn(2)==false){ return; }}  
-  if (typeof fn === "function") fn(2);   
+  if (typeof fn === "function") fn(2);  
 }
 //
 function FM_EDIT_REC(){
@@ -282,6 +277,8 @@ function FM_SAVE_REC(){
 
   var req=parseInt(document.getElementById('FM_BTNS').getAttribute('data-mode'));
   var recno=document.getElementById('FM_HEAD').getAttribute('data-recno');
+  //alert('FM_SAVE_REC '+recno)
+  var recno_fld='', recno_val='', recno_div='';
   
   FM_AXIOS_PARA1=[];
   var ctr=0;
@@ -290,13 +287,21 @@ function FM_SAVE_REC(){
 
     var div=FM_FIELDS[i]['div'];
     var fld=FM_FIELDS[i]['fld'];
+    var disp=parseInt(FM_FIELDS[i]['disp']);
     var val=document.getElementById(div).value;
-    if(!val){
-      snackBar(fld+' ERROR: Empty Field: '+document.getElementById(div).getAttribute('data-caption'));
+        
+    if(disp < 0){
+      recno_fld=fld;
+      recno_val=val;
+      recno_div=div;
+    }
+        
+    if(!val && disp > -1){
+      snackBar('ERROR: Empty Field: '+document.getElementById(div).getAttribute('data-caption'));
       document.getElementById(div).focus();
       return;
     }
-           
+
     let ob={
       "fld":fld,
       "val":val
@@ -304,22 +309,22 @@ function FM_SAVE_REC(){
     FM_AXIOS_PARA1[ctr]=ob;    
     ctr++;
   }
-    
-  //alert(FM_AXIOS_PARA1);
+
   showProgress(true);   
-  //alert('req '+req+' ctr: '+ctr);
   axios.post(FM_AXIOS_PHP, { clientno:CURR_CLIENT,request: req, 
     aryItems:JSON.stringify(FM_AXIOS_PARA1)
   },JBE_HEADER)
   .then(function (response) {    
     showProgress(false); 
-    //alert(response.data); 
-    console.log(response.data); 
     FM_TABLE=response.data;
-
-    //var fn = window[FM_FUNC.save];
+    
+    if(FM_ADD_FLAG){
+      recno=FM_TABLE[(FM_TABLE.length-1)][recno_fld];
+      document.getElementById(recno_div).value=recno;
+    }
     
     if (typeof fn === "function") fn(2,response.data);   
+    
     FM_DISP_REC(recno);
   })    
   .catch(function (error) { console.log(error); showProgress(false); });
@@ -369,27 +374,18 @@ function FM_CLOSE(){
 }
 
 function FM_INIT_REC(){
+  document.getElementById('FM_HEAD').setAttribute('data-recno','');
   FM_MAIN_BOX(0);
   FM_ADD_FLAG=false;
   for(var i=0;i<FM_FIELDS.length;i++){
     var div=FM_FIELDS[i]['div'];    
-    var disp=FM_FIELDS[i]['disp'];    
-    if(disp == 0){ 
-      //alert(div);
+    var disp=parseInt(FM_FIELDS[i]['disp']);
+    if(disp <= 0){
       document.getElementById(div).style.display='none';
       continue; 
     }    
-    //alert(div);
-    /*
-    var xnodeName=document.getElementById(div).nodeName;    
-    //alert(div+' = '+xnodeName);        
-    if(xnodeName=='SELECT'){
-      document.getElementById(div).style.pointerEvents='none';
-      document.getElementById(div).value='';
-    }else{
-      */
     document.getElementById(div).disabled=true;
-    document.getElementById(div).value='';    
+    document.getElementById(div).value='';
   }
 
   var fn = window[FM_FUNC.init];

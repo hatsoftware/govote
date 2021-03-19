@@ -1,3 +1,4 @@
+var map;
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
 mqi = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3']});       
 map = L.map( 'jmap', {
@@ -10,7 +11,7 @@ zoomControl: false
 });
 
 map.on('click', function(e){    
-
+/*
 var coord = e.latlng;
 var lat = coord.lat;
 var lng = coord.lng;
@@ -18,6 +19,7 @@ var lng = coord.lng;
 document.getElementById('d_lat').value=lat;
 document.getElementById('d_lng').value=lng;
 //alert(lat);
+*/
 });
 
 var baseMaps = {
@@ -37,6 +39,7 @@ L.control.layers(baseMaps,overlays, {position: 'bottomleft'}).addTo(map);
 layerGroup = L.layerGroup().addTo(map); 
 //document.getElementById('jmap').hidden=false;
 
-var geojsonObj = new L.GeoJSON.AJAX("zprov.geojson");
-geojsonObj.addTo(map);
+//var geojsonObj = new L.GeoJSON.AJAX("zprov.geojson");
+//geojsonObj.addTo(map);
 
+//map.invalidateSize();

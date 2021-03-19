@@ -135,7 +135,7 @@ function off_for_login(m){
   if(m){ vdisp='none'; }
 
   document.getElementById('head_main').style.display=vdisp;
-  document.getElementById('dv_user').style.display=vdisp;
+  document.getElementById('dv_user').style.display=vdisp;  
 }
 
 function showLogin(){

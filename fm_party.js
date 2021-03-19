@@ -2,10 +2,9 @@ function do_fm_party(){
   FM_TABLE=DB_PARTYMAST;
   FM_AXIOS_PHP=JBE_API+"z_party.php";
   FM_FIELDS=[ //display on screen
-    { div:"tx_party_no", fld:"partyno", disp:1, save:true  },
+    { div:"tx_party_no", fld:"partyno", disp:-1, save:true  },
     { div:"tx_party_name", fld:"partyname", disp:1, save:true  },
-    { div:"tx_party_photo", fld:"photo", disp:0, save:true  },
-    
+    { div:"tx_party_photo", fld:"photo", disp:0, save:true  }    
   ];
     
   var fm_ob = {
@@ -23,17 +22,14 @@ function do_fm_party(){
   
   var fm_layout=
     '<div style="width:100%;height:100%;margin-top:0px;text-align:left;padding:5px;background:white;">'+
+
+      '<input id="tx_party_no" type="text" style="display:none;" />'+
       
       '<div class="cls_fm_dtl">'+        
-        '<div>User Code:'+          
+        '<div>Party Name:'+          
           '<input id="lu_party_no" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_party&quot;,&quot;PARTY LOOKUP&quot;,DB_PARTYMAST,&quot;partyno&quot;,&quot;partyname&quot;)" />'+
         '</div>'+
-        '<input id="tx_party_no" type="text" onchange="FM_CHK_REC(this.value,&quot;do_disp_party&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_party_name.id).focus()" />'+
-      '</div>'+
-
-      '<div class="cls_fm_dtl">'+
-        '<div>Party Name:</div>'+
-        '<input id="tx_party_name" type="text" data-caption="Party Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_party_fname.id).focus()" />'+
+        '<input id="tx_party_name" type="text" data-caption="Party Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_party_name.id).focus()" />'+
       '</div>'+
         
       '<input type="file" id="inpfile_party" data-orig="" data-sel=0 name="inpfile_party" value="" hidden="hidden" />'+
@@ -90,7 +86,7 @@ function do_add_party(){
   document.getElementById('lu_party_photo').style.pointerEvents='auto';
   document.getElementById('lu_party_photo').style.opacity='1';
 
-  document.getElementById('tx_party_no').focus();
+  document.getElementById('tx_party_name').focus();
 }
 //edit
 function do_edit_party(){
@@ -103,7 +99,7 @@ function do_edit_party(){
   document.getElementById('tx_party_name').focus();
 }
 //look
-function do_look_party(fld,val){
+function do_look_party(fld){
   if(fld=='partyno'){ 
     do_disp_party(0);
     do_disp_party(1);
@@ -144,8 +140,6 @@ function do_disp_party(disp_mode){
     var vimg=JBE_API+'upload/photo/party_'+recno.trim()+'.jpg';
     document.getElementById('img_party').setAttribute('data-img',vimg);
     document.getElementById('img_party').src=vimg+'?'+n;
-  }
-  //alert(vimg);
-  
+  }  
 }
 

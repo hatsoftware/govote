@@ -2,7 +2,7 @@ function do_fm_candidate(){
   FM_TABLE=DB_CANDIDATE;
   FM_AXIOS_PHP=JBE_API+"z_candidate.php";
   FM_FIELDS=[ //display on screen
-    { div:"tx_candi_no", fld:"code", disp:1, save:true  },
+    { div:"tx_candi_no", fld:"code", disp:-1, save:true  },
     { div:"tx_candi_lname", fld:"lname", disp:1, save:true  },
     { div:"tx_candi_fname", fld:"fname", disp:1, save:true  },
     
@@ -25,21 +25,9 @@ function do_fm_candidate(){
         { div:"tx_provName", fld:"provName", disp:2, save:false  },
 
     { div:"tx_regCode", fld:"regCode", disp:0, save:true  },   
-        { div:"tx_regName", fld:"regName", disp:2, save:false  },
-
+        { div:"tx_regName", fld:"regName", disp:2, save:false  }
   ];
-
-  /*
-  FM_LK_OB[0]=[
-    { div:"tx_candi_no", fld:"code" },
-    { div:"tx_candi_lname", fld:"lname" },
-    { div:"tx_candi_fname", fld:"fname" },
-
-    { div:"tx_candi_photo", fld:"photo" },
-    { div:"tx_candi_pos", fld:"pos" },
-    { div:"tx_candi_partyno", fld:"partyno" },
-  ];
-  */
+  
   var fm_ob = {
     title:"CANDIDATE MASTER FILE",
     top:"", left:"", bottom:"10%", right:"5%",
@@ -57,17 +45,16 @@ function do_fm_candidate(){
   
   var fm_layout=
     '<div style="width:100%;height:100%;margin-top:0px;text-align:left;padding:5px;background:white;">'+
-      
-      '<div class="cls_fm_dtl">'+        
-        '<div>User Code:'+          
+
+      '<input id="tx_candi_no" type="text" style="display:none;" />'+
+             
+      '<div class="cls_fm_dtl">'+
+        '<div>Last Name:'+          
           '<input id="lu_candi_no" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;CANDIDATE&quot;,DB_CANDIDATE,&quot;code&quot;,&quot;name&quot;)" />'+
         '</div>'+
-        '<input id="tx_candi_no" type="text" data-caption="Candidate Code" onchange="FM_CHK_REC(this.value,&quot;do_disp_candi&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_candi_lname.id).focus()" />'+
-      '</div>'+     
-      '<div class="cls_fm_dtl">'+
-        '<div>Last Name:</div>'+
         '<input id="tx_candi_lname" type="text" data-caption="Last Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_candi_fname.id).focus()" />'+
       '</div>'+
+
       '<div class="cls_fm_dtl">'+
         '<div>First Name:</div>'+
         '<input id="tx_candi_fname" type="text" data-caption="First Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_candi_no.id).focus()" />'+
@@ -132,7 +119,7 @@ function do_fm_candidate(){
           for(var i=0;i<DB_PARTY.length;i++){
             var partyno=DB_PARTY[i]["partyno"];
             var partyname=DB_PARTY[i]["partyname"];
-            sel_dtl2+='<option value="'+partyno+'">'+partyname+'</option>';
+            sel_dtl2+='<option value='+partyno+'>'+partyname+'</option>';
           }
           fm_layout+=sel_dtl2+
         '</select>'+
@@ -193,7 +180,7 @@ function do_add_candi(){
   document.getElementById('tx_candi_posname').disabled=false;
   document.getElementById('tx_candi_partyname').disabled=false;
   
-  document.getElementById('tx_candi_no').focus();
+  document.getElementById('tx_candi_lname').focus();
 }
 //edit
 function do_edit_candi(){
@@ -244,7 +231,7 @@ function do_save_candi(stat,r){
       uploadNOW(THISFILE[0],newName,targetDIR,ob,false,false); 
     }  
     DB_CANDIDATE=r; 
-    dispBoard();
+    //dispBoard();
   }
 }
 //disp
@@ -260,7 +247,7 @@ function do_disp_candi(disp_mode){
       
     document.getElementById('tx_candi_posname').value=document.getElementById('tx_candi_pos').value;
     document.getElementById('tx_candi_partyname').value=document.getElementById('tx_candi_partyno').value;
-
+    
     document.getElementById('lu_candi_photo').style.pointerEvents='none';
     document.getElementById('lu_candi_photo').style.opacity='0.5';
   }else if(disp_mode==1){

@@ -17,28 +17,31 @@
 <title>ENADSYS</title>
 <!--script src="js/eruda.min.js"></script>
 <script>eruda.init();</script-->
+
 <script>  
   var CURR_CLIENT='NPC';
   var CURR_SCOPE_TYPE=0;
   var CURR_SCOPE_NO='';
-  var SYS_TILT='TALLY BOARD QUICK COUNT';
+  var SYS_TILT='TALLY BOARD SYSTEM';
 
 
   var CURR_SITE='npc';    
 
-  var JBE_API='https://aidfimonitoring.com/votemon_api/';  
+  var JBE_API='https://aidfimonitoring.com/tbm_api/';  
   var pathloc=window.location.origin.substring(0,16);
   
   if(pathloc == 'http://localhost') { 
-    JBE_API=window.location.origin+'/votemon_api/';  
+    JBE_API=window.location.origin+'/tbm_api/';  
   }
     
   var CURR_CLIENTNO=''; 
 
+  var CURR_CITYMUNCODE='';
   var CURR_PROJID=''; 
   var JBE_MOBILE=true;
   
   var aryREPS=[];
+  
   
   var DB_CANDIDATE = [];
   var DB_MSG = [];
@@ -49,6 +52,7 @@
   var DB_DISTRICT2 = [];
   var DB_SYS = [];
   var DB_PARTYMAST = [];
+  var DB_COOR = [];
 
   //var ref_brgy = [];
   //var ref_prov = [];
@@ -72,6 +76,9 @@
   var H_BODY=0;
   var H_PAGE=0;
   var H_VIEW=0;
+  var H_VIEW_DTL=0;  
+
+  
   
 </script>
 <!-- ********************* -->
@@ -164,7 +171,7 @@
 
 <!--************************* lookup-->
 <div id="lookup" data-sel=0 data-targdiv="" data-recno="" class="modal" style="display:none;width:100%;height:100%;">
-  <div id="lookup-box" style="z-index:1600;position:absolute;
+  <div id="lookup-box" style="z-index:1600;position:absolute;border:1px solid gray;height:auto;
       font-size:10px;padding:0px;
       top: 50%;  left: 50%;  -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">  
 
@@ -182,7 +189,7 @@
       </table>
     </div>   
     
-    <div id="lookup-foot" style="width:100%;height:40px;margin-top:0px;padding:5px;text-align:center;background-color:white;">
+    <div id="lookup-foot" style="display:none;width:100%;height:40px;margin-top:0px;padding:5px;text-align:center;background-color:white;">
       <input id="lookup-btn" class="head_color" type="button" value="SELECT" onclick="lookup_go()" style="width:50%;height:100%;" />
     </div>
   </div>   
@@ -228,123 +235,141 @@
   </div>
 </div>
   
-<!--  *************************PAGES***************************************************
+
+<!--  *************************PAGES***************************************************  
       **************************************************************************
       ************************************************************************** -->
-<div id="wrapper" class="head_color" style="display:none;position:relative;height:100%;margin:0;overflow:auto;background:white;">  
+<div id="wrapper" class="head_color" style="display:block;position:relative;height:100%;margin:0;overflow:auto;">  
 
-  <div id="div_header" class="cls_fixed" style="width:100%;height:50px;text-align:center;margin:0;border:0px solid gray;padding:0px;color:white;">        
+  <div id="page_main" class="page_class" style="display:block;width:100%;height:100%;overflow:auto;">
 
-    <div id="div_logo" style="float:left;height:100%;text-align:center;padding:4px;background:none;">       
-      <img src="gfx/icon-192x192.png" onclick="jeff()" style="height:100%;border:1px solid white;"/>               
-    </div>
-    <div style="float:left;width:40%;height:100%;text-align:left;background:none;">     
-      <div id="sys_tilt"></div>  
-      <div id="sys_tilt2">Province</div>  
-    </div>
-   
-    <div id="dv_user" style="z-index:100;">
-      <img id="img_admin" src="gfx/javatar.png" onclick="toggle_admin(true)" />  
-      <span id="logger">USERNAME</span>
-    </div>
-    <div id="popadmin">
-      <a href="javascript:proc_admin()" style="display:none;">Log In</a>           
-      <a href="javascript:logout()">Log Out</a>          
-      <div id="div_creator" style="display:none;">            
-        <hr>
-        <a href="https://updesktop.github.io/portfolio" target="_blank">Creator</a>              
-        <!--hr>
-        <a href="javascript:task1()">Put FCODE, MCODE to projhist</a>  
-        <hr>
-        <a href="javascript:task2()">Clear All Water Delivered</a-->  
-      </div>            
-    </div>
+    <div id="div_header" style="display:block;width:100%;height:60px;text-align:center;border:0px solid gray;padding:0px;color:white;">        
 
-    <div id="div_pass" class="head_color2" style="display:none;position:absolute;width:250px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;border:1px solid black;background:darkgray;">
-      <form>
-      <input type="text" id="txUser"  autocomplete="username" onkeydown="javascript:if(event.keyCode==13) document.getElementById('txPass').focus()" 
-              style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
-                    border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="User ID"/>
-      <input type="password" id="txPass"  autocomplete="current-password" onkeydown="javascript:if(event.keyCode==13) chkPass(txUser.value,this.value)" style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
-          border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="Password"/>    
-      <input type="button" id="btn_login" class="head_color" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;font-size:12px;margin-top:5px;
-          border:1px solid black;border-radius:0px;" value="Log In"/>        
-      </form>
-    </div>
-
-    <!--************************* loading img-->
-    <div id="zzzloading" style="display:none;position:absolute;top:0px;width:100%;text-align:center;height:50px;z-index:511;">    
-      <img src="gfx/proc_logo.gif" style="height:100%;background:none;" />    
-    </div> 
-    
-  </div>
-
-  <!--  ************************* BODY *************************************************** -->
-  <div id="div_body_main" style="display:block;position:relative;width:100%;height:900px;border:0px solid red;">
-    <div id="div_main_left" class="head_color4" style="display:block;float:left;position:relative;width:80px;height:100%;overflow:auto;border:0px solid gray;text-align:center;">        
-      <div class="nw_menu" onclick="get_db_all()">
-        <img src="gfx/jhome.png"/>
-        <span>Dashboard</span>
+      <div id="div_logo">       
+        <img src="gfx/icon-192x192.png" onclick="jeff()" style="height:100%;border:1px solid white;"/>               
       </div>
-      <div id="m_arrow2" class="nw_menu_sel"></div>
 
-      <div class="nw_menu" style="position:relative;" onclick="dispMessages(true,CURR_PROJID);">
-        <img src="gfx/jmessage.png"/>
-        <span>Messages</span>
-        <div id="gt_msg" style="display:none;position:absolute;right:2px;top:0px;width:25px;height:25px;font-size:12px;text-align:center;padding:4px 0 0 0;border-radius:50%;border:1px solid white;background:red;"></div>
+      <div style="float:left;width:40%;height:100%;text-align:left;background:none;">     
+        <div id="sys_tilt"></div>  
+        <div id="sys_tilt2">Province</div>  
       </div>
-      <div id="m_arrow3" class="nw_menu_sel"></div>
 
-      <div class="nw_menu" onclick="dispAdmin(CURR_PROJID)">
-        <img src="gfx/jadmin.png"/>
-        <span>Admin</span>
-      </div>
-      <div id="m_arrow1" class="nw_menu_sel"></div>
+      <div id="hd_datetime">
+        <div id="hd_date" style="width:100%;height:55%;padding:5px 0 0 0;font-size:25px;background:none;">      
+        </div> 
+        <div id="hd_time" style="width:100%;height:45%;padding:0px;font-size:20px;background:none;">      
+        </div>       
+      </div> 
 
-      <div class="nw_menu" onclick="dispSetting(CURR_PROJID)">
-        <img src="gfx/setting.png"/>
-        <span>Setting</span>
-      </div>
+      <div style="float:right;display:block;z-index:100;width:29%;height:100%;background:none;">
+
+        <div id="menu_open" onclick="openNav()" class="class_notif" style="float:right;right:0px;width:auto;height:100%;padding:2px;background:none;">
+          <img id="hd_img" src="gfx/jham.png" style="cursor:pointer;height:100%;border:2px solid black;background:none;" alt="notif new hd image" >      
+        </div> 
       
-      <div id="m_arrow7" class="nw_menu_sel"></div>
-
-      <div style="position:absolute;bottom:10px;width:100%;height:100px;padding:2px;background:none;">
-        <div style="display:block;width:100%;height:70%;padding:2px;background:none;">
-          <span id="id_LiveTime" style="display:none;width:100%;height:30%;color:white;background:none;"></span>
-          <img id="id_LiveImg" src="gfx/live.gif" style="display:none;width:100%;height:70%;background:white;"/>        
+        <div id="dv_user" style="float:right;display:block;z-index:100;background:none;">
+          <img id="img_admin" src="gfx/javatar.png" onclick="toggle_admin(true)" />  
+          <span id="logger">USERNAME</span>
         </div>
-        <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:28%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
-      </div>      
-    
-    </div>      
+        <div id="popadmin">
+          <a href="javascript:proc_admin()" style="display:none;">Log In</a>           
+          <a href="javascript:logout()">Log Out</a>          
+          <div id="div_creator" style="display:none;">            
+            <hr>
+            <a href="https://updesktop.github.io/portfolio" target="_blank">Creator</a>              
+            <!--hr>
+            <a href="javascript:task1()">Put FCODE, MCODE to projhist</a>  
+            <hr>
+            <a href="javascript:task2()">Clear All Water Delivered</a-->  
+          </div>  
+        </div>
 
-    <!--div id="div_main_right" style="float:left;display:block;height:500px;width:200px;overflow:auto;color:black;padding:0px;border:0px solid red;
-        background-image:url('gfx/web_bg.jpg');
-        background-size:100% 100%;
-        background-repeat:no-repeat;"--> 
-
-    <div id="div_main_right" style="float:left;display:block;height:500px;width:200px;overflow:auto;color:black;padding:0px;border:0px solid red;        
-        background:white;"> 
-
+        <div id="div_pass" class=" xhead_color2" style="display:none;position:absolute;width:300px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;border:1px solid black;background:red;">
+          <form>
+          <input type="text" id="txUser"  autocomplete="username" onkeydown="javascript:if(event.keyCode==13) document.getElementById('txPass').focus()" 
+                  style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
+                        border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="User ID"/>
+          <input type="password" id="txPass"  autocomplete="current-password" onkeydown="javascript:if(event.keyCode==13) chkPass(txUser.value,this.value)" style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
+              border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="Password"/>    
+          <input type="button" id="btn_login" class="head_color" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;font-size:12px;margin-top:5px;
+              border:1px solid black;border-radius:0px;" value="Log In"/>        
+          </form>
+        </div>
       
-      <div id="page_main" class="page_class" style="display:block;width:100%;height:100%;overflow:auto;background:none;">
-        <div id="head_main" style="position:fixed;z-index:100;margin-top:0px;width:80%;height:50px;padding:5px;border:1px solid lightgray;background:white;">
-          <div style="width:100%;height:50%;text-align:right;background:none;">Total Registered Voters: <span id="headTotVoters" style="width:200px;">12eee3545</span></div>
-          <div style="width:100%;height:50%;text-align:right;background:none;">Total Precincts: <span id="headTotPrecincts" style="width:200px;">123545</span></div>          
+      </div>
+      
+    </div>
+
+    <!--  ************************* BODY *************************************************** -->
+    <div id="div_body" style="display:block;position:relative;overflow:auto;width:100%;height:900px;border:0px solid red;background:white;">
+      <div id="mySidenav" class="sidenav" style="width:0px;height:100%;margin-top:0px;font-size:9px;">
+      
+        <div class="nw_menu" onclick="get_db_all()">
+          <img src="gfx/jhome.png"/>
+          <span>Dashboard</span>
+        </div>      
+
+        <div class="nw_menu" style="position:relative;" onclick="dispMessages(true,CURR_PROJID);">
+          <img src="gfx/jmessage.png"/>
+          <span>Messages</span>
+          <div id="gt_msg" style="display:none;position:absolute;right:2px;top:0px;width:25px;height:25px;font-size:12px;text-align:center;padding:4px 0 0 0;border-radius:50%;border:1px solid white;background:red;"></div>
         </div>
         
-        <div id="page_main2" style="height:80%;width:100%;margin-top:50px;overflow:auto;color:white;background:none;">
-          
-          <div id="dv_umain" style="margin-top:0px;width:100%;height:100%;padding:0px;background:none;">
-            <div id="user_main" style="width:100%;height:100%;margin-top:0px;padding:0px;background:none;">              
-            </div>
+        <div class="nw_menu" onclick="dispReports()"> 
+          <img src="gfx/jreport.png"/>
+          <span>Reports</span>
+        </div>
+
+        <div class="nw_menu" onclick="dispAdmin()">
+          <img src="gfx/jadmin.png"/>
+          <span>Admin</span>
+        </div>
+        
+        <div class="nw_menu" onclick="dispSetting()">
+          <img src="gfx/setting.png"/>
+          <span>Setting</span>
+        </div>
+
+        <!--div class="nw_menu" onclick="dummy()">
+          <img src="gfx/setting.png"/>
+          <span>Setting</span>
+        </div-->
+              
+        <div style="position:absolute;bottom:10px;width:100%;height:100px;padding:2px;background:none;">
+          <div style="display:block;width:100%;height:70%;padding:2px;background:none;">
+            <span id="id_LiveTime" style="display:none;width:100%;height:30%;color:white;background:none;"></span>
+            <img id="id_LiveImg" src="gfx/live.gif" style="display:none;width:100%;height:70%;background:white;"/>        
           </div>
+          <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:28%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
+        </div>      
+      
+      </div>      
 
+      <div id="head_main" style="position:fixed;z-index:100;margin-top:0px;height:60px;border:1px solid lightgray;color:black;background:white;">
+        <div style="float:left;width:30%;height:100%;padding:5px;background:none;">
+          <img id="hd_LiveImg" src="gfx/live.gif" style="display:none;height:100%;background:white;"/>        
         </div>
+        <div id="dv_headTot" style="float:right;width:70%;height:100%;padding:3px 10px 3px 3px;background:none;">
+          
+        </div>
+      </div>
+      
+      <div id="page_main2" style="height:80%;width:100%;margin-top:50px;overflow:auto;color:black;background:white;">
         
+        <div id="dv_umain" style="margin-top:0px;width:100%;height:100%;padding:0px;background:none;">
+          <div id="user_main">              
+          </div>
+        </div>
+
+      </div>
+      
+    
+
+      <div id="page_dummy" class="xpage_class" style="display:none;width:100%;height:100%;overflow:auto;background:orange;">
+                
       </div>
 
-      <div id="page_viewer" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;background:dimgray;">
+      <!--div id="page_viewer" data-page=0 data-open=0 data-close="" class="xpage_class myView" style="display:none;background:dimgray;">
         
         <div class="back_main">      
           <div id="back_viewer" onclick="showMainPage()" class="back_class">
@@ -360,19 +385,15 @@
         <div id="dtl_viewer" data-regCode="" class="myView_dtl">
 
           <div style="width:100%;height:30px;margin-top:0px;text-align:left;border:1px solid black;padding:2px;color:white;background:dimgray;">        
-            <div style="float:right;width:auto;height:100%;">
+            <div style="float:left;width:auto;height:100%;">
               <span id="id_label" data-regCode="" style="float:left;width:auto;padding:3px;margin-right:10px;background:none;"></span>        
               <input id="id_tab1" data-rec="" data-votes="" type="button" onclick="menu_folder(1)" class="cls_id_places" value="Region" />
               <input id="id_tab2" data-rec="" data-votes="" type="button" onclick="menu_folder(2)" class="cls_id_places" value="Province" />
               <input id="id_tab3" data-rec="" data-votes="" type="button" onclick="menu_folder(3)" class="cls_id_places" value="City/Municipality" />
-              <input id="id_tab4" data-rec="" data-votes="" type="button" onclick="menu_folder(4)" class="cls_id_places" value="Barangay" />
+              <input id="id_tab4" data-rec="" data-votes="" type="button" onclick="menu_folder(4)" class="cls_id_places" value="Barangay" />            
+              <input id="id_tab5" data-rec="" data-votes="" type="button" onclick="menu_folder(5)" class="cls_id_places" value="Cluster" />            
             </div>        
           </div>   
-
-          <div style="margin-top:0px;width:100%;height:50px;padding:5px;border:1px solid lightgray;background:white;">
-            <div style="width:100%;height:50%;text-align:right;background:none;">Total Registered Voters: <span id="headTotVoters" style="width:200px;">12eee3545</span></div>
-            <div style="width:100%;height:50%;text-align:right;background:none;">Total Precincts: <span id="headTotPrecincts" style="width:200px;">123545</span></div>          
-          </div>
             
           <div class="cls_dtl_dispboard"> 
             
@@ -405,106 +426,111 @@
                 <div id="summ4" style="display:none;width:100%;height:100%;border:1px solid lightray;">
                   <div id="sumbox4" style="float:left;width:100%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>                      
                 </div>                    
+                <div id="summ5" style="display:none;width:100%;height:100%;border:1px solid lightray;">
+                  <div id="sumbox5" style="float:left;width:100%;height:100%;overflow:auto;padding:0 10px 0 0;background:none;"></div>                      
+                </div>                    
               </div>
 
             </div>
 
             <div class="cls_div_map" style="float:left;width:60%;height:100%;color:white;background:none;">
-              <div id="jmap" style="width:100%;height:100%;border:0px solid red;overflow:auto;padding:10px;text-align:center;background:none;">
-                <img id="pmap"  style="width:auto;max-width:100%;height:auto;max-height:95%;" />
+              <div id="jmap" style="width:100%;height:100%;border:1px solid lightgray;padding:10px;text-align:center;background:none;">
+                
               </div>            
             </div>
                               
           </div>  
       
-        </div>  
+        </div>
 
-      </div>        
-      
+      </div-->  
 
-      <div id="myView1" data-page=0 data-open=0 data-close="" data-JBEpage=0 class="page_class myView" style="display:none;">
-        <div style="width:100%;height:0px;"></div>
-        <div class="back_main">      
-          <div id="back_view1" onclick="JBE_CLOSE_VIEW(1)" class="back_class">
-            <img id="back_view_img1" src="gfx/jback.png" style="height:100%;" />
-            <span>Back</span>
-          </div>      
-          <div id="cap_myView1" class="cap_class"></div>
-          <div id="cap_viewMid1" class="cap_mid_class"></div>
-        </div>
-        <div id="dtl_myView1" class="myView_dtl">
-        </div>        
-      </div>  
-        
-      <div id="myView2" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
-        <div style="width:100%;height:0px;"></div>
-        <div class="back_main">
-          <div id="back_view2" onclick="JBE_CLOSE_VIEW(2)" class="back_class">
-            <img id="back_view_img2" src="gfx/jback.png" style="height:100%;" />
-            <span>Back</span>
-          </div>
-          <div id="cap_myView2" class="cap_class"></div>
-          <div id="cap_viewMid2" class="cap_mid_class"></div>
-        </div>
-        <div id="dtl_myView2" class="myView_dtl">
-          <!--dtl-->
-        </div>       
-      </div>
-    
-      <div id="myView3" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
-        <div style="width:100%;height:0px;"></div>    
-        <div class="back_main">
-          <div id="back_view3" onclick="JBE_CLOSE_VIEW(3)" class="back_class">
-            <img id="back_view_img3" src="gfx/jback.png" style="height:100%;" />
-            <span>Back</span>
-          </div>
-          <div id="cap_myView3" class="cap_class"></div>
-          <div id="cap_viewMid3" class="cap_mid_class"></div>
-        </div>
-        <div id="dtl_myView3" class="myView_dtl">
-          <!--dtl-->
-        </div>       
-      </div>
-      
-      <div id="myView4" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
-        <div style="width:100%;height:0px;"></div> 
-        <div class="back_main">
-          <div id="back_view4" onclick="JBE_CLOSE_VIEW(4)" class="back_class">
-            <img id="back_view_img4" src="gfx/jback.png" style="height:100%;" />
-            <span>Back</span>
-          </div>
-          <div id="cap_myView4" class="cap_class"></div>
-          <div id="cap_viewMid4" class="cap_mid_class"></div>
-        </div>
-        <div id="dtl_myView4" class="myView_dtl">
-          <!--dtl-->
-        </div>       
-      </div>
-    
-      <div id="myView5" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
-        <div style="width:100%;height:0px;"></div> 
-        <div class="back_main">
-          <div id="back_view5" onclick="JBE_CLOSE_VIEW(5)" class="back_class">
-            <img id="back_view_img5" src="gfx/jback.png" style="height:100%;" />
-            <span>Back</span>
-          </div>
-          <div id="cap_myView5" class="cap_class"></div>
-          <div id="cap_viewMid5" class="cap_mid_class"></div>
-        </div>
-        <div id="dtl_myView5" class="myView_dtl">
-          <!--dtl-->
-        </div>       
-      </div>
+    </div>  <!--body--> 
 
+  </div> <!--main div-->
+
+  
+
+  <!--  *************************PAGES***************************************************  -->
+  <div id="myView1" data-page=0 data-open=0 data-close="" data-JBEpage=0 class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div>
+    <div class="back_main">      
+      <div id="back_view1" onclick="JBE_CLOSE_VIEW(1)" class="back_class">
+        <img id="back_view_img1" src="gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>      
+      <div id="cap_myView1" class="cap_class"></div>
+      <div id="cap_viewMid1" class="cap_mid_class"></div>
     </div>
-
-  </div>
+    <div id="dtl_myView1" class="myView_dtl">
+    </div>        
+  </div>  
     
+  <div id="myView2" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div>
+    <div class="back_main">
+      <div id="back_view2" onclick="JBE_CLOSE_VIEW(2)" class="back_class">
+        <img id="back_view_img2" src="gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView2" class="cap_class"></div>
+      <div id="cap_viewMid2" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView2" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
+  <div id="myView3" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div>    
+    <div class="back_main">
+      <div id="back_view3" onclick="JBE_CLOSE_VIEW(3)" class="back_class">
+        <img id="back_view_img3" src="gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView3" class="cap_class"></div>
+      <div id="cap_viewMid3" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView3" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
+  <div id="myView4" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div> 
+    <div class="back_main">
+      <div id="back_view4" onclick="JBE_CLOSE_VIEW(4)" class="back_class">
+        <img id="back_view_img4" src="gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView4" class="cap_class"></div>
+      <div id="cap_viewMid4" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView4" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
+  <div id="myView5" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div> 
+    <div class="back_main">
+      <div id="back_view5" onclick="JBE_CLOSE_VIEW(5)" class="back_class">
+        <img id="back_view_img5" src="gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView5" class="cap_class"></div>
+      <div id="cap_viewMid5" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView5" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
   <!--************************* footer -->
   <div class="cls_fixed head_color" id="div_footer" style="height:35px;width:100%;border:0px;">
     <div id="copyright" style="font-size:12px;padding:6px;background:none;">HAT Software &copy; Copyright 2018. Bacolod City.</div>    
-  </div>
-  
+  </div> <!--footer-->
+
 </div> <!--wrapper div-->
  
 <link rel="stylesheet" href="styles.css" />
@@ -523,12 +549,15 @@
 <script type='text/javascript' src='js/leaflet2013.js'></script>
 <script type='text/javascript' src='js/ajaxJSON.js'></script>
 <script type='text/javascript' src='js/MarkerCluster.js'></script>
-<!--script type='text/javascript' src='js/kakas.js'></script-->
 
 <script type='text/javascript' src='js/axios.min.js'></script>
 <script type='text/javascript' src='js/je_msg.js'></script>
 <script type='text/javascript' src='js/coke.js'></script>
 <script type='text/javascript' src='js/Chart.min.js'></script>
+
+<script src="main.js"></script>
+<script src="security.js"></script>
+<script type='text/javascript' src='lookup.js'></script>
 
 <script type='text/javascript' src='js/enadlib.js'></script>
 
@@ -540,18 +569,19 @@
 <script type='text/javascript' src='fm_district.js'></script>
 <script type='text/javascript' src='fm_candidate.js'></script>
 <script type='text/javascript' src='fm_party.js'></script>
+<script type='text/javascript' src='fm_coor.js'></script>
 
 <script src="jbe_admin.js"></script>
 <script src="jbe_board.js"></script>
 <script src="jbe_message.js"></script>
+<script src="jbe_reports.js"></script>
 <script src="jbe_setting.js"></script>
+<script src="jbe_batch.js"></script>
 
 
 <!--script src="lilmap.js"></script-->
 
-<script src="main.js"></script>
-<script src="security.js"></script>
-<script type='text/javascript' src='lookup.js'></script>
+
 
 <script>
   
@@ -582,6 +612,7 @@
   aryAXES2[6]='inp_rep';
 
   var JBE_STORE_CANDIDATE = [];
+  /*
   JBE_STORE_CANDIDATE = [
     { "pos":"01", "posname":"President", "display":"block" },
     { "pos":"02", "posname":"Vice-President", "display":"block" },
@@ -600,7 +631,7 @@
     { "pos":"11", "posname":"Brgy. Chairman", "display":"block" },
     { "pos":"12", "posname":"Brgy. Councilors", "display":"block" }
   ];
-    
+  */  
   var JBE_CLOR='#333f50'; 
   var JBE_CLOR2='gray'; 
   var JBE_CLOR3='darkgray'; 
@@ -635,6 +666,8 @@
       '\nDB_CANDIDATE: '+DB_CANDIDATE.length+          
       '\nDB_USER: '+DB_USER.length+
       '\nDB_PARTYMAST: '+DB_PARTYMAST.length+
+      '\nDB_CLUSTER: '+DB_CLUSTER.length+
+      '\nDB_COOR: '+DB_COOR.length+
       '\nDB_MSG: '+DB_MSG.length
     );
   }
@@ -674,6 +707,9 @@
     if(event.target.id != 'txUser' && event.target.id != 'txPass' && event.target.id != 'logger') {   
       document.getElementById('div_pass').style.display="none";    
     }
+    if(event.target.id !== 'mySidenav' && event.target.id !== 'menu_open') {         
+      closeNav();
+    }
   }
   
   
@@ -697,10 +733,10 @@
   JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR2);
   JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR3);
   JBE_SET_COLOR_BY_CLASS('head_color4','white',JBE_CLOR4);
-  document.getElementById('div_body_main').style.backgroundColor=JBE_CLOR;
+  document.getElementById('div_body').style.backgroundColor=JBE_CLOR;
 
-  
-    
+  document.getElementById('hd_date').innerHTML = JBE_DATE_FORMAT(new Date());
+  document.getElementById('hd_time').innerHTML = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
   myResizeFunction();
   start_app();  
 

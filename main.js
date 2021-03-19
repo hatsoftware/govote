@@ -1,4 +1,5 @@
 var live_id;
+var f_RESIZE=true;
 
 function start_app(){    
   JBE_MOBILE=false;  
@@ -15,10 +16,11 @@ function start_app(){
   JBE_ONLINE_NAVI=true;
   //****************  
   
+  showMainPage(); 
   CURR_REC='';
   get_db_all();
   document.getElementById('wrapper').style.display='block';
-  showMainPage(); 
+  
 
   if(!CURR_USER) {   
    // jeff();
@@ -46,6 +48,7 @@ function get_db_all(){
   DB_USER=[];  
   DB_POSITION = [];
   DB_PARTY = [];
+  DB_COOR = [];
 
   showProgress(true);    
   axios.post(JBE_API+'z_all.php', { clientno:CURR_CLIENT,request:0 }) 
@@ -64,7 +67,10 @@ function get_db_all(){
     ref_city = response.data[10];
     ref_prov = response.data[11];
     ref_reg = response.data[12];
+    DB_COOR = response.data[13];
     showProgress(false);
+
+    
     //alert('DB_PARTY '+DB_PARTY.length);
     if(DB_SYS.length > 0){      
       show_scope();
@@ -87,16 +93,88 @@ function get_db_all(){
     }
     // define to show position
     update_positions();
+    CURR_CITYMUNCODE=DB_SYS[0]['citymunCode'];
+
+    document.getElementById('dv_headTot').innerHTML=ret_head_totals();
+
+    //do_reg_totals();
 
     dispBoard();
 
+    //alert(DB_SYS[0]['citymunCode']);
+    
+    //if(!DB_SYS[0]['citymunCode']){ alert('go'); do_setup(); }    
+    
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
+}
+
+function ret_head_totals(){
+  var tot_regvotes=0;
+  var tot_precincts=0;
+  var tot_votes=0;
+  for(var i=0;i<DB_CLUSTER.length;i++){
+    tot_regvotes+=parseInt(DB_CLUSTER[i]['regVoters']);
+    tot_precincts+=parseInt(DB_CLUSTER[i]['prec_len']);
+  }  
+  for(var i=0;i<DB_TRAN_VOTES.length;i++){    
+    tot_votes+=parseInt(DB_TRAN_VOTES[i]['votes']);
+  } 
+
+  //alert(tot_regvotes+' = '+tot_precincts+' = '+tot_votes);
+  //document.getElementById('headTotRegVoters').innerHTML=jformatNumber(tot_regvotes);
+  //document.getElementById('headTotPrecincts').innerHTML=jformatNumber(tot_precincts);  
+  //document.getElementById('headTotVotes').innerHTML=jformatNumber(tot_votes);  
+
+  var glob_div=
+  '<div style="float:right;width:100%;height:100%;font-size:12px;padding:5px 10px 5px 5px;background:none;">'+
+    '<div style="width:100%;height:34%;text-align:right;background:none;">Total Registered Voters: <span id="headTotRegVoters" style="width:200px;">'+jformatNumber(tot_regvotes)+'</span></div>'+
+    '<div style="width:100%;height:33%;text-align:right;background:none;">Total Precincts: <span id="headTotPrecincts" style="width:200px;">'+jformatNumber(tot_precincts)+'</span></div>'+ 
+    '<div style="width:100%;height:33%;text-align:right;background:none;">Total Votes Counted: <span id="headTotVotes" style="width:200px;">'+jformatNumber(tot_votes)+'</span></div>'+
+  '</div>';
+
+  return glob_div;
+}
+
+function show_header(pos,place){  
+  var m=document.getElementById("myView1").getAttribute('data-JBEpage'); 
+  //alert(pos);
+  var aryHead1=[
+    "Presidential","Vice-Presidential","Senatorial","Governatorial","Vice-Governatorial","Board Member",
+    "Congressional","Mayoratorial","Vice-Mayoratorial","Councilor","Barangay Chairmanship","Barangay Councilor"
+  ];
+  
+  var vdate = JBE_DATE_FORMAT(new Date());
+  var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  var dtl=
+  '<div style="width:100%;height:100%;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
+    '<div style="float:left;width:34%;height:100%;text-align:left;padding:5px;">'+
+      '<div style="width:100%;height:60%;font-size:20px;">'+aryHead1[parseInt(pos)-1]+' Election Results</div>'+
+      '<div id="subtilt_'+m+place+'" style="width:100%;height:40%;font-size:14px;">'+'City: '+'</div>'+
+    '</div>'+
+
+    '<div style="float:left;width:33%;height:100%;text-align:center;padding:2px;background:none;">'+
+      '<div style="width:100%;height:55%;padding:0px;font-size:25px;background:none;">'+
+        vdate+
+      '</div>'+
+      '<div style="width:100%;height:45%;padding:0px;font-size:20px;background:none;">'+
+        vtime+
+      '</div>'+
+    '</div>'+
+
+    '<div style="float:right;width:33%;height:100%;font-size:12px;padding:5px 10px 5px 5px;background:none;">'+
+      '<div style="width:100%;height:34%;text-align:right;background:none;">Total Registered Voters: <span id="headTotRegVoters_'+m+place+'" style="width:200px;">111</span></div>'+
+      '<div style="width:100%;height:33%;text-align:right;background:none;">Total Precincts: <span id="headTotPrecincts_'+m+place+'" style="width:200px;">111</span></div>'+ 
+      '<div style="width:100%;height:33%;text-align:right;background:none;">Total Votes Counted: <span id="headTotVotes_'+m+place+'" style="width:200px;">111</span></div>'+
+    '</div>'+
+  '</div>';
+  return dtl;
 }
 
 function update_positions(){
   JBE_STORE_CANDIDATE = [];
   for(var i=0;i<DB_POSITION.length;i++){
+    //alert(DB_POSITION[i]['pos']);
     var vdisp='block';
     if(DB_POSITION[i]['hide']==1){ vdisp='none'; }
     let ob={
@@ -145,6 +223,7 @@ function get_db_position(){
     console.log(response.data);    
     DB_POSITION = response.data;   
     for(var i=0;i<DB_POSITION.length;i++){
+      //alert(DB_POSITION[i]['pos']);
       var vdisp='block';
       if(DB_POSITION[i]['hide']==1){ vdisp='none'; }
       let ob={
@@ -286,6 +365,44 @@ function JBE_DISPFLD(p0,p1,p2,p3){
   }  
   return rval;
 }
+
+/***************************************************** */
+function openNav() {    
+  if(document.getElementById('menu_open').getAttribute('data-open')=='1'){
+    closeNav();
+    return;
+  }
+  //document.getElementById('menu_open').innerHTML='&#8592;';
+  //document.getElementById('hd_img').src='../../main_gfx/jback.png';    
+  //document.getElementById("mySidenav").style.display='none';
+  document.getElementById("mySidenav").style.width = "100px";
+  document.getElementById("menu_open").setAttribute('data-open','1');
+  event.stopPropagation();    
+}
+
+function closeNav() {
+  //document.getElementById('menu_open').innerHTML='&#9776;';
+  //document.getElementById('hd_img').src='../../main_gfx/jham.png';    
+  document.getElementById("mySidenav").style.width = "0";   
+  document.getElementById("menu_open").setAttribute('data-open','0'); 
+  event.stopPropagation();    
+}
+
+/*
+window.onclick = function(event) {  
+  alert(2);
+  alert(event.target.id);  
+  //if(event.target.id !== 'mySidenav' && event.target.id !== 'menu_open') {       
+  
+  //if(event.target.id !== 'mySidenav') {
+  if(event.target.id !== 'mySidenav' && event.target.id !== 'menu_open') {         
+    closeNav();
+  }
+  //if (!event.target.matches('.dropbtn')) {
+  //  closeDropdown();
+  //}
+}
+*/
 
 //**************************************************************************************************** */
 
@@ -640,11 +757,13 @@ function myResize(){
 }
 
 function myResizeFunction(){  
+  //if(!f_RESIZE){ return; }
+  //alert('myResize activated');
   //return;
   
- document.getElementById('div_body_main').style.height='0px';
+  document.getElementById('div_body').style.height='0px';
 
-  const box = document.querySelector('#div_body_main');
+  const box = document.querySelector('#div_body');
   var scrollWidth = box.offsetWidth - box .clientWidth;
   //alert(scrollWidth);
     
@@ -652,6 +771,7 @@ function myResizeFunction(){
   //scrollWidth=20;
   if(hasScrollbar){   
     //alert('MAY SCROLL BAR '+scrollWidth);
+    //scrollWidth=scrollWidth-7;
     scrollWidth=0;
   }
 
@@ -664,51 +784,60 @@ function myResizeFunction(){
     vdisp='block';  
   } 
 
-  var px_left=80;
+  var px_left=0;
   //alert('px_left '+px_left);
   if(w <= 900){
-    px_left=60;
+    px_left=0;
   }  
   
-  var px_right=w-px_left-scrollWidth;
+  var px_right=(w-px_left)-scrollWidth;
+
+  //alert(px_right+' scroll: '+scrollWidth);
   
-  //var h = window.innerHeight;
-  //var h_head=parseFloat(document.getElementById('div_header').style.height);
-  //var h_foot=parseFloat(document.getElementById('div_footer').style.height);
-  //var h_body=h-(h_head+h_foot);
-  var h_view_head=50;
-  if(JBE_MOBILE){ h_view_head=30; }
+  var h_view_head=parseInt(document.getElementById('div_header').style.height);  
+  var h_back_main=50;  
+
+  if(JBE_MOBILE){ 
+    h_view_head=50; 
+    document.getElementById('div_header').style.height=h_view_head+'px';
+  }
 
   H_HEADER=parseInt(document.getElementById('div_header').style.height);    
   H_FOOTER=parseInt(document.getElementById('div_footer').style.height);
-  
+  //alert(H_FOOTER);
+
   H_WRAPPER=window.innerHeight;
   H_BODY=window.innerHeight - (H_HEADER+H_FOOTER);
-  H_PAGE=window.innerHeight - (H_FOOTER);
-  H_VIEW=H_BODY-h_view_head;
+  H_PAGE=window.innerHeight - (H_FOOTER);  
+  H_VIEW=window.innerHeight - (H_FOOTER);
+  H_VIEW_DTL=H_VIEW-h_back_main;
 
-  document.getElementById('div_body_main').style.width='100%';
-  document.getElementById('div_body_main').style.height=(H_BODY)+'px';
+  document.getElementById('div_body').style.width='100%';
+  document.getElementById('div_body').style.height=(H_BODY)+'px';
 
-  document.getElementById('div_main_left').style.width=px_left+'px';
-  document.getElementById('div_main_left').style.height='100%';
-
-  document.getElementById('div_main_right').style.width=px_right+'px';
-  document.getElementById('div_main_right').style.height='100%';
-
+  var h_head_main=parseInt(document.getElementById('head_main').style.height);
+  document.getElementById('page_main2').style.height=(H_BODY-h_head_main)+'px';
+  document.getElementById('page_main2').style.width='100%';
+  document.getElementById('page_main2').style.marginTop=h_head_main+'px';
+  
+  document.getElementById('head_main').style.width='100%';
+  
   document.querySelectorAll('.myView').forEach(function(el) {
-    el.style.height=H_BODY+'px';
+    el.style.height=H_VIEW+'px';
+    //el.style.width=(px_right+scrollWidth)+'px';
+    el.style.width='100%';
+    //el.style.backgroundColor='red';
+    //el.style.border='2px solid green';
+  });
+   
+  document.querySelectorAll('.myView_dtl').forEach(function(el) {    
+    el.style.height=H_VIEW_DTL+'px';    
     el.style.width='100%';
   });
 
-  //document.getElementById('dv_fix').style.width=px_right+'px';
-  document.getElementById('dtl_viewer').style.height=(H_VIEW-0)+'px';
-
-  document.getElementById('head_main').style.width=px_right+'px';
-
-  document.getElementById('page_main2').style.height=(H_BODY-50)+'px';
-  
-  
+  if(document.getElementById('batch_dtl')){
+    document.getElementById('batch_dtl').style.height=(H_VIEW_DTL-60)+'px';
+  }
   
 }
 
@@ -717,7 +846,7 @@ function openPage(m){
     //alert(el.id);
     el.style.display = 'none';
   });
-  document.getElementById(m).style.display='block';    
+  document.getElementById(m).style.display='block';
 }
 
 function showMainPage(){  
@@ -725,7 +854,6 @@ function showMainPage(){
   //console.log('mainpage '+f_MainPage);
   openPage('page_main');  
   modal_ON(false);
-  //dispBoard();
 }
 
 function openWindow(t){
@@ -733,7 +861,7 @@ function openWindow(t){
   var pE='auto';
   if(t){ pE='none'; vdisp='block'; }
   document.getElementById('img_admin').style.pointerEvents=pE;
-  document.getElementById('div_main_left').style.pointerEvents=pE;
+  //document.getElementById('div_main_left').style.pointerEvents=pE;
   document.getElementById('admin2').style.pointerEvents=pE;
   //document.getElementById(div).style.display=vdisp;
 }
@@ -741,7 +869,7 @@ function openWindow(t){
 function openDoor(div,t){
   var pE='auto';  
   document.getElementById('img_admin').style.pointerEvents=pE;
-  document.getElementById('div_main_left').style.pointerEvents=pE;
+  //document.getElementById('div_main_left').style.pointerEvents=pE;
   document.getElementById('admin2').style.pointerEvents=pE;
   document.getElementById(div).style.pointerEvents=pE;
 }
@@ -752,7 +880,8 @@ function modal_ON(vmode){
   if(vmode){ pE='none';vopacity='0.2'; }
 
   document.getElementById('img_admin').style.pointerEvents=pE; document.getElementById('img_admin').style.opacity=vopacity;
-  document.getElementById('div_main_left').style.pointerEvents=pE; document.getElementById('div_main_left').style.opacity=vopacity;
+  document.getElementById('menu_open').style.pointerEvents=pE; document.getElementById('hd_img').style.opacity=vopacity;
+ // document.getElementById('div_main_left').style.pointerEvents=pE; document.getElementById('div_main_left').style.opacity=vopacity;
   //document.getElementById('admin2').style.pointerEvents=pE;
   //document.getElementById(div).style.pointerEvents=pE;
 }
@@ -808,7 +937,8 @@ function nowLive() {
     document.getElementById('btn_Live').setAttribute('data-live',1);
 
     document.getElementById('id_LiveTime').style.display='block';
-    document.getElementById('id_LiveImg').style.display='block';    
+    document.getElementById('id_LiveImg').style.display='block';  
+    document.getElementById('hd_LiveImg').style.display='block';  
   }else{
     clearInterval(live_id);
     document.getElementById('btn_Live').style.backgroundColor='black';
@@ -817,6 +947,7 @@ function nowLive() {
 
     document.getElementById('id_LiveTime').style.display='none';
     document.getElementById('id_LiveImg').style.display='none';
+    document.getElementById('hd_LiveImg').style.display='none';    
   }      
 }
 

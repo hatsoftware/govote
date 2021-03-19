@@ -1,14 +1,15 @@
-function JBE_LOOKUP(mode,func,tilt,db,code,desc,db2,code2,desc2) {     
+function JBE_LOOKUP(mode,func,tilt,db,code,desc,db2,code2,desc2) {  
   document.getElementById('lookup-title').innerHTML=tilt;
   if(!mode)	{
     document.getElementById('lookup').style.display='none';    
     return;
   }    
+
+  //showProgress(true);
   document.getElementById('lookup').style.display='block';  
   document.getElementById('lookup').setAttribute('data-targdiv',code);
-  showProgress(true);
-  createTable(db,code,desc,db2,code2,desc2,func);
-  showProgress(false);  
+    createTable(db,code,desc,db2,code2,desc2,func);
+  //showProgress(false);  
   document.getElementById('lookup-inp').value='';
   document.getElementById('lookup-inp').focus();
 }
