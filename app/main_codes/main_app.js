@@ -380,6 +380,19 @@ function myResizeFunction(){
     el.style.height=H_BODY+'px';    
     //el.style.backgroundColor='blue';
   });
+
+  document.querySelectorAll('.myView').forEach(function(el) {
+    el.style.height=H_VIEW+'px';
+    //el.style.width=(px_right+scrollWidth)+'px';
+    el.style.width='100%';
+    //el.style.backgroundColor='red';
+    //el.style.border='2px solid green';
+  });
+   
+  document.querySelectorAll('.myView_dtl').forEach(function(el) {    
+    el.style.height=H_VIEW_DTL+'px';    
+    el.style.width='100%';
+  });
   
   document.getElementById('user_main').style.height=window.innerHeight - (H_FOOTER+H_HEADER)+'px';  
   //alert('user main height: '+document.getElementById('user_main').style.height);
