@@ -255,7 +255,7 @@ function clear_func(){
 }
 
 function sele(candi_no,place,top_fld){  
-  alert('sele: candi no:'+candi_no+' place '+place+' place_no '+top_fld);
+  //alert('sele: candi no:'+candi_no+' place '+place+' place_no '+top_fld);
   var osele=document.getElementById('batch_main').getAttribute('data-sele');  
   if(osele){ document.getElementById('candi_board_'+osele).style.border='0px solid black'; }
   document.getElementById('candi_board_'+candi_no).style.border='1px solid black';
@@ -305,28 +305,6 @@ function get2PlaceVotes(vpos,candi_no,place_type,place_no){
   for(var i=0;i<DB_TRAN_VOTES.length;i++){
     if(DB_TRAN_VOTES[i]['candi_no'] != candi_no){ continue; }
     if(DB_TRAN_VOTES[i][vplace_no] != place_no){ continue; }   
-
-    //if((vpos > 3 && vpos < 7) && aryPlace[i]['provCode']==place_no && parseInt(aryPlace[i]['ic'])==1){ alert('found'); continue; }
-    
-    //if(vpos > 4){
-      //alert('GOVERNOR: '+place_type);
-    //  if(parseInt(JBE_GETFLD('ic',ref_city,'citymunCode',DB_TRAN_VOTES[i]['citymunCode']))==1){ continue; }
-
-      /*
-      alert('got pos '+DB_TRAN_VOTES[i]['provCode']+' vs '+place_no);
-      if(DB_TRAN_VOTES[i]['provCode']==place_no){
-        var ic=parseInt(JBE_GETFLD('ic',ref_city,'citymunCode',vcode));
-        alert('ready: '+ic);
-        if(parseInt(aryPlace[i]['ic'])==1){ alert('found'); continue; }
-      }
-      */
-    //}
-    //if(candi_no){
-    
-    //}
-    
-    
-    //alert('OK '+DB_TRAN_VOTES[i][vplace_no]+' vs '+place_no+'  votes:'+parseInt(DB_TRAN_VOTES[i]['votes']));
 
     rvotes+=parseInt(DB_TRAN_VOTES[i]['votes']);  
   }
