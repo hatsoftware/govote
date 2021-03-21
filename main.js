@@ -49,6 +49,8 @@ function get_db_all(){
   DB_POSITION = [];
   DB_PARTY = [];
   DB_COOR = [];
+  DB_DISTRICT = [];
+  DB_DISTRICT2 = [];
 
   showProgress(true);    
   axios.post(JBE_API+'z_all.php', { clientno:CURR_CLIENT,request:0 }) 
@@ -63,11 +65,13 @@ function get_db_all(){
     DB_PARTY = response.data[6];
     DB_TRAN_VOTES = response.data[7];
     DB_DISTRICT = response.data[8];
-    DB_SYS = response.data[9];
-    ref_city = response.data[10];
-    ref_prov = response.data[11];
-    ref_reg = response.data[12];
-    DB_COOR = response.data[13];
+    DB_DISTRICT2 = response.data[9];
+    DB_SYS = response.data[10];
+    ref_city = response.data[11];
+    ref_prov = response.data[12];
+    ref_reg = response.data[13];
+    DB_COOR = response.data[14];
+    
     showProgress(false);
 
     
@@ -76,21 +80,23 @@ function get_db_all(){
       show_scope();
     }
     
-    
+    /*
     if(CURR_SCOPE_TYPE == 2){
-      var ctr=0;
-      DB_DISTRICT2=[];
-      for(var i=0;i<ref_city.length;i++){
-        if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
-        let ob={
-          "citymunCode":ref_city[i]['citymunCode'],
-          "disCode":CURR_SCOPE_NO
+      if(DB_DISTRICT.length>0){ 
+        var ctr=0;
+        DB_DISTRICT2=[];
+        for(var i=0;i<ref_city.length;i++){
+          if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
+          let ob={
+            "citymunCode":ref_city[i]['citymunCode'],
+            "disCode":CURR_SCOPE_NO
+          }
+          DB_DISTRICT2[ctr]=ob;
+          ctr++;
         }
-        DB_DISTRICT2[ctr]=ob;
-        ctr++;
-      }
-    
+      }    
     }
+    */
     // define to show position
     update_positions();
     CURR_CITYMUNCODE=DB_SYS[0]['citymunCode'];
@@ -140,20 +146,23 @@ function show_header(pos,place){
   var m=document.getElementById("myView1").getAttribute('data-JBEpage'); 
   //alert(pos);
   var aryHead1=[
-    "Presidential","Vice-Presidential","Senatorial","Governatorial","Vice-Governatorial","Board Member",
+    "Presidential","Vice-Presidential","Senatorial","Gubernatorial","Vice-Gubernatorial","Board Member",
     "Congressional","Mayoratorial","Vice-Mayoratorial","Councilor","Barangay Chairmanship","Barangay Councilor"
   ];
+
+  var vdisp='block';
+  if(JBE_MOBILE){ vdisp='none'; }
   
   var vdate = JBE_DATE_FORMAT(new Date());
   var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
   var dtl=
   '<div style="width:100%;height:100%;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
-    '<div style="float:left;width:34%;height:100%;text-align:left;padding:5px;">'+
-      '<div style="width:100%;height:60%;font-size:20px;">'+aryHead1[parseInt(pos)-1]+' Election Results</div>'+
-      '<div id="subtilt_'+m+place+'" style="width:100%;height:40%;font-size:14px;">'+'City: '+'</div>'+
+    '<div class="cls_header">'+
+      '<div>'+aryHead1[parseInt(pos)-1]+' Election Results</div>'+
+      '<span id="subtilt_'+m+place+'">'+'City: '+'</span>'+
     '</div>'+
-
-    '<div style="float:left;width:33%;height:100%;text-align:center;padding:2px;background:none;">'+
+    
+    '<div style="display:'+vdisp+';float:left;width:33%;height:100%;text-align:center;padding:2px;background:none;">'+
       '<div style="width:100%;height:55%;padding:0px;font-size:25px;background:none;">'+
         vdate+
       '</div>'+
@@ -162,7 +171,7 @@ function show_header(pos,place){
       '</div>'+
     '</div>'+
 
-    '<div style="float:right;width:33%;height:100%;font-size:12px;padding:5px 10px 5px 5px;background:none;">'+
+    '<div class="cls_header2">'+
       '<div style="width:100%;height:34%;text-align:right;background:none;">Total Registered Voters: <span id="headTotRegVoters_'+m+place+'" style="width:200px;">111</span></div>'+
       '<div style="width:100%;height:33%;text-align:right;background:none;">Total Precincts: <span id="headTotPrecincts_'+m+place+'" style="width:200px;">111</span></div>'+ 
       '<div style="width:100%;height:33%;text-align:right;background:none;">Total Votes Counted: <span id="headTotVotes_'+m+place+'" style="width:200px;">111</span></div>'+
@@ -799,6 +808,7 @@ function myResizeFunction(){
 
   if(JBE_MOBILE){ 
     h_view_head=50; 
+    h_back_main=30;  
     document.getElementById('div_header').style.height=h_view_head+'px';
   }
 
@@ -824,10 +834,7 @@ function myResizeFunction(){
   
   document.querySelectorAll('.myView').forEach(function(el) {
     el.style.height=H_VIEW+'px';
-    //el.style.width=(px_right+scrollWidth)+'px';
     el.style.width='100%';
-    //el.style.backgroundColor='red';
-    //el.style.border='2px solid green';
   });
    
   document.querySelectorAll('.myView_dtl').forEach(function(el) {    

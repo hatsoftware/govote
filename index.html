@@ -50,13 +50,15 @@
   var DB_POSITION = [];  
   var DB_DISTRICT = [];
   var DB_DISTRICT2 = [];
+  var DB_CLUSTER = [];
   var DB_SYS = [];
   var DB_PARTYMAST = [];
   var DB_COOR = [];
 
   //var ref_brgy = [];
-  //var ref_prov = [];
-  var ref_city = [];
+  var ref_reg = [];
+  var ref_prov = [];
+  var ref_city = [];  
 
   var CURR_REC='';
   var CURR_PAGE=2;  
@@ -249,7 +251,7 @@
         <img src="gfx/icon-192x192.png" onclick="jeff()" style="height:100%;border:1px solid white;"/>               
       </div>
 
-      <div style="float:left;width:40%;height:100%;text-align:left;background:none;">     
+      <div id="hd_area" style="float:left;height:100%;text-align:left;background:none;">     
         <div id="sys_tilt"></div>  
         <div id="sys_tilt2">Province</div>  
       </div>
@@ -261,13 +263,13 @@
         </div>       
       </div> 
 
-      <div style="float:right;display:block;z-index:100;width:29%;height:100%;background:none;">
+      <div id="hd_user" style="float:right;display:block;z-index:100;height:100%;background:none;">
 
         <div id="menu_open" onclick="openNav()" class="class_notif" style="float:right;right:0px;width:auto;height:100%;padding:2px;background:none;">
           <img id="hd_img" src="gfx/jham.png" style="cursor:pointer;height:100%;border:2px solid black;background:none;" alt="notif new hd image" >      
         </div> 
       
-        <div id="dv_user" style="float:right;display:block;z-index:100;background:none;">
+        <div id="dv_user" style="float:right;display:block;z-index:100;">
           <img id="img_admin" src="gfx/javatar.png" onclick="toggle_admin(true)" />  
           <span id="logger">USERNAME</span>
         </div>
@@ -284,14 +286,14 @@
           </div>  
         </div>
 
-        <div id="div_pass" class=" xhead_color2" style="display:none;position:absolute;width:300px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;border:1px solid black;background:red;">
+        <div id="div_pass" class=" xhead_color2" style="display:none;position:absolute;width:300px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;border:1px solid black;">
           <form>
           <input type="text" id="txUser"  autocomplete="username" onkeydown="javascript:if(event.keyCode==13) document.getElementById('txPass').focus()" 
                   style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
                         border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="User ID"/>
           <input type="password" id="txPass"  autocomplete="current-password" onkeydown="javascript:if(event.keyCode==13) chkPass(txUser.value,this.value)" style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
               border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="Password"/>    
-          <input type="button" id="btn_login" class="head_color" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;font-size:12px;margin-top:5px;
+          <input type="button" id="btn_login" class="head_color" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;margin-top:5px;
               border:1px solid black;border-radius:0px;" value="Log In"/>        
           </form>
         </div>
@@ -586,7 +588,7 @@
 <script>
   
   var jbe_screen_mode=0;
-  
+
   var aryCLOR_ndx=0;
   var aryCLOR_head=[];  aryCLOR_head[0]="red";    aryCLOR_head[1]="#3b5998";
   var aryCLOR_bar=[];   aryCLOR_bar[0]="#ffb2b2"; aryCLOR_bar[1]="#8b9dc3";
@@ -662,6 +664,7 @@
       '\nref_prov: '+ref_prov.length+      
       '\nref_reg: '+ref_reg.length+      
       '\nDB_DISTRICT: '+DB_DISTRICT.length+      
+      '\nDB_DISTRICT2: '+DB_DISTRICT2.length+      
       '\nDB_SYS: '+DB_SYS.length+
       '\nDB_CANDIDATE: '+DB_CANDIDATE.length+          
       '\nDB_USER: '+DB_USER.length+

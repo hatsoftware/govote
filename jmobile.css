@@ -185,6 +185,7 @@
 
   #logger{  
     padding:18px 10px 0 0;
+    font-size:10px;background:green;
   }
 
   .db_panel_title{
@@ -504,13 +505,13 @@
   /* version 2 */
   
   #dv_user {
-    float:right;width:auto;height:100%;background:none;
+    float:right;width:auto;height:100%;
   }
     #dv_user img{
       float:left;height:100%;padding:15px 0 15px 5px;background:none;
     }
     #dv_user span{
-      float:left;font-size:12px;width:auto;background:none;
+      float:left;font-size:10px;width:auto;background:none;
     }
   
   
@@ -577,8 +578,8 @@
     background-repeat:no-repeat;
     background-color:none; 
   }  
-  #sys_tilt{ height:45%;width:100%;font-size:15px;padding:5px 0 0 0;overflow:auto;background:none; }
-  #sys_tilt2{ height:55%;width:100%;font-size:11px;padding:0px 0 0 0;background:none; }
+  #sys_tilt{ height:45%;width:100%;font-size:12px;padding:5px 0 0 0;overflow:auto;background:none; }
+  #sys_tilt2{ height:55%;width:100%;font-size:10px;padding:0px 0 0 0;background:none; }
 
   #div_logo, #div_main_left{ width:50px; font-size:12px;color:green; }
   
@@ -957,7 +958,7 @@
 
   .cls_votes_dtl{ width:100%;height:30px;margin-top:5px;padding:1px;cursor:pointer;color:black;background:none; }  
     .cls_votes_dtl div{ float:left;width:65%;height:100%;border-radius:8px;border:0px solid black;
-      padding:7px;font-size:12px;text-align:right;background:none;
+      padding:7px;font-size:12px;text-align:left;background:none;
     }
     .cls_votes_dtl span{ float:right;width:35%;height:100%;padding:5px 0px 2px 2px;text-align:right;font-size:15px;
       text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;
@@ -1017,8 +1018,16 @@
 
   #lookup-box{ width:90%;height:400px; }
 
-  #div_header{ display:block;width:100%;height:50px;text-align:center;border:0px solid gray;padding:0px;color:white;background:red; }
-  #div_logo{ float:left;width:50px;height:100%;text-align:left;padding:4px;background:yellow; }
+  #div_header{ display:block;width:100%;height:50px;font-size:8px;text-align:center;border:0px solid gray;padding:0px;color:white;background:none; }
+  #div_logo{ float:left;width:50px;height:100%;text-align:left;padding:4px;background:none; }
+  #hd_area{ width:28%; }  
+  #hd_user{ width:55%; font-size:10px; }  
   #hd_datetime{ display:none; }  
+
+  .cls_header{ float:left;width:50%;height:100%;text-align:left;padding:5px; }
+    .cls_header div{ width:100%;height:60%;font-size:12px; }
+    .cls_header span{ width:100%;height:40%;font-size:10px; }
+  .cls_header2{ float:right;width:50%;height:100%;font-size:10px;padding:5px 10px 5px 5px; }    
+
 }
   

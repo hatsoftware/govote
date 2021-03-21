@@ -10,9 +10,9 @@ function dispSetting(){
       '<div id="sys_menu1" class="cls_ds_main">'+ 
         '<p style="background:'+JBE_CLOR+';">System Facility</p>'+   
         '<button onclick="reset_votes()">Clear Votes</button>'+   
-        '<button onclick="sys_scope()">Election Scope</button>'+           
+        //'<button onclick="sys_scope()">Election Scope</button>'+           
         '<button onclick="do_fm_district()">District File</button>'+           
-        '<button onclick="do_setup()">Setup</button>'+           
+        '<button onclick="do_setup()">Setting</button>'+           
         '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+
 
@@ -29,55 +29,95 @@ function close_setting(){
 }
 
 function do_setup(){    
+  document.getElementById('sys_menu1').style.display='none';
+  document.getElementById('sys_menu2').style.display='block';
+
   var citymunCode=DB_SYS[0]['citymunCode'];
   var aryDB=JBE_GETARRY(ref_city,'citymunCode',citymunCode);
   
   var citymunDesc=aryDB['citymunDesc'];
   var provDesc=JBE_GETFLD('provDesc',ref_prov,'provCode',aryDB['provCode']);
   var regDesc=JBE_GETFLD('regDesc',ref_reg,'regCode',aryDB['regCode']);
-
-  var dtl=
-  '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:red;">'+
-    '<div class="cls_ds_main">'+      
-      '<p style="background:'+JBE_CLOR+';">System Setup</p>'+
-      '<div style="width:96%;height:auto;padding:10px;border:1px solid lightgray;margin:0 2% 2% 2%;background:none;">'+
-
-        '<div class="cls_fm_dtl">'+        
-          '<div>Municipal/City:'+          
-            '<input id="lu_set_citymunCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_city&quot;,&quot;LOOKUP&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
-            '<input id="tx_set_citymunCode" type="text" data-caption="Barangay Code" style="display:none;" value="'+citymunCode+'" />'+
-          '</div>'+
-          '<input id="tx_set_cityName" style="pointer-events:none;" value="'+citymunDesc+'" type="text" />'+
-        '</div>'+
-
-        '<div class="cls_fm_dtl">'+
-          '<div>Province:</div>'+
-          '<input id="tx_set_provCode" type="text" style="display:none;" value="" />'+
-          '<input id="tx_set_provName" style="pointer-events:none;" type="text" value="'+provDesc+'" />'+
-        '</div>'+
-
-        '<div class="cls_fm_dtl">'+
-          '<div>Region:</div>'+
-          '<input id="tx_set_regCode" type="text" style="display:none;" value="" />'+
-          '<input id="tx_set_regName" style="pointer-events:none;" type="text" value="'+regDesc+'" />'+
-        '</div>'+
-        
-        '<div id="dv_setlayas1" style="height:40px;margin-bottom:20px;padding:0 10px 0 10px;text-align:center;">'+                  
-          '<button onclick="close_do_setup()" style="width:200px;height:100%;color:white;background:'+JBE_CLOR+';">Exit</button>'+        
-        '</div>'+
-        '<div id="dv_setlayas2" style="display:none;height:40px;margin-bottom:20px;padding:0 10px 0 10px;">'+        
-          '<button onclick="do_save_setup()" style="float:left;width:40%;height:100%;color:white;background:'+JBE_CLOR+';">Save</button>'+        
-          '<button onclick="init_set(0)" style="float:right;width:40%;height:100%;color:white;background:'+JBE_CLOR+';">Cancel</button>'+        
-        '</div>'+
-
-      '</div>'+
-    '</div>'+
-  '</div>';
   
-  JBE_OPEN_VIEW(dtl,'SETUP','close_do_setup');
+  var dtl=
+  '<div class="cls_ds_main">'+      
+    '<p>Setting</p>'+
+    '<div style="width:96%;height:auto;padding:10px;border:1px solid lightgray;margin:0 2% 0 2%;background:none;">'+
+
+      '<div class="cls_fm_dtl">'+        
+        '<div>Municipal/City:'+          
+          '<input id="lu_set_citymunCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_city&quot;,&quot;LOOKUP&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
+          '<input id="tx_set_citymunCode" type="text" data-caption="Barangay Code" style="display:none;" value="'+citymunCode+'" />'+
+        '</div>'+
+        '<input id="tx_set_cityName" style="pointer-events:none;" value="'+citymunDesc+'" type="text" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>Province:</div>'+
+        '<input id="tx_set_provCode" type="text" style="display:none;" value="" />'+
+        '<input id="tx_set_provName" style="pointer-events:none;" type="text" value="'+provDesc+'" />'+
+      '</div>'+
+
+      '<div class="cls_fm_dtl">'+
+        '<div>Region:</div>'+
+        '<input id="tx_set_regCode" type="text" style="display:none;" value="" />'+
+        '<input id="tx_set_regName" style="pointer-events:none;" type="text" value="'+regDesc+'" />'+
+      '</div>'+
+
+    '</div>'+
+
+    '<div id="chkbox"style="width:96%;padding:5px 10px 0px 10px;border:1px solid lightgray;color:black;overflow:auto;text-align:left;margin:0 2% 0 2%;background:none;">'+
+      
+    '</div>'+
+
+    '<div id="dv_layas1" style="height:40px;margin-bottom:20px;padding:0 10px 0 10px">'+        
+      '<button onclick="edit_setup()" style="float:left;width:100px;height:100%;color:white;background:'+JBE_CLOR+';">Edit</button>'+        
+      '<button onclick="close_setup()" style="float:right;width:100px;height:100%;color:white;background:'+JBE_CLOR+';">Exit</button>'+        
+    '</div>'+
+    '<div id="dv_layas2" style="display:none;height:40px;margin-bottom:20px;padding:0 10px 0 10px;">'+        
+      '<button onclick="save_setup()" style="float:left;width:40%;height:100%;color:white;background:'+JBE_CLOR+';">Save</button>'+        
+      '<button onclick="init_setup()" style="float:right;width:40%;height:100%;color:white;background:'+JBE_CLOR+';">Cancel</button>'+        
+    '</div>'+
+
+  '</div>';
+  document.getElementById('sys_menu2').innerHTML=dtl;  
+  init_setup();
 }
-function close_do_setup(){
-  alert('buye');
+function close_setup(){
+  document.getElementById('sys_menu1').style.display='block';
+  document.getElementById('sys_menu2').style.display='none';
+}
+
+function init_setup(){
+  var dtl='';
+  var vdisp;
+  for(var i=0;i<DB_POSITION.length;i++){
+    vdisp='';
+    if(DB_POSITION[i]['hide']==0){ vdisp='checked'; }
+    dtl+=
+    '<div style="width:100%;height:20px;margin-top:5px;padding:2px;background:none;">'+
+      '<div style="float:left;width:10%;height:100%;background:none;">'+
+        '<input disabled id="can_pos'+i+'" class="can_pos"  type="checkbox" '+vdisp+' style="float:right;margin:0px;margin-right:5px;width:20px;height:100%;background:none;" />'+
+      '</div>'+
+      '<div stlyle="float:left;width:90%;height:100%;padding:2px 0 0 0;">'+DB_POSITION[i]['descrp']+'</div>'+
+    '</div>';
+  }
+  document.getElementById('lu_set_citymunCode').disabled=true;  
+  document.getElementById('lu_set_citymunCode').style.opacity='0.5';
+
+  document.getElementById('chkbox').innerHTML=dtl;
+  
+  document.getElementById('dv_layas1').style.display='block';
+  document.getElementById('dv_layas2').style.display='none';  
+}
+//
+function edit_setup(){
+  document.getElementById('dv_layas1').style.display='none';
+  document.getElementById('dv_layas2').style.display='block';
+
+  document.getElementById('lu_set_citymunCode').disabled=false;  
+  document.getElementById('lu_set_citymunCode').style.opacity='1';
+  con_pos(0);
 }
 
 function do_lu_city(fld,val){  
@@ -95,7 +135,7 @@ function do_lu_city(fld,val){
   document.getElementById('tx_set_provName').value = JBE_GETFLD('provDesc',ref_prov,'provCode',provCode);
   document.getElementById('tx_set_regName').value = JBE_GETFLD('regDesc',ref_reg,'regCode',regCode);
   if(val != CURR_CITYMUNCODE){
-    init_set(1);
+    //init_set(1);
   }
 }
 function init_set(v){
@@ -112,7 +152,7 @@ function init_set(v){
   document.getElementById('dv_setlayas1').style.display=vdisp1;
   document.getElementById('dv_setlayas2').style.display=vdisp2;
 }
-function do_save_setup(){
+function save_setup(){
   var citymunCode = document.getElementById('tx_set_citymunCode').value;
   var provCode = document.getElementById('tx_set_provCode').value;
   var regCode = document.getElementById('tx_set_regCode').value;
@@ -121,19 +161,37 @@ function do_save_setup(){
     snackBar('ERROR: Code is Empty...');
     return;    
   }
+  JBE_STORE_CANDIDATE=[];
+  for(var i=0;i<DB_POSITION.length;i++){
+    var vdisp='none';
+    if(document.getElementById('can_pos'+i).checked){ vdisp='block'; }    
+    let ob={
+      "pos":DB_POSITION[i]['pos'],
+      "posname":DB_POSITION[i]['descrp'],
+      "display":vdisp
+    }
+    JBE_STORE_CANDIDATE[i]=ob;    
+  }
 
   showProgress(true); 
   axios.post(JBE_API+'z_sysfile.php', { clientno:CURR_CLIENT, request: 302,    
     citymunCode:citymunCode,
     provCode:provCode,
-    regCode:regCode    
+    regCode:regCode,
+    aryItems:JSON.stringify(JBE_STORE_CANDIDATE)
   },JBE_HEADER)
   .then(function (response) {    
     showProgress(false); 
-    console.log(response.data); 
-    DB_SYS=response.data;      
+    console.log(response.data);    
+    DB_SYS=response.data[0];    
+    DB_POSITION=response.data[1];    
+    update_positions();
+    CURR_SCOPE_TYPE=3;
+    CURR_SCOPE_NO=citymunCode;
     CURR_CITYMUNCODE=citymunCode;  
-    init_set(0);
+    //dispBoard();
+    show_scope();
+    init_setup();
   })      
   .catch(function (error) { console.log(error); showProgress(false); });
 }
