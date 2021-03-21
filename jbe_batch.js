@@ -1,22 +1,22 @@
 function disp_batch(f_batch,pos,candi_no){ 
-  alert(pos);
+  //alert(pos);
   var ndx=0;
   var vpos=parseInt(pos);
 
   if(vpos > 10){
     ndx=5;
-    alert('for barangay');
+    //alert('for barangay');
   }else if(vpos >= 7){
     ndx=4;
-    alert('for city/municipal');
+    //alert('for city/municipal');
   }else if(CURR_SCOPE_TYPE==2 && vpos == 7){
     ndx=4;
-    alert('for district');
+    //alert('for district');
   }else if(vpos > 3){
-    alert('for province');
+    //alert('for province');
     ndx=3;
   }
-  //ndx=4;
+  ndx=4;
 
   var aryFLD=[
     { "place_type":"reg", "vtitle":"Region", "vcode":"regCode", "vdesc":"regDesc", "aryPlace":ref_reg, "vplace_no":"", "vfunc":"show2_province" },
