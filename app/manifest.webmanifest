@@ -1,7 +1,7 @@
 {
       "name": "TBM",
       "short_name": "TBM",
-      "start_url": ".",
+      "/index.htm": ".",
       "display": "standalone",
       "orientation": "portrait",
       "background_color": "#a9a9a9",
