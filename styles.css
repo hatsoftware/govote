@@ -1204,7 +1204,7 @@
 
 .cls_candi_box{ width:100%;max-width:100%;height:auto;margin-top:0px;padding:20px 0 10px 0;background:none; }
 .cls_pos_head{
-  width:auto;height:auto;padding:2px 0 0 10px;font-size:25px;text-align:left;font-weight:bold;cursor:pointer;color:black;background:none;
+  width:auto;height:100%;padding:2px 0 0 10px;font-size:25px;text-align:left;font-weight:bold;cursor:pointer;color:black;background:none;
 }
 .cls_pos_body{
   width:100%;height:auto;padding:0 20px 0px 20px;border:0px solid lightgray;

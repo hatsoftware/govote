@@ -143,8 +143,10 @@ function ret_head_totals(){
 }
 
 function show_header(pos,place){  
+  var header=document.getElementById('BOARD_MAIN').getAttribute('data-header');
+  //alert('show_header '+header);
   var m=document.getElementById("myView1").getAttribute('data-JBEpage'); 
-  //alert(pos);
+  
   var aryHead1=[
     "Presidential","Vice-Presidential","Senatorial","Gubernatorial","Vice-Gubernatorial","Board Member",
     "Congressional","Mayoratorial","Vice-Mayoratorial","Councilor","Barangay Chairmanship","Barangay Councilor"
@@ -155,11 +157,15 @@ function show_header(pos,place){
   
   var vdate = JBE_DATE_FORMAT(new Date());
   var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  //update main date and time
+  document.getElementById('hd_date').innerHTML = vdate;
+  document.getElementById('hd_time').innerHTML = vtime;
+
   var dtl=
   '<div style="width:100%;height:100%;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
     '<div class="cls_header">'+
       '<div>'+aryHead1[parseInt(pos)-1]+' Election Results</div>'+
-      '<span id="subtilt_'+m+place+'">'+'City: '+'</span>'+
+      '<span id="subtilt_'+m+place+'"></span>'+
     '</div>'+
     
     '<div style="display:'+vdisp+';float:left;width:33%;height:100%;text-align:center;padding:2px;background:none;">'+
@@ -171,10 +177,13 @@ function show_header(pos,place){
       '</div>'+
     '</div>'+
 
-    '<div class="cls_header2">'+
-      '<div style="width:100%;height:34%;text-align:right;background:none;">Total Registered Voters: <span id="headTotRegVoters_'+m+place+'" style="width:200px;">111</span></div>'+
-      '<div style="width:100%;height:33%;text-align:right;background:none;">Total Precincts: <span id="headTotPrecincts_'+m+place+'" style="width:200px;">111</span></div>'+ 
-      '<div style="width:100%;height:33%;text-align:right;background:none;">Total Votes Counted: <span id="headTotVotes_'+m+place+'" style="width:200px;">111</span></div>'+
+    '<div class="cls_header2" style="width:300px;text-align:right;background:none;">'+
+      '<div style="float:left;width:200px;height:34%;background:none;">Total Registered Voters : </div>'+
+          '<div id="headTotRegVoters_'+m+place+'" style="float:left;width:85px;background:none;">0</div>'+
+      '<div style="float:left;width:200px;height:34%;background:none;">Total Precincts : </div>'+
+          '<div id="headTotPrecincts_'+m+place+'" style="float:left;width:85px;background:none;">0</div>'+
+      '<div style="float:left;width:200px;height:34%;background:none;">Total Votes Counted : </div>'+
+          '<div id="headTotVotes_'+m+place+'" style="float:left;width:85px;background:none;">0</div>'+
     '</div>'+
   '</div>';
   return dtl;

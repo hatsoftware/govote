@@ -38,9 +38,12 @@ function do_setup(){
   var citymunDesc=aryDB['citymunDesc'];
   var provDesc=JBE_GETFLD('provDesc',ref_prov,'provCode',aryDB['provCode']);
   var regDesc=JBE_GETFLD('regDesc',ref_reg,'regCode',aryDB['regCode']);
+
+  var h_top=80;
+  if(JBE_MOBILE){ h_top=20; }
   
   var dtl=
-  '<div class="cls_ds_main">'+      
+  '<div class="cls_ds_main" style="margin-top:'+h_top+'px;">'+      
     '<p>Setting</p>'+
     '<div style="width:96%;height:auto;padding:10px;border:1px solid lightgray;margin:0 2% 0 2%;background:none;">'+
 

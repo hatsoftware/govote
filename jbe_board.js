@@ -21,17 +21,16 @@ function dispBoard(){
 
   */
 
-  var vdtl='<div id="BOARD_MAIN" data-pos="" data-candi_no="" data-div="" data-batch=1 data-area="">';
+  var vdtl='<div id="BOARD_MAIN" data-pos="" data-candi_no="" data-div="" data-batch=1 data-area="" data-header="">';
   for(var i=0;i<JBE_STORE_CANDIDATE.length;i++){
     var vdisp=JBE_STORE_CANDIDATE[i]["display"];
     var orig_pos=JBE_STORE_CANDIDATE[i]["pos"];
     var vname=JBE_STORE_CANDIDATE[i]["posname"].trim().toUpperCase();
     //alert('v '+vpos);
     vdtl+=
-      '<div id="candi_'+orig_pos+'" class="cls_candi_box" style="display:'+vdisp+';">'+
-        '<div onclick="disp_batch(1,&quot;'+orig_pos+'&quot;,&quot;&quot;)" class="cls_pos_head">'+vname+'</div>'+
-        '<div id="candi_dtl_'+orig_pos+'" class="cls_pos_body">'+
-        
+      '<div id="candi_'+orig_pos+'" class="cls_candi_box" style="display:'+vdisp+';">'+        
+        '<div onclick="disp_batch(1,&quot;'+orig_pos+'&quot;,&quot;&quot;)" class="cls_pos_head">'+vname+'</div>'+        
+        '<div id="candi_dtl_'+orig_pos+'" class="cls_pos_body">'+        
         '</div>'+  
       '</div>';
   }      

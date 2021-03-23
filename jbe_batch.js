@@ -36,6 +36,7 @@ function disp_batch(f_batch,pos,candi_no){
   document.getElementById('BOARD_MAIN').setAttribute('data-pos',pos);
   document.getElementById('BOARD_MAIN').setAttribute('data-batch',f_batch);
   document.getElementById('BOARD_MAIN').setAttribute('data-area',v_area);
+  document.getElementById('BOARD_MAIN').setAttribute('data-header',m+v_area);
 
   var tilt=aryFLD[ndx]["vtitle"];
   var h_dtl_view=H_VIEW_DTL-60;
@@ -53,7 +54,7 @@ function disp_batch(f_batch,pos,candi_no){
   var dtl=
   '<div id="batch_main" data-sele="" data-pos="'+pos+'" data-candi_no="" data-toplevel="" style="width:100%;height:100%;text-align:left;padding:0px;background:white;">'+
     
-    '<div onclick="" style="width:100%;height:60px;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
+    '<div id="batch_main_header" style="width:100%;height:60px;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
       show_header(pos,v_area)+
     '</div>'+
   
@@ -128,10 +129,9 @@ function disp_batch(f_batch,pos,candi_no){
   
   if(f_batch){
     show_area('bat_places_'+v_area,v_area,v_filter);
-  }else{        
-    //show_area('bat_places_'+v_area,'brgy',vcode,CURR_CITYMUNCODE);    
+  }else{
     sele(candi_no,v_place,v_filter);    
-  }  
+  }
 }
 
 function close_disp_batch(){
@@ -141,51 +141,37 @@ function close_disp_batch(){
 
 function show_area(v_div,v_area,v_filter){  
   //alert('show_area '+v_area+' v_filter:'+v_filter);
+  //document.getElementById('BOARD_MAIN').getAttribute('data-header',v_area);
+  var header=document.getElementById('BOARD_MAIN').getAttribute('data-header');
+  //alert(header);
   var pos=document.getElementById('BOARD_MAIN').getAttribute('data-pos');
   var vpos=parseInt(pos);
   
   var db=[];
   var code; 
-  var desc;
-  var aryTop_fld=["citymunCode","brgyCode"];
+  var desc;  
   var top_fld;
-  var vfunc;  
-  var pram;
 
   if(v_area=='prov'){ 
     db=ref_prov; 
     code='provCode';
     desc='provDesc';
     top_fld='regCode';
-    //top_fld=aryTop_fld[0];
-        
-    vfunc='show2_prov';    
-    pram='citymun';
   }else if(v_area=='citymun'){ 
     db=ref_city; 
     code='citymunCode';
     desc='citymunDesc';
-    top_fld='provCode';            
-    vfunc='show2_brgy';    
-    pram='brgy';    
+    top_fld='provCode'; 
   }else if(v_area=='brgy'){ 
     db=ref_brgy; 
     code='brgyCode';
     desc='brgyDesc';
-    top_fld='citymunCode';
-    //top_fld=aryTop_fld[0];
-        
-    vfunc='show2_cluster';    
-    pram='cluster';
+    top_fld='citymunCode';    
   }else if(v_area=='cluster'){ 
-    db=DB_CLUSTER; 
-    //alert('YESSS '+db.length);
+    db=DB_CLUSTER;     
     code='clusterno';
     desc='clustername';
-    top_fld='brgyCode';
-    //top_fld=aryTop_fld[1];
-    vfunc='show_none';    
-    pram='';
+    top_fld='brgyCode';    
   }
 
   var aryPlace=[];
@@ -196,7 +182,7 @@ function show_area(v_div,v_area,v_filter){
 
   for(var i=0;i<db.length;i++){    
     if(db[i][top_fld] != v_filter){ continue; }
-    if((vpos > 3 && vpos < 7) && db[i]['provCode']==v_filter && parseInt(db[i]['ic'])==1){ continue; }
+    //if((vpos > 3 && vpos < 7) && db[i]['provCode']==v_filter && parseInt(db[i]['ic'])==1){ continue; }
 
     var vcode=db[i][code];
     var vdesc=db[i][desc];
@@ -205,10 +191,6 @@ function show_area(v_div,v_area,v_filter){
     for(var k=0;k<DB_TRAN_VOTES.length;k++){      
       if(DB_TRAN_VOTES[k][code] != vcode){ continue; }
       if(DB_TRAN_VOTES[k]['pos'] != pos){ continue; }
-      
-      //if(candi_no){
-      //  if(DB_TRAN_VOTES[k]['candi_no'] != candi_no){ continue; }
-      //}
 
       votes+=parseInt(DB_TRAN_VOTES[k]['votes']);      
     }
@@ -223,11 +205,10 @@ function show_area(v_div,v_area,v_filter){
   }
 
   //==================sort votes =============================================  
+  var tot_votes=0;
   var aryNew=aryPlace;
   aryNew.sort(sortByMultipleKey(['*votes',vcode]));
   for(var i=0;i<aryNew.length;i++){
-    //alert(aryNew[i]['name']+' : '+aryNew[i]['votes']);
-    //var xcode=aryNew[i]['code'];
     var xname=aryNew[i]['name'];
     var xvotes=aryNew[i]['votes'];
     dtl+=
@@ -236,14 +217,37 @@ function show_area(v_div,v_area,v_filter){
       '<span id="dv_votes_'+i+'">'+        
         jformatNumber(xvotes)+
       '</span>'+
-      
     '</div>';
-    //aryName[i]=xname;
-    //aryVotes[i]=xvotes;
-    //tot_votes+=xvotes;
-  }    
-  
+    tot_votes+=xvotes;
+  }      
   document.getElementById(v_div).innerHTML=dtl;
+  update_head_total(header,v_area,v_filter,tot_votes);
+}
+//
+function update_head_total(div,place_type,place_no,tot_counted){    
+  var fld;
+  //alert('div:'+div);
+  if(place_type=='citymun'){
+    fld='provCode';
+  }else if(place_type=='brgy'){
+    fld='citymunCode';
+  }else if(place_type=='cluster'){
+    fld='brgyCode';
+  }
+  
+  var tot_reg=0;
+  var tot_precinct=0;
+  for(var i=0;i<DB_CLUSTER.length;i++){
+    //alert(DB_CLUSTER[i][fld]+' vs '+place_no);
+    if(DB_CLUSTER[i][fld] != place_no){ continue; }
+    tot_reg+=parseInt(DB_CLUSTER[i]['regVoters']);
+    tot_precinct+=parseInt(DB_CLUSTER[i]['prec_len']);
+  }
+
+  //alert('going to apply to: '+div);
+  document.getElementById('headTotRegVoters_'+div).innerHTML=jformatNumber(tot_reg);
+  document.getElementById('headTotPrecincts_'+div).innerHTML=jformatNumber(tot_precinct);
+  document.getElementById('headTotVotes_'+div).innerHTML=jformatNumber(tot_counted);
 }
 
 function clear_func(){
@@ -547,7 +551,7 @@ function show_place_votes(candi_no,place_type,place_no){
       '<div>'+xname+'</div>'+
       '<span id="dv_votes_'+i+'">'+        
         jformatNumber(xvotes)+
-      '</span>'+      
+      '</span>'+
     '</div>';
     aryName[i]=xname;
     aryVotes[i]=xvotes;
@@ -556,7 +560,8 @@ function show_place_votes(candi_no,place_type,place_no){
   
   document.getElementById("new_place_"+place_type).innerHTML=dtl;  
   document.getElementById("new_votes_"+place_type).innerHTML=jformatNumber(tot_votes);
-  //return dtl;
+
+  update_head_total(m+place_type,place_type,place_no,tot_votes);
 }
 function close_new(v){  
   var f_batch=document.getElementById("BOARD_MAIN").getAttribute('data-batch');
