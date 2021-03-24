@@ -189,6 +189,13 @@ function show_header(pos,place){
   return dtl;
 }
 
+function update_datetime(){
+  var vdate = JBE_DATE_FORMAT(new Date());
+  var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  //update main date and time
+  document.getElementById('hd_date').innerHTML = vdate;
+  document.getElementById('hd_time').innerHTML = vtime;
+}
 function update_positions(){
   JBE_STORE_CANDIDATE = [];
   for(var i=0;i<DB_POSITION.length;i++){
@@ -973,5 +980,6 @@ function refresh_votes(){
   get_db_candidate(false);  
   get_db_tran_votes(false);  
   JBE_AUDIO('gfx/snd/insight',5);
+  update_datetime();
 }
 
