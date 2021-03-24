@@ -972,6 +972,6 @@ function refresh_votes(){
   document.getElementById('id_LiveTime').innerHTML=n;  
   get_db_candidate(false);  
   get_db_tran_votes(false);  
-  JBE_AUDIO('gfx/snd/chimes',5);
+  JBE_AUDIO('gfx/snd/insight',5);
 }
 

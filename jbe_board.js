@@ -86,13 +86,15 @@ function dispBoard(){
             '</div>'+
             '<div id="candi_votes_'+i+'" class="cls_dispboard_votes">';
               //jformatNumber(aryCandidate[i]['votes'])+
-              var votes=0;              
+              var votes=0;    
+              /*          
               if(pos > 7){
                 votes=get2PlaceVotes(orig_pos,vcode,'brgy',CURR_CITYMUNCODE);
               }else{
                 votes=aryCandidate[i]['votes'];
-              }              
-              //votes=aryCandidate[i]['votes'];
+              } 
+              */             
+              votes=aryCandidate[i]['votes'];
               vdtl+=jformatNumber(votes)+
             '</div>'+
           '</div>'+
