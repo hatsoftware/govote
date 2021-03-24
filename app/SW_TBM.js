@@ -1,4 +1,4 @@
-const cacheName = 'TBM_0201101';
+const cacheName = 'TBM_0101101';
 const staticAssets = [
   './',
   './index.html', 
@@ -56,7 +56,21 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
+self.addEventListener('fetch', function(event) {
+  event.respondWith(async function() {
+     try{
+       var res = await fetch(event.request);
+       var cache = await caches.open('cache');
+       cache.put(event.request.url, res.clone());
+       return res;
+     }
+     catch(error){
+       return caches.match(event.request);
+      }
+    }());
+});
 
+/*
 addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
@@ -82,6 +96,7 @@ addEventListener('fetch', function(event) {
       })
   );
 });     
+*/
 
 /*
 self.addEventListener('fetch', event => {
