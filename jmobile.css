@@ -835,15 +835,13 @@
     height:50px;
     background:none;
   }
-  .cls_rep{
-    float:none;padding:0px;margin:0px;margin-top:3%;
-    width:100%;height:120px;border:3px solid black;border-radius:10px;text-align:center;background:white;
+  .cls_rep{ 
+    float:left;margin-left:5%;margin-top:70px;
+    width:30%;height:60%;border:3px solid black;border-radius:20px;text-align:center;padding:25px;color:white;background:gray;
   }
-    .cls_rep div{ font-size:12px;width:100%;height:15%;padding:2px 0 0 0;background:none; }
-    .cls_rep img{ height:26%;padding:0px;margin:0px; background:none; }
-    .cls_rep h1{ font-size:14px;width:100%;height:12%;margin:0px;padding:0% 0 0 0;background: none; }
-    .cls_rep h2{ font-size:11px;width:100%;height:12%;margin:0px;padding:0% 0 0 0;background:none; }
-    .cls_rep button{ font-size:10px;width:70%;height:15%;margin-top:0%;border-radius:8px;border:0px solid white;cursor: pointer; }
+    .cls_rep div{ font-size:22px;width:100%;height:30%;padding:10px 0 0 0;background:none; }
+    .cls_rep img{ width:auto; max-width:100%;height:40%;padding:30px; background:none;}  
+    .cls_rep button{ font-size:12px;width:150px;height:10%;margin-top:30%;border-radius:8px;cursor: pointer;border:0px solid none; }
 
   #div_add_axes{ overflow:auto; }
 
@@ -956,12 +954,15 @@
       color:black;
     }
 
-  .cls_votes_dtl{ width:100%;height:30px;margin-top:5px;padding:1px;cursor:pointer;color:black;background:none; }  
-    .cls_votes_dtl div{ float:left;width:65%;height:100%;border-radius:8px;border:0px solid black;
-      padding:7px;font-size:12px;text-align:left;background:none;
+  .cls_votes_dtl{ 
+        float:left;width:50%;padding:0 5px 0 5px;font-size:10px;
+        height:30px;margin-top:5px;padding:1px;cursor:pointer;color:black;border:0px solid black; 
+  }  
+    .cls_votes_dtl div{ float:left;width:65%;height:100%;border-radius:3px;overflow:auto;border:0px solid black;
+      font-size:10px;padding:7px;text-align:left;background:coral;
     }
-    .cls_votes_dtl span{ float:right;width:35%;height:100%;padding:5px 0px 2px 2px;text-align:right;font-size:15px;
-      text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;
+    .cls_votes_dtl span{ float:right;width:35%;height:100%;padding:5px 0px 2px 2px;text-align:right;
+      font-size:10px;text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;background:pink;
     }
   .cls_votes_dtl:hover{color:red;}  
 
@@ -984,8 +985,8 @@
     .cls_dispboard div {
       border:0px solid black;
     }
-    .cls_dispboard_ctr { float:left;width:10%;height:100%;padding:0px 0 0 2px;font-size:15px;background:none; }
-    .cls_dispboard_img { float:left;width:10%;height:100%; }
+    .cls_dispboard_ctr { float:left;width:0%;height:100%;padding:0px 0 0 2px;font-size:15px;background:none; }
+    .cls_dispboard_img { float:left;width:15%;height:100%; }
       .cls_dispboard_img_in { height:100%;width:45px;border:1px solid black;border-radius:8px;background:white; }
     .cls_dispboard_candi { float:left;width:50%;height:100%;background:none; }
       .cls_dispboard_candi_1 { width:100%;height:60%;font-size:12px;padding:5px 0 0 0;background:none; }
@@ -997,9 +998,9 @@
      }
     .cls_dispboard_votes { float:right;width:30%;height:100%;padding:10px 2px 0 0;font-size:15px;text-align:right;background:none; }
   
-  .cls_ds_main{ margin:0 auto;width:250px;height:auto;font-size:12px;margin-top:10px;border:1px solid white;background:none;}  
+  .cls_ds_main{ margin:0 auto;width:80%;height:auto;font-size:12px;margin-top:50px;border:1px solid white;background:white;}  
     .cls_ds_main p{ width:100%;height:30px;margin-top:0px;font-size:18px;padding:5px 0 0 0;background:gray; }  
-    .cls_ds_main button { width:80%;height:30px;font-size:14px;margin-top:5px; } 
+    .cls_ds_main button { width:80%;height:50px;font-size:14px;margin-top:5px; } 
     .cls_ds_main input[type="button"]{ width:80%;height:30px;font-size:14px;margin-top:20px;margin-bottom:20px;color:white; }  
   
   .cls_tbl{ cursor:pointer;overflow:auto;width:100%; }    
@@ -1024,10 +1025,28 @@
   #hd_user{ width:55%; font-size:10px; }  
   #hd_datetime{ display:none; }  
 
-  .cls_header{ float:left;width:50%;height:100%;text-align:left;padding:5px; }
-    .cls_header div{ width:100%;height:60%;font-size:12px; }
-    .cls_header span{ width:100%;height:40%;font-size:10px; }
-  .cls_header2{ float:right;width:50%;height:100%;font-size:10px;padding:5px 10px 5px 5px; }    
+.cls_header{ float:left;width:34%;height:100%;text-align:left;overflow:auto;padding:5px;background:none; }
+    .cls_header div{ width:100%;height:60%;font-size:14px; }
+    .cls_header span{ width:100%;height:40%;font-size:12px; }
+.cls_header2{ text-align:center;padding:2px;background:none; }    
 
+.cls_totals{ float:right;margin-right:5px;width:200px;height:100%;text-align:left;font-size:12px;background:lightblue; }    
+    .cls_totals div{ float:left;width:65%;height:33.3%;text-align:right;padding:0px;background:none; }
+    .cls_totals span{ float:left;text-align:right;width:35%;height:33.3%;padding:0px;background:brown; }
+
+  .cls_rep1{ margin-top:30px;width:100%;height:auto;overflow:auto;background:none; }    
+    .cls_rep1 div{ float:left;width:40%;height:20px;max-height:40px;text-align:center;background:none; border:1px solid red; }    
+    
+ .cls_area_votes_dtl{ 
+        float:left;width:100%;padding:0 5px 0 5px;font-size:10px;
+        height:30px;margin-top:5px;padding:1px;cursor:pointer;color:black;border:1px solid black; }  
+    .cls_area_votes_dtl div{ float:left;width:65%;height:100%;border-radius:3px;overflow:auto;border:0px solid black;
+      font-size:10px;padding:7px;text-align:left;background:violet;
+    }
+    .cls_area_votes_dtl span{ float:right;width:35%;height:100%;padding:5px 0px 2px 2px;text-align:right;
+      font-size:10px;text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;background:green;
+    }
+  .cls_area_votes_dtl:hover{color:blue;}  
+  
 }
   

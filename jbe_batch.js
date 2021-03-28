@@ -102,7 +102,7 @@ function disp_batch(f_batch,pos,candi_no){
             '</div>'+
             '<div class="cls_dispboard_candi">'+
             
-              '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">'+
+              '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">x'+
                 aryCandidate[i]['name']+
               '</div>'+
               '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+                
@@ -115,7 +115,7 @@ function disp_batch(f_batch,pos,candi_no){
             '</div>'+
             '<div id="candi_votes_'+i+'" class="cls_dispboard_votes">'+
               //jformatNumber(aryCandidate[i]['votes'])+
-              get2PlaceVotes(vpos,candi_no,place_type,v_filter)+
+              jformatNumber(get2PlaceVotes(vpos,candi_no,place_type,v_filter))+
             '</div>'+
           '</div>'+
 
@@ -212,7 +212,7 @@ function show_area(v_div,v_area,v_filter){
     var xname=aryNew[i]['name'];
     var xvotes=aryNew[i]['votes'];
     dtl+=
-    '<div class="cls_votes_dtl" style="cursor:auto;pointer-events:none;background:none;">'+          
+    '<div class="cls_area_votes_dtl" style="cursor:auto;pointer-events:none;background:none;">'+          
       '<div>'+xname+'</div>'+
       '<span id="dv_votes_'+i+'">'+        
         jformatNumber(xvotes)+
@@ -221,10 +221,10 @@ function show_area(v_div,v_area,v_filter){
     tot_votes+=xvotes;
   }      
   document.getElementById(v_div).innerHTML=dtl;
-  update_head_total(header,v_area,v_filter,tot_votes);
+  update_head_total(header,v_area,v_filter,pos);
 }
 //
-function update_head_total(div,place_type,place_no,tot_counted){    
+function update_head_total(div,place_type,place_no,pos){    
   var fld;
   //alert('div:'+div);
   if(place_type=='citymun'){
@@ -237,12 +237,24 @@ function update_head_total(div,place_type,place_no,tot_counted){
   
   var tot_reg=0;
   var tot_precinct=0;
+  var tot_counted=0;
   for(var i=0;i<DB_CLUSTER.length;i++){
     //alert(DB_CLUSTER[i][fld]+' vs '+place_no);
     if(DB_CLUSTER[i][fld] != place_no){ continue; }
     tot_reg+=parseInt(DB_CLUSTER[i]['regVoters']);
     tot_precinct+=parseInt(DB_CLUSTER[i]['prec_len']);
   }
+
+  //===============================================================    
+  for(var ik=0;ik<DB_TRAN_VOTES.length;ik++){
+    if(DB_TRAN_VOTES[ik][fld] != place_no){ continue; }    
+    if(DB_TRAN_VOTES[ik]['pos'] != pos){ continue; }    
+
+    tot_counted+=parseInt(DB_TRAN_VOTES[ik]['votes']);      
+  }
+  //===============================================================
+
+
 
   //alert('going to apply to: '+div);
   document.getElementById('headTotRegVoters_'+div).innerHTML=jformatNumber(tot_reg);
@@ -343,18 +355,19 @@ function show_place_votes(candi_no,place_type,place_no){
   );
   */
   
-  var h_dispboard=65;
+  var h_dispboard=60;
   if(JBE_MOBILE){ h_dispboard=50; }
   var dtl=
-  '<div style="width:100%;height:'+(H_VIEW_DTL-60)+'px;">'+
+  //'<div style="width:100%;height:'+(H_VIEW_DTL-70)+'px;">'+
+  '<div style="width:100%;height:100%;">'+
 
     '<div style="width:100%;height:60px;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
       show_header(pos,place_type)+
     '</div>'+
 
-    '<div style="width:100%;height:100%;background:white;">'+ //body
+    '<div style="width:100%;height:'+(H_VIEW_DTL-60)+'px;background:white;">'+ //body
 
-      '<div id="bat_candi_dtl_'+place_type+'" style="float:left;width:50%;height:100%;padding:10px;overflow:auto;background:none;">'+ //left
+      '<div id="bat_candi_dtl_'+place_type+'" style="width:100%;height:60px;padding:0px;background:lightgray;">'+ //left
         
         '<div class="cls_dispboard" style="height:'+h_dispboard+'px;">'+            
           '<div class="cls_dispboard_img">'+
@@ -379,8 +392,8 @@ function show_place_votes(candi_no,place_type,place_no){
         '</div>'+
 
       '</div>'+  // end left
-    
-      '<div id="new_place_'+place_type+'" style="float:left;width:50%;height:100%;font-size:12px;overflow:auto;padding:10px;background:none;">'+ // right        
+
+      '<div id="new_place_'+place_type+'" style="width:100%;height:'+(H_VIEW_DTL-(h_dispboard+60))+'px;font-size:12px;border:1px solid lightgray;overflow:auto;padding:10px;background:none;">'+ // right        
       '</div>'+  // end right
 
     '</div>'+  
@@ -499,6 +512,7 @@ function show_place_votes(candi_no,place_type,place_no){
   //alert('place_type '+place_type);
   //alert('vplace_no '+vplace_no);
 
+  var tot_votes=0;
   for(var i=0;i<aryPlace.length;i++){
     if(place_type != 'reg'){
       if(aryPlace[i][vplace_no] != place_no){ continue; }
@@ -509,6 +523,7 @@ function show_place_votes(candi_no,place_type,place_no){
     var vvcode=aryPlace[i][vcode];  
 
     var votes=0;
+    
     //votes=get2PlaceVotes(candi_no,place_type,vvcode);
 
     //===============================================================    
@@ -520,6 +535,7 @@ function show_place_votes(candi_no,place_type,place_no){
       if(DB_TRAN_VOTES[ik][vcode] != vvcode){ continue; }    
 
       votes+=parseInt(DB_TRAN_VOTES[ik]['votes']);  
+      tot_votes+=parseInt(DB_TRAN_VOTES[ik]['votes']); 
     }
     //===============================================================
 
@@ -534,14 +550,17 @@ function show_place_votes(candi_no,place_type,place_no){
 
   //alert(aryNewPlace.length);
 
-//===============================================================
-//===============================================================
-  var tot_votes=0;
+  //===============================================================
+  //===============================================================
+  
   var aryName=[];
   var aryVotes=[];
   var aryNew=aryNewPlace;
-  aryNew.sort(sortByMultipleKey(['*votes',vdesc]));
+  
+  aryNew.sort(sortByMultipleKey(['*votes','code']));
+  //aryNew.sort(sortByMultipleKey(['*name']));
   for(var i=0;i<aryNew.length;i++){
+    //alert(aryNew[i][vcode]);
     //alert(aryNew[i]['name']+' : '+aryNew[i]['votes']);
     var xcode=aryNew[i]['code'];
     var xname=aryNew[i]['name'];
@@ -555,14 +574,15 @@ function show_place_votes(candi_no,place_type,place_no){
     '</div>';
     aryName[i]=xname;
     aryVotes[i]=xvotes;
-    tot_votes+=xvotes;
+    //tot_votes+=xvotes;
   }    
   
   document.getElementById("new_place_"+place_type).innerHTML=dtl;  
   document.getElementById("new_votes_"+place_type).innerHTML=jformatNumber(tot_votes);
 
-  update_head_total(m+place_type,place_type,place_no,tot_votes);
+  update_head_total(m+place_type,place_type,place_no,pos);
 }
+
 function close_new(v){  
   var f_batch=document.getElementById("BOARD_MAIN").getAttribute('data-batch');
   var v_area=document.getElementById("BOARD_MAIN").getAttribute('data-area');

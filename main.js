@@ -100,19 +100,35 @@ function get_db_all(){
     // define to show position
     update_positions();
     CURR_CITYMUNCODE=DB_SYS[0]['citymunCode'];
+    //create new temp ref_brgy
+    create_tmp_ref_brgy(CURR_CITYMUNCODE);
 
-    document.getElementById('dv_headTot').innerHTML=ret_head_totals();
-
-    //do_reg_totals();
-
-    dispBoard();
-
-    //alert(DB_SYS[0]['citymunCode']);
+    document.getElementById('dv_headTot').innerHTML=ret_head_totals();    
     
-    //if(!DB_SYS[0]['citymunCode']){ alert('go'); do_setup(); }    
+    dispBoard();
     
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
+}
+
+function create_tmp_ref_brgy(){
+  tmp_ref_brgy=[];
+  var ctr=0;
+  for(var i=0;i<ref_brgy.length;i++){    
+    if(ref_brgy[i]['citymunCode'] != CURR_CITYMUNCODE){ continue; }
+    
+    let ob = {
+      "id":ctr,
+      "brgyCode":ref_brgy[i]["brgyCode"],
+      "brgyDesc":ref_brgy[i]["brgyDesc"],
+      "regCode":ref_brgy[i]["regCode"],
+      "provCode":ref_brgy[i]["provCode"],
+      "citymunCode":ref_brgy[i]["citymunCode"]
+    };    
+    tmp_ref_brgy[ctr]=ob;    
+    ctr++;
+  }
+  //alert('tmp len:'+tmp_ref_brgy.length);
 }
 
 function ret_head_totals(){
@@ -120,40 +136,52 @@ function ret_head_totals(){
   var tot_precincts=0;
   var tot_votes=0;
   for(var i=0;i<DB_CLUSTER.length;i++){
+    if(DB_CLUSTER[i]['citymunCode'] != CURR_CITYMUNCODE){ continue; }
     tot_regvotes+=parseInt(DB_CLUSTER[i]['regVoters']);
     tot_precincts+=parseInt(DB_CLUSTER[i]['prec_len']);
   }  
-  for(var i=0;i<DB_TRAN_VOTES.length;i++){    
+  for(var i=0;i<DB_TRAN_VOTES.length;i++){        
+    var vdisp=JBE_GETFLD('hide',DB_POSITION,'pos',DB_TRAN_VOTES[i]['pos']);
+    if(vdisp != '0'){ //alert(DB_TRAN_VOTES[i]['votes']); 
+    continue; }
+
     tot_votes+=parseInt(DB_TRAN_VOTES[i]['votes']);
   } 
-
+  //alert('tot_votes'+tot_votes);
   //alert(tot_regvotes+' = '+tot_precincts+' = '+tot_votes);
   //document.getElementById('headTotRegVoters').innerHTML=jformatNumber(tot_regvotes);
   //document.getElementById('headTotPrecincts').innerHTML=jformatNumber(tot_precincts);  
   //document.getElementById('headTotVotes').innerHTML=jformatNumber(tot_votes);  
 
   var glob_div=
-  '<div style="float:right;width:100%;height:100%;font-size:12px;padding:5px 10px 5px 5px;background:none;">'+
-    '<div style="width:100%;height:34%;text-align:right;background:none;">Total Registered Voters: <span id="headTotRegVoters" style="width:200px;">'+jformatNumber(tot_regvotes)+'</span></div>'+
-    '<div style="width:100%;height:33%;text-align:right;background:none;">Total Precincts: <span id="headTotPrecincts" style="width:200px;">'+jformatNumber(tot_precincts)+'</span></div>'+ 
-    '<div style="width:100%;height:33%;text-align:right;background:none;">Total Votes Counted: <span id="headTotVotes" style="width:200px;">'+jformatNumber(tot_votes)+'</span></div>'+
+  '<div class="cls_totals">'+
+    '<div>Total Registered Voters:</div>'+
+        '<span id="headTotRegVoters">'+jformatNumber(tot_regvotes)+'</span>'+
+    '<div>Total Precincts:</div>'+
+        '<span id="headTotPrecincts">'+jformatNumber(tot_precincts)+'</span>'+ 
+    '<div>Total Votes Counted:</div>'+
+        '<span id="headTotVotes">'+jformatNumber(tot_votes)+'</span>'+
   '</div>';
 
   return glob_div;
 }
 
-function show_header(pos,place){  
-  var header=document.getElementById('BOARD_MAIN').getAttribute('data-header');
+function show_header(pos,place){    
+  //var header=document.getElementById('BOARD_MAIN').getAttribute('data-header');
   //alert('show_header '+header);
   var m=document.getElementById("myView1").getAttribute('data-JBEpage'); 
-  
+  //alert('show_header:'+m+place);
   var aryHead1=[
     "Presidential","Vice-Presidential","Senatorial","Gubernatorial","Vice-Gubernatorial","Board Member",
     "Congressional","Mayoratorial","Vice-Mayoratorial","Councilor","Barangay Chairmanship","Barangay Councilor"
   ];
 
   var vdisp='block';
-  if(JBE_MOBILE){ vdisp='none'; }
+  var reg='Registered';
+  if(JBE_MOBILE){ 
+    vdisp='none'; 
+    reg='Reg.';
+  }
   
   var vdate = JBE_DATE_FORMAT(new Date());
   var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -162,13 +190,13 @@ function show_header(pos,place){
   document.getElementById('hd_time').innerHTML = vtime;
 
   var dtl=
-  '<div style="width:100%;height:100%;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
-    '<div class="cls_header">'+
-      '<div>'+aryHead1[parseInt(pos)-1]+' Election Results</div>'+
+  '<div style="position:relative;width:100%;height:100%;border:1px solid black;">'+ //head
+    '<div class="cls_header" style="width:34%;">'+
+      '<div>'+aryHead1[parseInt(pos)-1]+' xElection Results</div>'+
       '<span id="subtilt_'+m+place+'"></span>'+
     '</div>'+
     
-    '<div style="display:'+vdisp+';float:left;width:33%;height:100%;text-align:center;padding:2px;background:none;">'+
+    '<div class="cls_header2" style="display:'+vdisp+';float:left;width:33%;height:100%;">'+
       '<div style="width:100%;height:55%;padding:0px;font-size:25px;background:none;">'+
         vdate+
       '</div>'+
@@ -177,14 +205,17 @@ function show_header(pos,place){
       '</div>'+
     '</div>'+
 
-    '<div class="cls_header2" style="width:300px;text-align:right;background:none;">'+
-      '<div style="float:left;width:200px;height:34%;background:none;">Total Registered Voters : </div>'+
-          '<div id="headTotRegVoters_'+m+place+'" style="float:left;width:85px;background:none;">0</div>'+
-      '<div style="float:left;width:200px;height:34%;background:none;">Total Precincts : </div>'+
-          '<div id="headTotPrecincts_'+m+place+'" style="float:left;width:85px;background:none;">0</div>'+
-      '<div style="float:left;width:200px;height:34%;background:none;">Total Votes Counted : </div>'+
-          '<div id="headTotVotes_'+m+place+'" style="float:left;width:85px;background:none;">0</div>'+
+    '<div style="float:right;width:33%;height:100%;text-align:right;padding:2px;background:none;">'+
+      '<div class="cls_totals">'+
+        '<div>Total '+reg+' Voters : </div>'+
+            '<span id="headTotRegVoters_'+m+place+'">0</span>'+
+        '<div>Total Precincts : </div>'+
+            '<span id="headTotPrecincts_'+m+place+'">0</span>'+
+        '<div>Total Votes Counted : </div>'+
+            '<span id="headTotVotes_'+m+place+'">0</span>'+
+      '</div>'+
     '</div>'+
+    
   '</div>';
   return dtl;
 }
@@ -213,12 +244,12 @@ function update_positions(){
 
 function get_db_candidate(m){
   DB_CANDIDATE=[];  
-  showProgress(m);    
+  showProgress(m);
   axios.post(JBE_API+'z_candidate.php', { clientno:CURR_CLIENT,request:0 }) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);    
-    DB_CANDIDATE = response.data;   
+    DB_CANDIDATE = response.data;       
     dispBoard();
   },JBE_HEADER)    
   .catch(function (error) { console.log(error); showProgress(false); }); 
@@ -705,12 +736,23 @@ function redisplay(){
   dispBoard();  
 }
 
+
 function dispGtMsg(){  
   var gtmsg_disp='none';
   var gtmsg=0;
   for(var i=0;i<JBE_MSG.length;i++){ 
-    if(parseInt(JBE_MSG[i]['unread'])==0 && parseInt(JBE_MSG[i]['SENDER'])==1){
+    var projcode=JBE_MSG[i]['clientno']
+    if(parseInt(JBE_MSG[i]['unread'])==0 && parseInt(JBE_MSG[i]['SENDER'])==1){      
       gtmsg++;
+      //alert(gtmsg);
+      var msg_date=JBE_MSG[i]['TRANSDAT'];
+      //assign msg_date to proj for sort display
+      for(var k=0;k<JBE_PROJ.length;k++){ 
+        if(JBE_PROJ[k]['clientno'] == projcode){
+          JBE_PROJ[k]['msg_date']=msg_date;
+          break;
+        }
+      }
     }      
   }
   
@@ -778,6 +820,7 @@ function closeMapBox() {
 }
 
 function myResize(){    
+  //alert('myResize:'+JBE_MOBILE);
   if(!JBE_MOBILE){ myResizeFunction(); }
 }
 
@@ -861,7 +904,11 @@ function myResizeFunction(){
   if(document.getElementById('batch_dtl')){
     document.getElementById('batch_dtl').style.height=(H_VIEW_DTL-60)+'px';
   }
-  
+
+  //resize all repo forms  
+  document.querySelectorAll('.cls_repo').forEach(function(el) {    
+    el.style.height=(H_BODY-40)+'px';    
+  });
 }
 
 function openPage(m){ 
@@ -949,36 +996,30 @@ function show_scope(){
 }
 
 function nowLive() {
-  var f_live=document.getElementById('btn_Live').getAttribute('data-live');
+  f_syslive=document.getElementById('btn_Live').getAttribute('data-live');
   
-  if(f_live==0) {
-    document.getElementById('id_LiveTime').innerHTML=new Date().toLocaleTimeString();
+  if(f_syslive==0) {
+    //document.getElementById('id_LiveTime').innerHTML=new Date().toLocaleTimeString();
     live_id = setInterval(function(){ refresh_votes(); }, 20000);		
     
     document.getElementById('btn_Live').style.backgroundColor='red';
     document.getElementById('btn_Live').innerHTML='STOP';
     document.getElementById('btn_Live').setAttribute('data-live',1);
-
-    document.getElementById('id_LiveTime').style.display='block';
-    document.getElementById('id_LiveImg').style.display='block';  
-    document.getElementById('hd_LiveImg').style.display='block';  
+    document.getElementById('id_LiveImg').style.display='block';      
   }else{
     clearInterval(live_id);
     document.getElementById('btn_Live').style.backgroundColor='black';
     document.getElementById('btn_Live').innerHTML='LIVE';
     document.getElementById('btn_Live').setAttribute('data-live',0);
-
-    document.getElementById('id_LiveTime').style.display='none';
-    document.getElementById('id_LiveImg').style.display='none';
-    document.getElementById('hd_LiveImg').style.display='none';    
+    document.getElementById('id_LiveImg').style.display='none';    
   }      
 }
 
 function refresh_votes(){
   var n =  new Date().toLocaleTimeString();
-  document.getElementById('id_LiveTime').innerHTML=n;  
+  //document.getElementById('id_LiveTime').innerHTML=n;  
   get_db_candidate(false);  
-  get_db_tran_votes(false);  
+  //get_db_tran_votes(false);  
   JBE_AUDIO('gfx/snd/insight',5);
   update_datetime();
 }
