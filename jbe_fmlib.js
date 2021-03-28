@@ -25,6 +25,9 @@ function FM_MAIN(fm_ob,fm_layout){
   var h_foot=60;
   var h_body=h-(h_head+h_foot+27);
 
+  var top=((window.innerHeight-parseInt(fm_ob.height))/2)+'px';
+  var left=((window.innerWidth-parseInt(fm_ob.width))/2)+'px';
+
   var fm_menu=
     '<div id="FM_BTNS" data-mode=0 style="width:100%;height:100%;color:white;padding:2px;background:none;">'+
 
@@ -68,7 +71,9 @@ function FM_MAIN(fm_ob,fm_layout){
     '</div>';
 
   var dtl=
-    '<div id="DIV_FM_MAIN" style="position:absolute;z-index:9;box-shadow: 0px 0px 8px;width:100%;height:100%;font-size:12px;border:1px solid black;background:white;">'+      
+    
+    '<div id="DIV_FM_MAIN" style="position:absolute;z-index:9;top:'+top+';left:'+left+';box-shadow: 0px 0px 8px;width:100%;height:100%;font-size:12px;border:0px solid green;background:white;">'+ 
+    
       '<div id="FM_HEAD" data-recno="" style="cursor:move;z-index:10;font-size:14px;width:100%;height:'+h_head+'px;padding:10px;color:white;background:'+JBE_CLOR+';">'+
         '<span style="float:left;width:100%;">'+fm_ob.title+'</span>'+
         //'<span style="float:right;">FM Library version 1.1</span>'+
@@ -76,19 +81,23 @@ function FM_MAIN(fm_ob,fm_layout){
       '<div id="FM_MODE" style="width:100%;height:25px;text-align:center;padding:5px 15px 5px 5px;text-align:right;background:lightgray;"></div>'+
       '<div id="FM_BODY" style="width:100%;height:'+h_body+'px;background:white;">BODY</div>'+
       '<div id="FM_FOOT" style="width:100%;height:'+h_foot+'px;padding:2px;background:'+JBE_CLOR+';">FOOT</div>'+
+
     '</div>';
 
   if(fm_ob.width){ document.getElementById('div_sap_dtl').style.width=fm_ob.width; }
   if(fm_ob.height){ document.getElementById('div_sap_dtl').style.height=fm_ob.height; }
-  if(fm_ob.top){ document.getElementById('div_sap_dtl').style.top=fm_ob.top; }
-  if(fm_ob.left){ document.getElementById('div_sap_dtl').style.left=fm_ob.left; }
-  if(fm_ob.bottom){ document.getElementById('div_sap_dtl').style.bottom=fm_ob.bottom; }
-  if(fm_ob.right){ document.getElementById('div_sap_dtl').style.right=fm_ob.right; }
+  //if(fm_ob.top){ document.getElementById('div_sap_dtl').style.top=fm_ob.top; }
+  //if(fm_ob.left){ document.getElementById('div_sap_dtl').style.left=fm_ob.left; }
+  //if(fm_ob.bottom){ document.getElementById('div_sap_dtl').style.bottom=fm_ob.bottom; }
+  //if(fm_ob.right){ document.getElementById('div_sap_dtl').style.right=fm_ob.right; }
+
   document.getElementById('div_sap_dtl').innerHTML=dtl;
 
   document.getElementById('FM_BODY').innerHTML=fm_layout;
   document.getElementById('FM_FOOT').innerHTML=fm_menu;
   document.getElementById('div_sap').style.display='block';  
+
+
   // Make the DIV element draggable:
   dragElement(document.getElementById("DIV_FM_MAIN"));
 

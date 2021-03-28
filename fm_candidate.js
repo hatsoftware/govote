@@ -30,7 +30,7 @@ function do_fm_candidate(){
   
   var fm_ob = {
     title:"CANDIDATE MASTER FILE",
-    top:"", left:"", bottom:"10%", right:"5%",
+    //top:"", left:"", bottom:"10%", right:"5%",
     width:"600px",height:"510px",
     h_photo:"100px"
   };  
@@ -38,9 +38,9 @@ function do_fm_candidate(){
   if(JBE_MOBILE){ 
     fm_ob.width="95%"; 
     fm_ob.height="415px";
-    fm_ob.right="5px";  
-    fm_ob.top="80px"; 
-    fm_ob.h_photo="50px";
+    //fm_ob.right="5px";  
+    //fm_ob.top="80px"; 
+    fm_ob.h_photo="50px";    
   }
   
   var fm_layout=
@@ -73,7 +73,7 @@ function do_fm_candidate(){
 
       '<div class="cls_fm_dtl">'+        
         '<div>Barangay:'+          
-          '<input id="lu_brgyCode_candi" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;BARANGAY LOOKUP&quot;,ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
+          '<input id="lu_brgyCode_candi" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;BARANGAY LOOKUP&quot;,tmp_ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
           '<input id="tx_brgyCode" type="text" data-caption="Barangay Code" style="display:none;" value="" />'+
         '</div>'+
         '<input id="tx_brgyName" type="text" />'+
@@ -256,7 +256,7 @@ function do_disp_candi(disp_mode){
     document.getElementById('img_eavatar').src=vimg+'?'+n;
   }else if(disp_mode==2){
     var brgyCode=document.getElementById('tx_brgyCode').value;         
-    var aryDB=JBE_GETARRY(ref_brgy,'brgyCode',brgyCode);    
+    var aryDB=JBE_GETARRY(tmp_ref_brgy,'brgyCode',brgyCode);    
 
     var citymunCode=aryDB['citymunCode'];
     var provCode=aryDB['provCode'];
@@ -267,7 +267,7 @@ function do_disp_candi(disp_mode){
     document.getElementById('tx_provCode').value = provCode;
     document.getElementById('tx_regCode').value = regCode;
 
-    document.getElementById('tx_brgyName').value = JBE_GETFLD('brgyDesc',ref_brgy,'brgyCode',brgyCode);
+    document.getElementById('tx_brgyName').value = JBE_GETFLD('brgyDesc',tmp_ref_brgy,'brgyCode',brgyCode);
     document.getElementById('tx_cityName').value = JBE_GETFLD('citymunDesc',ref_city,'citymunCode',citymunCode);
     document.getElementById('tx_provName').value = JBE_GETFLD('provDesc',ref_prov,'provCode',provCode);
     document.getElementById('tx_regName').value = JBE_GETFLD('regDesc',ref_reg,'regCode',regCode);
