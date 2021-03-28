@@ -192,15 +192,15 @@ function show_header(pos,place){
   var dtl=
   '<div style="position:relative;width:100%;height:100%;border:1px solid black;">'+ //head
     '<div class="cls_header" style="width:34%;">'+
-      '<div>'+aryHead1[parseInt(pos)-1]+' xElection Results</div>'+
+      '<div>'+aryHead1[parseInt(pos)-1]+' Election Results</div>'+
       '<span id="subtilt_'+m+place+'"></span>'+
     '</div>'+
     
-    '<div class="cls_header2" style="display:'+vdisp+';float:left;width:33%;height:100%;">'+
-      '<div style="width:100%;height:55%;padding:0px;font-size:25px;background:none;">'+
+    '<div class="cls_header2" style="display:'+vdisp+';float:left;width:33%;height:100%;background:none;">'+
+      '<div style="width:100%;height:55%;padding:0px;font-size:25px;text-align:center;background:none;">'+
         vdate+
       '</div>'+
-      '<div style="width:100%;height:45%;padding:0px;font-size:20px;background:none;">'+
+      '<div style="width:100%;height:45%;padding:0px;font-size:20px;text-align:center;background:none;">'+
         vtime+
       '</div>'+
     '</div>'+
