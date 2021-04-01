@@ -1,6 +1,6 @@
 var dbVersion = 1;
 var dbReady = false;
-var db;
+var db00;
 
 if (navigator.storage && navigator.storage.persist)
   navigator.storage.persist().then(granted => {
@@ -23,14 +23,17 @@ function initDb() {
   }
 
   request.onsuccess = function(e) {
-    db = e.target.result;
+    db00 = e.target.result;
     console.log('db opened');  
   }
 
   request.onupgradeneeded = function(e) {
-    db = e.target.result;    
-    db.createObjectStore('SysFile', { keyPath:'id' });
-    db.createObjectStore('User', { keyPath:'id' });    
+    db00 = e.target.result;
+    db00.createObjectStore('SysFile', { keyPath:'id' });
+    db00.createObjectStore('User', { keyPath:'id' });    
+    db00.createObjectStore('Candidate', { keyPath:'id' });        
+    db00.createObjectStore('PosMast', { keyPath:'id' });        
+    db00.createObjectStore('Msg', { keyPath:'id' });   
     dbReady = true;
   }
 }
@@ -121,8 +124,35 @@ function getDataFromIDX(i,db2) {
     var cursor = event.target.result;    
     if (cursor) {
       var key = cursor.primaryKey;
-      var ob;      
-      if(i==2){ //Sysfile
+      var ob;
+      if(i==0){ //Category
+        ob = {
+          id:idx,
+          catno:cursor.value.catno,
+          descrp:cursor.value.descrp,
+          photo:cursor.value.photo, 
+          orient:cursor.value.orient,              
+          bal:cursor.value.bal
+        };  
+      }else if(i==1){ //Stock
+        ob = {
+          id:idx,
+          stockno:cursor.value.stockno,
+          stockname:cursor.value.stockname,
+          descrp:cursor.value.descrp,
+          photo:cursor.value.photo, 
+          photo2:cursor.value.photo2, 
+          photo3:cursor.value.photo3,
+          photo4:cursor.value.photo4,
+          photo5:cursor.value.photo5,
+          orient:cursor.value.orient,
+          catno:cursor.value.catno,
+          cost:cursor.value.cost,
+          price:cursor.value.price,
+          bal:cursor.value.bal,
+          promo:cursor.value.promo
+        };        
+      }else if(i==2){ //Sysfile
         ob = {
           id:i,
           banner:cursor.value.banner,
@@ -159,12 +189,19 @@ function getDataFromIDX(i,db2) {
       idx++;
       cursor.continue();
     }else{
-      if(i==0){          
+      if(i==0){
+        DB_CAT=[]; DB_CAT=aryIDB;              
+        showCategories();           
+      }else if(i==1){
+        DB_STOCK=[]; DB_STOCK=aryIDB;        
+        showItems();        
+        showPromos();           
+      }else if(i==2){          
         DB_SYS=[]; DB_SYS=aryIDB;
-        //showSystem();
-      }else if(i==1){          
+        showSystem();
+      }else if(i==3){          
         DB_USER=[]; DB_USER=aryIDB;
-        //showProfile(2);      
+        showProfile(2);      
       }
       //alert(JBE_STORE_IDX[i]['flename']+aryIDB.length);
       JBE_STORE_IDX[i]['numrec']=aryIDB.length;
@@ -226,12 +263,14 @@ async function putDataToIDX(i,aryDB,n){
       txclor4:aryDB[i]['txclor4'],
       telno:aryDB[i]['telno'],
       celno:aryDB[i]['celno'],
-      slide1:slide1,
-      slide2:slide2,
-      slide3:slide3
+      scope_type:aryDB[i]['scope_type'],
+      scope_no:aryDB[i]['scope_no'],
+      regCode:aryDB[i]['regCode'],
+      provCode:aryDB[i]['provCode'],
+      citymunCode:aryDB[i]['citymunCode'],
+      brgyCode:aryDB[i]['brgyCode']
     };  
   }else if(n==1){ //user
-    //var jimg='upload/users/'+aryDB[i]['photo'];
     var jimg=JBE_API+'upload/users/'+aryDB[i]['photo'];   
     await JBE_BLOB(n,jimg).then(result => jimg=result);
     ob = {
@@ -240,9 +279,57 @@ async function putDataToIDX(i,aryDB,n){
       username:aryDB[i]['username'],            
       photo:jimg
     };
+  }else if(n==2){ //candidate
+    var jimg=JBE_API+'upload/photo/'+aryDB[i]['code']+'.jpg';   
+    await JBE_BLOB(n,jimg).then(result => jimg=result);
+    ob = {
+      id:i,
+      code:aryDB[i]['code'],
+      name:aryDB[i]['name'],            
+      pos:aryDB[i]['pos'],            
+      partyno:aryDB[i]['partyno'],            
+      votes:aryDB[i]['votes'],            
+      photo:jimg
+    };
+  }else if(n==3){ //posmast 
+    ob = {
+      id:i,
+      pos:aryDB[i]['pos'],
+      descrp:aryDB[i]['descrp'],
+      hide:aryDB[i]['hide']
+    };    
+  }else if(n==4){ //messages 
+    var jimg='';
+    if(aryDB[i]['PHOTO']){ 
+      jimg=JBE_API+'upload/chat/'+aryDB[i]['PHOTO'];   
+      await JBE_BLOB(n,jimg).then(result => jimg=result); 
+    }else{
+      alert('jimg i='+i+' img: '+jimg);
+    }
+    /*
+    var jimg=JBE_API+'app/'+CURR_SITE+'/upload/'+aryDB[i]['PHOTO'];   
+    if(aryDB[i]['PHOTO']!=''){    
+      await JBE_BLOB(n,jimg).then(result => jimg=result);
+    }else{
+      jimg='';
+    }
+    */
+
+    ob = {
+      id:i,
+      trano:aryDB[i]['TRANO'],
+      usercode:aryDB[i]['usercode'],            
+      transdat:aryDB[i]['TRANSDAT'],            
+      transtim:aryDB[i]['TRANSTIM'],            
+      msg:aryDB[i]['MSG'],            
+      sender:aryDB[i]['SENDER'],            
+      unread:aryDB[i]['unread'],            
+      idx:aryDB[i]['idx'],            
+      photo:" "
+    };
   }
 
-  var trans = db.transaction([JBE_STORE_IDX[n]['flename']], 'readwrite');
+  var trans = db00.transaction([JBE_STORE_IDX[n]['flename']], 'readwrite');
   var addReq = trans.objectStore(JBE_STORE_IDX[n]['flename']).put(ob);
   addReq.onerror = function(e) {
     //console.log('error storing data');

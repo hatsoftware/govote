@@ -186,8 +186,16 @@ function fm_admin(){
 
   menuMenu='';
   var clusterno=JBE_GETFLD('clusterno',DB_USER,'usercode',CURR_USER);
-  
   var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',clusterno);
+
+  var closed=aryDB['status'];
+  var stat='OPEN';
+  var tsek='checked';
+  if(closed==1){ 
+    stat='CLOSED'; 
+    tsek="";
+  }    
+
   var precincts=aryDB['precincts'];
   var brgyCode=aryDB['brgyCode'];
   var citymunCode=aryDB['citymunCode'];
@@ -226,6 +234,21 @@ function fm_admin(){
 
         '</div>'+
 
+        '<div style="display:block;width:100%;height:35px;margin-top:5px;padding:5px;cursor:pointer;border:1px solid black;background:none;">'+
+        
+          '<div class="row demo" style="float:right;width:auto;height:100%;padding:2px;background:none;">'+            
+            '<input type="checkbox" id="id_swipe" onclick="proc_swipe(this.id)" class="cbx hidden" '+tsek+' />'+
+            '<label for="id_swipe" class="lbl"></label>'+
+          '</div>'+
+
+          '<div style="float:right;width:150px;height:100%;padding:3px 10px 0 0;text-align:right;background:none;">'+            
+            'Status: <span id="swipe_stat" style="font-weight:bold;">'+stat+'</span>'+
+          '</div>'+
+  
+        '</div>'+
+        
+        
+
         '<div onclick="my_location()" style="display:block;width:100%;height:40px;margin-top:40px;padding:5px;cursor:pointer;background:none;">'+
           '<img src="main_gfx/landmark.png" style="float:left;height:100%;"/>'+
           '<span style="float:left;margin-left:5px;padding:5px;">My Location</span>'+
@@ -252,6 +275,28 @@ function fm_admin(){
     '</div>';        
 
   JBE_OPEN_VIEW(dtl,'My Account','close_admin');    
+}
+
+function proc_swipe(div){
+  var clusterno=JBE_GETFLD('clusterno',DB_USER,'usercode',CURR_USER);  
+  var closed=0;
+  if(document.getElementById(div).checked){
+    document.getElementById('swipe_stat').innerHTML='OPEN';
+  }else{
+    document.getElementById('swipe_stat').innerHTML='CLOSED';
+    closed=1;
+  }
+  showProgress(true);    
+  axios.post(JBE_API+'app/zz_cluster.php', { clientno:CURR_CLIENT, request:3, 
+    clusterno:clusterno,
+    status:closed 
+  },JBE_HEADER) 
+  .then(function (response) { 
+    showProgress(false);
+    //alert(response.data);       
+    DB_CLUSTER=response.data;    
+  })    
+  .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
 function close_admin(){ 
