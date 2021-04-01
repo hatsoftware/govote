@@ -5,26 +5,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="theme-color" content="#000000"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<meta name="description" content="TBM App.">
+<meta name="description" content="TBS App.">
 <meta name="og:image" content="gfx/icon-192x192.png">
 
 <!-- HTML Meta Tags -->
 <!-- Google / Search Engine Tags -->
 <meta itemprop="name" content="E-STORE App">
-<meta itemprop="description" content="TBM App.">
+<meta itemprop="description" content="TBS App.">
 <meta itemprop="image" content="gfx/icon-192x192.png">
  
 <!-- Facebook Meta Tags -->
 <!--meta property="og:url" content="https://nothing.com"-->
 <meta property="og:type" content="website">
 <meta property="og:title" content="E-STORE App">
-<meta property="og:description" content="TBM App.">
+<meta property="og:description" content="TBS App.">
 <meta property="og:image" content="gfx/icon-192x192.png">
  
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="E-STORE App">
-<meta name="twitter:description" content="TBM App.">
+<meta name="twitter:description" content="TBS App.">
 <meta name="twitter:image" content="gfx/icon-192x192.png">
  
 <link rel="shortcut icon" href="main_gfx/favicon.ico">
@@ -38,17 +38,17 @@
 <!-- ****************************************************************** -->
 <!--script src="../js/eruda.min.js"></script>
 <script>eruda.init();</script-->
-<title>TBM</title>
+<title>TBS</title>
 <script>
   var CURR_CLIENT='NPC';
   var CURR_SITE='site'; 
   var CURR_SCOPE_TYPE=0;
   var CURR_SCOPE_NO='';   
   
-  var JBE_API='https://aidfimonitoring.com/tbm_api/';  
+  var JBE_API='https://aidfimonitoring.com/tbs_api/';  
   var pathloc=window.location.origin.substr(0,16);
   if(pathloc == 'http://localhost') { 
-    JBE_API=window.location.origin+'/tbm_api/';  
+    JBE_API=window.location.origin+'/tbs_api/';  
   }
 </script>
 <!-- ****************************************************************** -->
@@ -164,18 +164,20 @@
 
 <!--  *************************PAGES***************************************************
       ************************************************************************** -->
-<div id="wrapper" style="position:relative;display:none;height:100%;background-color:lightgray;padding:0px;">  
-    <!--div id="app-logo"  style="width:100%;height:100px;text-align:center;">
-      <img  src="./gfx/icon-192x192.png" style="height:100%;" alt="first_logo image" >      
-    </div--> 
+<div id="wrapper" style="position:relative;display:none;height:100%;background-color:lightgray;padding:0px;">      
     <!--  ************************* PERMANENT *************************************************** -->
   <div id="page_main" class="page_class" style="display:block;width:100%;height:auto;"> 
     
     <div id="div_header" class="head_color jheader" style="width:100%;height:70px;text-align:left;padding:2px;border:0px solid gray;color:black;">
-      <div style="width:100%;height:30%;padding:2px;color:white;background:none;">TBM APP</div>
-      <div id="div_party" style="width:100%;height:30%;padding:2px 0 0 5px;font-size:16px;color:lightgray;background:none;"></div>
-      <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Cluster: <span id="div_cluster" style="background:none;"></span></div>
-      <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Precincts: <span id="div_precincts" style="background:none;"></span></div>
+      <div class="head_color" style="float:left;width:auto;height:100%;text-align:center;padding:5px;border:0px solid green;color:black;">
+        <img  src="./gfx/icon-192x192.png" style="height:100%;border:2px solid white;" alt="first_logo image" >        
+      </div>
+      <div class="head_color" style="float:left;width:75%;height:100%;text-align:left;padding:1px;border:0px solid red;color:black;">
+        <div style="width:100%;height:30%;padding:2px;color:white;background:none;">TBS APP</div>
+        <div id="div_party" style="width:100%;height:30%;padding:2px 0 0 5px;font-size:16px;color:lightgray;background:none;"></div>
+        <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Cluster: <span id="div_cluster"></span></div>
+        <div style="width:100%;height:20%;padding:0px 0 0 5px;font-size:12px;color:lightgray;background:none;">Precincts: <span id="div_precincts" style="overflow:auto;background:none;"></span></div>
+      </div>
     </div>
         
     <div id="user_main" style="width:100%;margin-top:0px;padding:0px;overflow:auto;background:white;">
@@ -205,16 +207,16 @@
         <img src="main_gfx/jbell.png" style="height:100%;background:none;" alt="notif new hd image" >
         <div id="ntf_bell" class="class_notif2" style="left:35%;"></div>
       </div> 
-      <div id="notif_chat" onclick="fm_chat('')" class="class_notif" style="position:relative;">
+      <div id="notif_chat" class="class_notif" style="position:relative;">
         <img src="main_gfx/jnotif.png" style="height:100%;background:none;" alt="notif new hd image" >
         <div id="ntf_chat" class="class_notif2" style="left:35%;"></div>
       </div>       
 
     </div>
 
-    <div id="jtime" onclick="" style="position:absolute;top:0px;left:0px;height:100%;;width:auto;color:red;padding:6px;
+    <div id="jtime" onclick="" style="position:absolute;top:20px;left:0px;text-align:center;height:100%;;width:100%;color:red;padding:6px;
           font-weight:bold;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-          font-size:14px;background:none;">      
+          font-size:20px;background:none;">      
     </div>
 
     <div id="div_nobar" style="display:none;height:100%;width:100%;top:0px;left:0px;position:absolute;background-color: rgba(0,0,0,0.4);">
@@ -382,11 +384,12 @@
             <span>Call / Text</span>
           </div>
         </div>           
-        <div onclick="fm_chat('')" style="float:left;width:50%;height:100%;background:none;">
+        <div onclick="fm_chat()" style="position:relative;float:left;width:50%;height:100%;background:none;">
           <div class="class_footer">
-            <img src="main_gfx/jchat.png"  alt="home image" />
-            <span>Chat</span>
-          </div>      
+            <img src="main_gfx/jchat.png"  alt="chat image" />
+            <span>Chat</span>            
+          </div>                
+          <div id="gt_msg" style="display:none;position:absolute;right:10px;top:0px;width:25px;height:25px;font-size:12px;text-align:center;padding:4px 0 0 0;border-radius:50%;border:1px solid white;background:red;"></div>
         </div>        
       </div>
 
@@ -467,7 +470,6 @@
   var DB_CLIENTS=[];    
   
   var DB_CLUSTER=[];  
-  var DB_CHAT=[];
   
   
 
@@ -548,13 +550,16 @@
 
   var JBE_STORE_IDX = [
     { "id":0, "flename":"SysFile", "numrec":0 , "init":1 },
-    { "id":1, "flename":"User", "numrec":0 , "init":1 }
+    { "id":1, "flename":"User", "numrec":0 , "init":1 },
+    { "id":2, "flename":"Candidate", "numrec":0 , "init":1 },
+    { "id":3, "flename":"PosMast", "numrec":0 , "init":1 },
+    { "id":4, "flename":"Msg", "numrec":0 , "init":1 }
   ];
 
   /***************************************************** */
   
 	if ('serviceWorker' in navigator) {
-		navigator.serviceWorker.register('SW_TBM.js', { scope: './' }).then(function(registration) {
+		navigator.serviceWorker.register('SW_TBS.js', { scope: './' }).then(function(registration) {
 			console.log('Service worker registration succeeded:', registration);
 		}).catch(function(error) {
 			console.log('Service worker registration failed:', error);
@@ -616,7 +621,7 @@
   
   myResizeFunction();   
     
-  var CURR_IDX_DB='DB_TBM';      
+  var CURR_IDX_DB='DB_TBS';      
   initDb();      
   window.history.pushState({ noBackExitsApp: true }, '');
   f_MainPage=false;
