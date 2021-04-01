@@ -481,7 +481,8 @@ function getDtlChats(usercode){
     dtl+=ret_chatDtl0(v_sender,v_trano,v_username,v_msg,v_img,v_date,v_time);
   }
   dtl+='</div>';
-  if(vmode==1){
+  if(vmode==1 && parseInt(document.getElementById('nmsg'+usercode).innerHTML) > 0){
+    //alert(document.getElementById('nmsg'+usercode).innerHTML);
     markAsRead(usercode);
   }
   return dtl;
