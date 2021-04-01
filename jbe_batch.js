@@ -102,7 +102,7 @@ function disp_batch(f_batch,pos,candi_no){
             '</div>'+
             '<div class="cls_dispboard_candi">'+
             
-              '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">x'+
+              '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">'+
                 aryCandidate[i]['name']+
               '</div>'+
               '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+                
@@ -359,17 +359,17 @@ function show_place_votes(candi_no,place_type,place_no){
   if(JBE_MOBILE){ h_dispboard=50; }
   var dtl=
   //'<div style="width:100%;height:'+(H_VIEW_DTL-70)+'px;">'+
-  '<div style="width:100%;height:100%;">'+
+  '<div style="width:100%;height:100%;background:white;">'+
 
     '<div style="width:100%;height:60px;border:1px solid black;color:white;background:'+JBE_CLOR+';">'+ //head
       show_header(pos,place_type)+
     '</div>'+
 
-    '<div style="width:100%;height:'+(H_VIEW_DTL-60)+'px;background:white;">'+ //body
+    '<div id="sp_body" style="width:100%;height:'+(H_VIEW_DTL-60)+'px;background:white;border:0px solid blue;">'+ //body
 
       '<div id="bat_candi_dtl_'+place_type+'" style="width:100%;height:60px;padding:0px;background:lightgray;">'+ //left
         
-        '<div class="cls_dispboard" style="height:'+h_dispboard+'px;">'+            
+        '<div class="cls_dispboard" style="border:0px;height:'+h_dispboard+'px;">'+            
           '<div class="cls_dispboard_img">'+
             '<img id="candi_img_" class="cls_dispboard_img_in" src="'+JBE_API+'upload/photo/'+candi_no+'.jpg" />'+              
           '</div>'+
@@ -393,7 +393,7 @@ function show_place_votes(candi_no,place_type,place_no){
 
       '</div>'+  // end left
 
-      '<div id="new_place_'+place_type+'" style="width:100%;height:'+(H_VIEW_DTL-(h_dispboard+60))+'px;font-size:12px;border:1px solid lightgray;overflow:auto;padding:10px;background:none;">'+ // right        
+      '<div id="new_place_'+place_type+'" class="cls_show_place" style="width:100%;height:'+(H_VIEW_DTL-(h_dispboard+60))+'px;font-size:12px;border:0px solid red;overflow:auto;padding:10px;background:none;">'+ // right        
       '</div>'+  // end right
 
     '</div>'+  

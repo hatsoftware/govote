@@ -20,28 +20,21 @@ function start_app(){
   CURR_REC='';
   get_db_all();
   document.getElementById('wrapper').style.display='block';
-  
-
   if(!CURR_USER) {   
-   // jeff();
-    //document.getElementById('div_mapbox').style.display='none';
-    showLogin();
-    
+    showLogin();    
     CURR_AXLEVEL=0;
     document.getElementById('logger').innerHTML="Log In";
   }else{
     if(CURR_AXTYPE==0){ showLogin(); return; }
     document.getElementById('logger').innerHTML="Hi!, "+CURR_NAME;      
-    //fillTheFilter(JBE_FNDR,JBE_MNGR);
   }
   var d_c="none";
   if(CURR_USER=='J7N7B8T8E4') { d_c="block"; }
-  //document.getElementById('div_creator').style.display=d_c;   
-  //document.getElementById('div_main_left').style.border='1px solid white';
   JBE_SET_COLOR_BY_CLASS('cls_pos_head','white','red');
 }
 
 function get_db_all(){
+  DB_ADMIN=[];  
   DB_CANDIDATE=[];  
   DB_PARTYMAST=[];  
   DB_MSG=[];  
@@ -53,7 +46,7 @@ function get_db_all(){
   DB_DISTRICT2 = [];
 
   showProgress(true);    
-  axios.post(JBE_API+'z_all.php', { clientno:CURR_CLIENT,request:0 }) 
+  axios.post(JBE_API+'z_all.php', { clientno:CURR_CLIENT,request:0 },JBE_HEADER) 
   .then(function (response) {     
     console.log(response.data);    
     DB_CANDIDATE = response.data[0];   
@@ -71,6 +64,7 @@ function get_db_all(){
     ref_prov = response.data[12];
     ref_reg = response.data[13];
     DB_COOR = response.data[14];
+    DB_ADMIN = response.data[15];   
     
     showProgress(false);
 
@@ -103,11 +97,13 @@ function get_db_all(){
     //create new temp ref_brgy
     create_tmp_ref_brgy(CURR_CITYMUNCODE);
 
-    document.getElementById('dv_headTot').innerHTML=ret_head_totals();    
+    document.getElementById('dv_headTot').innerHTML=ret_head_totals();  
+    
+    dispGtMsg();
     
     dispBoard();
     
-  },JBE_HEADER)    
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
@@ -245,27 +241,27 @@ function update_positions(){
 function get_db_candidate(m){
   DB_CANDIDATE=[];  
   showProgress(m);
-  axios.post(JBE_API+'z_candidate.php', { clientno:CURR_CLIENT,request:0 }) 
+  axios.post(JBE_API+'z_candidate.php', { clientno:CURR_CLIENT,request:0 },JBE_HEADER) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);    
-    DB_CANDIDATE = response.data;       
+    DB_CANDIDATE = response.data;     
     dispBoard();
-  },JBE_HEADER)    
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
 function get_db_party(){
   DB_PARTYMAST=[];  
   showProgress(true);    
-  axios.post(JBE_API+'z_party.php', { clientno:CURR_CLIENT, request:0 }) 
+  axios.post(JBE_API+'z_party.php', { clientno:CURR_CLIENT, request:0 },JBE_HEADER) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);    
     DB_PARTYMAST = response.data;   
     //alert(JBE_PROJ); 
     //dispBoardDtl(normal_mode,pram);
-  },JBE_HEADER)    
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
@@ -273,7 +269,7 @@ function get_db_position(){
   DB_POSITION=[];  
   JBE_STORE_CANDIDATE = [];
   showProgress(true);    
-  axios.post(JBE_API+'z_position.php', { clientno:CURR_CLIENT, request:0 }) 
+  axios.post(JBE_API+'z_position.php', { clientno:CURR_CLIENT, request:0 },JBE_HEADER) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);    
@@ -290,49 +286,47 @@ function get_db_position(){
       JBE_STORE_CANDIDATE[i]=ob;
     }
 
-  },JBE_HEADER)    
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
 function get_db_msg(){
   DB_MSG=[];  
   showProgress(true);    
-  axios.post(JBE_API+'z_msg.php', {  clientno:CURR_CLIENT, request:0 }) 
+  axios.post(JBE_API+'z_msg.php', {  clientno:CURR_CLIENT, request:0 },JBE_HEADER) 
   .then(function (response) { 
     showProgress(false);
-    console.log(response.data);    
-    DB_MSG = response.data;   
-    //alert(JBE_PROJ); 
-    //dispBoardDtl(normal_mode,pram);
-  },JBE_HEADER)    
-  .catch(function (error) { console.log(error); showProgress(false); }); 
+    console.log(response.data);
+    DB_MSG = response.data;
+    dispGtMsg();
+    dispGtChatter();
+  })    
+  .catch(function (error) { console.log(error); showProgress(false); });
 }
 
 function get_db_user(){
   DB_USER=[];  
   showProgress(true);    
-  axios.post(JBE_API+'z_user.php', { clientno:CURR_CLIENT,  request:0 }) 
+  axios.post(JBE_API+'z_user.php', { clientno:CURR_CLIENT,  request:0 },JBE_HEADER) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);    
-    DB_USER = response.data;   
-    //alert(JBE_PROJ); 
-    //dispBoardDtl(normal_mode,pram);
-  },JBE_HEADER)    
+    DB_USER = response.data;
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
 function get_db_tran_votes(){
   DB_USER=[];  
   showProgress(true);    
-  axios.post(JBE_API+'z_tran_votes.php', { clientno:CURR_CLIENT,  request:0 }) 
+  axios.post(JBE_API+'z_tran_votes.php', { clientno:CURR_CLIENT,  request:0 },JBE_HEADER) 
   .then(function (response) { 
     showProgress(false);
     console.log(response.data);    
     DB_USER = response.data;   
     //alert(JBE_PROJ); 
     //dispBoardDtl(normal_mode,pram);
-  },JBE_HEADER)    
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
@@ -739,17 +733,18 @@ function redisplay(){
 
 function dispGtMsg(){  
   var gtmsg_disp='none';
-  var gtmsg=0;
-  for(var i=0;i<JBE_MSG.length;i++){ 
-    var projcode=JBE_MSG[i]['clientno']
-    if(parseInt(JBE_MSG[i]['unread'])==0 && parseInt(JBE_MSG[i]['SENDER'])==1){      
-      gtmsg++;
+  var gtmsg=0;    
+  DB_MSG.sort(sortByMultipleKey(['usercode']));   
+  for(var i=0;i<DB_MSG.length;i++){ 
+    var usercode=DB_MSG[i]['usercode'];
+    if(parseInt(DB_MSG[i]['unread'])==0 && parseInt(DB_MSG[i]['SENDER'])==1){
+      gtmsg++;      
       //alert(gtmsg);
-      var msg_date=JBE_MSG[i]['TRANSDAT'];
+      var msg_date=DB_MSG[i]['TRANSDAT'];
       //assign msg_date to proj for sort display
-      for(var k=0;k<JBE_PROJ.length;k++){ 
-        if(JBE_PROJ[k]['clientno'] == projcode){
-          JBE_PROJ[k]['msg_date']=msg_date;
+      for(var k=0;k<DB_USER.length;k++){ 
+        if(DB_USER[k]['usercode'] == usercode){
+          DB_USER[k]['msg_date'] = msg_date;  
           break;
         }
       }
@@ -758,7 +753,7 @@ function dispGtMsg(){
   
   if(gtmsg > 0){ gtmsg_disp='block'; }
   document.getElementById("gt_msg").style.display=gtmsg_disp;
-  document.getElementById("gt_msg").innerHTML=gtmsg;
+  document.getElementById("gt_msg").innerHTML=gtmsg;  
 }
 
 function showPage(n){  
@@ -909,6 +904,25 @@ function myResizeFunction(){
   document.querySelectorAll('.cls_repo').forEach(function(el) {    
     el.style.height=(H_BODY-40)+'px';    
   });
+
+  //resize messages
+  document.querySelectorAll('.cls_msg').forEach(function(el) {    
+    el.style.height=(H_BODY-10)+'px';        
+  });  
+  if(document.getElementById('div_chatters')){
+    document.getElementById('div_chatters').style.height=(H_VIEW_DTL-70)+'px';
+    document.getElementById('div_msg').style.height=(H_VIEW_DTL-80)+'px';    
+  }
+
+  //resize show_place  
+  document.querySelectorAll('.cls_show_place').forEach(function(el) {    
+    el.style.height=(H_VIEW_DTL-120)+'px';    
+    //el.style.backgroundColor='coral';
+  });  
+  if(document.getElementById('sp_body')){
+    document.getElementById('sp_body').style.height=(H_VIEW_DTL-60)+'px';
+  }
+  //
 }
 
 function openPage(m){ 
@@ -1019,6 +1033,7 @@ function refresh_votes(){
   var n =  new Date().toLocaleTimeString();
   //document.getElementById('id_LiveTime').innerHTML=n;  
   get_db_candidate(false);  
+  get_db_msg();
   //get_db_tran_votes(false);  
   JBE_AUDIO('gfx/snd/insight',5);
   update_datetime();

@@ -1,5 +1,5 @@
 function dispBoard(){  
-  showMainPage();
+  //showMainPage();
   //return;
   /* note:
     1 - President
@@ -45,22 +45,19 @@ function dispBoard(){
 
   var vdtl='';
   var sv_pos=0;
+  var tot_votes=0;
   var ctr=1;
   for (var i=0;i<aryCandidate.length;i++){
     var vpos=parseInt(aryCandidate[i]['pos']-1);
    
     if(vpos != sv_pos){ ctr=1; }
 
-    var vcode=aryCandidate[i]['code'];
+    var candi_no=aryCandidate[i]['code'];
     var pos=parseInt(aryCandidate[i]['pos']);
         
-    vdtl=          
-    
-      //'<div class="cls_shadow_dispboard" onclick="dispVotesGraph('+i+',&quot;'+vcode+'&quot;,&quot;'+pos+'&quot;,&quot;'+regCode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
-      //'<div class="cls_shadow_dispboard" onclick="disp_single(&quot;'+vcode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
-      //'<div class="cls_shadow_dispboard" onclick="show2_brgy(true,&quot;'+vcode+'&quot;,&quot;'+CURR_CITYMUNCODE+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
-      '<div class="cls_shadow_dispboard" onclick="disp_batch(0,&quot;'+aryCandidate[i]['pos']+'&quot;,&quot;'+vcode+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
-      //
+    vdtl=              
+      '<div class="cls_shadow_dispboard" onclick="disp_batch(0,&quot;'+aryCandidate[i]['pos']+'&quot;,&quot;'+candi_no+'&quot;)" style="position:relative;width:100%;border:0px solid black;cursor:pointer;">'+
+      
         '<div class="cls_shadow_box1"></div>'+
         '<div class="cls_shadow_box2">'+
           
@@ -69,7 +66,7 @@ function dispBoard(){
             //  (ctr+0)+'.'+
             //'</div>'+
             '<div class="cls_dispboard_img">'+
-              '<img id="candi_img_'+i+'" class="cls_dispboard_img_in" src="'+JBE_API+'upload/photo/'+vcode+'.jpg" />'+              
+              '<img id="candi_img_'+i+'" class="cls_dispboard_img_in" src="'+JBE_API+'upload/photo/'+candi_no+'.jpg" />'+              
             '</div>'+
             '<div class="cls_dispboard_candi">'+
             
@@ -86,15 +83,9 @@ function dispBoard(){
             '</div>'+
             '<div id="candi_votes_'+i+'" class="cls_dispboard_votes">';
               //jformatNumber(aryCandidate[i]['votes'])+
-              var votes=0;    
-              /*          
-              if(pos > 7){
-                votes=get2PlaceVotes(orig_pos,vcode,'brgy',CURR_CITYMUNCODE);
-              }else{
-                votes=aryCandidate[i]['votes'];
-              } 
-              */             
+              var votes=0;                       
               votes=aryCandidate[i]['votes'];
+              tot_votes+=parseInt(votes);
               vdtl+=jformatNumber(votes)+
             '</div>'+
           '</div>'+
@@ -120,113 +111,10 @@ function dispBoard(){
       document.getElementById('candi_'+vvpos).style.display='none';
     }
   }
+  //document.getElementById('headTotVotes').innerHTML=jformatNumber(tot_votes);
 }
 
-function dispVotesGraph(i,candi_no,pos,regCode){
-  return;
-  if(CURR_SCOPE_TYPE > 0 && CURR_SCOPE_NO==''){
-    snackBar('ERROR: System Scope Invalid...');
-    return;
-  }
-  openPage('page_viewer');  
-  modal_ON(true);
 
-  document.getElementById('dtl_viewer').setAttribute('data-regCode',regCode);
-  
-  document.getElementById('dtv_img').src = document.getElementById('candi_img_'+i).src;
-  document.getElementById('dtv_name').innerHTML = document.getElementById('candi_name_'+i).innerHTML;
-  document.getElementById('dtv_party').innerHTML = document.getElementById('candi_party_'+i).innerHTML;
-  document.getElementById('dtv_pos').innerHTML = document.getElementById('candi_pos_'+i).innerHTML;
-  document.getElementById('dtv_votes').innerHTML = document.getElementById('candi_votes_'+i).innerHTML;
-
-  var h_dtl_view=H_VIEW-150;
-  
-  if(JBE_MOBILE){    
-    h_dtl_view=H_VIEW-130;
-    //document.getElementById('pmap').style.width='100%';
-  }
-  document.getElementById('dv_dtl_view').style.height=h_dtl_view+'px';
-
-  map.invalidateSize();
-  map.setView([11.8787, 121.7740],6);  
-  for(var i=1;i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
-  //alert(pos+'  CURR_SCOPE_TYPE '+CURR_SCOPE_TYPE+' regCode:'+regCode);
-  if(CURR_SCOPE_TYPE==0){    
-    if(pos < 4){      
-      show_region(candi_no,'');
-      //document.getElementById('pmap').src='maps/main.jpg';
-      //alert(222);
-      return;
-    }
-    if(pos < 8){
-      var vCode=JBE_GETFLD('provCode',DB_CANDIDATE,'code',candi_no);
-      //alert('vcode: '+vCode);
-      show_citymun(candi_no,vCode); 
-      //alert(8);
-    }else{
-      var vCode=JBE_GETFLD('citymunCode',DB_CANDIDATE,'code',candi_no);
-      //alert('vcode: '+vCode);
-      show_brgy(candi_no,vCode); 
-      //alert(1);
-    }
-    //document.getElementById('pmap').src='maps/reg_'+regCode+'.png';   
-
-  }if(CURR_SCOPE_TYPE==1){    
-    show_citymun(candi_no,CURR_SCOPE_NO);
-  }else if(CURR_SCOPE_TYPE==2){
-    //alert(DB_DISTRICT2.length);
-    if(DB_DISTRICT2.length==1){ //lone district
-      var vCode=JBE_GETFLD('citymunCode',DB_CANDIDATE,'code',candi_no);
-      show_brgy(candi_no,vCode);   
-    }else{
-      show_district(candi_no,CURR_SCOPE_NO);  
-    }
-  }else if(CURR_SCOPE_TYPE==3){
-    show_brgy(candi_no,CURR_SCOPE_NO);   
-  }
-  //document.getElementById('pmap').src='maps/reg_'+regCode+'.png'; 
-}
-
-//
-function show_folder(v,vCode,votes){  
-  //alert(v+' vs vcode:'+vCode+' votes:'+votes);  
-  var vregCode=document.getElementById('dtl_viewer').getAttribute('data-regCode');
-  var vvotes=jformatNumber(votes);  
-  var tilt='';
-  var ary_scope=['National:','Province:','District:','City/Municipal:'];
-  var ary_label=['Region:','Province:','District:','City/Municipal:','Barangay:','Cluster:'];
-
-  if(CURR_SCOPE_TYPE==0){ 
-    var ary_label=['','Region:','Province:','City/Municipal:','Barangay:'];
-  }
-
-  document.getElementById('id_label').innerHTML=ary_scope[CURR_SCOPE_TYPE];    
-  tilt='[ '+ary_label[(v)]+' ('+vvotes+') ]';   
-  document.getElementById('id_tab'+v).value=tilt;
-  document.getElementById('id_tab'+v).style.display='block';
-  if(JBE_MOBILE && v > 1) { document.getElementById('id_tab'+v).style.display='none'; }
-  document.getElementById('id_label').setAttribute('data-regCode',vCode);
-  //display map
-  
-  if(v==1){
-    //document.getElementById('pmap').src='maps/main.jpg';
-  }else{
-    //document.getElementById('pmap').src='maps/reg_'+vCode.substring(0,2)+'.png';
-  } 
-  
-}  
-
-//
-function menu_folder(v){
-  var ary_id=['reg','prov','citymun','brgy'];
-  for(var i=1;i<=5;i++){ document.getElementById('summ'+i).style.display='none';  }
-  document.getElementById('summ'+v).style.display='block';  
-
-  for(var i=(v+1);i<=4;i++){ document.getElementById('id_tab'+i).style.display='none'; }
-  if(v==1){
-    //document.getElementById('pmap').src='maps/main.jpg';
-  }
-}
 //
 function show_region(candi_no,vCode){   
   disp_place_votes(candi_no,'reg',vCode);  

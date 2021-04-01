@@ -5,38 +5,18 @@ function dispReports(){
   }
     
   var dtl=
+  '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:lightgray;">'+
 
-  '<div style="margin:0 auto;width:1025px;height:100%;padding:10px;border:1px solid red;">'+
-    '<div class="cls_rep" id="div_rep1" style="margin-left:0px;">'+
-      '<div>Election Returns Report</div>'+
-      '<img src="gfx/jorg.png"/>'+
-      '<h1 id="tech_ctr"></h1>'+
-      '<select id="sel_repo" data-type=0 name="sel_repo" onchange="" style="width:100%;height:25px;font-size:12px;padding:0px;">'+
-        '<option value=0>National Level</option>'+
-        '<option value=1>Provincial Level</option>'+
-        '<option value=2>District Level</option>'+
-        '<option selected value=3>City/Municipal Level</option>'+
-        '<option value=4>Barangay Level</option>'+
-      '</select>'+  
-      '<h1 id="tech_ctr_tot"></h1>'+
-      '<button onclick="dispByPrecincts()" style="color:white;background:'+JBE_CLOR+'">Print Report</button>'+
-    '</div>'+
-    '<div class="cls_rep" id="div_rep2">'+
-      '<div>xxx</div>'+
-      '<img src="gfx/jorg.png"/>'+
-      '<h1 id="org_ctr"></h1>'+
-      '<h2>xxx</h2>'+
-      '<h1 id="org_ctr_tot"></h1>'+
-      '<button onclick="" class="head_color">Print Report</button>'+
-    '</div>'+
-    '<div class="cls_rep" id="div_rep3">'+
-      '<div>xxx</div>'+
-      '<img src="gfx/jorg.png"/>'+
-      '<h1 id="water_ctr"></h1>'+
-      '<h2>xxxx</h2>'+
-      '<h1 id="water_ctr_tot"></h1>'+
-      '<button onclick="" class="head_color">Print Report</button>'+
-    '</div>'+
+      '<div id="sys_menu1" class="cls_ds_main">'+ 
+        '<p style="background:'+JBE_CLOR+';">REPORTS</p>'+   
+        '<button onclick="repo_result(&quot;07&quot;)">Election Result by Congressional</button>'+           
+        '<button onclick="dispByPrecincts()">Status Report by City</button>'+           
+        '<button onclick="dispByPrecincts()">Status Report by Barangay</button>'+           
+        '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
+      '</div>'+
+
+      '<div id="sys_menu2" style="display:none;"></div>'+      
+    
   '</div>';
 
   JBE_OPEN_VIEW(dtl,'Reports','close_reports');    
@@ -47,20 +27,151 @@ function close_reports(){
   showMainPage();
 }
 
+//========================================================================
 
-function dummy(){
+function repo_result(pos){ 
+  if(CURR_AXTYPE <4){
+    snackBar('ACCESS DENIED...');
+    return;
+  }
+  //f_RESIZE=false;  
+  var vdate = JBE_DATE_FORMAT(new Date());
+  var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  
+  var tot_votes=0;
+
+  var aryCandi=DB_CANDIDATE;
+  aryCandi.sort(sortByMultipleKey(['*votes','name']));
+
+  for(var k=0;k<DB_TRAN_VOTES.length;k++){      
+    //if(DB_TRAN_VOTES[k][code] != vcode){ continue; }    
+    if(DB_TRAN_VOTES[k]['pos'] != pos){ continue; }
+
+    tot_votes+=parseInt(DB_TRAN_VOTES[k]['votes']);      
+  }
+  
   var dtl=
-  '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:none;">'+
+  '<div id="main_prn_precincts" style="position:relative;width:100%;height:100%;padding:0px;color:white;padding:5px;background:lightblue;">'+
 
-      '<div id="sys_menu1" class="cls_ds_main">'+ 
-        '<p>Reports</p>'+   
-        '<button onclick="dispByPrecincts()">Votes by Precincts</button>'+           
-        '<input type="button" onclick="showMainPage()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
-      '</div>'+
+    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-40)+'px;padding:10px;color:black;background:green;">'+      
+
+      '<div id="prn_div" style="width:912px;height:100%;padding:10px;overflow:auto;margin:0 auto;color:black;background:white;">'+
+
+        '<div id="repo_main_header" style="position:relative;width:100%;height:60px;font-size:12px;border:1px solid black;color:black;background:lightgray;">'+ //head
+        
+          '<div style="position:relative;width:100%;height:100%;border:0px solid black;">'+ //head
+
+            '<div class="cls_header" style="float:left;width:33%;height:60px;text-align:left;padding:5px;background:green;">'+
+              '<div> xxxElection Results</div>'+
+              '<span id="subtilt_"></span>'+
+            '</div>'+
+
+            '<div style="float:left;width:33%;height:100%;text-align:center;padding:2px;background:blue;">'+
+              '<div style="width:100%;height:55%;padding:0px;font-size:25px;background:none;">'+
+                'xxxxxxxxxxxxxx'+
+              '</div>'+
+              '<div style="width:100%;height:45%;padding:0px;font-size:20px;background:none;">'+
+                'gggggggggggg'+
+              '</div>'+
+            '</div>'+
+
+            '<div style="float:right;width:33%;height:60px;text-align:right;padding:2px;background:red;">'+
+              /*
+                '<div style="width:100%;height:34%;">Total Registered Voters : </div>'+
+                    '<span style="width:100%;height:34%;" id="headTotRegVoters_">0</span>'+
+                '<div style="width:100%;height:33%;">Total Precincts : </div>'+
+                    '<span style="width:100%;height:33%;" id="headTotPrecincts_">0</span>'+
+                '<div style="width:100%;height:33%;">Total Votes Counted : </div>'+
+                    '<span style="width:100%;height:33%;" id="headTotVotes_">0</span>'+
+              */
+            '</div>'+
+            
+          '</div>'+
+
+        '</div>'+
+
+        '<div style="margin-top:30px;width:100%;height:20px;border:1px solid red;background:none;">'+
+          '<div style="float:left;width:40%;height:20px;max-height:100%;text-align:left;background:none;">'+
+            'CANDIDATE NAME'+
+          '</div>'+
+          '<div style="float:left;width:20%;height:20px;max-height:100%;background:none;">'+
+            'TOTAL VOTES'+
+          '</div>'+
+          '<div style="float:left;width:20%;height:20px;max-height:100%;background:none;">'+
+            'RANKING'+
+          '</div>'+
+          '<div style="float:left;width:20%;height:20px;max-height:100%;background:none;">'+
+            'PERCENTAGE'+
+          '</div>'+
+        '</div>'+  
+        
+        '<div style="margin-top:30px;width:100%;height:auto;overflow:auto;background:none;">';
+          var dtl2='';
+          var ctr=0;
+          var votes=0;
+          for(var i=0;i<aryCandi.length;i++){
+            if(aryCandi[i]['pos'] != pos){ continue; }
+
+            votes=parseInt(aryCandi[i]['votes']);
+            ctr++;
+
+            dtl2+=
+            '<div style="float:left;width:40%;height:20px;max-height:40px;text-align:left;background:none;">'+
+              aryCandi[i]['name']+
+            '</div>'+
+            '<div style="float:left;width:20%;height:20px;max-height:40px;text-align:center;background:none;">'+
+              votes+            
+            '</div>'+
+            '<div style="float:left;width:20%;height:20px;max-height:40px;text-align:center;background:none;">'+
+              'Rank '+ctr+
+            '</div>'+
+            '<div style="float:left;width:20%;height:20px;max-height:40px;text-align:center;background:none;">'+
+              round(((votes/tot_votes)*100),0)+'%'+
+            '</div>';
+            
+          }
+
+          dtl+=dtl2+
+          
+        '</div>'+  
+      '</div>'+ 
+
+    '</div>'+
+    
+    '<div style="width:100%;height:40px;padding:5px;text-align:center;color:white;background:red;">'+
+      '<input type="button" onclick="do_print_repo()" style="width:100px;height:100%;color:'+JBE_TXCLOR1+';border-radius:8px;background:none;" value="Print" />'+              
+    '</div>'+
     
   '</div>';          
-  document.getElementById('page_dummy').innerHTML=dtl;
-  openPage('page_dummy');
+
+  JBE_OPEN_VIEW(dtl,'Report By Precincts','close_dispByPrecincts');
+  //update_rephead_total('1repo','brgy',CURR_CITYMUNCODE,tot_votes);
+  modal_ON(true);
+}
+
+function update_rephead_total(div,place_type,place_no,tot_counted){    
+  var fld;
+  //alert('div:'+div);
+  if(place_type=='citymun'){
+    fld='provCode';
+  }else if(place_type=='brgy'){
+    fld='citymunCode';
+  }else if(place_type=='cluster'){
+    fld='brgyCode';
+  }
+  
+  var tot_reg=500;
+  var tot_precinct=0;
+  for(var i=0;i<DB_CLUSTER.length;i++){
+    //alert(DB_CLUSTER[i][fld]+' vs '+place_no);
+    if(DB_CLUSTER[i][fld] != place_no){ continue; }
+    tot_reg+=parseInt(DB_CLUSTER[i]['regVoters']);
+    tot_precinct+=parseInt(DB_CLUSTER[i]['prec_len']);
+  }
+  
+  document.getElementById('headTotRegVoters_'+div).innerHTML=jformatNumber(tot_reg);
+  document.getElementById('headTotPrecincts_'+div).innerHTML=jformatNumber(tot_precinct);
+  document.getElementById('headTotVotes_'+div).innerHTML=jformatNumber(tot_counted);
 }
 
 //========================================================================
@@ -164,7 +275,7 @@ function chg_repdate(){
   
 }
 
-function do_print_pvc(){  
+function do_print_repo(){  
   var originalContents = document.body.innerHTML;    
   var printContents = document.getElementById('prn_div').innerHTML;//.cloneNode(true);
     
@@ -185,11 +296,11 @@ function dispByPrecincts(){
   var dtl=
   '<div id="main_prn_precincts" style="position:relative;width:100%;height:100%;padding:0px;color:white;padding:5px;background:yellow;">'+
 
-    '<div style="width:100%;height:90%;padding:10px;color:black;background:green;">'+      
+    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-40)+'px;padding:10px;color:black;background:green;">'+      
 
       '<div id="prn_div" style="width:612px;height:100%;padding:10px;overflow:auto;margin:0 auto;color:black;background:white;">'+
         
-        '<div style="width:100%;height:auto;overflow:auto;background:violet;">';
+        '<div style="width:100%;height:auto;overflow:auto;background:cyan;">';
           var dtl2='';
           for(var i=0;i<DB_CLUSTER.length;i++){
             dtl2+=
@@ -212,8 +323,8 @@ function dispByPrecincts(){
 
     '</div>'+
     
-    '<div style="width:100%;height:10%;padding:5px;text-align:center;color:white;background:red;">'+
-      '<input type="button" onclick="do_print_pvc()" style="width:100px;height:100%;color:'+JBE_TXCLOR1+';border-radius:8px;background:none;" value="Print" />'+              
+    '<div style="width:100%;height:40px;padding:5px;text-align:center;color:white;background:red;">'+
+      '<input type="button" onclick="do_print_repo()" style="width:100px;height:100%;color:'+JBE_TXCLOR1+';border-radius:8px;background:none;" value="Print" />'+              
     '</div>'+
     
   '</div>';          

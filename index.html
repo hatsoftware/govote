@@ -27,11 +27,11 @@
 
   var CURR_SITE='npc';    
 
-  var JBE_API='https://aidfimonitoring.com/tbm_api/';  
+  var JBE_API='https://aidfimonitoring.com/tbs_api/';  
   var pathloc=window.location.origin.substring(0,16);
   
   if(pathloc == 'http://localhost') { 
-    JBE_API=window.location.origin+'/tbm_api/';  
+    JBE_API=window.location.origin+'/tbs_api/';  
   }
     
   var CURR_CLIENTNO=''; 
@@ -41,8 +41,10 @@
   var JBE_MOBILE=true;
   
   var aryREPS=[];
+
+  var f_syslive=false;
   
-  
+  var DB_ADMIN = [];
   var DB_CANDIDATE = [];
   var DB_MSG = [];
   var DB_USER = [];
@@ -59,6 +61,8 @@
   var ref_reg = [];
   var ref_prov = [];
   var ref_city = [];  
+
+  var tmp_ref_brgy = [];  
 
   var CURR_REC='';
   var CURR_PAGE=2;  
@@ -88,7 +92,7 @@
 </head>
 
 <!--body style="color:#252526;background:#E8E8E8;padding:0px;"-->
-<body style="font-weight:bold;" onresize="myResizeFunction()">
+<body style="font-weight:bold;" onresize="myResize()">
 
 <audio id="myAudio">
   <source src="gfx/snd/insight.ogg" type="audio/ogg">
@@ -135,7 +139,7 @@
   </div>	
 </div>  
 
-<div id="loading" class="modal" style="display:block;z-index:1450;">      
+<div id="loading" class="modal" style="display:block;z-index:1450;background-color:none;">      
   <div style="width:150px;height:150px;background:none;
           position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
           -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
@@ -275,7 +279,7 @@
         </div>
         <div id="popadmin">
           <a href="javascript:proc_admin()" style="display:none;">Log In</a>           
-          <a href="javascript:logout()">Log Out</a>          
+          <a href="javascript:logout()" style="display:block;">Log Out</a>          
           <div id="div_creator" style="display:none;">            
             <hr>
             <a href="https://updesktop.github.io/portfolio" target="_blank">Creator</a>              
@@ -304,14 +308,14 @@
 
     <!--  ************************* BODY *************************************************** -->
     <div id="div_body" style="display:block;position:relative;overflow:auto;width:100%;height:900px;border:0px solid red;background:white;">
-      <div id="mySidenav" class="sidenav" style="width:0px;height:100%;margin-top:0px;font-size:9px;">
+      <div id="mySidenav" class="sidenav" style="width:0px;height:100%;margin-top:0px;font-size:9px;opacity:0.8">
       
         <div class="nw_menu" onclick="get_db_all()">
           <img src="gfx/jhome.png"/>
           <span>Dashboard</span>
         </div>      
 
-        <div class="nw_menu" style="position:relative;" onclick="dispMessages(true,CURR_PROJID);">
+        <div class="nw_menu" style="position:relative;" onclick="dispMessages();">
           <img src="gfx/jmessage.png"/>
           <span>Messages</span>
           <div id="gt_msg" style="display:none;position:absolute;right:2px;top:0px;width:25px;height:25px;font-size:12px;text-align:center;padding:4px 0 0 0;border-radius:50%;border:1px solid white;background:red;"></div>
@@ -337,21 +341,21 @@
           <span>Setting</span>
         </div-->
               
-        <div style="position:absolute;bottom:10px;width:100%;height:100px;padding:2px;background:none;">
-          <div style="display:block;width:100%;height:70%;padding:2px;background:none;">
+        <div style="position:absolute;bottom:10px;width:100%;height:30px;padding:2px;background:none;">
+          <!--div style="display:block;width:100%;height:70%;padding:2px;background:none;">
             <span id="id_LiveTime" style="display:none;width:100%;height:30%;color:white;background:none;"></span>
             <img id="id_LiveImg" src="gfx/live.gif" style="display:none;width:100%;height:70%;background:white;"/>        
-          </div>
-          <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:28%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
+          </div-->
+          <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:100%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
         </div>      
       
       </div>      
 
       <div id="head_main" style="position:fixed;z-index:100;margin-top:0px;height:60px;border:1px solid lightgray;color:black;background:white;">
         <div style="float:left;width:30%;height:100%;padding:5px;background:none;">
-          <img id="hd_LiveImg" src="gfx/live.gif" style="display:none;height:100%;background:white;"/>        
+          <img id="xhd_LiveImg" src="gfx/live.gif" style="display:none;height:100%;background:white;"/>        
         </div>
-        <div id="dv_headTot" style="float:right;width:70%;height:100%;padding:3px 10px 3px 3px;background:none;">
+        <div id="dv_headTot" style="float:right;width:70%;height:100%;padding:3px;background:none;">
           
         </div>
       </div>
@@ -451,7 +455,8 @@
 
   </div> <!--main div-->
 
-  
+
+  <div id="myJBox" class="modal_box" style="bottom:0px;"></div>
 
   <!--  *************************PAGES***************************************************  -->
   <div id="myView1" data-page=0 data-open=0 data-close="" data-JBEpage=0 class="page_class myView" style="display:none;">
@@ -528,15 +533,19 @@
     </div>       
   </div>
 
+  
+
   <!--************************* footer -->
-  <div class="cls_fixed head_color" id="div_footer" style="height:35px;width:100%;border:0px;">
+  <div class="cls_fixed head_color" id="div_footer" style="position:relative;height:35px;width:100%;border:0px;">
     <div id="copyright" style="font-size:12px;padding:6px;background:none;">HAT Software &copy; Copyright 2018. Bacolod City.</div>    
+    <div id="id_LiveImg" style="display:none;position:absolute;width:auto;height:30px;top:3px;right:3px;"><img src="gfx/live.gif" style="height:100%;" /></div>    
   </div> <!--footer-->
 
 </div> <!--wrapper div-->
  
 <link rel="stylesheet" href="styles.css" />
 <link rel="stylesheet" href="jmobile.css" />
+<link rel="stylesheet" media="print" href="print.css" />
 
 <link rel="stylesheet" type="text/css" href="css/leaflet2013.css" />
 <link rel="stylesheet" type="text/css" href="css/MarkerCluster.css" />
@@ -566,6 +575,7 @@
 <!--script type='text/javascript' src='jbe_map.js'></script-->
 <script type='text/javascript' src='jbe_fmlib.js'></script>
 
+<script type='text/javascript' src='fm_admin.js'></script>
 <script type='text/javascript' src='fm_cluster.js'></script>
 <script type='text/javascript' src='fm_watcher.js'></script>
 <script type='text/javascript' src='fm_district.js'></script>
@@ -660,6 +670,7 @@
 
   function jeff(){  
     alert(
+      '\nADMIN: '+DB_ADMIN.length+      
       '\nref_city: '+ref_city.length+      
       '\nref_prov: '+ref_prov.length+      
       '\nref_reg: '+ref_reg.length+      

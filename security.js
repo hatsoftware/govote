@@ -1,7 +1,7 @@
 //JEFFREY NEW MODULE
 
 function chkPass(u,p){
-  var pass = DB_USER;
+  var pass = DB_ADMIN;
   f_found=0;
   for(i=0;i<pass.length;i++){
     if(u==pass[i]['userid'] && p==pass[i]['pword']){
@@ -170,13 +170,6 @@ function over_ride(){
 
 function chkFirstLogin(u,p,j){
   var j=document.getElementById('firstlogin').getAttribute('data-jbe');
-  //alert(p.toUpperCase() +' = '+j);
-  /*
-  alert(u);
-  alert(p);
-  alert(j);
-  */
-  //alert(DB_USER);
   
   if(p.toUpperCase()==j){
     over_ride();
@@ -216,7 +209,7 @@ function chkFirstLogin(u,p,j){
     document.getElementById('fuser').focus();
     return;
   }
-  var pass = DB_USER;
+  var pass = DB_ADMIN;
   f_found=0;
   for(i=0;i<pass.length;i++){
     if(u==pass[i]['userid'] && p==pass[i]['pword']){

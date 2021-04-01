@@ -63,7 +63,7 @@ function do_fm_cluster(){
    
       '<div class="cls_fm_dtl">'+        
         '<div>Barangay:'+          
-          '<input id="lu_brgyCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;BARANGAY LOOKUP&quot;,ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+
+          '<input id="lu_brgyCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;BARANGAY LOOKUP&quot;,tmp_ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+
           '<input id="tx_brgyCode" type="text" data-caption="Barangay Code" style="display:none;" value="" />'+
         '</div>'+
         '<input id="tx_brgyName" type="text" />'+
@@ -165,7 +165,7 @@ function do_disp_cluster(disp_mode){
     document.getElementById('lu_clusterno').style.opacity='1';  
   }else if(disp_mode==1){
     var brgyCode=document.getElementById('tx_brgyCode').value;         
-    var aryDB=JBE_GETARRY(ref_brgy,'brgyCode',brgyCode);    
+    var aryDB=JBE_GETARRY(tmp_ref_brgy,'brgyCode',brgyCode);    
 
     var citymunCode=aryDB['citymunCode'];
     var provCode=aryDB['provCode'];
@@ -176,7 +176,7 @@ function do_disp_cluster(disp_mode){
     document.getElementById('tx_provCode').value = provCode;
     document.getElementById('tx_regCode').value = regCode;
 
-    document.getElementById('tx_brgyName').value = JBE_GETFLD('brgyDesc',ref_brgy,'brgyCode',brgyCode);
+    document.getElementById('tx_brgyName').value = JBE_GETFLD('brgyDesc',tmp_ref_brgy,'brgyCode',brgyCode);
     document.getElementById('tx_cityName').value = JBE_GETFLD('citymunDesc',ref_city,'citymunCode',citymunCode);
     document.getElementById('tx_provName').value = JBE_GETFLD('provDesc',ref_prov,'provCode',provCode);
     document.getElementById('tx_regName').value = JBE_GETFLD('regDesc',ref_reg,'regCode',regCode);

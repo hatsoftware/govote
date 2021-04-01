@@ -1,8 +1,6 @@
 var lu_ob = []; 
 var lu_db = [];
 
-var FM_LK_OB=[];
-
 var FM_LU_DB=[];
 var FM_LU_OB=[];
 
@@ -23,7 +21,7 @@ function FM_MAIN(fm_ob,fm_layout){
   var h=parseInt(fm_ob.height);  
   var h_head=40;
   var h_foot=60;
-  var h_body=h-(h_head+h_foot+27);
+  var h_body=h-(h_head+h_foot+25);
 
   var top=((window.innerHeight-parseInt(fm_ob.height))/2)+'px';
   var left=((window.innerWidth-parseInt(fm_ob.width))/2)+'px';
@@ -325,6 +323,7 @@ function FM_SAVE_REC(){
   },JBE_HEADER)
   .then(function (response) {    
     showProgress(false); 
+    //alert('php: '+response.data);
     FM_TABLE=response.data;
     
     if(FM_ADD_FLAG){
@@ -389,7 +388,9 @@ function FM_INIT_REC(){
   for(var i=0;i<FM_FIELDS.length;i++){
     var div=FM_FIELDS[i]['div'];    
     var disp=parseInt(FM_FIELDS[i]['disp']);
+    
     if(disp <= 0){
+      //alert(disp+' -> '+div);
       document.getElementById(div).style.display='none';
       continue; 
     }    

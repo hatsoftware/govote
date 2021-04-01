@@ -1,41 +1,30 @@
 function do_fm_watcher(){    
-  FM_TABLE=DB_USER;
+  FM_TABLE=DB_USER;  
   FM_AXIOS_PHP=JBE_API+"z_user.php";
   FM_FIELDS=[ //display on screen
     { div:"tx_usercode", fld:"usercode", disp:-1, save:true  },
     { div:"tx_username", fld:"username", disp:1, save:true  },
     { div:"tx_userid", fld:"userid", disp:1, save:true },
     { div:"tx_pword", fld:"pword", disp:1, save:true },
-    { div:"tx_watcher_photo", fld:"photo", disp:0, save:true  },
+    { div:"tx_watcher_photo", fld:"photo", disp:0, save:true  },    
    
     { div:"tx_usertype", fld:"usertype", disp:0, save:true  },    
         { div:"tx_usertype_name", fld:"", disp:1, save:false  },
 
-    { div:"tx_clusterno_watcher", fld:"clusterno", disp:2, save:true },
-        { div:"tx_clustername_watcher", fld:"s", disp:2, save:false },
+    { div:"tx_clusterno_watcher", fld:"clusterno", disp:0, save:true },
+        { div:"tx_clustername_watcher", fld:"", disp:2, save:false },
         { div:"tx_brgyName", fld:"", disp:2, save:false },
         { div:"tx_cityName", fld:"", disp:2, save:false },
         { div:"tx_provName", fld:"", disp:2, save:false },
-        { div:"tx_regName", fld:"", disp:2, save:false }
-  ];
-  FM_LK_OB[0]=[
-    { div:"tx_usercode", fld:"usercode" },
-    { div:"tx_username", fld:"username" },
-    { div:"tx_userid", fld:"userid" },
-    { div:"tx_pword", fld:"pword" },
-    { div:"tx_watcher_photo", fld:"photo" },
-    { div:"tx_usertype", fld:"usertype" },    
-    { div:"tx_clusterno_watcher", fld:"clusterno" }
-  ];
-  FM_LK_OB[1]=[
-    { div:"tx_clusterno_watcher", fld:"clusterno" },
-    { div:"tx_clustername_watcher", fld:"clustername" }
+        { div:"tx_regName", fld:"", disp:2, save:false },
+
+    { div:"tx_brgyCode", fld:"brgyCode", disp:0, save:true }
   ];
   
   var fm_ob = {
-    title:"WATCHER File Maintenance",
+    title:"Watchers File Maintenance",
     top:"8%", left:"", bottom:"", right:"5%",
-    width:"600px",height:"570px",
+    width:"600px",height:"510px",
     h_photo:"100px"
   };  
 
@@ -50,7 +39,7 @@ function do_fm_watcher(){
   var fm_layout=
     '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+
     
-      '<input id="tx_usercode" type="text" style="display:block;" />'+
+      '<input id="tx_usercode" type="text" style="display:none;" />'+
     
       '<div class="cls_fm_dtl">'+
         '<div>Username:'+
@@ -71,11 +60,12 @@ function do_fm_watcher(){
 
       '<div class="cls_fm_dtl">'+
         '<div>User Type:</div>'+        
-        '<input id="tx_usertype" type="text" data-caption="User Type" value="" />'+                
-        '<select id="tx_usertype_name" name="tx_usertype_name" value="" onchange="chg_usertype(tx_usertype.id,this.value)">'+
+        '<input id="tx_usertype" type="text" data-caption="User Type" value=0 />'+                
+        '<select id="tx_usertype_name" name="tx_usertype_name" value=0 onchange="chg_usertype(tx_usertype.id,this.value)">'+
+        //'<select id="tx_usertype_name" name="tx_usertype_name" disabled value=0>'+
           '<option value=0>Watcher</option>'+
           '<option value=5>Administrator</option>'+
-        '</select>'+        
+        '</select>'+
       '</div>'+
 
       '<input type="file" id="inpfile_watcher" data-orig="" data-sel=0 name="inpfile_watcher" value="" hidden="hidden" />'+
@@ -89,21 +79,26 @@ function do_fm_watcher(){
         '</p>'+   
       '</div>'+  
 
-
+/*
       '<div class="cls_fm_dtl">'+
         '<div>Cluster No.:'+
           '<input id="lu_clusterno_watcher" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
         '</div>'+
         '<input id="tx_clusterno_watcher" type="text" data-caption="Watcger Code." onchange="FM_CHK_REC(this.value,&quot;do_disp_watcher&quot;)" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_username.id).focus()" />'+
       '</div>'+
+      */
 
       '<div class="cls_fm_dtl">'+
-        '<div>Cluster Name:</div>'+
+        '<div>Cluster Name:'+
+          '<input id="tx_clusterno_watcher" type="text" data-caption="Watcher Code." style="display:none;" />'+
+          '<input id="lu_clusterno_watcher" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
+        '</div>'+
         '<input id="tx_clustername_watcher" type="text" data-caption="Cluster" value="" />'+
       '</div>'+
 
       '<div class="cls_fm_dtl">'+
         '<div>Barangay:</div>'+
+        '<input id="tx_brgyCode" type="text" data-caption="Brgy Code." style="display:none;" />'+
         '<input id="tx_brgyName" type="text" data-caption="" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
       '</div>'+
       '<div class="cls_fm_dtl">'+
@@ -166,6 +161,8 @@ function do_init_watcher(){
 }
 //
 function do_add_watcher(){
+  document.getElementById('tx_usertype').value=0;
+  
   document.getElementById('lu_clusterno_watcher').disabled=false;
   document.getElementById('lu_clusterno_watcher').style.opacity='1';
 
@@ -286,8 +283,10 @@ function do_disp_watcher(disp_mode){
     document.getElementById('img_watcher').src=vimg;+'?'+n;
     //alert(n);
   }else if(disp_mode==2){        
-    var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',vclusterno); //last error gabii    
+    var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',vclusterno); //last error gabii 
+    var brgyCode=aryDB['brgyCode'];
     document.getElementById('tx_clustername_watcher').value = JBE_GETFLD('clustername',DB_CLUSTER,'clusterno',vclusterno);    
+    document.getElementById('tx_brgyCode').value = brgyCode;
     document.getElementById('tx_brgyName').value = JBE_GETFLD('brgyDesc',ref_brgy,'brgyCode',aryDB['brgyCode']);
     document.getElementById('tx_cityName').value = JBE_GETFLD('citymunDesc',ref_city,'citymunCode',aryDB['citymunCode']);
     document.getElementById('tx_provName').value = JBE_GETFLD('provDesc',ref_prov,'provCode',aryDB['provCode']);
