@@ -138,7 +138,16 @@ function JBE_PICK_IMAGE(id,inp_file,targ_div,cb){
 }
 
 function uploadNOW(file,newName,dir,ndiv,keepSize,likod){   
-  //alert('ksize: '+keepSize); 
+  /*
+  alert(
+    'file: '+file+
+    '\n newName: '+newName+
+    '\n dir: '+dir+
+    '\n ndiv: '+ndiv+
+    '\n keepSize: '+keepSize+
+    '\n likod: '+likod
+  ); 
+  */
   var ddir=dir.substr(JBE_API.length); 
   var phpDir=ddir;
 
@@ -181,12 +190,29 @@ function RefreshImage(likod,dir,newName,ndiv){
   }
 }
 
+function JBE_ZOOM(img,div_close){
+  var dtl=      
+    '<div id="main_JBE_zoom" data-zoom=0 data-close="'+div_close+'" style="width:100%;height:'+(H_BODY-30)+'px;text-align:center;background-color:none;">'+      
+      '<img id="img_JBE_zoom" onclick="JBE_zoom2()" src="'+img+'" style="width:auto;height:100%;">'+      
+    '</div>';  
+  var dtl2=      
+    '<div style="width:100%;height:30px;padding:5px 0 0 0;text-align:center;color:'+JBE_TXCLOR1+';background:none;">'+
+      'Click the Image to Zoom In or Zoom Out'+      
+    '</div>';   
+  JBE_OPENBOX('main_JBE_zoom','Zoom Image',dtl,dtl2); 
+}
+
+function close_JBE_ZOOM(){
+  var closeDiv=document.getElementById('main_JBE_zoom').getAttribute('data-close');
+  var fn = window[closeDiv];
+  if (typeof fn === "function") fn();
+}
 
 function JBE_OPENBOX(div,title,dtl,dtl2) {   
   var div_dtl=    
-    '<div id="myJBox_main" data-open=0 data-close="" class="bottom_box" style="height:0px;background:'+JBE_CLOR+';">'+
+    '<div id="myJBox_main" data-open=0 data-close="" class="bottom_box" style="width:100%;height:0px;background:'+JBE_CLOR+';">'+
       '<div id="hd_jbox" class="hd_box" style="width:100%;height:30px;font-size:15px;font-weight:bold;border:1px solid black;background:none;">'+        
-        '<div style="float:left;width:10%;height:100%;background:none;">'+
+        '<div style="float:left;width:10%;height:100%;text-align:left;padding:0 0 0 10px;background:none;">'+
           '<input type="button" onclick="JBE_CLOSEBOX()" style="width:28px;height:100%;font-size:14px;color:white;border-radius:50%;border:1px solid white;background:red;" value="X" />'+
         '</div>'+
         '<div id="cap_jbox" style="float:right;text-align:right;width:90%;height:100%;padding:5px;color:'+JBE_TXCLOR1+';background:none;">'+title+'</div>'+
@@ -194,7 +220,7 @@ function JBE_OPENBOX(div,title,dtl,dtl2) {
       '<div id="dtl_jbox" style="width:100%;height:auto;padding:5px;overflow:auto;border:1px solid black;color:black;background:white;">'+
         dtl+
       '</div>'+
-      '<div id="footer_jbox" class="jfooter" style="display:block;height:50px;width:100%;color:'+JBE_TXCLOR1+';background:'+JBE_CLOR+';">'+
+      '<div id="footer_jbox" class="jfooter" style="display:block;height:35px;width:100%;color:'+JBE_TXCLOR1+';background:'+JBE_CLOR+';">'+
         dtl2+
       '</div>'+    
     '</div>';
@@ -230,12 +256,6 @@ function JBE_CLOSEBOX(){
   
   document.getElementById("myJBox").style.height = "0px";       
   document.getElementById("myJBox").setAttribute('data-open','0');   
-  /*
-  // find object
-  var fn = window[xclose];
-  // is object a function?
-  if (typeof fn === "function") fn();
-  */
 }
 
 function sortByMultipleKey(keys) {
@@ -263,23 +283,7 @@ function showProgress(v){
 }
 
 
-function JBE_ZOOM(img,div_close){
-  var dtl=      
-    '<div id="main_JBE_zoom" data-zoom=0 data-close="'+div_close+'" style="width:100%;height:'+(H_BODY-100)+'px;text-align:center;background-color:none;">'+      
-      '<img id="img_JBE_zoom" onclick="JBE_zoom2()" src="'+img+'" style="width:100%;height:auto;">'+
-    '</div>';
-  var dtl2=      
-    '<div style="width:100%;height:100%;padding:11px 0 0 0;text-align:center;color:'+JBE_TXCLOR1+';background:none;">'+
-      'Click the Image to Zoom In or Zoom Out'+      
-    '</div>';   
-  JBE_OPENBOX('main_JBE_zoom','Zoom Image',dtl,dtl2); 
-}
 
-function close_JBE_ZOOM(){
-  var closeDiv=document.getElementById('main_JBE_zoom').getAttribute('data-close');
-  var fn = window[closeDiv];
-  if (typeof fn === "function") fn();
-}
 
 function JBE_zoom2(){
   var div=document.getElementById('main_JBE_zoom');
