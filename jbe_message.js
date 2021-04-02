@@ -3,18 +3,18 @@ function dispMessages(){
   //if(access_page(4)){ return; }
   var h_head=40;
   var dtl=
-  '<div id="div_main_msg" data-mode=0 data-code="" data-fld="" style="display:block;width:100%;height:100%;padding:10px;background:white;">'+
+  '<div id="div_main_msg" data-mode=0 data-code="" data-fld="" data-div_id="" style="display:block;width:100%;height:100%;padding:10px;background:white;">'+
 
     '<div class="cls_msg" style="display:block;width:100%;height:'+(H_VIEW_DTL-20)+'px;background:none;">'+
     
       '<div id="mnu3_left" style="display:block;padding:0px;height:100%;background:none;">'+
 
-        '<div id="chatters" data-sel=0 style="width:100%;height:100%;">'+
+        '<div id="chatters" style="width:100%;height:100%;">'+
 
           '<div id="mnu3_filter" style="height:'+h_head+'px;">'+
             '<div class="mnu3_filter_title">Barangay: </div>'+
             '<div class="mnu3_filter_select">'+
-              '<select id="div_sel_msg0" name="div_sel_msg0" onchange="dispAllMode(0,this.value)" style="width:100%;height:100%;">';
+              '<select id="div_sel_msg0" name="div_sel_msg0" onchange="dispAllMode(0,this.value,this.id)" style="width:100%;height:100%;">';
                 //<!-- select site for messages here -->   
                 var sel_dtl='<option value=""> ALL </option>';
                 var rbrgy=ref_brgy;
@@ -56,11 +56,13 @@ function dispMessages(){
             '<div id="custom-img" style="float:left;cursor:pointer;height:100%;width:80px;border:0px solid lightgray;background:none;">'+
               '<img id="pre_img" name="pre_img" data-img="" onclick="JBE_PICK_IMAGE(0,up_img.id,pre_img.id)" src="gfx/jimage.png" style="height:100%;" />'+
             '</div>'+
-            '<input id="txtMsg" type="text" name="txtMsg" placeholder="Type your message..." '+
-              'style="float:left;height:100%;width:51%;margin-left:1%;font-size:14px;padding:1%;border:1px solid lightgray;'+
-                'text-align:left;color:black;background-color:none;"/>'+
+            //'<textarea id="faddrss2" class="class_profile" name="faddrss" rows="4" cols="50" maxlength=300 placeholder="Address" style="resize:none;height:70px;">'+
+            //  addrss+'</textarea>'+   
+            '<textarea id="txtMsg" type="text" name="txtMsg" autocomplete="off" placeholder="Type your message..." '+
+              'style="float:left;height:100%;width:45%;margin-left:10px;font-size:14px;padding:10px;border:1px solid lightgray;'+
+                'resize:none;text-align:left;color:black;background-color:none;"></textarea>'+   
                 
-            '<button id="btnSend" onclick="sendMsg0()" style="float:right;height:100%;width:250px;font-size:20px;border-radius:10px;color:white;background:'+JBE_CLOR+';">Send</button>'+
+            '<button id="btnSend" onclick="sendMsg0()" style="float:right;height:100%;width:200px;font-size:20px;border-radius:10px;color:white;background:'+JBE_CLOR+';">Send</button>'+
           '</div>'+
         '</div>'+
 
@@ -72,14 +74,15 @@ function dispMessages(){
 
   JBE_OPEN_VIEW(dtl,'Chat','close_dispMessages');    
   modal_ON(true);
-  dispAllMode(0,'');
+  dispAllMode(0,'','');
 }
 function close_dispMessages(){
   showMainPage();
 }
 
-function dispAllMode(mode,code){  
+function dispAllMode(mode,code,div_id){  
   //alert('dispAllMode mode='+mode+' code:'+code);
+  //alert(div_id);
   var fld='';
   if(mode==0){
     if(code){
@@ -95,6 +98,7 @@ function dispAllMode(mode,code){
   document.getElementById('div_main_msg').setAttribute('data-mode',mode);
   document.getElementById('div_main_msg').setAttribute('data-code',code);
   document.getElementById('div_main_msg').setAttribute('data-fld',fld);
+  document.getElementById('div_main_msg').setAttribute('data-div_id',div_id);
   if(mode < 1){
     dispChatter(code);
   }
@@ -115,7 +119,8 @@ function dispChatter(pram){
   var ctr=0;
   var dtl=
   '<div style="width:100%;height:32px;background:none;">'+
-    '<div id="chatters_line000" class="cls_chatters_line" style="padding:6px;" onclick="dispAllMode(0,&quot;'+pram+'&quot;);" data-sel=0 data-bg="'+bg+'" class="manager_class" data="'+bg+'" data-sel=0 data-row='+i+' onmouseover="subHover(this.id,1,&quot;'+i+'&quot;,&quot;blue&quot;)" onmouseout="subHover(this.id,0,&quot;'+i+'&quot;,&quot;none&quot;)">'+chatlinecap+'</div>';
+    //'<div id="chatters_line000" class="cls_chatters_line" style="padding:6px;" onclick="dispAllMode(0,&quot;'+pram+'&quot;,this.id);" data-sel=0 data-bg="'+bg+'" class="manager_class" data="'+bg+'" data-row='+0+' onmouseover="xsubHover(this.id,1,&quot;'+0+'&quot;,&quot;blue&quot;)" onmouseout="xsubHover(this.id,0,&quot;'+0+'&quot;,&quot;none&quot;)">'+chatlinecap+'</div>';
+    '<div id="chatters_line000" class="cls_chatters_line" style="padding:6px;" onclick="dispAllMode(0,&quot;'+pram+'&quot;,this.id);" data-sel=0 data-bg="'+bg+'" class="manager_class" data="'+bg+'" data-row='+0+'>'+chatlinecap+'</div>';
 
   for(var i=0;i<watchers.length;i++){
     if(pram != ''){
@@ -130,7 +135,8 @@ function dispChatter(pram){
     var v_numMsgDisp='none';
     if(v_numMsg>0){ v_numMsgDisp='block'; }
        
-    dtl += '<div id="chatters_line'+v_code+'" class="cls_chatters_line" onclick="dispAllMode(1,&quot;'+v_code+'&quot;);" data-sel=0 data-bg="'+bg+'" data="'+bg+'" data-sel=0 data-row='+i+' onmouseover="subHover(this.id,1,&quot;'+i+'&quot;,&quot;blue&quot;)" onmouseout="subHover(this.id,0,&quot;'+i+'&quot;,&quot;none&quot;)">'+    
+    //dtl += '<div id="chatters_line'+v_code+'" class="cls_chatters_line" onclick="dispAllMode(1,&quot;'+v_code+'&quot;,this.id);" data-sel=0 data-bg="'+bg+'" data="'+bg+'"  data-row='+(i+1)+' onmouseover="xsubHover(this.id,1,&quot;'+(i+1)+'&quot;,&quot;blue&quot;)" onmouseout="xsubHover(this.id,0,&quot;'+(i+1)+'&quot;,&quot;none&quot;)">'+    
+    dtl += '<div id="chatters_line'+v_code+'" class="cls_chatters_line" onclick="dispAllMode(1,&quot;'+v_code+'&quot;,this.id)" data-sel=0 data-bg="'+bg+'" data="'+bg+'"  data-row='+(i+1)+'>'+    
               '<div style="float:left;width:90%;height:100%;padding:5px;overflow:auto;">'+v_name+'</div>'+
               '<div style="float:left;width:10%;height:100%;background:none;">'+
                 '<div id="nmsg'+v_code+'" style="display:'+v_numMsgDisp+';float:right;width:25px;height:25px;padding:3px 0 0 0;text-align:center;border:1px solid white;border-radius:50%;color:white;background:red;">'+v_numMsg+'</div>'+
@@ -219,10 +225,12 @@ function getNumMsg(usercode){
   return rrval;
 }
 
-function dispChat0(){        
+function dispChat0(){      
+  //alert(9999);
   var vmode=document.getElementById('div_main_msg').getAttribute('data-mode');
   var vcode=document.getElementById('div_main_msg').getAttribute('data-code');
   var vfld=document.getElementById('div_main_msg').getAttribute('data-fld');
+  var vdiv_id=document.getElementById('div_main_msg').getAttribute('data-div_id');
   
   //alert('dispChat: vmode:'+vmode+'  vcode:'+vcode+'  fld:'+vfld);
   var aryUSER=DB_USER;
@@ -248,22 +256,23 @@ function dispChat0(){
   eldiv.innerHTML+=dtl;  
   eldiv.scrollTop = eldiv.scrollHeight;
 
-  if(vmode==1){        
-    var old_code=document.getElementById('div_chatters').getAttribute('data-code');  
-    if(old_code){
-      document.getElementById('chatters_line'+old_code).style.color='black';
-      document.getElementById('chatters_line'+old_code).style.backgroundColor='lightgray';
-    }
-    
+  document.querySelectorAll('.cls_chatters_line').forEach(function(el) {    
+    el.style.color='black';
+    el.style.backgroundColor='lightgray';
+    el.setAttribute('data-sel',0);  
+  });
+  if(vmode==1){
     var div=document.getElementById('chatters_line'+vcode);
-    document.getElementById('div_chatters').setAttribute('data-code',vcode);  
-    //document.getElementById('div_chatters').setAttribute('data-clor',div.style.backgroundColor);  
-    if(div){
-      div.style.color='white';
-      div.style.backgroundColor='black';
-      div.setAttribute('data-sel',1);  
-    }    
-  }
+    div.style.color='white';
+    div.style.backgroundColor='black';
+    div.setAttribute('data-sel',1);  
+  }else{      
+    if(vdiv_id=='chatters_line000'){      
+      document.getElementById(vdiv_id).style.color='white';
+      document.getElementById(vdiv_id).style.backgroundColor='black';
+      document.getElementById(vdiv_id).setAttribute('data-sel',1);  
+    } 
+  } 
 }
 
 function ret_chatDtl0(v_sender,v_trano,v_username,v_msg,v_img,v_date,v_time){    

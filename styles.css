@@ -947,6 +947,5 @@
   }
   .cls_votes_dtl:hover{ border:0px solid black; background-color:lightgray; }  
 
-.cls_chatters_line{
-  font-size:14px;font-weight:bold;height:100%;padding:2px;cursor:pointer;background:none;
-}
+.cls_chatters_line{ font-size:14px;font-weight:bold;height:100%;padding:2px;cursor:pointer; }
+    .cls_chatters_line:hover{ border:1px solid black; border-radius:5px;color:red; }  
