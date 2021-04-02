@@ -53,7 +53,7 @@ function show_dtl_candidates(){
         '<div class="cls_shadow_box2">'+
 
           '<div class="cls_dispboard">'+
-            '<div style="float:left;width:60%;height:100%;text-align:left;">'+ctr+'. '+aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+'</div>'+
+            '<div style="float:left;width:60%;height:100%;text-align:left;">'+ctr+'. '+aryCandidate[i]['name']+'X</div>'+
             '<div style="float:left;width:40%;height:100%;text-align:right;">'+JBE_FORMAT_INT_TO_STR(v_votes)+'</div>'+
           '</div>'+
           
@@ -233,11 +233,12 @@ function send_votes(){
     console.log(response.data);    
     //alert('response.data: '+response.data.length);    
     DB_TRAN_VOTES=response.data[0];
-    DB_CANDIDATE=response.data[1];
-    JBE_CLOSE_VIEW();
+    DB_CANDIDATE=response.data[1];    
     snackBar('Votes Updated...');
     show_dtl_candidates();
-  },JBE_HEADER)    
+    //JBE_CLOSE_VIEW();
+    close_view_box_candidate();
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 
 }

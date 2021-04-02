@@ -15,7 +15,7 @@ function start_app(){
   JBE_ONLINE_NAVI=navigator.onLine;    
   JBE_ONLINE=false;   
   //****************
-  JBE_ONLINE_NAVI=true;
+  //JBE_ONLINE_NAVI=true;
   //****************   
   axios.post(JBE_API+'app/zz_online.php',JBE_HEADER)  
   .then(function (response) {
@@ -80,8 +80,8 @@ function showOffline(){
   CURR_AXTYPE=0;
   dispMenu(true,'mnu_main'); 
   getAllDataFromIDX(0);
-    
-  document.getElementById('div_cluster').innerHTML='OFFLINE';
+  document.getElementById('jtime').innerHTML='OFFLINE';   
+  document.getElementById('div_cluster').innerHTML='';
   document.getElementById('div_bar').style.display='block';  
 
   allow_start(true);
@@ -97,14 +97,8 @@ function allow_start(v){
 
 //=======APP DB AND DISPLAY==========================================================
 function get_app_default(){    
-  /*
-  get_db_user(CURR_USER);  
-  get_db_candidate();  
-  //get_db_tran_votes();  
-  get_db_sys();  
-  get_db_places();  
-  */
   get_db_all();  
+  //get_DB_MSG(CURR_USER);
   allow_start(true);
 }
 
@@ -125,15 +119,16 @@ function get_db_candidate(){
 }
 
 function get_db_all(){
+  //alert('CURR_USER '+CURR_USER);
   DB_CANDIDATE=[];  
   DB_PARTYMAST=[];  
-  DB_MSG=[];  
+  //DB_MSG=[];  
   DB_USER=[];  
   DB_POSITION = [];
   DB_PARTY = [];
 
   showProgress(true);    
-  axios.post(JBE_API+'app/zz_all.php', { clientno:CURR_CLIENT,request:0 }) 
+  axios.post(JBE_API+'app/zz_all.php', { clientno:CURR_CLIENT,request:0,usercode:CURR_USER },JBE_HEADER) 
   .then(function (response) {     
     console.log(response.data);    
     DB_CANDIDATE = response.data[0];   
@@ -150,7 +145,11 @@ function get_db_all(){
     ref_prov = response.data[11];
     ref_reg = response.data[12];
     showProgress(false);
-        
+
+    
+    //alert('DB_MSG.length '+DB_MSG.length);
+
+    
     if(CURR_SCOPE_TYPE == 2){
       var ctr=0;
       DB_DISTRICT2=[];
@@ -166,12 +165,20 @@ function get_db_all(){
     
     }
     // define to show position
+    
     showProfile();
     update_positions();
 
     show_candidates();
 
-  },JBE_HEADER)    
+    clearStore(JBE_STORE_IDX[0]['flename']); saveDataToIDX(DB_SYS,0);       
+    clearStore(JBE_STORE_IDX[1]['flename']); saveDataToIDX(DB_USER,1);       
+    clearStore(JBE_STORE_IDX[2]['flename']); saveDataToIDX(DB_CANDIDATE,2);       
+    clearStore(JBE_STORE_IDX[3]['flename']); saveDataToIDX(DB_POSITION,3);       
+    clearStore(JBE_STORE_IDX[4]['flename']); saveDataToIDX(DB_MSG,4);       
+    //alert(JBE_STORE_IDX[3]['flename']);
+
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 function update_positions(){
@@ -218,14 +225,19 @@ function get_db_sys(){
   .catch(function (error) { showOffline(); console.log(error); }); 
 }
 
-function get_db_chat(u){
-  DB_CHAT=[];
+function get_DB_MSG(u){
+  DB_MSG=[];
   var req=1;
   if(CURR_AXTYPE > 0){
     req=0;
   }
-  axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT,request: req, usercode: u },JBE_HEADER)     
-  .then(function (response) { console.log(response.data); DB_CHAT = response.data; })    
+  axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT, request:req, usercode:u },JBE_HEADER)     
+  .then(function (response) { 
+    //alert(response.data.length); 
+    DB_MSG = response.data; 
+    dispGtMsg();
+    clearStore(JBE_STORE_IDX[4]['flename']); saveDataToIDX(DB_MSG,4);       
+  })    
   .catch(function (error) { console.log(error); });
 }
 
@@ -235,18 +247,46 @@ function get_db_places(){
   ref_reg = [];
 
   showProgress(true);    
-  axios.post(JBE_API+'app/zz_places.php', { clientno:CURR_CLIENT,request:0 }) 
+  axios.post(JBE_API+'app/zz_places.php', { clientno:CURR_CLIENT,request:0 },JBE_HEADER) 
   .then(function (response) {     
     console.log(response.data);        
     ref_city = response.data[0];
     ref_prov = response.data[1];
     ref_reg = response.data[2];
     showProgress(false);
-  },JBE_HEADER)    
+  })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
 //=================================================================================
+function dispGtMsg(){  
+  var usercode=CURR_USER;
+  if(!usercode){ return; }
+  var gtmsg_disp='none';
+  var gtmsg=0;
+  
+  //alert(usercode+' = '+DB_MSG.length);
+  for(var i=0;i<DB_MSG.length;i++){ 
+    if(DB_MSG[i]['usercode'] != usercode){ continue; }
+    if(parseInt(DB_MSG[i]['unread'])==0 && parseInt(DB_MSG[i]['SENDER'])==0){      
+      gtmsg++;
+      //alert(gtmsg);
+      var msg_date=DB_MSG[i]['TRANSDAT'];
+      //assign msg_date to proj for sort display
+      for(var k=0;k<DB_USER.length;k++){ 
+        if(DB_USER[k]['clientno'] == usercode){
+          DB_USER[k]['msg_date'] = msg_date;
+          break;
+        }
+      }
+    }      
+  }
+  //alert('dispGtMsg '+gtmsg);
+  if(gtmsg > 0){ gtmsg_disp='block'; }
+  document.getElementById("gt_msg").style.display=gtmsg_disp;
+  document.getElementById("gt_msg").innerHTML=gtmsg;
+}
+
 //=======================show page=================================================
 function showMainPage(){ 
   //alert('ako main page');
@@ -263,8 +303,8 @@ function showMainPage(){
   openPage('page_main');  
   //showMenu('mnu_main'); 
   var vmenu='mnu_main';  
-  var v_curr_user=CURR_USER;    
   dispMenu(true,vmenu);
+  dispGtMsg();
   if(!JBE_ONLINE) { return; }
 }
 
@@ -303,9 +343,8 @@ function showProfile(){
     document.getElementById('logger').innerHTML='Pls. Log In';
     return;
   }
-
-  //v_mphoto='upload/users/'+CURR_USER+'.jpg?'+n;
-  v_mphoto=JBE_API+'upload/users/'+CURR_USER+'.jpg?'+n;  
+  
+  //v_mphoto=JBE_API+'upload/users/'+CURR_USER+'.jpg?'+n;  
   if(!JBE_ONLINE){
     v_mphoto='data:image/png;base64,' + btoa(DB_USER[0]['photo']);
   }
@@ -530,10 +569,12 @@ function closeDropdown(){
 
 function jeff(){    
   alert(
+    'DB_POSITION: '+DB_POSITION.length+'\n'+
     'field: '+DB_CANDIDATE[0]['lname']+'\n'+
     'DB_CANDIDATE: '+DB_CANDIDATE.length+'\n'+
     'field: '+DB_USER[0]['clusterno']+'\n'+
     'DB_USER: '+DB_USER.length+'\n'+
+    'DB_CLIENTS: '+DB_CLIENTS.length+'\n'+
     'field: '+DB_CLUSTER[0]['clustername']+'\n'+
     'DB_TRAN_VOTES: '+DB_TRAN_VOTES.length+'\n'+
     'DB_CLUSTER: '+DB_CLUSTER.length
