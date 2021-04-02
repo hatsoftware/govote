@@ -53,7 +53,7 @@ function show_dtl_candidates(){
         '<div class="cls_shadow_box2">'+
 
           '<div class="cls_dispboard">'+
-            '<div style="float:left;width:60%;height:100%;text-align:left;">'+ctr+'. '+aryCandidate[i]['name']+'X</div>'+
+            '<div style="float:left;width:60%;height:100%;text-align:left;">'+ctr+'. '+aryCandidate[i]['name']+'</div>'+
             '<div style="float:left;width:40%;height:100%;text-align:right;">'+JBE_FORMAT_INT_TO_STR(v_votes)+'</div>'+
           '</div>'+
           
