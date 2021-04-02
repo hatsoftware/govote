@@ -1,7 +1,6 @@
 {
       "name": "Tally Board System",
       "short_name": "TBS",
-      "start_url": ".",
       "/index.htm": ".",
       "display": "standalone",
       "orientation": "portrait",
