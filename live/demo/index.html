@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="theme-color" content="#00ffff"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="../../gfx/favicon.ico">
+<link rel="icon" href="../../gfx/favicon.ico">
+<link rel="apple-touch-icon" href="../../gfx/apple-touch-icon.png">
+
+<!--link rel="manifest" href="./manifest.webmanifest"-->
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+<!-- ****************************************************************** -->
+<!-- ****************************************************************** -->
+<!--script src="js/eruda.min.js"></script>
+<script>eruda.init();</script-->
+<title>EnadSys</title>
+<script>  
+  var CURR_CLIENT='NPC';
+  var CURR_CLIENTNAME="Natl. People's Coalition";
+  var CURR_SITE='npc';
+  var JBE_API='https://aidfimonitoring.com/tbs_api/';  
+  var pathloc=window.location.origin.substring(0,16);  
+  if(pathloc == 'http://localhost') { 
+    JBE_API=window.location.origin+'/tbs_api/';  
+  }  
+</script> 
+<!-- ****************************************************************** -->
+<!-- ****************************************************************** -->
+
+</head>
+
+<!--body style="color:#252526;background:#E8E8E8;padding:0px;"-->
+<body style="font-weight:bold;" onresize="myResize()">
+
+<audio id="myAudio">      
+  <source src="../../gfx/snd/insight.ogg" type="audio/ogg">
+  <source src="../../gfx/snd/insight.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+ 
+<div id="snackbar"></div>
+
+<div id="sap_modal" class="modal" style="display:none;position:relative;">
+  <div id="xsap_dtl" style="position:absolute;">sadf sadf asdf sdafdsf</div>
+</div>
+<!--************************* blocker-->
+<!--************************* blocker-->
+<div id="je_msg" tabindex="0" data-rval="SAGBAYAN" class="modal" style="display:none;z-index:500;" onkeydown="javascript:if(event.keyCode==27) closeModal()">
+  <div class="modal-content" style="border:1px solid black;">
+    <div id="modal-header" class="modal-header head_color">
+      <!--span class="closeBtn" onclick="closeModal()">&times;</span-->
+      <span id="DivPrompt">
+        <h1>Modal Header</h1>
+      </span>				
+    </div>
+    <div id="modal-body" class="modal-body" style="background:lightgrey;">
+      <div id="msgBody">        
+      </div>	
+      <div style="height:auto;text-align:center;margin-top:5px;background:none;">
+        <div id="msgDivPrompt" style="display:none;margin-bottom:5px;">
+          <input class="je_msg_btn" type="text" id="txtPrompt" onkeydown="javascript:if(event.keyCode==13) MSG_CLICK(1)" style="width:40%;height:20px;border:1px solid black;text-align:center;" value="" />
+        </div>
+        <div id="msgDivOk" style="display:none;">
+          <!--input type="button" onclick="closeModal()" class="button" value="OK" /-->
+          <input type="text" id="txOk" style="display:none;width:100px;"/>
+          <input class="je_msg_btn" type="button" id="btnOk" onclick="MSG_CLICK(1)" onkeydown="javascript:if(event.keyCode==13) MSG_CLICK(1)" value="OK" />
+        </div>
+        <div id="msgDivYesNo" style="display:none;">
+          <input class="je_msg_btn" type="button" id="btnYes" onclick="MSG_CLICK(1)" value="Yes" />
+          <input class="je_msg_btn" type="button" id="btnNo"  onclick="MSG_CLICK(2)" value="No" style="margin-left: 2%;" />
+        </div>
+      </div>				
+    </div>
+    <div id="div_jelo" class="modal-footer head_color" style="color:white;text-align:right;height:auto;">
+      HAT Software Dialog Ver 1.01 (c) 2018
+    </div>
+  </div>	
+</div>  
+
+<div id="loading" class="modal" style="display:block;z-index:1450;background-color:none;">      
+  <div style="width:150px;height:150px;background:none;
+          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
+          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
+    <img src="../../gfx/proc_logo.gif" alt="proc image" style="float:right;height:100%;width:100%;background:none;" />
+  </div>
+</div>
+
+<div id="uploading" class="modal" style="display:none;z-index:1450;">      
+  <div style="width:150px;height:150px;background:none;
+          position: absolute;  z-index: 1000;  top: 50%;  left: 50%;  
+          -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">      
+    <div id="vid_progress" style="display:none;width:100%;height:40px;text-align:center;border:1px solid black;background:gray;">
+      <img src="../../gfx/proc_logo.gif" alt="proc image" style="float:right;height:20%;width:auto;background:none;" />
+      <div style="width:100%;height:20%;font-size:11px;padding:1px;text-align:center;color:navy;background:white;">Uploading: <span id="vid_progress_title"></span></div>
+      <div id="vid_progress_bar" style="width:0%;height:60%;background:navy;"></div>
+    </div>    
+  </div>
+</div>
+
+<!--################################################################################################################ -->
+<div id="div_sap" class="modal" style="display:none;">
+  <div id="div_sap_dtl" style="position:absolute;width:600px;height:300px;">
+    DIV SAP
+  </div>    
+</div>
+
+<!--################################################################################################################ -->
+<div id="div_popup" class="modal" style="display:none;">
+  
+</div>
+<!--################################################################################################################ -->
+
+<!--************************* lookup-->
+<div id="lookup" data-sel=0 data-targdiv="" data-recno="" class="modal" style="display:none;width:100%;height:100%;">
+  <div id="lookup-box" style="z-index:1600;position:absolute;border:1px solid gray;height:auto;
+      font-size:10px;padding:0px;
+      top: 50%;  left: 50%;  -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);">  
+
+    <div id="lookup-head" class="head_color" style="position:relative;width:100%;height:40px;padding:5px;background:white;">
+      <div id="lookup-title" style="float:left;width:100%;height:100%;font-size:20px;padding:2px;color:white;"></div>            
+      <input type="button" onclick="JBE_LOOKUP(false)" style="position:absolute;top:5px;right:5px;width:30px;height:30px;border:1px solid gray;border-radius:5px;cursor:pointer;" value="X"/>      
+    </div> 
+
+    <div style="width:100%;height:40px;padding:5px;background:white;">
+        <input type="text" id="lookup-inp" style="width:100%;height:100%;" autocomplete="off" onkeyup="JBE_LOOKUP_FUNC()" placeholder="Search here..." title="Type in a name">
+    </div>
+  
+    <div id="lookup-body" data-recno="" style="width:100%;height:300px;overflow-y:scroll;overflow-x:hidden;font-size:14px;font-weight:normal;padding:5px;border:1px solid gray;background-color:#f1f1f1;">      
+      <table id="lookup-table" style="width:100%;height:100%;">
+      </table>
+    </div>   
+    
+    <div id="lookup-foot" style="display:none;width:100%;height:40px;margin-top:0px;padding:5px;text-align:center;background-color:white;">
+      <input id="lookup-btn" class="head_color" type="button" value="SELECT" onclick="lookup_go()" style="width:50%;height:100%;" />
+    </div>
+  </div>   
+</div>
+
+<!-- *************************PAGES***************************************************
+******************************************************************************** -->
+<!--*************************LOG-IN blocker-->
+<div id="firstlogin" data-jbe="" class="modal" style="display:none;background-color: rgba(0,0,0,0.9);">
+  <div id="dv_log" class="modal-content">	
+    
+    <div id="dv_left_log" style="background:none;">
+      <img src="../../gfx/icon-192x192.png"/>
+      <span>
+        G O V O T E<br>Election Monitoring System
+      </span>	
+    </div>	
+
+    <div id="dv_right_log">	
+            
+      <div class="dv_right_box">	          
+        <form>
+        <div>User ID</div>
+        <input id="fuser" type="text" placeholder="User ID" onclick="dispfmsg()"  maxlength=20 onkeydown="javascript:if(event.keyCode==13) document.getElementById('fpass').focus()"
+              value=""/>
+
+        <div style="margin-top:5%;">Password</div>
+        <input id="fpass" type="password" autocomplete="new-password" placeholder="Password" maxlength=20 onkeydown="javascript:if(event.keyCode==13) chkFirstLogin(fuser.value,fpass.value);"
+              value=""/>
+        </form>
+
+        <div id="fmsg">
+          Make sure your password is more than 10 or at least 8 characters, including a number, and a lowercase letter. Don't use any special characters. Only letters & numbers are allowed.
+        </div>
+        
+        <button id="lognow" class="head_color" onclick="chkFirstLogin(fuser.value,fpass.value,'')">Log In</button>              
+        
+        <p>Today is: <span id="sagb"></span></p>
+      </div>
+
+    </div>	
+
+  </div>
+</div>
+  
+
+<!--  *************************PAGES***************************************************  
+      **************************************************************************
+      ************************************************************************** -->
+<div id="wrapper" class="head_color" style="display:block;position:relative;height:100%;margin:0;overflow:auto;">  
+
+  <div id="page_main" class="page_class" style="display:block;width:100%;height:100%;overflow:auto;">
+
+    <div id="div_header" style="display:block;width:100%;height:60px;text-align:center;border:0px solid gray;padding:0px;color:white;">        
+
+      <div id="div_logo">       
+        <img src="../../gfx/icon-192x192.png" onclick="jeff()" style="height:100%;border:1px solid white;"/>               
+      </div>
+
+      <div id="hd_area" style="float:left;height:100%;text-align:left;background:none;">     
+        <div id="sys_tilt"></div>  
+        <div id="sys_tilt2">Province</div>  
+      </div>
+
+      <div id="hd_datetime">
+        <div id="hd_date" style="width:100%;height:55%;padding:5px 0 0 0;font-size:25px;background:none;">      
+        </div> 
+        <div id="hd_time" style="width:100%;height:45%;padding:0px;font-size:20px;background:none;">      
+        </div>       
+      </div> 
+
+      <div id="hd_user" style="float:right;display:block;z-index:100;height:100%;background:none;">
+
+        <div id="menu_open" onclick="openNav()" class="class_notif" style="float:right;right:0px;width:auto;height:100%;padding:2px;background:none;">
+          <img id="hd_img" src="../../gfx/jham.png" style="cursor:pointer;height:100%;border:2px solid black;background:none;" alt="notif new hd image" >      
+        </div> 
+      
+        <div id="dv_user" style="float:right;display:block;z-index:100;background:none;">
+          <img id="img_admin" src="../../gfx/javatar.png" onclick="toggle_admin(true)" />  
+          <span id="logger">USERNAME</span>
+        </div>
+        <div id="popadmin">
+          <a href="javascript:proc_admin()" style="display:none;">Log In</a>           
+          <a href="javascript:logout()" style="display:block;">Log Out</a>          
+          <div id="div_creator" style="display:none;">            
+            <hr>
+            <a href="https://updesktop.github.io/portfolio" target="_blank">Creator</a>              
+            <!--hr>
+            <a href="javascript:task1()">Put FCODE, MCODE to projhist</a>  
+            <hr>
+            <a href="javascript:task2()">Clear All Water Delivered</a-->  
+          </div>  
+        </div>
+
+        <div id="div_pass" class=" xhead_color2" style="display:none;position:absolute;width:300px;height:auto;top:50px;right:0;margin-right:10px;padding:5px;z-index:1500;border:1px solid black;">
+          <form>
+          <input type="text" id="txUser"  autocomplete="username" onkeydown="javascript:if(event.keyCode==13) document.getElementById('txPass').focus()" 
+                  style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
+                        border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="User ID"/>
+          <input type="password" id="txPass"  autocomplete="current-password" onkeydown="javascript:if(event.keyCode==13) chkPass(txUser.value,this.value)" style="float:left;width:100%;height:30px;text-align:center;margin-top:5px;
+              border:1px solid #252526;border-radius:5px;margin-right:2%;" value="" placeholder="Password"/>    
+          <input type="button" id="btn_login" class="head_color" onclick="chkPass(txUser.value,txPass.value)" style="float:left;width:100%;height:40px;margin-top:5px;
+              border:1px solid black;border-radius:0px;" value="Log In"/>        
+          </form>
+        </div>
+      
+      </div>
+      
+    </div>
+
+    <!--  ************************* BODY *************************************************** -->
+    <div id="div_body" style="display:block;position:relative;overflow:auto;width:100%;height:900px;border:0px solid red;background:white;">
+      <div id="mySidenav" class="sidenav" style="width:0px;height:100%;margin-top:0px;font-size:9px;opacity:0.8">
+      
+        <div class="nw_menu" onclick="get_db_all()">
+          <img src="../../gfx/jhome.png"/>
+          <span>Dashboard</span>
+        </div>      
+
+        <div class="nw_menu" style="position:relative;" onclick="dispMessages();">
+          <img src="../../gfx/jmessage.png"/>
+          <span>Messages</span>
+          <div id="gt_msg" style="display:none;position:absolute;right:2px;top:0px;width:25px;height:25px;font-size:12px;text-align:center;padding:4px 0 0 0;border-radius:50%;border:1px solid white;background:red;"></div>
+        </div>
+        
+        <div class="nw_menu" onclick="dispReports()"> 
+          <img src="../../gfx/jreport.png"/>
+          <span>Reports</span>
+        </div>
+
+        <div class="nw_menu" onclick="dispAdmin()">
+          <img src="../../gfx/jadmin.png"/>
+          <span>Admin</span>
+        </div>
+        
+        <div class="nw_menu" onclick="dispSetting()">
+          <img src="../../gfx/setting.png"/>
+          <span>Setting</span>
+        </div>
+
+        <!--div class="nw_menu" onclick="dummy()">
+          <img src="../../gfx/setting.png"/>
+          <span>Setting</span>
+        </div-->
+              
+        <div style="position:absolute;bottom:10px;width:100%;height:30px;padding:2px;background:none;">
+          <!--div style="display:block;width:100%;height:70%;padding:2px;background:none;">
+            <span id="id_LiveTime" style="display:none;width:100%;height:30%;color:white;background:none;"></span>
+            <img id="id_LiveImg" src="../../gfx/live.gif" style="display:none;width:100%;height:70%;background:white;"/>        
+          </div-->
+          <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:100%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
+        </div>      
+      
+      </div>      
+
+      <div id="head_main" style="position:fixed;z-index:100;margin-top:0px;height:60px;border:1px solid lightgray;color:black;background:white;">
+        <div style="float:left;width:30%;height:100%;padding:5px;background:none;">
+          <img id="xhd_LiveImg" src="../../gfx/live.gif" style="display:none;height:100%;background:white;"/>        
+        </div>
+        <div id="dv_headTot" style="float:right;width:70%;height:100%;padding:3px;background:none;">
+          <div class="cls_totals">
+            <div>Total Registered Voters:</div>
+                <span id="headTotRegVoters"></span>
+            <div>Total Precincts:</div>
+                <span id="headTotPrecincts"></span>
+            <div>Total Votes Counted:</div>
+                <span id="headTotVotes"></span>
+          </div>          
+        </div>
+      </div>
+      
+      <div id="page_main2" style="height:80%;width:100%;margin-top:50px;overflow:auto;color:black;background:white;">
+        
+        <div id="dv_umain" style="margin-top:0px;width:100%;height:100%;padding:0px;background:none;">
+          <div id="user_main">              
+          </div>
+        </div>
+
+      </div>
+
+      <div id="page_dummy" class="xpage_class" style="display:none;width:100%;height:100%;overflow:auto;background:orange;">                
+      </div>
+
+    </div>  <!--body--> 
+
+  </div> <!--main div-->
+
+
+  <div id="myJBox" class="modal_box" style="bottom:0px;"></div>
+
+  <!--  *************************PAGES***************************************************  -->
+  <div id="myView1" data-page=0 data-open=0 data-close="" data-JBEpage=0 class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div>
+    <div class="back_main">      
+      <div id="back_view1" onclick="JBE_CLOSE_VIEW(1)" class="back_class">
+        <img id="back_view_img1" src="../../gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>      
+      <div id="cap_myView1" class="cap_class"></div>
+      <div id="cap_viewMid1" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView1" class="myView_dtl">
+    </div>        
+  </div>  
+    
+  <div id="myView2" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div>
+    <div class="back_main">
+      <div id="back_view2" onclick="JBE_CLOSE_VIEW(2)" class="back_class">
+        <img id="back_view_img2" src="../../gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView2" class="cap_class"></div>
+      <div id="cap_viewMid2" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView2" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
+  <div id="myView3" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div>    
+    <div class="back_main">
+      <div id="back_view3" onclick="JBE_CLOSE_VIEW(3)" class="back_class">
+        <img id="back_view_img3" src="../../gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView3" class="cap_class"></div>
+      <div id="cap_viewMid3" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView3" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
+  <div id="myView4" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div> 
+    <div class="back_main">
+      <div id="back_view4" onclick="JBE_CLOSE_VIEW(4)" class="back_class">
+        <img id="back_view_img4" src="../../gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView4" class="cap_class"></div>
+      <div id="cap_viewMid4" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView4" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
+  <div id="myView5" data-page=0 data-open=0 data-close="" class="page_class myView" style="display:none;">
+    <div style="width:100%;height:0px;"></div> 
+    <div class="back_main">
+      <div id="back_view5" onclick="JBE_CLOSE_VIEW(5)" class="back_class">
+        <img id="back_view_img5" src="../../gfx/jback.png" style="height:100%;" />
+        <span>Back</span>
+      </div>
+      <div id="cap_myView5" class="cap_class"></div>
+      <div id="cap_viewMid5" class="cap_mid_class"></div>
+    </div>
+    <div id="dtl_myView5" class="myView_dtl">
+      <!--dtl-->
+    </div>       
+  </div>
+
+  
+
+  <!--************************* footer -->
+  <div class="cls_fixed head_color" id="div_footer" style="position:relative;height:35px;width:100%;border:0px;">
+    <div id="copyright" style="font-size:12px;padding:6px;background:none;">HAT Software &copy; Copyright 2018. Bacolod City.</div>    
+    <div id="id_LiveImg" style="display:none;position:absolute;width:auto;height:30px;top:3px;right:3px;"><img src="../../gfx/live.gif" style="height:100%;" /></div>    
+  </div> <!--footer-->
+
+</div> <!--wrapper div-->
+ 
+<link rel="stylesheet" href="../../styles.css" />
+<link rel="stylesheet" href="../../jmobile.css" />
+<link rel="stylesheet" media="print" href="../../print.css" />
+
+<link rel="stylesheet" type="text/css" href="../../css/leaflet2013.css" />
+<link rel="stylesheet" type="text/css" href="../../css/MarkerCluster.css" />
+<link rel="stylesheet" type="text/css" href="../../css/Default.css" />
+
+<script type='text/javascript' src='../../refbrgy.js'></script> 
+<!--script type='text/javascript' src='refcitymun.js'></script> 
+<script type='text/javascript' src='refprovince.js'></script> 
+<script type='text/javascript' src='refregion.js'></script--> 
+
+<!--link rel="manifest" href="./manifest.json"-->
+<script type='text/javascript' src='../../js/leaflet2013.js'></script>
+<script type='text/javascript' src='../../js/ajaxJSON.js'></script>
+<script type='text/javascript' src='../../js/MarkerCluster.js'></script>
+
+<script type='text/javascript' src='../../js/axios.min.js'></script>
+<script type='text/javascript' src='../../js/je_msg.js'></script>
+<script type='text/javascript' src='../../js/coke.js'></script>
+<script type='text/javascript' src='../../js/Chart.min.js'></script>
+
+<script type='text/javascript' src="../../main.js"></script>
+<script type='text/javascript' src="../../security.js"></script>
+<script type='text/javascript' src='../../lookup.js'></script>
+
+<script type='text/javascript' src='../../js/enadlib.js'></script>
+
+<!--script type='text/javascript' src='jbe_map.js'></script-->
+<script type='text/javascript' src='../../jbe_fmlib.js'></script>
+
+<script type='text/javascript' src='../../fm_admin.js'></script>
+<script type='text/javascript' src='../../fm_cluster.js'></script>
+<script type='text/javascript' src='../../fm_watcher.js'></script>
+<script type='text/javascript' src='../../fm_district.js'></script>
+<script type='text/javascript' src='../../fm_candidate.js'></script>
+<script type='text/javascript' src='../../fm_party.js'></script>
+<script type='text/javascript' src='../../fm_position.js'></script>
+
+<!--script type='text/javascript' src='../../fm_cluster2.js'></script-->
+
+<!-- ======================REPORTS======================= -->
+<script type='text/javascript' src='../../repo/rep_partial.js'></script>
+
+<script src="../../jbe_admin.js"></script>
+<script src="../../jbe_board.js"></script>
+<script src="../../jbe_message.js"></script>
+<script src="../../jbe_reports.js"></script>
+<script src="../../jbe_setting.js"></script>
+<script src="../../jbe_batch.js"></script>
+
+
+<!--script src="lilmap.js"></script-->
+
+
+
+<script>
+
+var CURR_SCOPE_TYPE=0;
+  var CURR_SCOPE_NO='';
+  var SYS_TILT='TALLY BOARD SYSTEM';  
+    
+  var CURR_CLIENTNO=''; 
+
+  var CURR_CITYMUNCODE='';
+  var CURR_PROJID=''; 
+  var JBE_MOBILE=true;
+  
+  var aryREPS=[];
+
+  var f_syslive=0;
+  
+  var DB_ADMIN = [];
+  var DB_CANDIDATE = [];
+  var DB_MSG = [];
+  var DB_USER = [];
+  var DB_TRAN_VOTES = [];
+  var DB_POSITION = [];  
+  var DB_DISTRICT = [];
+  var DB_DISTRICT2 = [];
+  var DB_CLUSTER = [];
+  var DB_SYS = [];
+  var DB_PARTYMAST = [];
+  var DB_COOR = [];
+
+  //var ref_brgy = [];
+  var ref_reg = [];
+  var ref_prov = [];
+  var ref_city = [];  
+
+  var tmp_ref_brgy = [];  
+
+  var CURR_REC='';
+  var CURR_PAGE=2;  
+  
+  var CURR_USER=''; 
+  var CURR_PASS=''; 
+  var CURR_NAME='';    
+  var CURR_AXTYPE=0;
+  var CURR_AXES=''; 
+  var CURR_AXLEVEL='';   
+
+  var CURR_MAP_WIDTH=0;
+
+  var H_WRAPPER=0;
+  var H_HEADER=0;
+  var H_FOOTER=0;
+  var H_BODY=0;
+  var H_PAGE=0;
+  var H_VIEW=0;
+  var H_VIEW_DTL=0;  
+  
+  var jbe_screen_mode=0;
+
+  var aryCLOR_ndx=0;
+  var aryCLOR_head=[];  aryCLOR_head[0]="red";    aryCLOR_head[1]="#3b5998";
+  var aryCLOR_bar=[];   aryCLOR_bar[0]="#ffb2b2"; aryCLOR_bar[1]="#8b9dc3";
+  var aryCLOR_bg=[];    aryCLOR_bg[0]="#dfe3ee";
+  var aryCLOR_dirty=[]; aryCLOR_dirty[0]="#f7f7f7";
+  var aryCLOR_gray=[];  aryCLOR_gray[0]="#C0C0C0";
+
+  var aryAXES=[];
+  aryAXES[0]='Admin Page';
+  aryAXES[1]='Dashboard Page';
+  aryAXES[2]='Messages Page';
+  aryAXES[3]='Projects Page';
+  aryAXES[4]='Project File Maintenance';
+  aryAXES[5]='History Page';
+  aryAXES[6]='Reports Page';
+  var aryAXES2=[];
+  aryAXES2[0]='inp_admin';
+  aryAXES2[1]='inp_board';
+  aryAXES2[2]='inp_msg';
+  aryAXES2[3]='inp_proj';
+  aryAXES2[4]='inp_projFM';
+  aryAXES2[5]='inp_hist';
+  aryAXES2[6]='inp_rep';
+
+  var JBE_STORE_CANDIDATE = [];
+  /*
+  JBE_STORE_CANDIDATE = [
+    { "pos":"01", "posname":"President", "display":"block" },
+    { "pos":"02", "posname":"Vice-President", "display":"block" },
+    { "pos":"03", "posname":"Senators", "display":"block" },
+
+    { "pos":"04", "posname":"Governor", "display":"block" },
+    { "pos":"05", "posname":"Vice-Governor", "display":"block" },
+    { "pos":"06", "posname":"Board Members", "display":"block" },
+
+    { "pos":"07", "posname":"Congressman", "display":"block" },
+
+    { "pos":"08", "posname":"Mayor", "display":"block" },
+    { "pos":"09", "posname":"Vice-Mayor", "display":"block" },
+    { "pos":"10", "posname":"Councilors", "display":"block" },
+
+    { "pos":"11", "posname":"Brgy. Chairman", "display":"block" },
+    { "pos":"12", "posname":"Brgy. Councilors", "display":"block" }
+  ];
+  */  
+  var JBE_CLOR='#333f50'; 
+  var JBE_CLOR2='gray'; 
+  var JBE_CLOR3='darkgray'; 
+  var JBE_CLOR4='#262c34'; 
+
+  var JBE_TXCLOR1='#ffffff'; 
+  var JBE_TXCLOR2='#000000'; 
+  var JBE_TXCLOR3='#ffffff'; 
+  var JBE_TXCLOR4='#ffffff'; 
+
+  var JBE_ONLINE=true;
+  var JBE_ONLINE_NAVI=true;
+ 
+  var CURR_BACKER=0;
+  var f_MainPage=false;
+  var f_reload=true;
+  
+
+  const JBE_HEADER = {
+    "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+    "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Origin": "*"
+  }
+
+  function jeff(){  
+    var pathloc=window.location.origin.substring(0,16);  
+    if(pathloc != 'http://localhost') { return; }  
+    alert(
+      '\nADMIN: '+DB_ADMIN.length+      
+      '\nref_city: '+ref_city.length+      
+      '\nref_prov: '+ref_prov.length+      
+      '\nref_reg: '+ref_reg.length+      
+      '\nDB_DISTRICT: '+DB_DISTRICT.length+      
+      '\nDB_DISTRICT2: '+DB_DISTRICT2.length+      
+      '\nDB_SYS: '+DB_SYS.length+
+      '\nDB_CANDIDATE: '+DB_CANDIDATE.length+          
+      '\nDB_USER: '+DB_USER.length+
+      '\nDB_PARTYMAST: '+DB_PARTYMAST.length+
+      '\nDB_POSITION: '+DB_POSITION.length+
+      '\nDB_CLUSTER: '+DB_CLUSTER.length+
+      '\nDB_COOR: '+DB_COOR.length+
+      '\nDB_MSG: '+DB_MSG.length
+    );
+  }
+
+  CURR_USER=readCookie('cookie_user'); 
+  CURR_PASS=readCookie('cookie_pass'); 
+  CURR_NAME=readCookie('cookie_name'); 
+  CURR_AXTYPE=readCookie('cookie_axtype'); 
+  CURR_AXES=readCookie('cookie_axes'); 
+  CURR_AXLEVEL=readCookie('cookie_axlevel'); 
+  CURR_PROJID=readCookie('cookie_projid'); 
+
+  window.addEventListener('load', function() {
+    window.history.pushState({ noBackExitsApp: true }, '');    
+  })
+
+  window.addEventListener('popstate', function(event) {
+    window.history.pushState({ noBackExitsApp: true }, '');
+    console.log(event.state);
+    
+    if (event.state) {
+      if(f_MainPage){                
+        refreshIDX();
+        MSG_SHOW(vbYesNo,"CONFIRM: ","Close the App?",function(){          
+          window.history.go(0);
+          f_reload=true;
+        },function(){});                  
+      }
+    }
+  })
+
+
+  window.onclick = function(event) {  
+    if(event.target.id !== 'img_admin') {   
+      document.getElementById('popadmin').style.display="none";    
+    }
+    if(event.target.id != 'txUser' && event.target.id != 'txPass' && event.target.id != 'logger') {   
+      document.getElementById('div_pass').style.display="none";    
+    }
+    if(event.target.id !== 'mySidenav' && event.target.id !== 'menu_open') {         
+      closeNav();
+    }
+  }
+  
+  
+  //=========START ENGINE=================
+
+  //document.getElementById('wrapper').style.display='block';
+  //document.getElementById('div_header').style.backgroundColor=JBE_CLOR;
+  //showProgress(false);
+  /*
+  var COOK_CLIENT=readCookie('cok_client_'+CURR_CLIENT);
+  CURR_USER=readCookie('cok_user_'+CURR_CLIENT);
+  CURR_NAME=readCookie('cok_name_'+CURR_CLIENT);
+  CURR_AXTYPE=readCookie('cok_axtype_'+CURR_CLIENT);
+  */
+  var d = new Date();  
+  var n = d.toLocaleTimeString('it-IT');
+
+  if(!CURR_USER){ CURR_USER='';  }
+  
+  JBE_SET_COLOR_BY_CLASS('head_color','white',JBE_CLOR);
+  JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR2);
+  JBE_SET_COLOR_BY_CLASS('head_color3','white',JBE_CLOR3);
+  JBE_SET_COLOR_BY_CLASS('head_color4','white',JBE_CLOR4);
+  document.getElementById('div_body').style.backgroundColor=JBE_CLOR;
+
+  document.getElementById('hd_date').innerHTML = JBE_DATE_FORMAT(new Date());
+  document.getElementById('hd_time').innerHTML = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  myResizeFunction();
+  start_app();  
+
+</script>
+
+</body>
+</html>
