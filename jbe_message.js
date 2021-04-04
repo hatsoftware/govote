@@ -375,8 +375,8 @@ function refreshMESSAGES(){
   var vcode=document.getElementById('div_main_msg').getAttribute('data-code');
   var vfld=document.getElementById('div_main_msg').getAttribute('data-fld');
   var vdiv_id=document.getElementById('div_main_msg').getAttribute('data-div_id');
-  dispAllMode(vmode,vcode,vdiv_id);
-  //getChat0();
+  //dispAllMode(vmode,vcode,vdiv_id);
+  getChat0();
   //dispChatter('');
   //dispChat0();
 }
