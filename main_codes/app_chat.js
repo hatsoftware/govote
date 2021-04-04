@@ -108,11 +108,11 @@ function dispChatDtl(){
     //var v_userImg=JBE_GETFLD('photo',DB_USER,'usercode',v_usercode);  
 
     if(v_admin!=''){ v_admin=v_admin+'.jpg'; }
-    var v_userImg=JBE_API+'app/upload/users/'+JBE_GETFLD('photo',DB_USER,'usercode',v_usercode)+'?'+n;
+    var v_userImg=JBE_API+'upload/users/'+JBE_GETFLD('photo',DB_USER,'usercode',v_usercode)+'?'+n;
           
     var vdispDel='none'; 
     if(v_sender==1){      
-      v_userImg=JBE_API+'app/upload/users/'+v_admin+'?'+n;
+      v_userImg=JBE_API+'upload/users/'+v_admin+'?'+n;
     }
         
     var v_username=JBE_GETFLD('username',DB_USER,'usercode',v_usercode);
@@ -184,7 +184,7 @@ function ret_chatDtl(v_sender,v_trano,v_username,v_userImg,v_msg,v_img,v_date,v_
 function delChat(v_trano){  
   var usercode=document.getElementById('div_main_chat').getAttribute('data-usercode');
   var f_owner=false;
-  var ddir='app/upload/chat/';
+  var ddir=JBE_API+'upload/chat/';
   //alert(v_trano);
   //alert(ddir);
   if(CURR_AXTYPE > 0){ f_owner=true; }
@@ -195,8 +195,7 @@ function delChat(v_trano){
       axios.post(JBE_API+'app/zz_chat.php', { clientno:CURR_CLIENT, request: 4,
         trano: v_trano,
         usercode: usercode,
-        f_owner:f_owner,
-        ddir:ddir        
+        dir:ddir        
       },JBE_HEADER)
       .then(function (response) {
         showProgress(false);

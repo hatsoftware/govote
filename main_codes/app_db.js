@@ -33,7 +33,7 @@ function initDb() {
     db00.createObjectStore('User', { keyPath:'id' });    
     db00.createObjectStore('Candidate', { keyPath:'id' });        
     db00.createObjectStore('PosMast', { keyPath:'id' });        
-    db00.createObjectStore('Msg', { keyPath:'id' });   
+    //db00.createObjectStore('Msg', { keyPath:'id' });   
     dbReady = true;
   }
 }
@@ -243,8 +243,8 @@ function saveDataToIDX(aryDB,n) {
 async function putDataToIDX(i,aryDB,n){   
   //alert('i: '+i+' file#:'+n);
   if(n==0){ //sysfile
-    var jimg='gfx/banner.jpg';
-    await JBE_BLOB(n,jimg).then(result => jimg=result);    
+    //var jimg='gfx/banner.jpg';
+    //await JBE_BLOB(n,jimg).then(result => jimg=result);    
     ob = {
       id:i,
       banner:jimg,
@@ -273,6 +273,8 @@ async function putDataToIDX(i,aryDB,n){
   }else if(n==1){ //user
     var jimg=JBE_API+'upload/users/'+aryDB[i]['photo'];   
     await JBE_BLOB(n,jimg).then(result => jimg=result);
+    //var jimg=JBE_API+'app/'+CURR_SITE+'/upload/users/'+aryDB[i]['photo'];   
+    //await JBE_BLOB(n,jimg).then(result => jimg=result);
     ob = {
       id:i,
       usercode:aryDB[i]['usercode'],
@@ -280,8 +282,13 @@ async function putDataToIDX(i,aryDB,n){
       photo:jimg
     };
   }else if(n==2){ //candidate
-    var jimg=JBE_API+'upload/photo/'+aryDB[i]['code']+'.jpg';   
-    await JBE_BLOB(n,jimg).then(result => jimg=result);
+    //var jimg=JBE_API+'upload/photo/'+aryDB[i]['code']+'.jpg';   
+    //await JBE_BLOB(n,jimg).then(result => jimg=result);
+    var jimg='';
+    if(aryDB[i]['code']){ 
+      jimg=JBE_API+'upload/photo/'+aryDB[i]['code'];   
+      await JBE_BLOB(n,jimg).then(result => jimg=result); 
+    }
     ob = {
       id:i,
       code:aryDB[i]['code'],
@@ -298,35 +305,6 @@ async function putDataToIDX(i,aryDB,n){
       descrp:aryDB[i]['descrp'],
       hide:aryDB[i]['hide']
     };    
-  }else if(n==4){ //messages 
-    var jimg='';
-    if(aryDB[i]['PHOTO']){ 
-      jimg=JBE_API+'upload/chat/'+aryDB[i]['PHOTO'];   
-      await JBE_BLOB(n,jimg).then(result => jimg=result); 
-    }else{
-      //alert('jimg i='+i+' img: '+jimg);
-    }
-    /*
-    var jimg=JBE_API+'app/'+CURR_SITE+'/upload/'+aryDB[i]['PHOTO'];   
-    if(aryDB[i]['PHOTO']!=''){    
-      await JBE_BLOB(n,jimg).then(result => jimg=result);
-    }else{
-      jimg='';
-    }
-    */
-
-    ob = {
-      id:i,
-      trano:aryDB[i]['TRANO'],
-      usercode:aryDB[i]['usercode'],            
-      transdat:aryDB[i]['TRANSDAT'],            
-      transtim:aryDB[i]['TRANSTIM'],            
-      msg:aryDB[i]['MSG'],            
-      sender:aryDB[i]['SENDER'],            
-      unread:aryDB[i]['unread'],            
-      idx:aryDB[i]['idx'],            
-      photo:" "
-    };
   }
 
   var trans = db00.transaction([JBE_STORE_IDX[n]['flename']], 'readwrite');

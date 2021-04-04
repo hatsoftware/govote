@@ -170,12 +170,15 @@ function get_db_all(){
     update_positions();
 
     show_candidates();
-
+/*
+    
     clearStore(JBE_STORE_IDX[0]['flename']); saveDataToIDX(DB_SYS,0);       
     clearStore(JBE_STORE_IDX[1]['flename']); saveDataToIDX(DB_USER,1);       
     clearStore(JBE_STORE_IDX[2]['flename']); saveDataToIDX(DB_CANDIDATE,2);       
     clearStore(JBE_STORE_IDX[3]['flename']); saveDataToIDX(DB_POSITION,3);       
+    
     clearStore(JBE_STORE_IDX[4]['flename']); saveDataToIDX(DB_MSG,4);       
+    */
     //alert(JBE_STORE_IDX[3]['flename']);
 
   })    
@@ -253,7 +256,7 @@ function get_DB_MSG(u){
     //alert(response.data.length); 
     DB_MSG = response.data; 
     dispGtMsg();
-    clearStore(JBE_STORE_IDX[4]['flename']); saveDataToIDX(DB_MSG,4);       
+    //clearStore(JBE_STORE_IDX[4]['flename']); saveDataToIDX(DB_MSG,4);       
   })    
   .catch(function (error) { console.log(error); });
 }

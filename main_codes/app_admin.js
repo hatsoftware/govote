@@ -709,7 +709,7 @@ function del_staff(usercode){
   }
   var username=JBE_GETFLD('username',DB_CLIENTS,'usercode',usercode); 
   var photo=JBE_GETFLD('photo',DB_CLIENTS,'usercode',usercode); 
-  var ddir='upload/users/';
+  var ddir=JBE_API+'upload/users/';
 
   MSG_SHOW(vbYesNo,"CONFIRM: ","Are you sure to Delete user: "+username+"?",function(){
     showProgress(true);      
