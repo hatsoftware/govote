@@ -85,7 +85,7 @@ function get_db_all(){
     //create new temp ref_brgy
     create_tmp_ref_brgy(CURR_CITYMUNCODE);
     
-    dispGtMsg();
+    //dispGtMsg();
 
     update_main_head_total(false);
     
