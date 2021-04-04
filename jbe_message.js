@@ -276,7 +276,7 @@ function dispChat0(){
   } 
 }
 
-function ret_chatDtl0(v_sender,v_trano,v_username,v_msg,v_img,v_date,v_time){    
+function ret_chatDtl0(v_sender,v_trano,v_idx,v_username,v_msg,v_img,v_date,v_time){    
   var n = new Date().toLocaleTimeString('it-IT');   
   var v_dispImg='block';
   var h_img=50;
@@ -323,7 +323,7 @@ function ret_chatDtl0(v_sender,v_trano,v_username,v_msg,v_img,v_date,v_time){
       
       '<div style='+div_direksyon+';width:70%;height:auto;margin-top:2px;border-radius:6px;padding:0.5%;background-color:'+v_bg+';">'+  
         '<div id="chatdel_'+v_trano+'"  title="Delete this chat" style="display:'+vdispDel+';width:100%;height:20px;text-align:center;font-size:14px;background-color:none;color:white;">'+
-          '<span onclick="delChat0(&quot;'+v_trano+'&quot;)" style="float:right;width:15px;cursor:pointer;border-radius:5px;background:red;">X</span>'+
+          '<span onclick="delChat0('+v_idx+')" style="float:right;width:15px;cursor:pointer;border-radius:5px;background:red;">X</span>'+
         '</div>'+
         '<div style="float:'+direksyon+';width:100%;height:auto;font-size:16px;border-radius:5px;padding:1%;background-color:none;">'+
           '<div style="height:'+h_img+'px;">'+
@@ -340,26 +340,27 @@ function ret_chatDtl0(v_sender,v_trano,v_username,v_msg,v_img,v_date,v_time){
   return dtl;
 }
 
-function delChat0(v_trano){
-  var usercode=document.getElementById('div_chatters').getAttribute('data-code');
-  var photo=JBE_GETFLD('PHOTO',DB_MSG,'TRANO',v_trano);
-  
+function delChat0(idx){
+  //alert(idx);
+  //var usercode=document.getElementById('div_chatters').getAttribute('data-code');
+  var photo=JBE_GETFLD('PHOTO',DB_MSG,'idx',idx);
+  if(photo){ photo='upload/chat/'+photo; }  
+  //alert('photo: '+photo);
   if(CURR_AXTYPE > 0){ f_owner=true; }
   
   MSG_SHOW(vbYesNo,"CONFIRM:","Are you sure to Delete this Message?",
     function(){
       showProgress(true);
       axios.post(JBE_API+'z_chat.php', { clientno:CURR_CLIENT, request: 4,
-        trano: v_trano,
-        usercode: usercode,
+        idx: idx,        
         photo:photo
       },JBE_HEADER)
       .then(function (response) {
         showProgress(false);
-        console.log(response.data);
-        //alert(response.data);
-        DB_MSG=response.data;
-        //alert('after del len:'+DB_MSG.length);
+        console.log(response.data);  
+        //alert(response.data);  
+        //return;
+        DB_MSG=response.data;  
         dispChat0();
       })
       .catch(function (error) {
@@ -370,7 +371,14 @@ function delChat0(v_trano){
 }
 
 function refreshMESSAGES(){  
-  getChat0();
+  var vmode=document.getElementById('div_main_msg').getAttribute('data-mode');
+  var vcode=document.getElementById('div_main_msg').getAttribute('data-code');
+  var vfld=document.getElementById('div_main_msg').getAttribute('data-fld');
+  var vdiv_id=document.getElementById('div_main_msg').getAttribute('data-div_id');
+  dispAllMode(vmode,vcode,vdiv_id);
+  //getChat0();
+  //dispChatter('');
+  //dispChat0();
 }
 
 function sendMsg0(){
@@ -397,7 +405,9 @@ function sendMsg0(){
   
   var trano=vDate + new Date().toLocaleTimeString('it-IT').replace(/:\s*/g, "");
     
-  if(THISFILE[0]){      
+  var f_photo=false;
+  if(THISFILE[0]){    
+    f_photo=true;  
     newName = trano + '.jpg';//+getExt(THISFILE[0].name);
     document.getElementById('pre_img').src='../../gfx/jimage.png';
   }  
@@ -408,32 +418,51 @@ function sendMsg0(){
   }
 
   var aryItems=[];
-  if(vmode==0){  
+  var photo='';
 
+  if(vmode==0){  
+    
     for(var i=0;i<DB_USER.length;i++){
       if(vcode){
         if(DB_USER[i][vfld] != vcode){ continue; }
       }
+
+      if(f_photo){
+        photo=trano+i+'.jpg';
+      }
+
       let ob = {
+        trano:trano+i,
+        photo:photo,
         usercode:DB_USER[i]['usercode']
       };
       aryItems[i]=ob;  
     }     
 
   }else{    
-    let ob = {
+    let ob = {      
+      trano:trano,
+      photo:trano + '.jpg',
       usercode:vcode
     };
     aryItems[0]=ob;  
   }
 
-  //alert('len: '+aryItems.length); 
+  /*
+  alert('len: '+aryItems.length);
+  for(var i=0;i<aryItems.length;i++){
+    alert(
+      'trano:'+aryItems[i]['trano']+
+      '\nphoto:'+aryItems[i]['photo']+
+      '\nusercode:'+aryItems[i]['usercode']
+    );
+  } 
+  */
+  //return;
     
   showProgress(true);
-  axios.post(JBE_API+'z_chat.php', { clientno:CURR_CLIENT, request: 20,
-    trano: trano,
+  axios.post(JBE_API+'z_chat.php', { clientno:CURR_CLIENT, request: 20,    
     mcode: mcode,
-    photo: newName,
     sender: 0,
     trandate: vDate,
     trantime: vTime,
@@ -451,10 +480,20 @@ function sendMsg0(){
     document.getElementById('pre_img').src='../../gfx/jimage.png';
 
     if(THISFILE[0]){ 
-      let ob = [
-        { "div":trano }
-      ];      
-      uploadNOW(THISFILE[0],newName,targetDIR,ob,false,false); 
+      if(vmode==0){  
+        for(var i=0;i<DB_USER.length;i++){
+          let ob = [
+            { "div":aryItems[i]['trano'] }
+          ];            
+          newName=aryItems[i]['photo'];
+          uploadNOW(THISFILE[0],newName,targetDIR,ob,false,false); 
+        }
+      }else{
+        let ob = [
+          { "div":trano }
+        ];            
+        uploadNOW(THISFILE[0],newName,targetDIR,ob,false,false); 
+      }
     }        
     
     newName='';
@@ -483,12 +522,13 @@ function getDtlChats(usercode){
     var v_msg=aryChat[i]['MSG'];
     var v_img=aryChat[i]['PHOTO'];
     var v_trano=aryChat[i]['TRANO'];
+    var v_idx=aryChat[i]['idx'];
     var v_sender=parseInt(aryChat[i]['SENDER']);    
     var v_date=aryChat[i]['TRANSDAT'];
     var v_time=aryChat[i]['TRANSTIM'];
     var v_username=JBE_GETFLD('username',DB_USER,'usercode',v_usercode);
   
-    dtl+=ret_chatDtl0(v_sender,v_trano,v_username,v_msg,v_img,v_date,v_time);
+    dtl+=ret_chatDtl0(v_sender,v_trano,v_idx,v_username,v_msg,v_img,v_date,v_time);
   }
   dtl+='</div>';
   if(vmode==1 && parseInt(document.getElementById('nmsg'+usercode).innerHTML) > 0){
