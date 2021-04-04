@@ -43,7 +43,7 @@ function do_fm_watcher(){
     
       '<div class="cls_fm_dtl">'+
         '<div>Username:'+
-          '<input id="lu_usercode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CANDIDATE LOOKUP&quot;,DB_USER,&quot;usercode&quot;,&quot;username&quot;)" />'+
+          '<input id="lu_usercode" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CANDIDATE LOOKUP&quot;,DB_USER,&quot;usercode&quot;,&quot;username&quot;)" />'+
         '</div>'+
         '<input id="tx_username" type="text" data-caption="Username" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_userid.id).focus()" />'+
       '</div>'+
@@ -72,10 +72,10 @@ function do_fm_watcher(){
       '<input id="tx_watcher_photo" type="text" data-caption="Photo" style="display:none;" value="" />'+          
       '<div class="cls_fm_dtl" style="height:'+fm_ob.h_photo+';">'+
         '<div style="height:25px;">Photo:'+
-          '<input id="lu_watcher_photo" type="image" style="height:100%;background:dimgray;" src="gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_watcher.id,img_watcher.id,&quot;put_Img_watcher&quot;)">'+
+          '<input id="lu_watcher_photo" type="image" style="height:100%;background:dimgray;" src="../../gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_watcher.id,img_watcher.id,&quot;put_Img_watcher&quot;)">'+
         '</div>'+
         '<p>'+
-          '<img id="img_watcher" data-img="" name="img_watcher" src="gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
+          '<img id="img_watcher" data-img="" name="img_watcher" src="../../gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
         '</p>'+   
       '</div>'+  
 
@@ -91,7 +91,7 @@ function do_fm_watcher(){
       '<div class="cls_fm_dtl">'+
         '<div>Cluster Name:'+
           '<input id="tx_clusterno_watcher" type="text" data-caption="Watcher Code." style="display:none;" />'+
-          '<input id="lu_clusterno_watcher" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
+          '<input id="lu_clusterno_watcher" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
         '</div>'+
         '<input id="tx_clustername_watcher" type="text" data-caption="Cluster" value="" />'+
       '</div>'+
@@ -157,7 +157,7 @@ function do_init_watcher(){
   document.getElementById('lu_usercode').disabled=false;
   document.getElementById('lu_usercode').style.opacity='1';
 
-  document.getElementById('img_watcher').src='gfx/avatar.png';
+  document.getElementById('img_watcher').src='../../gfx/avatar.png';
 }
 //
 function do_add_watcher(){
@@ -166,7 +166,7 @@ function do_add_watcher(){
   document.getElementById('lu_clusterno_watcher').disabled=false;
   document.getElementById('lu_clusterno_watcher').style.opacity='1';
 
-  document.getElementById('img_watcher').src='gfx/avatar.png';
+  document.getElementById('img_watcher').src='../../gfx/avatar.png';
   document.getElementById('lu_watcher_photo').style.pointerEvents='auto';
   document.getElementById('lu_watcher_photo').style.opacity='1';
   

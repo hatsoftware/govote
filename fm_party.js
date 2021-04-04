@@ -27,7 +27,7 @@ function do_fm_party(){
       
       '<div class="cls_fm_dtl">'+        
         '<div>Party Name:'+          
-          '<input id="lu_party_no" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_party&quot;,&quot;PARTY LOOKUP&quot;,DB_PARTYMAST,&quot;partyno&quot;,&quot;partyname&quot;)" />'+
+          '<input id="lu_party_no" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_party&quot;,&quot;PARTY LOOKUP&quot;,FM_TABLE,&quot;partyno&quot;,&quot;partyname&quot;)" />'+
         '</div>'+
         '<input id="tx_party_name" type="text" data-caption="Party Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_party_name.id).focus()" />'+
       '</div>'+
@@ -36,10 +36,10 @@ function do_fm_party(){
       '<input id="tx_party_photo" type="text" data-caption="Photo" style="display:none;" value="" />'+    
       '<div class="cls_fm_dtl" style="height:100px;">'+                  
         '<div style="height:25px;">Photo:'+
-          '<input id="lu_party_photo" type="image" style="background:dimgray;" src="gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_party.id,img_party.id,&quot;putImg_party&quot;)" />'+
+          '<input id="lu_party_photo" type="image" style="background:dimgray;" src="../../gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_party.id,img_party.id,&quot;putImg_party&quot;)" />'+
         '</div>'+  
         '<p>'+
-          '<img id="img_party" data-img="" name="img_party" src="gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
+          '<img id="img_party" data-img="" name="img_party" src="../../gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
         '</p>'+   
       '</div>'+ 
       
@@ -75,11 +75,11 @@ function do_init_party(){
   document.getElementById('lu_party_no').style.opacity='1';
   document.getElementById('lu_party_photo').style.pointerEvents='none';
   document.getElementById('lu_party_photo').style.opacity='0.5';
-  document.getElementById('img_party').src='gfx/avatar.png';  
+  document.getElementById('img_party').src='../../gfx/avatar.png';  
 }
 //
 function do_add_party(){
-  document.getElementById('img_party').src='gfx/avatar.png';
+  document.getElementById('img_party').src='../../gfx/avatar.png';
   document.getElementById('lu_party_no').disabled=true;
   document.getElementById('lu_party_no').style.opacity='0.5';
 
@@ -107,13 +107,11 @@ function do_look_party(fld){
 }
 //del
 function do_del_party(stat,r){
-  if(stat==2){ DB_PARTYMAST=r; } 
+  if(stat==2){ FM_TABLE=r; } 
 }
 //save
-function do_save_party(stat,r){
-  //var recno=document.getElementById('FM_HEAD').getAttribute('data-recno');
-  var recno=document.getElementById('tx_party_no').value;
-  //alert(' recno '+recno);
+function do_save_party(stat,r){  
+  var recno=document.getElementById('tx_party_no').value;  
   if(stat==2){
     var targetDIR=JBE_API+'upload/photo/';
     var newName = 'party_'+recno.trim() + '.jpg';
@@ -123,7 +121,7 @@ function do_save_party(stat,r){
       ];    
       uploadNOW(THISFILE[0],newName,targetDIR,ob,false,false); 
     }  
-    DB_PARTYMAST=r; 
+    FM_TABLE=r; 
   }
 }
 //disp

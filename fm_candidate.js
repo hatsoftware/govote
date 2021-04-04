@@ -50,7 +50,8 @@ function do_fm_candidate(){
              
       '<div class="cls_fm_dtl">'+
         '<div>Last Name:'+          
-          '<input id="lu_candi_no" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;CANDIDATE&quot;,DB_CANDIDATE,&quot;code&quot;,&quot;name&quot;)" />'+
+          //'<input id="lu_candi_no" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;CANDIDATE&quot;,DB_CANDIDATE,&quot;code&quot;,&quot;name&quot;)" />'+
+          '<input id="lu_candi_no" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;CANDIDATE&quot;,DB_CANDIDATE,&quot;code&quot;,&quot;name&quot;)" />'+
         '</div>'+
         '<input id="tx_candi_lname" type="text" data-caption="Last Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_candi_fname.id).focus()" />'+
       '</div>'+
@@ -64,16 +65,16 @@ function do_fm_candidate(){
       '<input id="tx_candi_photo" type="text" data-caption="Photo" style="display:none;" value="" />'+
       '<div class="cls_fm_dtl" style="height:'+fm_ob.h_photo+';">'+
         '<div style="height:25px;">Photo:'+
-          '<input id="lu_candi_photo" type="image" style="background:dimgray;" src="gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile.id,img_eavatar.id,&quot;putImg&quot;)" />'+
+          '<input id="lu_candi_photo" type="image" style="background:dimgray;" src="../../gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile.id,img_eavatar.id,&quot;putImg&quot;)" />'+
         '</div>'+  
         '<p>'+
-          '<img id="img_eavatar" data-img="" name="img_eavatar" src="gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
+          '<img id="img_eavatar" data-img="" name="img_eavatar" src="../../gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
         '</p>'+   
       '</div>'+  
 
       '<div class="cls_fm_dtl">'+        
         '<div>Barangay:'+          
-          '<input id="lu_brgyCode_candi" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;BARANGAY LOOKUP&quot;,tmp_ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
+          '<input id="lu_brgyCode_candi" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_candi&quot;,&quot;BARANGAY LOOKUP&quot;,tmp_ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
           '<input id="tx_brgyCode" type="text" data-caption="Barangay Code" style="display:none;" value="" />'+
         '</div>'+
         '<input id="tx_brgyName" type="text" />'+
@@ -162,12 +163,12 @@ function do_init_candi(){
   document.getElementById('lu_brgyCode_candi').disabled=true;
   document.getElementById('lu_brgyCode_candi').style.opacity='0.5';
 
-  document.getElementById('img_eavatar').src='gfx/avatar.png';
+  document.getElementById('img_eavatar').src='../../gfx/avatar.png';
   
 }
 //
 function do_add_candi(){
-  document.getElementById('img_eavatar').src='gfx/avatar.png';
+  document.getElementById('img_eavatar').src='../../gfx/avatar.png';
   document.getElementById('lu_candi_no').disabled=true;
   document.getElementById('lu_candi_no').style.opacity='0.5';
 

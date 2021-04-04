@@ -1,4 +1,8 @@
 function dispSetting(){
+  if(DB_SYS.length==0){
+    snackBar('System File cannot be found...');
+    return;
+  };
   if(CURR_AXTYPE <4){
     snackBar('ACCESS DENIED...');
     return;
@@ -28,6 +32,7 @@ function close_setting(){
 }
 
 function do_setup(){    
+  
   document.getElementById('sys_menu1').style.display='none';
   document.getElementById('sys_menu2').style.display='block';
 
@@ -51,7 +56,7 @@ function do_setup(){
 
       '<div class="cls_fm_dtl">'+        
         '<div>Municipal/City:'+          
-          '<input id="lu_set_citymunCode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_city&quot;,&quot;LOOKUP&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
+          '<input id="lu_set_citymunCode" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_city&quot;,&quot;LOOKUP&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+          
           '<input id="tx_set_citymunCode" type="text" data-caption="Barangay Code" style="display:none;" value="'+citymunCode+'" />'+
         '</div>'+
         '<input id="tx_set_cityName" style="pointer-events:none;" value="'+citymunDesc+'" type="text" />'+
@@ -107,15 +112,17 @@ function close_setup(){
 function init_setup(){
   var dtl='';
   var vdisp;
-  for(var i=0;i<DB_POSITION.length;i++){
+  var aryPos=DB_POSITION;
+  aryPos.sort(sortByMultipleKey(['pos']));   
+  for(var i=0;i<aryPos.length;i++){
     vdisp='';
-    if(DB_POSITION[i]['hide']==0){ vdisp='checked'; }
+    if(aryPos[i]['hide']==0){ vdisp='checked'; }
     dtl+=
     '<div style="width:100%;height:20px;margin-top:5px;padding:2px;background:none;">'+
       '<div style="float:left;width:10%;height:100%;background:none;">'+
         '<input disabled id="can_pos'+i+'" class="can_pos"  type="checkbox" '+vdisp+' style="float:right;margin:0px;margin-right:5px;width:20px;height:100%;background:none;" />'+
       '</div>'+
-      '<div stlyle="float:left;width:90%;height:100%;padding:2px 0 0 0;">'+DB_POSITION[i]['descrp']+'</div>'+
+      '<div stlyle="float:left;width:90%;height:100%;padding:2px 0 0 0;">'+aryPos[i]['descrp']+'</div>'+
     '</div>';
   }
   document.getElementById('lu_set_citymunCode').disabled=true;  

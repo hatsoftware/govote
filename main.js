@@ -34,6 +34,7 @@ function start_app(){
 }
 
 function get_db_all(){
+  //alert(CURR_CLIENT);
   DB_ADMIN=[];  
   DB_CANDIDATE=[];  
   DB_PARTYMAST=[];  
@@ -67,42 +68,42 @@ function get_db_all(){
     DB_ADMIN = response.data[15];   
     
     showProgress(false);
-
     
-    //alert('DB_PARTY '+DB_PARTY.length);
+    //alert('DB_POSITION '+DB_POSITION.length);
+    //alert('DB_CANDIDATE '+DB_CANDIDATE.length);
+
     if(DB_SYS.length > 0){      
       show_scope();
+    }else{
+      snackBar('System file cannot be found...');
+      return;
     }
     
-    /*
-    if(CURR_SCOPE_TYPE == 2){
-      if(DB_DISTRICT.length>0){ 
-        var ctr=0;
-        DB_DISTRICT2=[];
-        for(var i=0;i<ref_city.length;i++){
-          if(ref_city[i]['disCode'] != CURR_SCOPE_NO){ continue; }
-          let ob={
-            "citymunCode":ref_city[i]['citymunCode'],
-            "disCode":CURR_SCOPE_NO
-          }
-          DB_DISTRICT2[ctr]=ob;
-          ctr++;
-        }
-      }    
-    }
-    */
     // define to show position
     update_positions();
     CURR_CITYMUNCODE=DB_SYS[0]['citymunCode'];
     //create new temp ref_brgy
     create_tmp_ref_brgy(CURR_CITYMUNCODE);
-
-    document.getElementById('dv_headTot').innerHTML=ret_head_totals();  
     
     dispGtMsg();
+
+    update_main_head_total(false);
     
     dispBoard();
     
+  })    
+  .catch(function (error) { console.log(error); showProgress(false); }); 
+}
+
+function create_sysfile(){
+  showProgress(true);    
+  axios.post(JBE_API+'z_sysfile.php', { clientno:CURR_CLIENT, request:222,        
+    site:CURR_SITE    
+  },JBE_HEADER) 
+  .then(function (response) { 
+    showProgress(false);
+    //alert(response.data);    
+    DB_SYS = response.data; 
   })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
@@ -127,7 +128,29 @@ function create_tmp_ref_brgy(){
   //alert('tmp len:'+tmp_ref_brgy.length);
 }
 
-function ret_head_totals(){
+function update_main_head_total(f_refresh){
+  if(!f_refresh){
+    do_update_main_head_total();
+    return;
+  }
+  showProgress(true);    
+  axios.post(JBE_API+'z_refresh.php', {  clientno:CURR_CLIENT, request:0 },JBE_HEADER) 
+  .then(function (response) { 
+    showProgress(false);
+    console.log(response.data);
+    DB_CANDIDATE = response.data[0];
+    DB_MSG = response.data[1];
+    DB_TRAN_VOTES = response.data[2];
+    DB_CLUSTER = response.data[3];
+    dispGtMsg();
+    dispGtChatter();
+    do_update_main_head_total();
+    dispBoard();
+  })    
+  .catch(function (error) { console.log(error); showProgress(false); });
+}
+
+function do_update_main_head_total(){
   var tot_regvotes=0;
   var tot_precincts=0;
   var tot_votes=0;
@@ -136,30 +159,16 @@ function ret_head_totals(){
     tot_regvotes+=parseInt(DB_CLUSTER[i]['regVoters']);
     tot_precincts+=parseInt(DB_CLUSTER[i]['prec_len']);
   }  
-  for(var i=0;i<DB_TRAN_VOTES.length;i++){        
-    var vdisp=JBE_GETFLD('hide',DB_POSITION,'pos',DB_TRAN_VOTES[i]['pos']);
-    if(vdisp != '0'){ //alert(DB_TRAN_VOTES[i]['votes']); 
-    continue; }
-
-    tot_votes+=parseInt(DB_TRAN_VOTES[i]['votes']);
+  
+  var tot_votes=0;
+  for(var i=0;i<DB_CANDIDATE.length;i++){
+    tot_votes+=parseInt(DB_CANDIDATE[i]['votes']);
   } 
   //alert('tot_votes'+tot_votes);
   //alert(tot_regvotes+' = '+tot_precincts+' = '+tot_votes);
-  //document.getElementById('headTotRegVoters').innerHTML=jformatNumber(tot_regvotes);
-  //document.getElementById('headTotPrecincts').innerHTML=jformatNumber(tot_precincts);  
-  //document.getElementById('headTotVotes').innerHTML=jformatNumber(tot_votes);  
-
-  var glob_div=
-  '<div class="cls_totals">'+
-    '<div>Total Registered Voters:</div>'+
-        '<span id="headTotRegVoters">'+jformatNumber(tot_regvotes)+'</span>'+
-    '<div>Total Precincts:</div>'+
-        '<span id="headTotPrecincts">'+jformatNumber(tot_precincts)+'</span>'+ 
-    '<div>Total Votes Counted:</div>'+
-        '<span id="headTotVotes">'+jformatNumber(tot_votes)+'</span>'+
-  '</div>';
-
-  return glob_div;
+  document.getElementById('headTotRegVoters').innerHTML=jformatNumber(tot_regvotes);
+  document.getElementById('headTotPrecincts').innerHTML=jformatNumber(tot_precincts);  
+  document.getElementById('headTotVotes').innerHTML=jformatNumber(tot_votes);  
 }
 
 function show_header(pos,place){    
@@ -225,13 +234,15 @@ function update_datetime(){
 }
 function update_positions(){
   JBE_STORE_CANDIDATE = [];
-  for(var i=0;i<DB_POSITION.length;i++){
-    //alert(DB_POSITION[i]['pos']);
+  var aryPos=DB_POSITION;
+  aryPos.sort(sortByMultipleKey(['pos']));   
+  for(var i=0;i<aryPos.length;i++){
+    //alert(aryPos[i]['pos']);
     var vdisp='block';
-    if(DB_POSITION[i]['hide']==1){ vdisp='none'; }
+    if(aryPos[i]['hide']==1){ vdisp='none'; }
     let ob={
-      "pos":DB_POSITION[i]['pos'],
-      "posname":DB_POSITION[i]['descrp'],
+      "pos":aryPos[i]['pos'],
+      "posname":aryPos[i]['descrp'],
       "display":vdisp
     }
     JBE_STORE_CANDIDATE[i]=ob;
@@ -751,7 +762,18 @@ function dispGtMsg(){
     }      
   }
   
-  if(gtmsg > 0){ gtmsg_disp='block'; }
+  if(gtmsg > 0){ 
+    gtmsg_disp='block'; 
+    JBE_AUDIO('../../gfx/snd/chimes',5); 
+    var html=
+    '<div style="width:100%;height:70px;background:none;">'+    
+      '<div style="float:left;width:50%;height:100%;text-align:right;">'+
+        '<img src="../../gfx/messages.png" style="height:100%;" />'+
+      '</div>'+    
+      '<div style="float:left;width:50%;height:100%;text-align:left;padding:20px 0 0 20px;font-size:22px;">New Message...</div>'+    
+    '</div>';
+    snackBar(html);
+  }
   document.getElementById("gt_msg").style.display=gtmsg_disp;
   document.getElementById("gt_msg").innerHTML=gtmsg;  
 }
@@ -902,7 +924,7 @@ function myResizeFunction(){
 
   //resize all repo forms  
   document.querySelectorAll('.cls_repo').forEach(function(el) {    
-    el.style.height=(H_BODY-40)+'px';    
+    el.style.height=(H_BODY-30)+'px';    
   });
 
   //resize messages
@@ -935,9 +957,26 @@ function openPage(m){
 
 function showMainPage(){  
   document.getElementById("myView1").setAttribute('data-JBEpage',0); //reset openview page to 0 
-  //console.log('mainpage '+f_MainPage);
+  console.log('mainpage '+f_syslive);
   openPage('page_main');  
+  if(f_syslive==0){ getNewMsg(); }
   modal_ON(false);
+}
+function getNewMsg(){
+  DB_MSG=[];  
+  showProgress(true);  
+  axios.post(JBE_API+'z_chat.php', { clientno:CURR_CLIENT, request: 0, 
+    usercode: CURR_USER 
+  },JBE_HEADER) 
+  .then(function (response) { 
+    showProgress(false);
+    console.log('getNewMsg: '+response.data);
+    //alert('getchats '+response.data);
+    DB_MSG = response.data;   
+    dispGtMsg();
+    dispGtChatter();
+  })
+  .catch(function (error) { console.log(error); showProgress(false); }); 
 }
 
 function openWindow(t){
@@ -1014,6 +1053,7 @@ function nowLive() {
   
   if(f_syslive==0) {
     //document.getElementById('id_LiveTime').innerHTML=new Date().toLocaleTimeString();
+    f_syslive=1;
     live_id = setInterval(function(){ refresh_votes(); }, 20000);		
     
     document.getElementById('btn_Live').style.backgroundColor='red';
@@ -1022,6 +1062,7 @@ function nowLive() {
     document.getElementById('id_LiveImg').style.display='block';      
   }else{
     clearInterval(live_id);
+    f_syslive=0;
     document.getElementById('btn_Live').style.backgroundColor='black';
     document.getElementById('btn_Live').innerHTML='LIVE';
     document.getElementById('btn_Live').setAttribute('data-live',0);
@@ -1030,12 +1071,9 @@ function nowLive() {
 }
 
 function refresh_votes(){
-  var n =  new Date().toLocaleTimeString();
-  //document.getElementById('id_LiveTime').innerHTML=n;  
-  get_db_candidate(false);  
-  get_db_msg();
-  //get_db_tran_votes(false);  
-  JBE_AUDIO('gfx/snd/insight',5);
+  //var n =  new Date().toLocaleTimeString();
+  JBE_AUDIO('../../gfx/snd/insight',5);
   update_datetime();
+  update_main_head_total(true);
 }
 

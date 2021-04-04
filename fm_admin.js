@@ -34,7 +34,7 @@ function do_fm_admin(){
     
       '<div class="cls_fm_dtl">'+
         '<div>Username:'+
-          '<input id="lu_usercode" type="image" src="gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_admin&quot;,&quot;LOOKUP&quot;,DB_ADMIN,&quot;usercode&quot;,&quot;username&quot;)" />'+
+          '<input id="lu_usercode" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_admin&quot;,&quot;LOOKUP&quot;,DB_ADMIN,&quot;usercode&quot;,&quot;username&quot;)" />'+
         '</div>'+
         '<input id="tx_username" type="text" data-caption="Username" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_userid.id).focus()" />'+
       '</div>'+
@@ -62,10 +62,10 @@ function do_fm_admin(){
       '<input id="tx_admin_photo" type="text" data-caption="Photo" style="display:none;" value="" />'+          
       '<div class="cls_fm_dtl" style="height:'+fm_ob.h_photo+';">'+
         '<div style="height:25px;">Photo:'+
-          '<input id="lu_admin_photo" type="image" style="height:100%;background:dimgray;" src="gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_admin.id,img_fm_admin.id,&quot;put_Img_admin&quot;)">'+
+          '<input id="lu_admin_photo" type="image" style="height:100%;background:dimgray;" src="../../gfx/jcam.png" onclick="JBE_PICK_IMAGE(0,inpfile_admin.id,img_fm_admin.id,&quot;put_Img_admin&quot;)">'+
         '</div>'+
         '<p>'+
-          '<img id="img_fm_admin" data-img="" name="img_fm_admin" src="gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
+          '<img id="img_fm_admin" data-img="" name="img_fm_admin" src="../../gfx/avatar.png" style="height:100%;width:auto;border:1px solid gray;"/>'+          
         '</p>'+   
       '</div>'+  
       
@@ -108,14 +108,14 @@ function do_init_admin(){
   document.getElementById('lu_usercode').disabled=false;
   document.getElementById('lu_usercode').style.opacity='1';
 
-  document.getElementById('img_fm_admin').src='gfx/avatar.png';
+  document.getElementById('img_fm_admin').src='../../gfx/avatar.png';
 }
 //
 function do_add_admin(){
   document.getElementById('tx_usertype').value=5;
   document.getElementById('tx_usertype_name').value=5;
 
-  document.getElementById('img_fm_admin').src='gfx/avatar.png';
+  document.getElementById('img_fm_admin').src='../../gfx/avatar.png';
   document.getElementById('lu_admin_photo').style.pointerEvents='auto';
   document.getElementById('lu_admin_photo').style.opacity='1';
   

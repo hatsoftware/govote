@@ -31,37 +31,37 @@ function FM_MAIN(fm_ob,fm_layout){
 
       '<div id="FM_ADD_BTN" class="fm_class_box" onclick="FM_ADD_REC()" style="margin-left:0%;">'+
         '<div class="fm_class_footer">'+
-          '<img src="gfx/jadd.png" alt="call image" />'+
+          '<img src="../../gfx/jadd.png" alt="call image" />'+
           '<span>Add</span>'+
         '</div>'+
       '</div>'+       
       '<div id="FM_SAVE_BTN" class="fm_class_box" onclick="FM_SAVE_REC()" style="display:none;margin-left:0%;">'+
         '<div class="fm_class_footer">'+
-          '<img src="gfx/jsave.png" alt="call image" />'+
+          '<img src="../../gfx/jsave.png" alt="call image" />'+
           '<span>Save</span>'+
         '</div>'+
       '</div>'+ 
       '<div id="FM_EDIT_BTN" class="fm_class_box" onclick="FM_EDIT_REC()">'+
         '<div class="fm_class_footer">'+
-          '<img src="gfx/jedit.png"  alt="home image" />'+
+          '<img src="../../gfx/jedit.png"  alt="home image" />'+
           '<span>Edit</span>'+
         '</div>'+
       '</div>'+    
       '<div id="FM_DEL_BTN" class="fm_class_box" onclick="FM_DEL_REC()">'+
         '<div class="fm_class_footer">'+
-          '<img src="gfx/jdele.png"  alt="home image" />'+
+          '<img src="../../gfx/jdele.png"  alt="home image" />'+
           '<span>Del</span>'+
         '</div>'+
       '</div>'+    
       '<div id="FM_CANCEL_BTN" class="fm_class_box" onclick="FM_CANCEL()" style="display:none;float:right;">'+
         '<div class="fm_class_footer">'+
-          '<img id="img_FM_CANCEL_EXIT" src="gfx/jcancel.png"  alt="home image" />'+
+          '<img id="img_FM_CANCEL_EXIT" src="../../gfx/jcancel.png"  alt="home image" />'+
           '<span id="txt_FM_CANCEL_EXIT">Cancel</span>'+
         '</div>'+
       '</div>'+  
       '<div id="FM_CLOSE_BTN" class="fm_class_box" onclick="FM_CLOSE()" style="float:right;">'+
         '<div class="fm_class_footer">'+
-          '<img src="gfx/jclose.png"  alt="home image" />'+
+          '<img src="../../gfx/jclose.png"  alt="home image" />'+
           '<span>Quit</span>'+
         '</div>'+
       '</div>'+   
@@ -138,11 +138,11 @@ function FM_MAIN_BOX(mode){
   document.getElementById('FM_CANCEL_BTN').style.display=aryMode[mode]['cancel'];
   document.getElementById('FM_CLOSE_BTN').style.display=aryMode[mode]['close'];  
 
-  document.getElementById('img_FM_CANCEL_EXIT').src='gfx/jcancel.png';
+  document.getElementById('img_FM_CANCEL_EXIT').src='../../gfx/jcancel.png';
   document.getElementById('txt_FM_CANCEL_EXIT').innerHTML='Cancel';
 
   if(mode==1){
-    document.getElementById('img_FM_CANCEL_EXIT').src='gfx/jcancel.png';
+    document.getElementById('img_FM_CANCEL_EXIT').src='../../gfx/jcancel.png';
     document.getElementById('txt_FM_CANCEL_EXIT').innerHTML='Exit';
   }
 }
@@ -210,10 +210,7 @@ function FM_CHK_REC(recno){
   }
 }
 
-
-
 function FM_DISP_REC(recno){
-  //alert('FM_DISP_REC:'+recno);
   FM_MAIN_BOX(1);
   document.getElementById('FM_HEAD').setAttribute('data-recno',recno);
 

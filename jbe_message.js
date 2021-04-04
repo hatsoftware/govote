@@ -50,11 +50,11 @@ function dispMessages(){
         '<div id="fm_msg">'+          
           '<div style="width:100%;height:100%;background:none;">'+
             '<span style="float:left;width:80px;height:100%;cursor:pointer;background-color:none;">'+
-              '<img onclick="refreshMESSAGES()" src="gfx/jrefresh.png" style="height:100%;background-color:none;"/>'+
+              '<img onclick="refreshMESSAGES()" src="../../gfx/jrefresh.png" style="height:100%;background-color:none;"/>'+
             '</span>'+
             '<input type="file" id="up_img" name="up_img" hidden="hidden" />'+
             '<div id="custom-img" style="float:left;cursor:pointer;height:100%;width:80px;border:0px solid lightgray;background:none;">'+
-              '<img id="pre_img" name="pre_img" data-img="" onclick="JBE_PICK_IMAGE(0,up_img.id,pre_img.id)" src="gfx/jimage.png" style="height:100%;" />'+
+              '<img id="pre_img" name="pre_img" data-img="" onclick="JBE_PICK_IMAGE(0,up_img.id,pre_img.id)" src="../../gfx/jimage.png" style="height:100%;" />'+
             '</div>'+
             //'<textarea id="faddrss2" class="class_profile" name="faddrss" rows="4" cols="50" maxlength=300 placeholder="Address" style="resize:none;height:70px;">'+
             //  addrss+'</textarea>'+   
@@ -235,6 +235,7 @@ function dispChat0(){
   //alert('dispChat: vmode:'+vmode+'  vcode:'+vcode+'  fld:'+vfld);
   var aryUSER=DB_USER;
   aryUSER.sort((a, b) => a.usercode.localeCompare(b.usercode) || a.idx - b.idx);
+  
   var dtl='';
   
   for(var i=0;i<aryUSER.length;i++){
@@ -398,7 +399,7 @@ function sendMsg0(){
     
   if(THISFILE[0]){      
     newName = trano + '.jpg';//+getExt(THISFILE[0].name);
-    document.getElementById('pre_img').src='gfx/jimage.png';
+    document.getElementById('pre_img').src='../../gfx/jimage.png';
   }  
   //alert('ready sender: '+v_sender);
   if(!msg && !newName){    
@@ -447,7 +448,7 @@ function sendMsg0(){
     dispChat0();
         
     document.getElementById('txtMsg').value='';
-    document.getElementById('pre_img').src='gfx/jimage.png';
+    document.getElementById('pre_img').src='../../gfx/jimage.png';
 
     if(THISFILE[0]){ 
       let ob = [

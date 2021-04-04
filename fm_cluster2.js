@@ -1,11 +1,12 @@
-function do_fm_cluster(){     
+function do_fm_cluster2(){
+  alert('do_fm_cluster2');
   FM_TABLE=DB_CLUSTER;    
   FM_AXIOS_PHP=JBE_API+"z_cluster.php";
   FM_FIELDS=[ //display on screen
     { div:"tx_clusterno", fld:"clusterno", disp:-1, save:true },
     { div:"tx_clustername", fld:"clustername", disp:1, save:true  },
     { div:"tx_regVoters", fld:"regVoters", disp:1, save:true  },
-    { div:"tx_prec_len", fld:"prec_len", disp:1, save:true  },
+    { div:"tx_prec_len", fld:"prec_len", disp:2, save:true  },
     { div:"tx_precincts", fld:"precincts", disp:1, save:true  },
 
     { div:"tx_brgyCode", fld:"brgyCode", disp:0, save:true  }, 
@@ -22,9 +23,9 @@ function do_fm_cluster(){
   ];
 
   var fm_ob = {
-    title:"CLUSTER MASTER FILE",
+    title:"xxxCLUSTER MASTER FILE",
     top:"10%", left:"", bottom:"", right:"10%",
-    width:"600px",height:"420px"
+    width:"600px",height:"520px"
   };  
  
   if(JBE_MOBILE){
@@ -47,45 +48,44 @@ function do_fm_cluster(){
       '</div>'+
 
       '<div class="cls_fm_dtl">'+
-        '<div>Registered Voters:</div>'+
-        '<input id="tx_regVoters" type="number" value="" />'+
+        '<div>Reg. Voters:</div>'+
+        '<input id="tx_regVoters" type="number" value="" style="width:20%;"/>'+
+        '<div style="margin-left:10%;text-align:right;padding:0 5px 0 0;">No. of Precincts:</div>'+
+        '<input id="tx_prec_len" type="number" value="" style="width:20%;"/>'+
       '</div>'+
 
-      '<div class="cls_fm_dtl">'+
-        '<div>No. of Precincts:</div>'+
-        '<input id="tx_prec_len" type="number" value="" />'+
-      '</div>'+
-
-      '<div class="cls_fm_dtl">'+
-        '<div>Precincts:</div>'+
-        '<input id="tx_precincts" type="text" data-caption="Precincts" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
-      '</div>'+
-   
       '<div class="cls_fm_dtl">'+        
         '<div>Barangay:'+          
           '<input id="lu_brgyCode" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;BARANGAY LOOKUP&quot;,tmp_ref_brgy,&quot;brgyCode&quot;,&quot;brgyDesc&quot;,ref_city,&quot;citymunCode&quot;,&quot;citymunDesc&quot;)" />'+
           '<input id="tx_brgyCode" type="text" data-caption="Barangay Code" style="display:none;" value="" />'+
         '</div>'+
-        '<input id="tx_brgyName" type="text" />'+
+        '<input id="tx_brgyName" type="text" style="width:37%;" />'+
+        '<input id="tx_citymunCode" type="text" value="" style="display:none"/>'+
+        '<input id="tx_cityName" disabled type="text" style="margin-left:1%;width:37%;" value="" />'+
       '</div>'+
       
-      '<div class="cls_fm_dtl">'+
-        '<div>Municipal/City:</div>'+
-        '<input id="tx_citymunCode" type="text" value="" />'+
-        '<input id="tx_cityName" disabled type="text" value="" />'+
+      '<div class="cls_fm_dtl" style="display:none;">'+
+        '<div>Precincts:</div>'+
+        '<input id="tx_precincts" type="text" data-caption="Precincts" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
       '</div>'+
-
-      '<div class="cls_fm_dtl">'+
+      '<div class="cls_fm_dtl" style="display:none;">'+
         '<div>Province:</div>'+
         '<input id="tx_provCode" type="text" value="" />'+
         '<input id="tx_provName" disabled type="text" value="" />'+
       '</div>'+
-
-      '<div class="cls_fm_dtl">'+
+      '<div class="cls_fm_dtl" style="display:none;">'+
         '<div>Region:</div>'+
         '<input id="tx_regCode" type="text" value="" />'+
         '<input id="tx_regName" disabled type="text" value="" />'+
-      '</div>'+  
+      '</div>'+
+
+      '<div style="width:100%;height:200px;margin-top:5px;border:1px solid lightgray;">'+
+
+      '</div>'+
+      '<div style="width:100%;height:30px;margin-top:0px;border:1px solid lightgray;">'+
+        '<input type="button" style="float:right;width:100px;height:100%;" />'+
+        '<input type="button" style="float:right;width:100px;height:100%;" />'+
+      '</div>'+
       
     '</div>';
       
@@ -181,4 +181,25 @@ function do_disp_cluster(disp_mode){
     document.getElementById('tx_provName').value = JBE_GETFLD('provDesc',ref_prov,'provCode',provCode);
     document.getElementById('tx_regName').value = JBE_GETFLD('regDesc',ref_reg,'regCode',regCode);
   }
+}
+
+//
+function do_disp2_cluster(){  
+  var aryDB=DB_PRECINCT;
+  //alert(aryDTL.length);
+  aryDB.sort(sortByMultipleKey(['citymunDesc']));  
+  var dtl='';
+  for(var i=0;i<aryDB.length;i++){
+    if(!aryDB[i]['disCode']){ continue; }
+    var citymunCode=aryDB[i]['citymunCode'];
+    var citymunDesc=aryDB[i]['citymunDesc'];
+    var provCode=aryDB[i]['provCode'];
+    var provDesc=JBE_GETFLD('provDesc',ref_prov,'provCode',provCode);
+    dtl+=
+    '<div id="dis_add'+i+'" data-recno="'+citymunCode+'" style="width:100%;height:30px;border:1px solid gray;padding:2px;margin-bottom:2px;">'+
+      '<div style="float:left;width:80%;height:100%;padding:5px;overflow:auto;">'+aryDB[i]['citymunDesc']+', '+provDesc+'</div>'+
+      '<input type="button" value="X" onclick="del_dis_dtl('+i+',&quot;'+citymunCode+'&quot;,&quot;'+citymunDesc+'&quot;)" style="float:right;height:100%;" />'+
+    '</div>';
+  }
+  document.getElementById('dtl_dis').innerHTML=dtl;
 }

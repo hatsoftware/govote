@@ -12,6 +12,7 @@ function dispReports(){
         '<button onclick="repo_result(&quot;07&quot;)">Election Result by Congressional</button>'+           
         '<button onclick="dispByPrecincts()">Status Report by City</button>'+           
         '<button onclick="dispByPrecincts()">Status Report by Barangay</button>'+           
+        '<button onclick="repo_partial()">Partial and Unofficial Report - Precinct Level</button>'+
         '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+
 
@@ -28,6 +29,50 @@ function close_reports(){
 }
 
 //========================================================================
+function init_report(tilt){
+  var dtl=
+  '<div id="repo_main" style="position:relative;width:100%;height:100%;font-family: "Lato","Arial", sans-serif;padding:0px;color:white;padding:5px;background:lightblue;">'+
+    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-30)+'px;padding:10px;color:black;overflow:auto;background:lightgray;">'+      
+
+      '<div id="prn_div" style="position:relative;text-align:center;width:850px;height:auto;padding:0px;overflow:auto;margin:0 auto;color:black;background:white;">'+  
+      '</div>'+ //printable
+
+    '</div>'+
+    
+    '<div style="width:100%;height:40px;padding:5px;text-align:center;color:white;background:dimgray;">'+
+      '<input type="button" onclick="do_print_repo()" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print" />'+
+    '</div>'+
+    
+  '</div>';          
+  JBE_OPEN_VIEW(dtl,tilt,'');  
+  modal_ON(true);
+}
+
+function JBE_POPUP(vdtl){
+  var dtl=
+  '<div id="popup" data-div="" data-rep="" data-targ="" data-date="no" class="repOpt">'+
+    '<div id="popup-box" style="display:block;z-index:1600;position:absolute;border:1px solid gray;width:600px;height:auto;'+
+        'font-size:10px;padding:0px;'+
+        'top: 50%;  left: 50%;  -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);background:red;">'+
+
+      '<div id="popup-head" class="head_color" style="position:relative;width:100%;height:40px;padding:5px;background:'+JBE_CLOR+';">'+
+        '<div id="popup-title" style="float:left;width:100%;height:100%;font-size:20px;padding:2px;color:white;"></div>'+   
+        '<input type="button" onclick="JBE_POPUP_CLOSE()" style="position:absolute;top:5px;right:5px;width:30px;height:30px;border:1px solid gray;border-radius:5px;cursor:pointer;" value="X"/>'+
+      '</div>'+ 
+    
+      '<div id="popup-body" data-recno="" style="width:100%;height:auto;font-size:14px;font-weight:normal;padding:5px;border:1px solid gray;background-color:#f1f1f1;">'+
+        vdtl+
+      '</div>'+
+      
+    '</div>'+
+  '</div>';
+  document.getElementById('div_popup').innerHTML=dtl;  
+  document.getElementById('div_popup').style.display='block';  
+}
+function JBE_POPUP_CLOSE(){
+  //document.getElementById('div_popup').innerHTML='';
+  document.getElementById('div_popup').style.display='none';  
+}
 
 function repo_result(pos){ 
   if(CURR_AXTYPE <4){
@@ -277,6 +322,10 @@ function chg_repdate(){
 
 function do_print_repo(){  
   var originalContents = document.body.innerHTML;    
+  document.querySelectorAll('.cls_preview_repo').forEach(function(el) {
+    el.style.border='0px';
+  });
+  
   var printContents = document.getElementById('prn_div').innerHTML;//.cloneNode(true);
     
   document.body.innerHTML = printContents;

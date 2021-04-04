@@ -108,9 +108,9 @@ function disp_batch(f_batch,pos,candi_no){
               '<div id="candi_party_'+i+'" class="cls_dispboard_candi_2">'+                
                 JBE_GETFLD('partyname',DB_PARTYMAST,'partyno',aryCandidate[i]['partyno'])+
               '</div>'+
-              '<div id="candi_pos_'+i+'" class="cls_dispboard_candi_3">'+
+              '<div id="candi_pos_'+i+'" class="cls_dispboard_candi_3" style="background:red;">X'+
                 JBE_STORE_CANDIDATE[parseInt(vpos)-1]['posname']+
-              '</div>'+
+              'X</div>'+
             
             '</div>'+
             '<div id="candi_votes_'+i+'" class="cls_dispboard_votes">'+
