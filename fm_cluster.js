@@ -24,7 +24,7 @@ function do_fm_cluster(){
   var fm_ob = {
     title:"CLUSTER MASTER FILE",
     top:"10%", left:"", bottom:"", right:"10%",
-    width:"550px",height:"720px"
+    width:"550px",height:"420px"
   };  
  
   if(JBE_MOBILE){
