@@ -48,6 +48,7 @@
     if(pathloc == 'http://localhost') { 
       JBE_API=window.location.origin+'/tbs_api/';  
     }  
+    //window.navigator.vibrate() && window.navigator.vibrate(100);
   </script> 
   <!-- ****************************************************************** -->
   <!-- ****************************************************************** -->
@@ -213,7 +214,7 @@
 
     </div>
 
-    <div id="jtime" onclick="" style="position:absolute;top:20px;left:0px;text-align:center;height:100%;;width:100%;color:red;padding:6px;
+    <div id="jtime" onclick="" style="position:absolute;top:15px;left:0px;text-align:center;height:100%;;width:100%;color:red;padding:6px;
           font-weight:bold;text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
           font-size:20px;background:none;">      
     </div>
@@ -415,10 +416,10 @@
 <script type='text/javascript'  src='../../../js/je_msg.js'></script>
 <script type='text/javascript'  src='../../../js/enadlib.js'></script>
 
+<script type='text/javascript'  src='../../../main_codes/main_app.js'></script>
 <script type='text/javascript'  src='../../../main_codes/app_db.js'></script>
 <script type='text/javascript'  src='../../../main_codes/app_pages.js'></script>
 <script type='text/javascript'  src='../../../main_codes/app_chat.js'></script>
-<script type='text/javascript'  src='../../../main_codes/main_app.js'></script>
 
 <script type='text/javascript'  src='../../../main_codes/app_notif.js'></script>
 
@@ -508,7 +509,6 @@
     { "pos":"12", "posname":"Brgy. Councilors", "display":"block" }
   ];
   
-  
 
   var CLIENT_USER=[];
   var CLIENT_TRANS=[];
@@ -559,6 +559,7 @@
   ];
 
   /***************************************************** */
+  
   
 	if ('serviceWorker' in navigator) {
 		//navigator.serviceWorker.register('SW_TBS.js', { scope: './' }).then(function(registration) {
@@ -624,7 +625,7 @@
   
   myResizeFunction();   
     
-  var CURR_IDX_DB='DB_'+CURR_CLIENT;
+  var CURR_IDX_DB='IDB_'+CURR_CLIENT;
   initDb();      
   window.history.pushState({ noBackExitsApp: true }, '');
   f_MainPage=false;
