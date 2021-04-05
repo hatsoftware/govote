@@ -25,7 +25,7 @@ function do_fm_watcher(){
   var fm_ob = {
     title:"Watchers File Maintenance",
     top:"8%", left:"", bottom:"", right:"5%",
-    width:"600px",height:"510px",
+    width:"600px",height:"610px",
     h_photo:"100px"
   };  
 
