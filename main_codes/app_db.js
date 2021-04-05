@@ -1,6 +1,15 @@
 var dbVersion = 1;
 var dbReady = false;
-var db00;
+var db;
+
+var IDX_STORE = [  
+  { "id":0, "flename":"Candidate", "numrec":0, "init":1 },
+  { "id":1, "flename":"Posmast", "numrec":0, "init":1 },
+  { "id":2, "flename":"TranVote", "numrec":0, "init":1 },
+  { "id":3, "flename":"Cluster", "numrec":0, "init":1 },
+  { "id":4, "flename":"User", "numrec":0, "init":1 },
+  { "id":5, "flename":"Sysfile", "numrec":0, "init":1 }  
+];
 
 if (navigator.storage && navigator.storage.persist)
   navigator.storage.persist().then(granted => {
@@ -23,23 +32,21 @@ function initDb() {
   }
 
   request.onsuccess = function(e) {
-    db00 = e.target.result;
+    db = e.target.result;
     console.log('db opened');  
   }
-
+  
   request.onupgradeneeded = function(e) {
-    db00 = e.target.result;
-    db00.createObjectStore('SysFile', { keyPath:'id' });
-    db00.createObjectStore('User', { keyPath:'id' });    
-    db00.createObjectStore('Candidate', { keyPath:'id' });        
-    db00.createObjectStore('PosMast', { keyPath:'id' });        
-    //db00.createObjectStore('Msg', { keyPath:'id' });   
+    db = e.target.result;    
+    for(var i=0;i<IDX_STORE.length;i++){
+      db.createObjectStore(IDX_STORE[i]['flename'], { keyPath:'id' });
+    }
     dbReady = true;
   }
 }
 
 function clearStore(jstore){   
-  //alert(jstore);
+  console.log('clearStore:'+jstore);
   var request = indexedDB.open(CURR_IDX_DB, dbVersion);
   request.onerror = function(e) {    
     console.error('Unable to open database.');
@@ -57,12 +64,11 @@ function clearStore(jstore){
     }
 
     req.onsuccess = function(e) {
-      console.log('objectStore Cleared');
+      console.log('objectStore Cleared: '+jstore);
       //alert('success');
     }
   }
 }
-
 
 /****************************************/
 function countRecordIDX(n){  
@@ -72,44 +78,38 @@ function countRecordIDX(n){
   }
   request.onsuccess = function(e) {
     var db1 = e.target.result;
-    var flename=JBE_STORE_IDX[n]['flename'];   
+    var flename=IDX_STORE[n]['flename'];   
     //alert('countRecordIDX: '+flename);
     var jstore = db1.transaction([flename]).objectStore(flename); 
     var count = jstore.count();
     count.onsuccess = function() {      
-      JBE_STORE_IDX[n]['numrec']=count.result;
-      console.log('countRecordIDX: '+JBE_STORE_IDX[n]['flename']+' '+count.result);
+      IDX_STORE[n]['numrec']=count.result;
+      console.log('countRecordIDX: '+IDX_STORE[n]['flename']+' '+count.result);
     }
   }
 }
 
 /****************************************/
-function getAllDataFromIDX(vmode) {   
-  //alert('getAllDataFromIDX: '+JBE_STORE_IDX.length);
+function getAllDataFromIDX() {   
+  //alert('getAllDataFromIDX: '+IDX_STORE.length);
   var request = indexedDB.open(CURR_IDX_DB, dbVersion);  
   request.onerror = function(e) {    
     console.error('Unable to open database.');
   }
-
-  var ctr=0;
+  
   request.onsuccess = function(e) {
     var db2 = e.target.result;
-    for(var i=0;i < JBE_STORE_IDX.length;i++){
-      //if(!vmode && JBE_STORE_IDX[i]['init'] == 0) { continue; }
-      //if(parseInt(JBE_STORE_IDX[i]['init']) != vmode) { continue; }
-      //alert(JBE_STORE_IDX[i]['flename']+' = '+JBE_STORE_IDX[i]['numrec']);
-      //alert('i = '+i);
+    for(var i=0;i < IDX_STORE.length;i++){
       getDataFromIDX(i,db2);  
-      ctr++;
     }
   }
   //alert('total: '+ctr);
 }  
 
 function getDataFromIDX(i,db2) {  
-  var idx=0;
+  var id=0;
   var aryIDB=[]; 
-  var flename=JBE_STORE_IDX[i]['flename'];
+  var flename=IDX_STORE[i]['flename'];
       
   var trans = db2.transaction([flename]);
   var object_store = trans.objectStore(flename);
@@ -125,198 +125,177 @@ function getDataFromIDX(i,db2) {
     if (cursor) {
       var key = cursor.primaryKey;
       var ob;
-      if(i==0){ //Category
+      if(i==0){ //Candidate
         ob = {
-          id:idx,
-          catno:cursor.value.catno,
-          descrp:cursor.value.descrp,
-          photo:cursor.value.photo, 
-          orient:cursor.value.orient,              
-          bal:cursor.value.bal
+          id:id,
+          code:cursor.value.code,
+          name:cursor.value.name,
+          brgyCode:cursor.value.brgyCode,
+          citymunCode:cursor.value.citymunCode,
+          pos:cursor.value.pos,
+          partyno:cursor.value.partyno,
+          votes:cursor.value.votes,
+          photo:cursor.value.photo          
         };  
-      }else if(i==1){ //Stock
+      }else if(i==1){ //Posmast
         ob = {
-          id:idx,
-          stockno:cursor.value.stockno,
-          stockname:cursor.value.stockname,
+          id:i,
           descrp:cursor.value.descrp,
-          photo:cursor.value.photo, 
-          photo2:cursor.value.photo2, 
-          photo3:cursor.value.photo3,
-          photo4:cursor.value.photo4,
-          photo5:cursor.value.photo5,
-          orient:cursor.value.orient,
-          catno:cursor.value.catno,
-          cost:cursor.value.cost,
-          price:cursor.value.price,
-          bal:cursor.value.bal,
-          promo:cursor.value.promo
+          pos:cursor.value.pos,
+          hide:cursor.value.hide
+        };              
+      }else if(i==2){ //tranvote
+        ob = {
+          id:i,
+          clientno:cursor.value.clientno, 
+          watcherno:cursor.value.watcherno, 
+          clusterno:cursor.value.clusterno, 
+          candi_no:cursor.value.candi_no,           
+          pos:cursor.value.pos, 
+          votes:cursor.value.votes
         };        
-      }else if(i==2){ //Sysfile
+      }else if(i==3){ //cluster
         ob = {
           id:i,
-          banner:cursor.value.banner,
-          hd1:cursor.value.hd1,
-          hd2:cursor.value.hd2,
-          hd3:cursor.value.hd3,
-          pg_title:cursor.value.pg_title,
-          pg_body:cursor.value.pg_body,
-          clor1:cursor.value.clor1,
-          clor2:cursor.value.clor2, 
-          clor3:cursor.value.clor3,
-          clor4:cursor.value.clor4,
-          txclor1:cursor.value.txclor1,
-          txclor2:cursor.value.txclor2, 
-          txclor3:cursor.value.txclor3,
-          txclor4:cursor.value.txclor4,
-          telno:cursor.value.telno,
-          celno:cursor.value.celno,
-          slide1:cursor.value.slide1, 
-          slide2:cursor.value.slide2, 
-          slide3:cursor.value.slide3
-        };  
-      }else if(i==3){ //User
+          clusterno:cursor.value.clusterno, 
+          clustername:cursor.value.clustername, 
+          precincts:cursor.value.precincts
+        };              
+      }else if(i==4){ //user
         ob = {
           id:i,
-          usercode:cursor.value.usercode,
-          username:cursor.value.username,            
+          usercode:cursor.value.usercode, 
+          userid:cursor.value.userid, 
+          username:cursor.value.username, 
+          pword:cursor.value.pword,
+          clusterno:cursor.value.clusterno,
           photo:cursor.value.photo
         };        
-      }
+      }else if(i==5){ //sysfile
+        ob = {
+          id:i,
+          clientno:cursor.value.clientno, 
+          telno:cursor.value.telno, 
+          celno:cursor.value.celno, 
+          scope_no:cursor.value.scope_no, 
+          citymunCode:cursor.value.citymunCode
+        };        
+      }      
 
-      aryIDB[idx]=ob;    
+      aryIDB[id]=ob;    
       //if(i==2) { alert(ob.slide1); }
-      idx++;
+      id++;
       cursor.continue();
     }else{
       if(i==0){
-        DB_CAT=[]; DB_CAT=aryIDB;              
-        showCategories();           
+        DB_CANDIDATE=[]; DB_CANDIDATE=aryIDB;              
+        show_candidates();     
       }else if(i==1){
-        DB_STOCK=[]; DB_STOCK=aryIDB;        
-        showItems();        
-        showPromos();           
+        DB_POSITION=[]; DB_POSITION=aryIDB;
       }else if(i==2){          
-        DB_SYS=[]; DB_SYS=aryIDB;
-        showSystem();
+        DB_TRAN_VOTES=[]; DB_TRAN_VOTES=aryIDB;
+        //showSystem();     
       }else if(i==3){          
-        DB_USER=[]; DB_USER=aryIDB;
-        showProfile(2);      
+        DB_CLUSTER=[]; DB_CLUSTER=aryIDB;        
+      }else if(i==4){          
+        DB_USER=[]; DB_USER=aryIDB;        
+        showProfile();
+      }else if(i==5){          
+        DB_SYS=[]; DB_SYS=aryIDB;
       }
-      //alert(JBE_STORE_IDX[i]['flename']+aryIDB.length);
-      JBE_STORE_IDX[i]['numrec']=aryIDB.length;
+      //alert(IDX_STORE[i]['flename']+aryIDB.length);
+      IDX_STORE[i]['numrec']=aryIDB.length;
     }    
   }
 }  
 
-function refreshIDX(){    
-  return;
-  //alert('refreshIDX '+DB_SYS.length+' = '+DB_SYS[0]['clientname']);
-  if(JBE_STORE_IDX[0]['numrec'] != DB_CAT.length){ clearStore(JBE_STORE_IDX[0]['flename']); saveDataToIDX(DB_CAT,0); }
-  if(JBE_STORE_IDX[1]['numrec'] != DB_STOCK.length){ clearStore(JBE_STORE_IDX[1]['flename']); saveDataToIDX(DB_STOCK,1); }  
-  if(JBE_STORE_IDX[2]['numrec'] != DB_SYS.length){ clearStore(JBE_STORE_IDX[2]['flename']); saveDataToIDX(DB_SYS,2); }
-  if(JBE_STORE_IDX[3]['numrec'] != DB_USER.length){ clearStore(JBE_STORE_IDX[3]['flename']); saveDataToIDX(DB_USER,3); }         
-  //jdata();  
-}
 
-function jdata(){
-  //if(CURR_AXTYPE < 9){ return; }
-  var jd=
-    'From IDX '+JBE_STORE_IDX[0]['flename']+' : '+JBE_STORE_IDX[0]['numrec']+' vs '+DB_CAT.length+' Array<br>'+
-    'From IDX '+JBE_STORE_IDX[1]['flename']+' : '+JBE_STORE_IDX[1]['numrec']+' vs '+DB_STOCK.length+' Array<br>'+
-    'From IDX '+JBE_STORE_IDX[2]['flename']+' : '+JBE_STORE_IDX[2]['numrec']+' vs '+DB_SYS.length+' Array<br>'+
-    'From Array CLIENTS '+DB_CLIENTS.length+' Array<br>'+
-    'From Array BELLS '+DB_BELL.length+' Array<br>'+
-    'From IDX '+JBE_STORE_IDX[3]['flename']+' : '+JBE_STORE_IDX[3]['numrec']+' vs '+DB_USER.length+' Array';
-
-  MSG_SHOW(vbOk,"DATA:",jd,function(){},function(){}); 
-}
-
-function saveDataToIDX(aryDB,n) {    
-  //alert('saveDataToIDX '+n);
-  JBE_STORE_IDX[n]['numrec']=aryDB.length;
-  for(var i=0;i<aryDB.length;i++){     
+function saveDataToIDX(aryDB,n) {  
+  IDX_STORE[n]['numrec']=aryDB.length;
+  for(var i=0;i<aryDB.length;i++){      
     if(aryDB[i]['clientno']!=CURR_CLIENT){ continue; }
     putDataToIDX(i,aryDB,n);
   }
 }
 async function putDataToIDX(i,aryDB,n){   
-  //alert('i: '+i+' file#:'+n);
-  if(n==0){ //sysfile
-    //var jimg='gfx/banner.jpg';
-    //await JBE_BLOB(n,jimg).then(result => jimg=result);    
-    ob = {
-      id:i,
-      banner:jimg,
-      hd1:aryDB[i]['hd1'],
-      hd2:aryDB[i]['hd2'],
-      hd3:aryDB[i]['hd3'],              
-      pg_title:aryDB[i]['pg_title'],
-      pg_body:aryDB[i]['pg_body'],
-      clor1:aryDB[i]['clor1'],
-      clor2:aryDB[i]['clor2'],
-      clor3:aryDB[i]['clor3'],
-      clor4:aryDB[i]['clor4'],
-      txclor1:aryDB[i]['txclor1'],
-      txclor2:aryDB[i]['txclor2'],
-      txclor3:aryDB[i]['txclor3'],
-      txclor4:aryDB[i]['txclor4'],
-      telno:aryDB[i]['telno'],
-      celno:aryDB[i]['celno'],
-      scope_type:aryDB[i]['scope_type'],
-      scope_no:aryDB[i]['scope_no'],
-      regCode:aryDB[i]['regCode'],
-      provCode:aryDB[i]['provCode'],
-      citymunCode:aryDB[i]['citymunCode'],
-      brgyCode:aryDB[i]['brgyCode']
-    };  
-  }else if(n==1){ //user
-    var jimg=JBE_API+'upload/users/'+aryDB[i]['photo'];   
-    await JBE_BLOB(n,jimg).then(result => jimg=result);
-    //var jimg=JBE_API+'app/'+CURR_SITE+'/upload/users/'+aryDB[i]['photo'];   
-    //await JBE_BLOB(n,jimg).then(result => jimg=result);
-    ob = {
-      id:i,
-      usercode:aryDB[i]['usercode'],
-      username:aryDB[i]['username'],            
-      photo:jimg
-    };
-  }else if(n==2){ //candidate
-    //var jimg=JBE_API+'upload/photo/'+aryDB[i]['code']+'.jpg';   
-    //await JBE_BLOB(n,jimg).then(result => jimg=result);
-    var jimg='';
-    if(aryDB[i]['code']){ 
-      jimg=JBE_API+'upload/photo/'+aryDB[i]['code'];   
-      await JBE_BLOB(n,jimg).then(result => jimg=result); 
+  var ob;
+  if(n==0){    //candidate
+    var photo=JBE_API+'upload/photo/'+aryDB[i]['photo'];  
+    if(aryDB[i]['photo']){      
+      await JBE_BLOB(n,photo).then(result => photo=result);
+    }else{
+      photo='';
     }
-    ob = {
+    ob = { 
       id:i,
       code:aryDB[i]['code'],
-      name:aryDB[i]['name'],            
-      pos:aryDB[i]['pos'],            
-      partyno:aryDB[i]['partyno'],            
-      votes:aryDB[i]['votes'],            
-      photo:jimg
-    };
-  }else if(n==3){ //posmast 
-    ob = {
-      id:i,
+      name:aryDB[i]['name'],
+      brgyCode:aryDB[i]['brgyCode'],
+      citymunCode:aryDB[i]['citymunCode'],
       pos:aryDB[i]['pos'],
+      partyno:aryDB[i]['partyno'],
+      votes:aryDB[i]['votes'],
+      photo:photo
+    };
+  }else if(n==1){    //posmast
+    ob = { 
+      id:i,
       descrp:aryDB[i]['descrp'],
+      pos:aryDB[i]['pos'],
       hide:aryDB[i]['hide']
-    };    
+    };
+  }else if(n==2){    //tranvotes
+    ob = { 
+      id:i,
+      clientno:aryDB[i]['clientno'],
+      watcherno:aryDB[i]['watcherno'],
+      clusterno:aryDB[i]['clusterno'],
+      candi_no:aryDB[i]['candi_no'],      
+      pos:aryDB[i]['pos'],
+      votes:aryDB[i]['votes']
+    };
+  }else if(n==3){    //cluster
+    ob = { 
+      id:i,
+      clusterno:aryDB[i]['clusterno'],
+      clustername:aryDB[i]['clustername'],
+      precincts:aryDB[i]['precincts']
+    };
+  }else if(n==4){    //user
+    var photo=JBE_API+'upload/users/'+aryDB[i]['photo'];  
+    if(aryDB[i]['photo']){      
+      await JBE_BLOB(n,photo).then(result => photo=result);
+    }else{
+      photo='';
+    }    
+    ob = { 
+      id:i,
+      usercode:aryDB[i]['usercode'],
+      userid:aryDB[i]['userid'],
+      username:aryDB[i]['username'],
+      pword:aryDB[i]['pword'],
+      clusterno:aryDB[i]['clusterno'],
+      photo:photo
+    };
+  }else if(n==5){    //sysfile
+    ob = { 
+      id:i,
+      clientno:aryDB[i]['clientno'],
+      telno:aryDB[i]['telno'],
+      celno:aryDB[i]['celno'],
+      scope_no:aryDB[i]['scope_no'],
+      citymunCode:aryDB[i]['citymunCode']
+    };  
   }
-
-  var trans = db00.transaction([JBE_STORE_IDX[n]['flename']], 'readwrite');
-  var addReq = trans.objectStore(JBE_STORE_IDX[n]['flename']).put(ob);
+  
+  var trans = db.transaction([IDX_STORE[n]['flename']], 'readwrite');
+  var addReq = trans.objectStore(IDX_STORE[n]['flename']).put(ob);
   addReq.onerror = function(e) {
-    //console.log('error storing data');
-    console.log('ERROR: putToIDX '+JBE_STORE_IDX[n]['flename']);
+    console.log('ERROR: putToIDX '+IDX_STORE[n]['flename']);
     console.error(e);
   }
 
   trans.oncomplete = function(e) {
-    //alert(n+': putToIDX '+JBE_STORE_IDX[n]['flename']+' with value '+JBE_STORE_IDX[n]['numrec']);  
-    //alert(xox);
+    //console.log(n+': putToIDX '+IDX_STORE[n]['flename']+' with value '+IDX_STORE[n]['numrec']);      
   }
 }

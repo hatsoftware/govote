@@ -16,7 +16,7 @@ function show_candidates(){
       '</div>';
   }
   */
-
+  //alert('show_candidates '+DB_POSITION.length);
   var aryPos=DB_POSITION;
   aryPos.sort(sortByMultipleKey(['pos']));   
   for(var i=0;i<aryPos.length;i++){  
@@ -25,7 +25,7 @@ function show_candidates(){
     var vpos=aryPos[i]["pos"];
     
     dtl+=
-      '<div id="candi_'+vpos+'" onclick="view_box_candidate('+vpos+')" style="cursor:pointer;display:'+vdisp+';width:100%;height:auto;margin-top:0px;padding:5px;overflow:auto;background:none;">'+
+      '<div id="candi_'+vpos+'" onclick="view_box_candidate('+vpos+')" style="cursor:pointer;display:'+vdisp+';width:100%;height:auto;margin-top:0px;padding:5px;background:none;">'+
         '<div class="cls_pos_head">'+aryPos[i]["descrp"]+'</div>'+
         '<div id="candi_dtl_'+vpos+'" class="cls_pos_body">'+
 
@@ -48,16 +48,16 @@ function show_dtl_candidates(){
   var vdtl='';
   var sv_pos=0;
   var ctr=1;
-  
+ 
   for (var i=0;i<aryCandidate.length;i++){
     var vpos=parseInt(aryCandidate[i]['pos']-1);
     var v_candi_no=aryCandidate[i]['code'];    
 
     var v_votes=JBE_GETFLD2('votes',DB_TRAN_VOTES,
       [
-        {"fld":"clientno","val":CURR_CLIENT},
-        {"fld":"watcherno","val":CURR_USER},
-        {"fld":"candi_no","val":v_candi_no}
+        { "fld":"clientno","val":CURR_CLIENT },
+        { "fld":"watcherno","val":CURR_USER },
+        { "fld":"candi_no","val":v_candi_no }
       ]
     );
 
@@ -66,13 +66,24 @@ function show_dtl_candidates(){
     //alert(vpos+' - '+aryCandidate[i]['lname']+' - '+aryCandidate[i]['fname']+' - '+aryCandidate[i]['pos']);
     if(vpos != sv_pos){ ctr=1; }
     vdtl=
-      '<div class="cls_shadow_dispboard" style="position:relative;width:100%;">'+
+      '<div class="cls_shadow_dispboard" style="position:relative;width:100%;border:0px solid gold;">'+
         '<div class="cls_shadow_box1"></div>'+
         '<div class="cls_shadow_box2">'+
 
           '<div class="cls_dispboard">'+
-            '<div style="float:left;width:60%;height:100%;text-align:left;">'+ctr+'. '+aryCandidate[i]['name']+'</div>'+
-            '<div style="float:left;width:40%;height:100%;text-align:right;">'+JBE_FORMAT_INT_TO_STR(v_votes)+'</div>'+
+            '<div id="candi_ctr_'+i+'" class="cls_dispboard_ctr">'+
+              (ctr+0)+'.'+
+            '</div>'+
+            '<div class="cls_dispboard_img">'+
+              '<img id="candi_img_'+i+'" class="cls_dispboard_img_in" src="'+JBE_API+'upload/photo/'+aryCandidate[i]['photo']+'" />'+
+            '</div>'+
+            '<div class="cls_dispboard_candi">'+            
+              '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">'+
+                aryCandidate[i]['name']+
+              '</div>'+
+            '</div>'+
+            
+            '<div class="cls_dispboard_votes">'+JBE_FORMAT_INT_TO_STR(v_votes)+'</div>'+
           '</div>'+
           
         '</div>'+
@@ -121,6 +132,10 @@ function mnu_vbc(){
 }
 
 function view_box_candidate(vpos){
+  if(!JBE_ONLINE){
+    snackBar('OFFLINE');
+    return;
+  }
   if(!CURR_USER){ MSG_SHOW(vbOk,"ERROR:","Please Log In.",function(){},function(){}); return; }
   var dtl=
     '<div style="width:100%;height:100%;margin-top:0px;padding:5px;overflow:auto;background:white;">'+
@@ -161,7 +176,7 @@ function view_box_candidate(vpos){
     //alert(v_votes+' candino '+v_candi_no);
     
     vdtl+=
-      '<div id="vbc_'+ctr+'" style="width:100%;height:25px;font-size:14px;margin-top:10px;margin-bottom:10px;padding:2px;background:lightgray;">'+
+      '<div id="vbc_'+ctr+'" class="cls_dispboard" style="width:100%;height:25px;font-size:14px;margin-top:10px;margin-bottom:10px;padding:2px;background:lightgray;">'+
         '<div style="float:left;width:70%;height:100%;text-align:left;padding:2px;">'+ctr+'. '+aryCandidate[i]['lname']+', '+aryCandidate[i]['fname']+'</div>'+        
         '<input id="inpVote_'+ctr+'" data-votes='+v_votes+' data-code="'+v_candi_no+'" type="number" value="'+v_votes+'" style="float:left;text-align:right;width:30%;height:100%;" />'+
       '</div>';
@@ -186,6 +201,8 @@ function send_votes(){
   var citymunCode=aryDB['citymunCode'];
   var provCode=aryDB['provCode'];
   var regCode=aryDB['regCode'];
+
+  
 /*
   alert(
     'b '+brgyCode+'\n'+
@@ -244,6 +261,7 @@ function send_votes(){
     //alert('response.data: '+response.data.length);    
     DB_TRAN_VOTES=response.data[0];
     DB_CANDIDATE=response.data[1];    
+    saveDataToIDX(DB_TRAN_VOTES,2);
     snackBar('Votes Updated...');
     show_dtl_candidates();
     //JBE_CLOSE_VIEW();

@@ -21,11 +21,14 @@ function start_app(){
   .then(function (response) {
     var res=parseInt(response.data);
     //alert('zz_online:  '+res);    
+    //alert('CURR_USER '+CURR_USER);
+    
     if(res > 0 && JBE_ONLINE_NAVI){      
       showOnline();
     }else{      
       showOffline();
     }     
+        
     //setSysColors();          
   })
   .catch(function (error) { 
@@ -76,10 +79,12 @@ function showOnline(){
 function showOffline(){    
   //alert('show offline');
   JBE_ONLINE=false;
-  CURR_USER='';
+  //CURR_USER='';
   CURR_AXTYPE=0;
   dispMenu(true,'mnu_main'); 
-  getAllDataFromIDX(0);
+  
+  getAllDataFromIDX();
+
   document.getElementById('jtime').innerHTML='OFFLINE';   
   document.getElementById('div_cluster').innerHTML='';
   document.getElementById('div_bar').style.display='block';  
@@ -145,7 +150,9 @@ function get_db_all(){
     ref_prov = response.data[11];
     ref_reg = response.data[12];
     showProgress(false);
-
+   
+    //saveAllDataToIDX();
+    //saving_candidate();
     
     //alert('DB_MSG.length '+DB_MSG.length);
 
@@ -170,33 +177,18 @@ function get_db_all(){
     update_positions();
 
     show_candidates();
-/*
-    
-    clearStore(JBE_STORE_IDX[0]['flename']); saveDataToIDX(DB_SYS,0);       
-    clearStore(JBE_STORE_IDX[1]['flename']); saveDataToIDX(DB_USER,1);       
-    clearStore(JBE_STORE_IDX[2]['flename']); saveDataToIDX(DB_CANDIDATE,2);       
-    clearStore(JBE_STORE_IDX[3]['flename']); saveDataToIDX(DB_POSITION,3);       
-    
-    clearStore(JBE_STORE_IDX[4]['flename']); saveDataToIDX(DB_MSG,4);       
-    */
-    //alert(JBE_STORE_IDX[3]['flename']);
 
+    saveDataToIDX(DB_CANDIDATE,0);
+    saveDataToIDX(DB_POSITION,1);
+    saveDataToIDX(DB_TRAN_VOTES,2);
+    saveDataToIDX(DB_CLUSTER,3);
+    saveDataToIDX(DB_USER,4);
+    saveDataToIDX(DB_SYS,5);
+    
   })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
-function xxxupdate_positions(){
-  JBE_STORE_CANDIDATE = [];
-  for(var i=0;i<DB_POSITION.length;i++){
-    var vdisp='block';
-    if(DB_POSITION[i]['hide']==1){ vdisp='none'; }
-    let ob={
-      "pos":DB_POSITION[i]['pos'],
-      "posname":DB_POSITION[i]['descrp'],
-      "display":vdisp
-    }
-    JBE_STORE_CANDIDATE[i]=ob;
-  }
-}
+
 
 function update_positions(){
   JBE_STORE_CANDIDATE = [];
@@ -371,6 +363,7 @@ function dispHeaderMode(){
 
 // ** ======================= SHOW ROUTINES ===================================
 function showProfile(){  
+  //alert('showProfile: '+CURR_USER+' name:'+CURR_NAME);
   //dispHeaderMode();
   document.getElementById('div_bar').style.display='block';
   var n = new Date().toLocaleTimeString('it-IT');
@@ -387,6 +380,7 @@ function showProfile(){
   v_mphoto=JBE_API+'upload/users/'+CURR_USER+'.jpg?'+n;  
   if(!JBE_ONLINE){
     v_mphoto='data:image/png;base64,' + btoa(DB_USER[0]['photo']);
+    CURR_NAME=JBE_GETFLD('username',DB_USER,'usercode',CURR_USER);
   }
   
   document.getElementById('bar_avatar').src=v_mphoto;
@@ -394,12 +388,16 @@ function showProfile(){
   document.getElementById('logger').innerHTML=CURR_NAME;  
 
   // ----------------------------------------------------
-  
-
+  //alert('CURR_USER: '+CURR_USER);
+  //alert('CURR_USER db: '+DB_USER.length);
   var aryDB=JBE_GETARRY(DB_USER,'usercode',CURR_USER);
-  var clusterno=aryDB['clusterno'];
+  //alert('aryDB: '+Object.keys(aryDB).length);
+  var clusterno=aryDB['clusterno'];  
+  //alert('clusterno: '+aryDB['clusterno']);
+  //alert('username: '+aryDB['username']);
+
   var aryDB2=JBE_GETARRY(DB_CLUSTER,'clusterno',clusterno);
-  
+  //alert('DB_CLUSTER.length '+DB_CLUSTER.length);
   document.getElementById('logger').innerHTML=aryDB['username'];
   document.getElementById('div_cluster').innerHTML=aryDB2['clustername'];  
   document.getElementById('div_precincts').innerHTML=aryDB2['precincts'];  

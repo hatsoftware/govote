@@ -183,7 +183,7 @@ function fm_admin(){
   }
   if(CURR_AXTYPE == 5){ menuMenu=menuEditStaff+menuEditProfile; }
   //if(CURR_AXTYPE == 9){ menuMenu=menuEditStaff }
-
+  
   menuMenu='';
   var clusterno=JBE_GETFLD('clusterno',DB_USER,'usercode',CURR_USER);
   var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',clusterno);
@@ -195,6 +195,8 @@ function fm_admin(){
     stat='CLOSED'; 
     tsek="";
   }    
+
+  
 
   var precincts=aryDB['precincts'];
   var brgyCode=aryDB['brgyCode'];
@@ -270,7 +272,7 @@ function fm_admin(){
          
       '</div>'+
 
-    '</div>';        
+    '</div>';   
 
   JBE_OPEN_VIEW(dtl,'My Account','close_admin');    
 }
