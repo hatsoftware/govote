@@ -57,7 +57,7 @@ function do_fm_cluster(){
       '</div>'+
 
       '<div class="cls_fm_dtl">'+
-        '<div>Precincts:</div>'+
+        '<div>Precincts Details:</div>'+
         '<input id="tx_precincts" type="text" data-caption="Precincts" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
       '</div>'+
    
