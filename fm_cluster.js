@@ -24,14 +24,14 @@ function do_fm_cluster(){
   var fm_ob = {
     title:"CLUSTER MASTER FILE",
     top:"10%", left:"", bottom:"", right:"10%",
-    width:"600px",height:"420px"
+    width:"550px",height:"720px"
   };  
  
   if(JBE_MOBILE){
     fm_ob.width="95%";
-    fm_ob.height="315px";
-    fm_ob.right="5px";
-    fm_ob.top="100px";
+    fm_ob.height="350px";
+    fm_ob.left="5px";
+    fm_ob.top="10px";
   }
     
   var fm_layout=
@@ -40,14 +40,14 @@ function do_fm_cluster(){
       '<input id="tx_clusterno" type="text" style="display:none;" />'+
 
       '<div class="cls_fm_dtl">'+        
-        '<div>Cluster Name:'+
+        '<div>Cluster Precinct:'+
           '<input id="lu_clusterno" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_cluster&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
         '</div>'+
         '<input id="tx_clustername" type="text" data-caption="Cluster Name" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_precincts.id).focus()" />'+
       '</div>'+
 
       '<div class="cls_fm_dtl">'+
-        '<div>Registered Voters:</div>'+
+        '<div>Reg. Voters:</div>'+
         '<input id="tx_regVoters" type="number" value="" />'+
       '</div>'+
 

@@ -15,7 +15,7 @@ function dispAdmin(){
         '<button onclick="do_fm_party()">Political Party File Maintenance</button>'+        
         '<button onclick="do_fm_cluster()">Cluster File Maintenance</button>'+
         '<button onclick="do_fm_watcher()">Watchers File Maintenance</button>'+
-        '<button onclick="do_fm_cluster2()">xxx</button>'+
+        //'<button onclick="do_fm_cluster2()">xxx</button>'+
         //'<button onclick="do_fm_coor()">Add Coordinates</button>'+   
         '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+

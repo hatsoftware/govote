@@ -1009,7 +1009,7 @@
   .cls_fm_dtl{ width:100%;height:25px;padding:2px;border:0px solid green; }
     .cls_fm_dtl div { float:left;width:35%;height:100%;padding:0px;background:none; }  
     .cls_fm_dtl input[type="image"] { float:right;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
-    .cls_fm_dtl input[type="text"] { float:left;width:65%;height:100%; }  
+    .cls_fm_dtl input[type="text"],.cls_fm_dtl input[type="number"] { float:left;width:65%;height:100%; }  
     .cls_fm_dtl p { float:left;width:65%;height:100%;margin:0px;padding:2px;text-align:center;border:1px solid lightgray;background:none; }  
     .cls_fm_dtl select { float:left;width:65%;height:100%;margin:0px;background:none; }  
     

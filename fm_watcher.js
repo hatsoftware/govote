@@ -13,6 +13,7 @@ function do_fm_watcher(){
 
     { div:"tx_clusterno_watcher", fld:"clusterno", disp:0, save:true },
         { div:"tx_clustername_watcher", fld:"", disp:2, save:false },
+        { div:"tx_precincts", fld:"", disp:2, save:false },
         { div:"tx_brgyName", fld:"", disp:2, save:false },
         { div:"tx_cityName", fld:"", disp:2, save:false },
         { div:"tx_provName", fld:"", disp:2, save:false },
@@ -89,11 +90,16 @@ function do_fm_watcher(){
       */
 
       '<div class="cls_fm_dtl">'+
-        '<div>Cluster Name:'+
+        '<div>Cluster Precinct:'+
           '<input id="tx_clusterno_watcher" type="text" data-caption="Watcher Code." style="display:none;" />'+
           '<input id="lu_clusterno_watcher" type="image" src="../../gfx/jsearch.png" onclick="JBE_LOOKUP(true,&quot;do_lu_watcher&quot;,&quot;CLUSTER LOOKUP&quot;,DB_CLUSTER,&quot;clusterno&quot;,&quot;clustername&quot;)" />'+
         '</div>'+
         '<input id="tx_clustername_watcher" type="text" data-caption="Cluster" value="" />'+
+      '</div>'+
+      
+      '<div class="cls_fm_dtl">'+
+        '<div>Precincts Details:</div>'+
+        '<input id="tx_precincts" type="text" data-caption="" value="" onkeydown="javascript:if(event.keyCode==13) document.getElementById(tx_pword.id).focus()" />'+
       '</div>'+
 
       '<div class="cls_fm_dtl">'+
@@ -286,6 +292,7 @@ function do_disp_watcher(disp_mode){
     var aryDB=JBE_GETARRY(DB_CLUSTER,'clusterno',vclusterno); //last error gabii 
     var brgyCode=aryDB['brgyCode'];
     document.getElementById('tx_clustername_watcher').value = JBE_GETFLD('clustername',DB_CLUSTER,'clusterno',vclusterno);    
+    document.getElementById('tx_precincts').value = aryDB['precincts'];
     document.getElementById('tx_brgyCode').value = brgyCode;
     document.getElementById('tx_brgyName').value = JBE_GETFLD('brgyDesc',ref_brgy,'brgyCode',aryDB['brgyCode']);
     document.getElementById('tx_cityName').value = JBE_GETFLD('citymunDesc',ref_city,'citymunCode',aryDB['citymunCode']);
