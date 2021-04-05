@@ -12,7 +12,7 @@ function do_fm_position(){
   var fm_ob = {
     title:"ELECTIVE POSITION MASTER FILE",
     top:"", left:"", bottom:"10%", right:"5%",
-    width:"500px",height:"300px"
+    width:"700px",height:"200px"
   };  
 
   if(JBE_MOBILE){ 

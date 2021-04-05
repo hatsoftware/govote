@@ -23,8 +23,8 @@ function do_fm_cluster(){
 
   var fm_ob = {
     title:"CLUSTER MASTER FILE",
-    top:"10%", left:"", bottom:"", right:"10%",
-    width:"550px",height:"420px"
+    top:"", left:"", bottom:"", right:"",
+    width:"720px",height:"380px"
   };  
  
   if(JBE_MOBILE){
@@ -35,7 +35,7 @@ function do_fm_cluster(){
   }
     
   var fm_layout=
-    '<div style="width:100%;height:100%;text-align:left;padding:5px;background:white;">'+
+    '<div style="width:100%;height:100%;text-align:left;padding:5px;font-size:16px;background:white;">'+
 
       '<input id="tx_clusterno" type="text" style="display:none;" />'+
 

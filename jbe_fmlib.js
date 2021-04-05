@@ -17,6 +17,7 @@ var FM_FUNC=[];
 
 
 function FM_MAIN(fm_ob,fm_layout){  
+  fm_ob.width='800px';
   //alert('FM_FIELDS '+FM_FIELDS.length);
   var h=parseInt(fm_ob.height);  
   var h_head=40;
@@ -72,7 +73,7 @@ function FM_MAIN(fm_ob,fm_layout){
     
     '<div id="DIV_FM_MAIN" style="position:absolute;z-index:9;top:'+top+';left:'+left+';box-shadow: 0px 0px 8px;width:100%;height:100%;font-size:12px;border:0px solid green;background:white;">'+ 
     
-      '<div id="FM_HEAD" data-recno="" style="cursor:move;z-index:10;font-size:14px;width:100%;height:'+h_head+'px;padding:10px;color:white;background:'+JBE_CLOR+';">'+
+      '<div id="FM_HEAD" data-recno="" style="cursor:move;z-index:10;font-size:16px;width:100%;height:'+h_head+'px;padding:10px;color:white;background:'+JBE_CLOR+';">'+
         '<span style="float:left;width:100%;">'+fm_ob.title+'</span>'+
         //'<span style="float:right;">FM Library version 1.1</span>'+
       '</div>'+    

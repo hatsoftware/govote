@@ -31,7 +31,7 @@ function do_fm_candidate(){
   var fm_ob = {
     title:"CANDIDATE MASTER FILE",
     //top:"", left:"", bottom:"10%", right:"5%",
-    width:"600px",height:"510px",
+    width:"700px",height:"480px",
     h_photo:"100px"
   };  
 
@@ -44,7 +44,7 @@ function do_fm_candidate(){
   }
   
   var fm_layout=
-    '<div style="width:100%;height:100%;margin-top:0px;text-align:left;padding:5px;background:white;">'+
+    '<div style="width:100%;height:100%;margin-top:0px;text-align:left;font-family:Arial;padding:5px;background:white;">'+
 
       '<input id="tx_candi_no" type="text" style="display:none;" />'+
              

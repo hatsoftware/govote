@@ -1,17 +1,32 @@
 function dispMessages(){ 
   //alert(CURR_CITYMUNCODE+' vs '+ref_brgy.length);
   //if(access_page(4)){ return; }
-  var h_head=40;
+  var h_head=40;  
+  var h_msgbox=H_VIEW_DTL-20;
+  var h_mnu3_filter=40;
+  var h_head2=h_head+20+10;
+  var h_chatter=H_VIEW_DTL-(h_head2);
+  var h_div_msg=H_VIEW_DTL-(h_head2+15);
+  var h_msg_box_entry=60;
+  if(JBE_MOBILE){ 
+    h_head=30; 
+    h_msgbox=H_VIEW_DTL-15;
+    h_mnu3_filter=30;
+    h_head2=400; 
+    h_chatter=H_VIEW_DTL-405;
+    h_div_msg=H_VIEW_DTL-245;
+    h_msg_box_entry=60;
+  }
   var dtl=
-  '<div id="div_main_msg" data-mode=0 data-code="" data-fld="" data-div_id="" style="display:block;width:100%;height:100%;padding:10px;background:white;">'+
+  '<div id="div_main_msg" data-mode=0 data-code="" data-fld="" data-div_id="" style="display:block;width:100%;height:100%;background:white;">'+
 
-    '<div class="cls_msg" style="display:block;width:100%;height:'+(H_VIEW_DTL-20)+'px;background:none;">'+
+    '<div class="cls_msg" style="display:block;width:100%;height:'+h_msgbox+'px;background:red;">'+
     
-      '<div id="mnu3_left" style="display:block;padding:0px;height:100%;background:none;">'+
+      '<div id="mnu3_left" style="display:block;padding:0px;background:none;border:0px solid black;">'+
 
         '<div id="chatters" style="width:100%;height:100%;">'+
 
-          '<div id="mnu3_filter" style="height:'+h_head+'px;">'+
+          '<div id="mnu3_filter" style="height:'+h_mnu3_filter+'px;">'+
             '<div class="mnu3_filter_title">Barangay: </div>'+
             '<div class="mnu3_filter_select">'+
               '<select id="div_sel_msg0" name="div_sel_msg0" onchange="dispAllMode(0,this.value,this.id)" style="width:100%;height:100%;">';
@@ -28,41 +43,39 @@ function dispMessages(){
             '</div>'+      
           '</div>'+  //head
           
-          '<div id="div_chatters" data-code="" data-clor="" style="margin-top:10px;height:'+(H_VIEW_DTL-(h_head+20+10))+'px;">'+
+          '<div id="div_chatters" data-code="" data-clor="" style="margin-top:5px;height:'+(h_chatter)+'px;">'+
           '</div>'+  //body
         '</div>'+
 
       '</div>'+
 
-      '<div id="mnu3_right" style="display:block;height:100%;">'+
+      '<div id="mnu3_right">'+
 
         //'<div id="div_msg" style="height:'+(H_VIEW_DTL-80)+'px;">'+
-        '<div id="div_msg" style="height:'+(H_VIEW_DTL-80)+'px;">'+
+        '<div id="div_msg" style="height:'+(h_div_msg)+'px;">'+
           //<!-- messages here -->               
-          '<div id="div_msg_items" style="width:100%;height:100%;overflow-y:scroll;overflow-x:hidden;background-color:none;">'+
+          '<div id="div_msg_items">'+
           '</div>'+
-          '<div id="msg_zoom" style="position:relative;text-align:center;display:none;width:100%;height:100%;padding:0px;border:0px solid gray;overflow:auto;background-color:black;">'+
+          '<div id="msg_zoom" style="position:relative;text-align:center;display:none;width:100%;height:100%;padding:0px;border:1px solid red;overflow:auto;background-color:black;">'+
             '<img id="msg_zoom_img" src="" style="height:100%;width:auto;max-width:100%;"/>'+
             '<button id="msg_zoom_x" onclick="ZOOM_CLOSE()" style="position:absolute;cursor:pointer;right:10px;bottom:10px;width:auto;height:30px;padding:5px;border:1px solid gray;border-radius:5px;color:white;background:black;">Close</button>'+
           '</div>'+
         '</div>'+
         
-        '<div id="fm_msg">'+          
+        '<div id="fm_msg" style="height:'+h_msg_box_entry+'px;">'+          
           '<div style="width:100%;height:100%;background:none;">'+
-            '<span style="float:left;width:80px;height:100%;cursor:pointer;background-color:none;">'+
+            '<span>'+
               '<img onclick="refreshMESSAGES()" src="../../gfx/jrefresh.png" style="height:100%;background-color:none;"/>'+
             '</span>'+
             '<input type="file" id="up_img" name="up_img" hidden="hidden" />'+
-            '<div id="custom-img" style="float:left;cursor:pointer;height:100%;width:80px;border:0px solid lightgray;background:none;">'+
+            '<p id="custom-img">'+
               '<img id="pre_img" name="pre_img" data-img="" onclick="JBE_PICK_IMAGE(0,up_img.id,pre_img.id)" src="../../gfx/jimage.png" style="height:100%;" />'+
-            '</div>'+
+            '</p>'+
             //'<textarea id="faddrss2" class="class_profile" name="faddrss" rows="4" cols="50" maxlength=300 placeholder="Address" style="resize:none;height:70px;">'+
             //  addrss+'</textarea>'+   
-            '<textarea id="txtMsg" type="text" name="txtMsg" autocomplete="off" placeholder="Type your message..." '+
-              'style="float:left;height:100%;width:45%;margin-left:10px;font-size:14px;padding:10px;border:1px solid lightgray;'+
-                'resize:none;text-align:left;color:black;background-color:none;"></textarea>'+   
+            '<textarea id="txtMsg" type="text" name="txtMsg" autocomplete="off" placeholder="Type your message..."></textarea>'+   
                 
-            '<button id="btnSend" onclick="sendMsg0()" style="float:right;height:100%;width:200px;font-size:20px;border-radius:10px;color:white;background:'+JBE_CLOR+';">Send</button>'+
+            '<button id="btnSend" onclick="sendMsg0()" style="background:'+JBE_CLOR+';">Send</button>'+
           '</div>'+
         '</div>'+
 

@@ -10,7 +10,7 @@ function do_fm_party(){
   var fm_ob = {
     title:"POLITICAL PARTY MASTER FILE",
     top:"", left:"", bottom:"10%", right:"5%",
-    width:"500px",height:"300px"
+    width:"700px",height:"270px"
   };  
 
   if(JBE_MOBILE){ 

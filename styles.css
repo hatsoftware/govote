@@ -536,11 +536,17 @@
   background:lightgray;
 }
 
+#div_main_msg { padding:10px; }
+#div_msg_items { width:100%;height:100%;overflow-y:scroll;overflow-x:hidden;background-color:none; }
 #fm_msg{
   display:block;pointer-events:none;
   width:100%;height:60px;padding:5px;border:1px solid gray;background-color:lightgray;
 }
-
+    #fm_msg span { float:left;width:80px;height:100%;cursor:pointer;background-color:none; }
+    #fm_msg p { float:left;cursor:pointer;height:100%;width:80px;margin:0;border:0px solid lightgray;background:none; }
+    #fm_msg textarea { float:left;height:100%;width:45%;margin-left:10px;font-size:14px;padding:10px;border:1px solid lightgray;
+                resize:none;text-align:left;color:black;background-color:none; }
+    #fm_msg button { float:right;height:100%;width:200px;font-size:20px;border-radius:10px;color:white; }
 #div_btns{
   float:left;height:35px;margin-top:10px;padding:0 8px 0 0;font-size:14px;
 }
@@ -867,11 +873,11 @@
 .cls_tbl:hover{ color:red; }  
 
 .cls_fm_dtl{ width:100%;height:30px;padding:2px;font-size:16px;border:0px solid green; }
-  .cls_fm_dtl div { float:left;width:25%;height:100%;font-size:12px;text-align:left;padding:0px;background:none; }  
-  .cls_fm_dtl input[type="image"] { float:right;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
-  .cls_fm_dtl input[type="text"], .cls_fm_dtl input[type="number"] { float:left;width:75%;height:100%; }  
-  .cls_fm_dtl p { float:left;width:75%;height:100%;margin:0px;padding:2px;text-align:center;border:1px solid lightgray;background:none; }  
-  .cls_fm_dtl select { float:left;width:75%;height:100%;margin:0px;background:none; }  
+  .cls_fm_dtl div { float:left;width:25%;height:100%;text-align:left;padding:0px;background:none; }  
+  .cls_fm_dtl input[type="image"] { float:right;font-size:16px;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
+  .cls_fm_dtl input[type="text"], .cls_fm_dtl input[type="number"] { float:left;font-size:16px;width:75%;height:100%; }  
+  .cls_fm_dtl p { float:left;font-size:20px;width:75%;height:100%;margin:0px;padding:2px;text-align:center;border:1px solid lightgray;background:none; }  
+  .cls_fm_dtl select { float:left;font-size:16px;width:75%;height:100%;margin:0px;background:none; }  
   
 #chkbox{ font-size:14px;height:320px; }  
 
@@ -932,6 +938,7 @@
     padding:2px 0px 0 0;text-align:right;font-size:22px; 
     text-shadow: 1px 1px 2px white, 0 0px 10px white, 0 0 5px white;background:none;
   }
+
 .cls_area_votes_dtl:hover{color:blue;}  
 
 .cls_votes_dtl{ 
