@@ -16,16 +16,11 @@ var FM_ADD_FLAG=false;
 var FM_FUNC=[];
 
 
-function FM_MAIN(fm_ob,fm_layout){  
-  fm_ob.width='800px';
-  //alert('FM_FIELDS '+FM_FIELDS.length);
+function FM_MAIN(fm_ob,fm_layout){    
   var h=parseInt(fm_ob.height);  
   var h_head=40;
   var h_foot=60;
   var h_body=h-(h_head+h_foot+25);
-
-  var top=((window.innerHeight-parseInt(fm_ob.height))/2)+'px';
-  var left=((window.innerWidth-parseInt(fm_ob.width))/2)+'px';
 
   var fm_menu=
     '<div id="FM_BTNS" data-mode=0 style="width:100%;height:100%;color:white;padding:2px;background:none;">'+
@@ -71,7 +66,8 @@ function FM_MAIN(fm_ob,fm_layout){
 
   var dtl=
     
-    '<div id="DIV_FM_MAIN" style="position:absolute;z-index:9;top:'+top+';left:'+left+';box-shadow: 0px 0px 8px;width:100%;height:100%;font-size:12px;border:0px solid green;background:white;">'+ 
+    '<div id="DIV_FM_MAIN" style="position:absolute;z-index:9;box-shadow: 0px 0px 8px;'+
+          'width:100%;height:100%;font-size:12px;border:0px solid green;background:white;">'+ 
     
       '<div id="FM_HEAD" data-recno="" style="cursor:move;z-index:10;font-size:16px;width:100%;height:'+h_head+'px;padding:10px;color:white;background:'+JBE_CLOR+';">'+
         '<span style="float:left;width:100%;">'+fm_ob.title+'</span>'+

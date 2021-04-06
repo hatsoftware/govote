@@ -666,17 +666,17 @@
   #mnu3_left{    
     margin-top:0px;
     padding:5px;
-    width:100%;height:auto;
-    border:0px solid black;
-    background:none; 
+    width:100%;height:150px;
+    border:1px solid gray;
+    background:none;     
   }
   #mnu3_right{
     margin:0;    
-    padding:5px;
+    padding:0px;
     width:100%;height:71%;
-    margin-top:2%;
+    margin-top:5px;
     font-size:10px;
-    border:1px solid black;
+    border:1px solid gray;
     background:none; 
   }
   
@@ -695,10 +695,10 @@
   #div_main_msg { padding:5px; }
   #div_msg_items { width:100%;height:100%;overflow-y:scroll;overflow-x:hidden; }
   #fm_msg{
-    width:100%;height:23%;margin:0px;padding:2px;border:1px solid gray;background-color:none;border:1px solid brown;
+    width:100%;height:23%;margin:0px;padding:2px;border:1px solid gray;background-color:none;
   }
-      #fm_msg span { float:left;width:15%;height:50%;cursor:pointer;background-color:red; }
-      #fm_msg p { float:left;cursor:pointer;height:50%;width:15%;margin:0;border:0px solid lightgray;background:blue; }
+      #fm_msg span { float:left;width:15%;height:50%;cursor:pointer;background-color:none; }
+      #fm_msg p { float:left;cursor:pointer;height:50%;width:15%;margin:0;border:0px solid lightgray;background:none; }
       #fm_msg textarea { float:left;height:50%;width:66%;margin-left:10px;font-size:14px;padding:10px;border:1px solid lightgray;
         resize:none;text-align:left;color:black;background-color:none; }
       #fm_msg button { float:right;height:46%;width:66%;margin-top:1%;margin-right:1%;font-size:12px;border-radius:10px;color:white; }
@@ -1013,12 +1013,12 @@
   .cls_tbl{ cursor:pointer;overflow:auto;width:100%; }    
   .cls_tbl:hover{ color:red; }  
 
-  .cls_fm_dtl{ width:100%;height:25px;padding:2px;border:0px solid green; }
-    .cls_fm_dtl div { float:left;width:35%;height:100%;padding:0px;background:none; }  
-    .cls_fm_dtl input[type="image"] { float:right;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
-    .cls_fm_dtl input[type="text"],.cls_fm_dtl input[type="number"] { float:left;width:65%;height:100%; }  
-    .cls_fm_dtl p { float:left;width:65%;height:100%;margin:0px;padding:2px;text-align:center;border:1px solid lightgray;background:none; }  
-    .cls_fm_dtl select { float:left;width:65%;height:100%;margin:0px;background:none; }  
+  .cls_fm_dtl{ width:100%;height:25px;padding:2px;font-size:12px;border:0px solid green; }
+    .cls_fm_dtl div { float:left;font-size:12px;width:35%;height:100%;padding:0px;background:none; }  
+    .cls_fm_dtl input[type="image"] { float:right;font-size:12px;height:100%;padding:0px;margin-right:2px;border:1px solid gray;background:none; }  
+    .cls_fm_dtl input[type="text"],.cls_fm_dtl input[type="number"] { float:left;font-size:12px;width:65%;height:100%; }  
+    .cls_fm_dtl p { float:left;font-size:12px;width:65%;height:100%;margin:0px;padding:2px;text-align:center;border:1px solid lightgray;background:none; }  
+    .cls_fm_dtl select { float:left;font-size:12px;width:65%;height:100%;margin:0px;background:none; }  
     
   #chkbox{ height:250px; }    
 

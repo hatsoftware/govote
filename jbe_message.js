@@ -4,25 +4,34 @@ function dispMessages(){
   var h_head=40;  
   var h_msgbox=H_VIEW_DTL-20;
   var h_mnu3_filter=40;
-  var h_head2=h_head+20+10;
+  var h_head2=h_head+20+5;
   var h_chatter=H_VIEW_DTL-(h_head2);
   var h_div_msg=H_VIEW_DTL-(h_head2+15);
   var h_msg_box_entry=60;
+  
+
+  var h_mnu3_left='100%';
+  var h_mnu3_right='100%';
+  var h_div_msg_items=(parseInt(h_mnu3_right)-h_msg_box_entry)+'px';
   if(JBE_MOBILE){ 
     h_head=30; 
     h_msgbox=H_VIEW_DTL-15;
     h_mnu3_filter=30;
     h_head2=400; 
-    h_chatter=H_VIEW_DTL-405;
-    h_div_msg=H_VIEW_DTL-245;
+    h_chatter=102;
+    h_div_msg=H_VIEW_DTL-232;
     h_msg_box_entry=60;
+
+    var h_mnu3_left='150px';
+    var h_mnu3_right=(H_VIEW_DTL-(parseInt(h_mnu3_left)+20))+'px';
+    var h_div_msg_items=(parseInt(h_mnu3_right)-(h_msg_box_entry+110))+'px';
   }
   var dtl=
   '<div id="div_main_msg" data-mode=0 data-code="" data-fld="" data-div_id="" style="display:block;width:100%;height:100%;background:white;">'+
 
-    '<div class="cls_msg" style="display:block;width:100%;height:'+h_msgbox+'px;background:red;">'+
+    '<div class="cls_msg" style="display:block;width:100%;height:'+h_msgbox+'px;background:none;">'+
     
-      '<div id="mnu3_left" style="display:block;padding:0px;background:none;border:0px solid black;">'+
+      '<div id="mnu3_left" style="height:'+h_mnu3_left+';">'+
 
         '<div id="chatters" style="width:100%;height:100%;">'+
 
@@ -49,14 +58,14 @@ function dispMessages(){
 
       '</div>'+
 
-      '<div id="mnu3_right">'+
+      '<div id="mnu3_right" style="height:'+h_mnu3_right+';">'+
 
         //'<div id="div_msg" style="height:'+(H_VIEW_DTL-80)+'px;">'+
-        '<div id="div_msg" style="height:'+(h_div_msg)+'px;">'+
+        '<div id="div_msg" style="height:'+(h_div_msg)+'px;border:0px solid coral;">'+
           //<!-- messages here -->               
           '<div id="div_msg_items">'+
           '</div>'+
-          '<div id="msg_zoom" style="position:relative;text-align:center;display:none;width:100%;height:100%;padding:0px;border:1px solid red;overflow:auto;background-color:black;">'+
+          '<div id="msg_zoom" style="position:relative;text-align:center;display:none;width:100%;height:100%;padding:0px;border:0px solid red;overflow:auto;background-color:black;">'+
             '<img id="msg_zoom_img" src="" style="height:100%;width:auto;max-width:100%;"/>'+
             '<button id="msg_zoom_x" onclick="ZOOM_CLOSE()" style="position:absolute;cursor:pointer;right:10px;bottom:10px;width:auto;height:30px;padding:5px;border:1px solid gray;border-radius:5px;color:white;background:black;">Close</button>'+
           '</div>'+

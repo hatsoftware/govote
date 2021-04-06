@@ -29,8 +29,7 @@ function do_fm_candidate(){
   ];
   
   var fm_ob = {
-    title:"CANDIDATE MASTER FILE",
-    //top:"", left:"", bottom:"10%", right:"5%",
+    title:"CANDIDATE MASTER FILE",    
     width:"700px",height:"480px",
     h_photo:"100px"
   };  
@@ -38,8 +37,6 @@ function do_fm_candidate(){
   if(JBE_MOBILE){ 
     fm_ob.width="95%"; 
     fm_ob.height="415px";
-    //fm_ob.right="5px";  
-    //fm_ob.top="80px"; 
     fm_ob.h_photo="50px";    
   }
   

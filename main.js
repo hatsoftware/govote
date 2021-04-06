@@ -932,7 +932,7 @@ function myResizeFunction(){
     el.style.height=(H_BODY-10)+'px';        
   });  
   if(document.getElementById('div_chatters')){
-    document.getElementById('div_chatters').style.height=(H_VIEW_DTL-70)+'px';
+    document.getElementById('div_chatters').style.height=(H_VIEW_DTL-65)+'px';
     document.getElementById('div_msg').style.height=(H_VIEW_DTL-80)+'px';    
   }
 

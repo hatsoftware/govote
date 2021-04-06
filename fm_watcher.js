@@ -23,17 +23,14 @@ function do_fm_watcher(){
   ];
   
   var fm_ob = {
-    title:"Watchers File Maintenance",
-    top:"", left:"", bottom:"", right:"",
+    title:"Watchers File Maintenance",    
     width:"800px",height:"550px",
     h_photo:"100px"
   };  
 
   if(JBE_MOBILE){ 
     fm_ob.width="95%"; 
-    fm_ob.height="465px";
-    fm_ob.right="5px";  
-    fm_ob.top="30px"; 
+    fm_ob.height="465px";    
     fm_ob.h_photo="50px";
   }
 

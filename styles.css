@@ -515,7 +515,8 @@
 }
 
 #mnu3_left{
-  float:left;width:30%;height:100%;padding:10px;background:none;
+  /* float:left;width:30%;height:100%;padding:10px;background:none; */
+  float:left;width:30%;height:100%;padding:0px;background:none;
 }
 #mnu3_right{
   float:left;margin-left:.5%;width:69.5%;height:100%;border:0px solid gold;background:none;
@@ -525,10 +526,10 @@
   padding:5px;border:1px solid gray;
 }
   .mnu3_filter_title{
-    float:left;width:20%;height:100%;padding:5px;background:none;
+    float:left;width:30%;height:100%;padding:5px;background:none;
   }
   .mnu3_filter_select{
-    float:left;width:80%;height:100%;padding:0 0px 0 0;
+    float:left;width:70%;height:100%;padding:0 0px 0 0;
   }
 
 #div_chatters{

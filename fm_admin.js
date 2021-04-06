@@ -13,17 +13,14 @@ function do_fm_admin(){
   ];
   
   var fm_ob = {
-    title:"Administrator File Maintenance",
-    top:"8%", left:"", bottom:"", right:"5%",
+    title:"Administrator File Maintenance",    
     width:"600px",height:"360px",
     h_photo:"100px"
   };  
 
   if(JBE_MOBILE){ 
     fm_ob.width="95%"; 
-    fm_ob.height="465px";
-    fm_ob.right="5px";  
-    fm_ob.top="30px"; 
+    fm_ob.height="465px";    
     fm_ob.h_photo="50px";
   }
 

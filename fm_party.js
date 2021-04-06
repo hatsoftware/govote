@@ -8,16 +8,13 @@ function do_fm_party(){
   ];
     
   var fm_ob = {
-    title:"POLITICAL PARTY MASTER FILE",
-    top:"", left:"", bottom:"10%", right:"5%",
+    title:"POLITICAL PARTY MASTER FILE",    
     width:"700px",height:"270px"
   };  
 
   if(JBE_MOBILE){ 
     fm_ob.width="95%"; 
     fm_ob.height="290px";
-    fm_ob.right="5px";  
-    fm_ob.top="100px"; 
   }
   
   var fm_layout=

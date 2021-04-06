@@ -22,16 +22,13 @@ function do_fm_cluster(){
   ];
 
   var fm_ob = {
-    title:"CLUSTER MASTER FILE",
-    top:"", left:"", bottom:"", right:"",
+    title:"CLUSTER MASTER FILE",    
     width:"720px",height:"380px"
   };  
  
   if(JBE_MOBILE){
     fm_ob.width="95%";
-    fm_ob.height="350px";
-    fm_ob.left="5px";
-    fm_ob.top="10px";
+    fm_ob.height="350px";    
   }
     
   var fm_layout=

@@ -48,10 +48,10 @@ function init_report(tilt){
   modal_ON(true);
 }
 
-function JBE_POPUP(vdtl){
+function JBE_POPUP(w,vdtl){  
   var dtl=
-  '<div id="popup" data-div="" data-rep="" data-targ="" data-date="no" class="repOpt">'+
-    '<div id="popup-box" style="display:block;z-index:1600;position:absolute;border:1px solid gray;width:600px;height:auto;'+
+  '<div id="popup" data-div="" data-rep="" data-targ="" data-date="no" class="repOpt" style="width:'+w+';box-shadow: 0px 0px 8px;background:none;">'+
+    '<div id="popup-box" style="display:block;z-index:1600;position:absolute;border:1px solid gray;width:100%;height:auto;'+
         'font-size:10px;padding:0px;'+
         'top: 50%;  left: 50%;  -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);background:red;">'+
 
