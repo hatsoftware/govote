@@ -62,7 +62,7 @@ function show_dtl_candidates(){
       ]
     );
 
-    var v_mphoto='../../upload/photo/'+vphoto+'?'+n;  
+    var v_mphoto=JBE_API+'upload/photo/'+vphoto+'?'+n;  
     if(!JBE_ONLINE){
       v_mphoto='data:image/png;base64,' + btoa(aryCandidate[i]['photo']);      
     }
