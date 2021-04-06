@@ -51,7 +51,8 @@ function show_dtl_candidates(){
  
   for (var i=0;i<aryCandidate.length;i++){
     var vpos=parseInt(aryCandidate[i]['pos']-1);
-    var v_candi_no=aryCandidate[i]['code'];    
+    var v_candi_no=aryCandidate[i]['code'];  
+    var vphoto=aryCandidate[i]['photo'];  
 
     var v_votes=JBE_GETFLD2('votes',DB_TRAN_VOTES,
       [
@@ -60,6 +61,13 @@ function show_dtl_candidates(){
         { "fld":"candi_no","val":v_candi_no }
       ]
     );
+
+    var v_mphoto='../../upload/photo/'+vphoto+'?'+n;  
+    if(!JBE_ONLINE){
+      v_mphoto='data:image/png;base64,' + btoa(aryCandidate[i]['photo']);      
+    }
+
+    //alert(v_mphoto);
 
     if(v_votes){ v_votes=parseInt(v_votes); }
     //alert('votes: '+v_votes);
@@ -75,7 +83,7 @@ function show_dtl_candidates(){
               (ctr+0)+'.'+
             '</div>'+
             '<div class="cls_dispboard_img">'+
-              '<img id="candi_img_'+i+'" class="cls_dispboard_img_in" src="'+JBE_API+'upload/photo/'+aryCandidate[i]['photo']+'" />'+
+              '<img id="candi_img_'+i+'" class="cls_dispboard_img_in" src="'+v_mphoto+'" />'+
             '</div>'+
             '<div class="cls_dispboard_candi">'+            
               '<div id="candi_name_'+i+'" class="cls_dispboard_candi_1">'+

@@ -27,8 +27,7 @@ function start_app(){
       showOnline();
     }else{      
       showOffline();
-    }     
-        
+    }        
     //setSysColors();          
   })
   .catch(function (error) { 
@@ -150,6 +149,13 @@ function get_db_all(){
     ref_prov = response.data[11];
     ref_reg = response.data[12];
     showProgress(false);
+
+    saveDataToIDX(DB_CANDIDATE,0);
+    saveDataToIDX(DB_POSITION,1);
+    saveDataToIDX(DB_TRAN_VOTES,2);
+    saveDataToIDX(DB_CLUSTER,3);
+    saveDataToIDX(DB_USER,4);
+    saveDataToIDX(DB_SYS,5);
    
     //saveAllDataToIDX();
     //saving_candidate();
@@ -171,20 +177,10 @@ function get_db_all(){
       }
     
     }
-    // define to show position
-    
+    // define to show position    
     showProfile();
     update_positions();
-
     show_candidates();
-
-    saveDataToIDX(DB_CANDIDATE,0);
-    saveDataToIDX(DB_POSITION,1);
-    saveDataToIDX(DB_TRAN_VOTES,2);
-    saveDataToIDX(DB_CLUSTER,3);
-    saveDataToIDX(DB_USER,4);
-    saveDataToIDX(DB_SYS,5);
-    
   })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }

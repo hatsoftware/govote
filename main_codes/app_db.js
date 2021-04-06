@@ -90,8 +90,10 @@ function countRecordIDX(n){
 }
 
 /****************************************/
-function getAllDataFromIDX() {   
+/****************************************/
+function getAllDataFromIDX(vmode) {   
   //alert('getAllDataFromIDX: '+IDX_STORE.length);
+  //alert(CURR_IDX_DB);
   var request = indexedDB.open(CURR_IDX_DB, dbVersion);  
   request.onerror = function(e) {    
     console.error('Unable to open database.');
@@ -100,16 +102,19 @@ function getAllDataFromIDX() {
   request.onsuccess = function(e) {
     var db2 = e.target.result;
     for(var i=0;i < IDX_STORE.length;i++){
-      getDataFromIDX(i,db2);  
+      //if(i==4){
+        getDataFromIDX(i,db2);  
+      //}
     }
   }
   //alert('total: '+ctr);
 }  
 
 function getDataFromIDX(i,db2) {  
-  var id=0;
+  var idx=0;
   var aryIDB=[]; 
   var flename=IDX_STORE[i]['flename'];
+  
       
   var trans = db2.transaction([flename]);
   var object_store = trans.objectStore(flename);
@@ -127,7 +132,7 @@ function getDataFromIDX(i,db2) {
       var ob;
       if(i==0){ //Candidate
         ob = {
-          id:id,
+          id:i,
           code:cursor.value.code,
           name:cursor.value.name,
           brgyCode:cursor.value.brgyCode,
@@ -182,14 +187,15 @@ function getDataFromIDX(i,db2) {
         };        
       }      
 
-      aryIDB[id]=ob;    
+      aryIDB[idx]=ob;  
       //if(i==2) { alert(ob.slide1); }
-      id++;
+      idx++;
       cursor.continue();
     }else{
       if(i==0){
         DB_CANDIDATE=[]; DB_CANDIDATE=aryIDB;              
-        show_candidates();     
+        show_candidates();   
+        //alert('show_candidates:'+DB_CANDIDATE.length);
       }else if(i==1){
         DB_POSITION=[]; DB_POSITION=aryIDB;
       }else if(i==2){          
@@ -203,12 +209,13 @@ function getDataFromIDX(i,db2) {
       }else if(i==5){          
         DB_SYS=[]; DB_SYS=aryIDB;
       }
-      //alert(IDX_STORE[i]['flename']+aryIDB.length);
+      //alert(IDX_STORE[i]['flename']+' : '+aryIDB.length);
       IDX_STORE[i]['numrec']=aryIDB.length;
     }    
   }
 }  
 
+// ================================================================
 
 function saveDataToIDX(aryDB,n) {  
   IDX_STORE[n]['numrec']=aryDB.length;
