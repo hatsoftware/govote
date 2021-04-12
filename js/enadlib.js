@@ -582,7 +582,7 @@ function snackBar(s) {
   var x = document.getElementById("snackbar");    
   x.innerHTML=s;
   x.className = "show";
-  var xiix=setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
 
 function JBE_SEEK_ARRAY(db,fld,seek){
