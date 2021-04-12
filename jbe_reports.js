@@ -7,12 +7,13 @@ function dispReports(){
   var dtl=
   '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:lightgray;">'+
 
-      '<div id="sys_menu1" class="cls_ds_main">'+ 
-        '<p style="background:'+JBE_CLOR+';">REPORTS</p>'+   
-        '<button onclick="repo_result(&quot;07&quot;)">Election Result by Congressional</button>'+           
-        '<button onclick="dispByPrecincts()">Status Report by City</button>'+           
-        '<button onclick="dispByPrecincts()">Status Report by Barangay</button>'+           
-        '<button onclick="repo_partial()">Partial and Unofficial Report - Precinct Level</button>'+
+      '<div id="sys_menu1" class="cls_ds_main">'+
+        '<p style="background:'+JBE_CLOR+';">REPORTS</p>'+
+        '<button onclick="repo_consolidated()">Consolidated Report</button>'+
+        '<button onclick="not_yet()">Barangay Level Report</button>'+
+        '<button onclick="repo_precinct_level()">Partial/Final and Unofficial Report - Precinct Level</button>'+        
+        '<button onclick="not_yet()">Precinct Status Group by Barangay Report</button>'+
+        '<button onclick="repo_conso_precinct()">Consolidated Precinct Status Group by Barangay Report</button>'+
         '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+
 
@@ -23,9 +24,38 @@ function dispReports(){
   JBE_OPEN_VIEW(dtl,'Reports','close_reports');    
   modal_ON(true);
 }
+function not_yet(){
+  snackBar('Under construction...');
+}
 
 function close_reports(){
   showMainPage();
+}
+
+function prn_repo(rep_title,rep_php,param){
+  //alert(document.getElementById("i_fcode").value.trim());
+  var link = document.createElement('prn');
+  //var link = document.getElementById('repOpt');  
+  var dtl='<div>'+
+            '<a href="" target="">'+
+              '<input type="button" style="width:100px;height:100%;text-align:center;color:white;background-color:<?php echo $clor_head;?>;" value="View Report" />'+
+            '</a>'+
+          '</div>';
+
+  link.innerHTML=dtl;
+  var newrep=JBE_API+'reps/'+rep_php+param;
+  link.setAttribute('href', newrep);
+  link.setAttribute('target', rep_title);  
+  window.open(newrep,rep_title);
+}
+
+function put_cluster(fld,val){
+  var aryDB=JBE_GETARRY(DB_CLUSTER,fld,val);  
+  document.getElementById('tx_repo_clusterno').value = val;
+  document.getElementById('tx_repo_clustername').value = aryDB['clustername'];
+  document.getElementById('tx_repo_precincts').value = aryDB['precincts'];
+  document.getElementById('tx_repo_brgyName').value = JBE_GETFLD('brgyDesc',tmp_ref_brgy,'brgyCode',aryDB['brgyCode']);
+  document.getElementById('tx_repo_cityName').value = JBE_GETFLD('citymunDesc',ref_city,'citymunCode',aryDB['citymunCode']);
 }
 
 //========================================================================
@@ -34,7 +64,8 @@ function init_report(tilt){
   '<div id="repo_main" style="position:relative;width:100%;height:100%;font-family: "Lato","Arial", sans-serif;padding:0px;color:white;padding:5px;background:lightblue;">'+
     '<div class="cls_repo" style="width:100%;height:'+(H_BODY-30)+'px;padding:10px;color:black;overflow:auto;background:lightgray;">'+      
 
-      '<div id="prn_div" style="position:relative;text-align:center;width:850px;height:auto;padding:0px;overflow:auto;margin:0 auto;color:black;background:white;">'+  
+      //'<div id="prn_div" style="position:relative;text-align:center;width:850px;height:auto;padding:0px;overflow:auto;margin:0 auto;color:black;background:white;">'+  
+      '<div id="prn_div" style="position:relative;text-align:center;width:100%;height:auto;padding:0px;overflow:auto;margin:0 auto;color:black;background:white;">'+  
       '</div>'+ //printable
 
     '</div>'+
@@ -48,7 +79,7 @@ function init_report(tilt){
   modal_ON(true);
 }
 
-function JBE_POPUP(w,vdtl){  
+function JBE_POPUP(w,vdtl,tilt){  
   var dtl=
   '<div id="popup" data-div="" data-rep="" data-targ="" data-date="no" class="repOpt" style="width:'+w+';box-shadow: 0px 0px 8px;background:none;">'+
     '<div id="popup-box" style="display:block;z-index:1600;position:absolute;border:1px solid gray;width:100%;height:auto;'+
@@ -56,7 +87,7 @@ function JBE_POPUP(w,vdtl){
         'top: 50%;  left: 50%;  -webkit-transform: translate(-50%, -50%);  transform: translate(-50%, -50%);background:red;">'+
 
       '<div id="popup-head" class="head_color" style="position:relative;width:100%;height:40px;padding:5px;background:'+JBE_CLOR+';">'+
-        '<div id="popup-title" style="float:left;width:100%;height:100%;font-size:20px;padding:2px;color:white;"></div>'+   
+        '<div id="popup-title" style="float:left;width:100%;height:100%;font-size:20px;padding:2px;color:white;">'+tilt+'</div>'+   
         '<input type="button" onclick="JBE_POPUP_CLOSE()" style="position:absolute;top:5px;right:5px;width:30px;height:30px;border:1px solid gray;border-radius:5px;cursor:pointer;" value="X"/>'+
       '</div>'+ 
     
@@ -98,7 +129,7 @@ function repo_result(pos){
   var dtl=
   '<div id="main_prn_precincts" style="position:relative;width:100%;height:100%;padding:0px;color:white;padding:5px;background:lightblue;">'+
 
-    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-40)+'px;padding:10px;color:black;background:green;">'+      
+    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-40)+'px;padding:10px;overflow:auto;color:black;background:green;">'+      
 
       '<div id="prn_div" style="width:912px;height:100%;padding:10px;overflow:auto;margin:0 auto;color:black;background:white;">'+
 

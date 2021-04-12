@@ -238,13 +238,14 @@ function update_head_total(div,place_type,place_no,pos){
   var tot_reg=0;
   var tot_precinct=0;
   var tot_counted=0;
+  
   for(var i=0;i<DB_CLUSTER.length;i++){
     //alert(DB_CLUSTER[i][fld]+' vs '+place_no);
     if(DB_CLUSTER[i][fld] != place_no){ continue; }
     tot_reg+=parseInt(DB_CLUSTER[i]['regVoters']);
     tot_precinct+=parseInt(DB_CLUSTER[i]['prec_len']);
   }
-
+  //alert('tot_reg '+tot_reg);
   //===============================================================    
   for(var ik=0;ik<DB_TRAN_VOTES.length;ik++){
     if(DB_TRAN_VOTES[ik][fld] != place_no){ continue; }    
