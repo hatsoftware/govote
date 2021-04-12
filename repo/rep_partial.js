@@ -36,8 +36,9 @@ function repo_partial(pos){
     '</div>'+
     
   '</div>';
-
-  JBE_POPUP(dtl);
+  var w='600px';
+  if(JBE_MOBILE){ w= '90%'; }
+  JBE_POPUP(w,dtl);
 }
 function put_cluster(fld,val){
   var aryDB=JBE_GETARRY(DB_CLUSTER,fld,val);  
@@ -51,7 +52,7 @@ function put_cluster(fld,val){
 function do_print_partial(vclusterno){    
   JBE_POPUP_CLOSE();
 
-  init_report('ambot');
+  init_report('Partial and Unofficial Report - Precinct Level');
   var vdate = JBE_DATE_FORMAT(new Date());
   var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   var main_dtl='';
