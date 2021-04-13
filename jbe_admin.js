@@ -5,6 +5,7 @@ function dispAdmin(){
     return;
   }
     
+  JBE_FM_SAVE=false;
   var dtl=
   '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:darkgray;">'+
 
@@ -17,7 +18,7 @@ function dispAdmin(){
         '<button onclick="do_fm_watcher()">Watchers File Maintenance</button>'+
         //'<button onclick="do_fm_cluster2()">xxx</button>'+
         //'<button onclick="do_fm_coor()">Add Coordinates</button>'+   
-        '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
+        '<input type="button" onclick="close_admin()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+
     
   '</div>';          
@@ -27,6 +28,8 @@ function dispAdmin(){
 }
 
 function close_admin(){
+  alert('JBE_FM_SAVE '+JBE_FM_SAVE);
+  if(JBE_FM_SAVE){ refresh_all_main_screen(true); }
   showMainPage();
 }
 

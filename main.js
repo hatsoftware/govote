@@ -1,12 +1,7 @@
 var live_id;
 var f_RESIZE=true;
 
-function start_app(){    
-  JBE_MOBILE=false;  
-  if(window.innerWidth <= 900) { //for mobile only
-    JBE_MOBILE=true;    
-  } 
-
+function start_app(){ 
   document.getElementById('sys_tilt').innerHTML=SYS_TILT;
   document.title=SYS_TILT;
    
@@ -87,10 +82,21 @@ function get_db_all(){
     
     //dispGtMsg();
 
-    update_main_head_total(false);
+    refresh_all_main_screen(true);
     
-    dispBoard();
-    
+  })    
+  .catch(function (error) { console.log(error); showProgress(false); }); 
+}
+
+function refresh_main_screen(){
+  showProgress(true);    
+  axios.post(JBE_API+'z_sysfile.php', { clientno:CURR_CLIENT, request:222,        
+    site:CURR_SITE    
+  },JBE_HEADER) 
+  .then(function (response) { 
+    showProgress(false);
+    //alert(response.data);    
+    DB_SYS = response.data; 
   })    
   .catch(function (error) { console.log(error); showProgress(false); }); 
 }
@@ -128,9 +134,9 @@ function create_tmp_ref_brgy(){
   //alert('tmp len:'+tmp_ref_brgy.length);
 }
 
-function update_main_head_total(f_refresh){
+function refresh_all_main_screen(f_refresh){
   if(!f_refresh){
-    do_update_main_head_total();
+    refresh_main_head_total();
     return;
   }
   showProgress(true);    
@@ -144,13 +150,13 @@ function update_main_head_total(f_refresh){
     DB_CLUSTER = response.data[3];
     dispGtMsg();
     dispGtChatter();
-    do_update_main_head_total();
+    refresh_main_head_total();
     dispBoard();
   })    
   .catch(function (error) { console.log(error); showProgress(false); });
 }
 
-function do_update_main_head_total(){
+function refresh_main_head_total(){
   var tot_regvotes=0;
   var tot_precincts=0;
   var tot_votes=0;
@@ -1074,6 +1080,6 @@ function refresh_votes(){
   //var n =  new Date().toLocaleTimeString();
   JBE_AUDIO('../../gfx/snd/insight',5);
   update_datetime();
-  update_main_head_total(true);
+  refresh_all_main_screen(true);
 }
 

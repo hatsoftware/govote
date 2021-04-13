@@ -324,7 +324,7 @@ function FM_SAVE_REC(){
       recno=FM_TABLE[(FM_TABLE.length-1)][recno_fld];
       document.getElementById(recno_div).value=recno;
     }
-    
+    JBE_FM_SAVE=true;
     if (typeof fn === "function") fn(2,response.data);   
     
     FM_DISP_REC(recno);
