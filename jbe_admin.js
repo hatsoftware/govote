@@ -28,7 +28,7 @@ function dispAdmin(){
 }
 
 function close_admin(){
-  alert('JBE_FM_SAVE '+JBE_FM_SAVE);
+  //alert('JBE_FM_SAVE '+JBE_FM_SAVE);
   if(JBE_FM_SAVE){ refresh_all_main_screen(true); }
   showMainPage();
 }
