@@ -15,21 +15,36 @@
 
 <!-- ****************************************************************** -->
 <!-- ****************************************************************** -->
-<!--script src="js/eruda.min.js"></script>
-<script>eruda.init();</script-->
+<script src="../../js/eruda.min.js"></script>
 <title>Tally Board System</title>
-<script>  
+<script>
+  //<!-- ****************************************************************** -->
+  //<!-- ****************************************************************** -->
   var CURR_CLIENT='NPC';
   var CURR_CLIENTNAME="Natl. People's Coalition";
   var CURR_SITE='npc';
+  //<!-- ****************************************************************** -->
+  //<!-- ****************************************************************** -->
+  var JBE_DEBUG=false;
+  var JBE_MOBILE=false;  
+  
   var JBE_API='https://aidfimonitoring.com/tbs_api/';  
   var pathloc=window.location.origin.substring(0,16);  
   if(pathloc == 'http://localhost') { 
+    JBE_DEBUG=true;
     JBE_API=window.location.origin+'/tbs_api/';  
   }  
+  
+  if(window.innerWidth <= 900) { //for mobile only
+    JBE_MOBILE=true;    
+  } 
+  if(JBE_MOBILE && JBE_DEBUG){
+    eruda.init();
+  }
+  //alert('JBE_DEBUG:'+JBE_DEBUG);
+  //alert('JBE_MOBILE:'+JBE_MOBILE);
+  
 </script> 
-<!-- ****************************************************************** -->
-<!-- ****************************************************************** -->
 
 </head>
 
@@ -412,7 +427,6 @@
  
 <link rel="stylesheet" href="../../styles.css" />
 <link rel="stylesheet" href="../../jmobile.css" />
-<link rel="stylesheet" media="print" href="../../print.css" />
 
 <link rel="stylesheet" type="text/css" href="../../css/leaflet2013.css" />
 <link rel="stylesheet" type="text/css" href="../../css/MarkerCluster.css" />
@@ -439,6 +453,11 @@
 
 <script type='text/javascript' src='../../js/enadlib.js'></script>
 
+<script type='text/javascript' src='../../js/print.min.js'></script>
+<link rel="stylesheet" type="text/css" href="../../js/print.min.css" />
+
+<script type='text/javascript' src='../../js/html2pdf.js'></script>
+
 <!--script type='text/javascript' src='jbe_map.js'></script-->
 <script type='text/javascript' src='../../jbe_fmlib.js'></script>
 
@@ -453,10 +472,11 @@
 <!--script type='text/javascript' src='../../fm_cluster2.js'></script-->
 
 <!-- ======================REPORTS======================= -->
-<script type='text/javascript' src='../../repo/rep_partial.js'></script>
-<script type='text/javascript' src='../../repo/rep_consolidated.js'></script>
-<script type='text/javascript' src='../../repo/rep_precinct_level.js'></script>
-<script type='text/javascript' src='../../repo/rep_conso_precinct.js'></script>
+<script type='text/javascript' src='../../repo/r_consolidated.js'></script>
+<script type='text/javascript' src='../../repo/r_precinct_level.js'></script>
+<script type='text/javascript' src='../../repo/r_precinct_level2.js'></script>
+<script type='text/javascript' src='../../repo/r_conso_precinct.js'></script>
+
 <!-- ======================REPORTS======================= -->
 
 <script src="../../jbe_admin.js"></script>
@@ -473,7 +493,7 @@
 
 <script>
 
-var CURR_SCOPE_TYPE=0;
+  var CURR_SCOPE_TYPE=0;
   var CURR_SCOPE_NO='';
   var SYS_TILT='TALLY BOARD SYSTEM';  
     
@@ -481,7 +501,7 @@ var CURR_SCOPE_TYPE=0;
 
   var CURR_CITYMUNCODE='';
   var CURR_PROJID=''; 
-  var JBE_MOBILE=true;
+  var JBE_FM_SAVE=false;
   
   var aryREPS=[];
 
