@@ -413,6 +413,48 @@ function JBE_GETFLD2(ret,db,cond){
   return rval;
 }
 
+function JBE_FILTER_ARRAY(db,cond){  
+  var aryDB=[];
+  var ctr=0;
+  var ctr_cond=cond.length;
+  
+  for(var i=0;i<db.length;i++){    
+    var ctr_ix=0;
+    for(var ix=0;ix<ctr_cond;ix++){
+      if(db[i][(cond[ix]['fld'])]==cond[ix]['val']){
+        ctr_ix++;
+      }
+    }
+    if(ctr_ix==ctr_cond){ 
+      aryDB[ctr]=db[i];
+      ctr++;
+    }
+  } 
+  
+  return aryDB;
+}
+
+
+
+
+
+function xxxJBE_FILTER_ARRAY(db,fld,filter){  
+  var aryDB=[];
+  var ctr=0;
+  for(var i=0;i<db.length;i++){
+    //alert(db[i]['pos']);
+    if(db[i][fld] != filter){ continue; }
+    
+    aryDB[ctr] = db[i];
+    //aryDB[ctr].push(db[i]);
+    //aryDTL.push(ob);  
+    //alert(db[i]);
+    ctr++;
+  }  
+  return aryDB;
+}
+
+
 function JBE_GETARRY(r_arry,r_fld,r_key){   
   //JBE_GETFLD('usertype',DB_CLIENTS,'usercode',usercode);  
   var rval=[];
