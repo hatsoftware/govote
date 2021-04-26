@@ -8,12 +8,16 @@ function dispReports(){
   '<div style="width:100%;height:100%;padding:0px;color:white;overflow:auto;background:lightgray;">'+
 
       '<div id="sys_menu1" class="cls_ds_main">'+
-        '<p style="background:'+JBE_CLOR+';">REPORTS</p>'+
-        '<button onclick="repo_consolidated()">Consolidated Report</button>'+
-        '<button onclick="not_yet()">Barangay Level Report</button>'+
-        '<button onclick="repo_precinct_level()">Partial/Final and Unofficial Report - Precinct Level</button>'+        
-        '<button onclick="not_yet()">Precinct Status Group by Barangay Report</button>'+
-        '<button onclick="repo_conso_precinct()">Consolidated Precinct Status Group by Barangay Report</button>'+
+        '<p style="background:'+JBE_CLOR+';">REPORTS</p>'+        
+        '<button onclick="proc_consolidated()">Consolidated Report</button>'+
+        '<button onclick="proc_precinct_level()">Precinct Level Report</button>'+
+        '<button onclick="proc_conso_precinct()">Consolidated Precinct Status Group by Barangay Report</button>'+
+        '<br>'+
+        //'<button onclick="proc_precinct_level2()">Precinct Level Report</button>'+
+        //'<button onclick="proc_sample()">Sample Report</button>'+
+        //'<button onclick="repo_precinct_level()">Partial/Final and Unofficial Report - Precinct Level</button>'+        
+        //'<button onclick="not_yet()">Precinct Status Group by Barangay Report</button>'+
+        //'<button onclick="repo_conso_precinct()">Consolidated Precinct Status Group by Barangay Report</button>'+
         '<input type="button" onclick="close_setting()" style="background:'+JBE_CLOR+';" value="Exit" />'+   
       '</div>'+
 
@@ -27,6 +31,7 @@ function dispReports(){
 function not_yet(){
   snackBar('Under construction...');
 }
+
 
 function close_reports(){
   showMainPage();
@@ -47,6 +52,8 @@ function prn_repo(rep_title,rep_php,param){
   link.setAttribute('href', newrep);
   link.setAttribute('target', rep_title);  
   window.open(newrep,rep_title);
+  //window.history.pushState("object or string", "Title", "/new-url");
+  history.pushState(null, null, '/en/step2');
 }
 
 function put_cluster(fld,val){
@@ -59,25 +66,60 @@ function put_cluster(fld,val){
 }
 
 //========================================================================
-function init_report(tilt){
+function init_report(tilt,vsize){
+  var w=vsize[0];
+  var h=vsize[1];
+  var o=vsize[2]; // 0=portrait 1=landscape
+  var orient='portrait';
+  if(o==1){ orient='landscape'; }
   var dtl=
-  '<div id="repo_main" style="position:relative;width:100%;height:100%;font-family: "Lato","Arial", sans-serif;padding:0px;color:white;padding:5px;background:lightblue;">'+
-    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-30)+'px;padding:10px;color:black;overflow:auto;background:lightgray;">'+      
-
-      //'<div id="prn_div" style="position:relative;text-align:center;width:850px;height:auto;padding:0px;overflow:auto;margin:0 auto;color:black;background:white;">'+  
-      '<div id="prn_div" style="position:relative;text-align:center;width:100%;height:auto;padding:0px;overflow:auto;margin:0 auto;color:black;background:white;">'+  
+  '<div id="repo_main" style="position:relative;width:100%;height:100%;font-family: "Lato","Arial", sans-serif;padding:0px;color:white;padding:5px;border:0px solid red;">'+
+    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-30)+'px;padding:0px;overflow:auto;color:black;background:lightgray;">'+      
+            
+      '<div id="prn_div" style="position:relative;width:100%;height:100%;padding:0px;color:black;background:none;">'+  
       '</div>'+ //printable
 
     '</div>'+
     
     '<div style="width:100%;height:40px;padding:5px;text-align:center;color:white;background:dimgray;">'+
       '<input type="button" onclick="do_print_repo()" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print" />'+
+      '<input type="button" onclick="printJS(&quot;prn_div&quot;,&quot;html&quot;)" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print JS" />'+
+      
+      '<input type="button" onclick="generatePDF('+w+','+h+',&quot;'+orient+'&quot;)" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="PDF" />'+
     '</div>'+
     
   '</div>';          
   JBE_OPEN_VIEW(dtl,tilt,'');  
   modal_ON(true);
 }
+
+function generatePDF(w,h,orient) {
+  const element = document.getElementById("prn_div");
+  // Choose the element and save the PDF for our user.
+  if(JBE_MOBILE){ //mobile
+    html2pdf()
+      .from(element)
+      .save();
+  }else{
+    html2pdf()
+    .set({ 
+      html2canvas: { scale: 2 },
+      filename: 'myPage.pdf',
+      margin: 0.2,
+      //pagebreak: { mode:'avoid-all', before:'#page2el' },
+      //pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }, //It determines how HTML elements should be split.
+      //image: {type: 'jpeg', quality: 0.9},
+      //jsPDF: { unit:'in',format: [87,8.5], orientation:'landscape' } 
+      jsPDF: { unit:'in',format:[w,h], orientation:orient } 
+      //jsPDF: { format: [element.width,element.height], orientation:'landscape' } 
+    })
+    .from(element).toPdf().get('pdf').then(function (pdf) {
+      window.open(pdf.output('bloburl'),'_blank');
+    });  
+
+  }
+}
+
 
 function JBE_POPUP(w,vdtl,tilt){  
   var dtl=
@@ -105,150 +147,6 @@ function JBE_POPUP_CLOSE(){
   document.getElementById('div_popup').style.display='none';  
 }
 
-function repo_result(pos){ 
-  if(CURR_AXTYPE <4){
-    snackBar('ACCESS DENIED...');
-    return;
-  }
-  //f_RESIZE=false;  
-  var vdate = JBE_DATE_FORMAT(new Date());
-  var vtime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-  
-  var tot_votes=0;
-
-  var aryCandi=DB_CANDIDATE;
-  aryCandi.sort(sortByMultipleKey(['*votes','name']));
-
-  for(var k=0;k<DB_TRAN_VOTES.length;k++){      
-    //if(DB_TRAN_VOTES[k][code] != vcode){ continue; }    
-    if(DB_TRAN_VOTES[k]['pos'] != pos){ continue; }
-
-    tot_votes+=parseInt(DB_TRAN_VOTES[k]['votes']);      
-  }
-  
-  var dtl=
-  '<div id="main_prn_precincts" style="position:relative;width:100%;height:100%;padding:0px;color:white;padding:5px;background:lightblue;">'+
-
-    '<div class="cls_repo" style="width:100%;height:'+(H_BODY-40)+'px;padding:10px;overflow:auto;color:black;background:green;">'+      
-
-      '<div id="prn_div" style="width:912px;height:100%;padding:10px;overflow:auto;margin:0 auto;color:black;background:white;">'+
-
-        '<div id="repo_main_header" style="position:relative;width:100%;height:60px;font-size:12px;border:1px solid black;color:black;background:lightgray;">'+ //head
-        
-          '<div style="position:relative;width:100%;height:100%;border:0px solid black;">'+ //head
-
-            '<div class="cls_header" style="float:left;width:33%;height:60px;text-align:left;padding:5px;background:green;">'+
-              '<div> xxxElection Results</div>'+
-              '<span id="subtilt_"></span>'+
-            '</div>'+
-
-            '<div style="float:left;width:33%;height:100%;text-align:center;padding:2px;background:blue;">'+
-              '<div style="width:100%;height:55%;padding:0px;font-size:25px;background:none;">'+
-                'xxxxxxxxxxxxxx'+
-              '</div>'+
-              '<div style="width:100%;height:45%;padding:0px;font-size:20px;background:none;">'+
-                'gggggggggggg'+
-              '</div>'+
-            '</div>'+
-
-            '<div style="float:right;width:33%;height:60px;text-align:right;padding:2px;background:red;">'+
-              /*
-                '<div style="width:100%;height:34%;">Total Registered Voters : </div>'+
-                    '<span style="width:100%;height:34%;" id="headTotRegVoters_">0</span>'+
-                '<div style="width:100%;height:33%;">Total Precincts : </div>'+
-                    '<span style="width:100%;height:33%;" id="headTotPrecincts_">0</span>'+
-                '<div style="width:100%;height:33%;">Total Votes Counted : </div>'+
-                    '<span style="width:100%;height:33%;" id="headTotVotes_">0</span>'+
-              */
-            '</div>'+
-            
-          '</div>'+
-
-        '</div>'+
-
-        '<div style="margin-top:30px;width:100%;height:20px;border:1px solid red;background:none;">'+
-          '<div style="float:left;width:40%;height:20px;max-height:100%;text-align:left;background:none;">'+
-            'CANDIDATE NAME'+
-          '</div>'+
-          '<div style="float:left;width:20%;height:20px;max-height:100%;background:none;">'+
-            'TOTAL VOTES'+
-          '</div>'+
-          '<div style="float:left;width:20%;height:20px;max-height:100%;background:none;">'+
-            'RANKING'+
-          '</div>'+
-          '<div style="float:left;width:20%;height:20px;max-height:100%;background:none;">'+
-            'PERCENTAGE'+
-          '</div>'+
-        '</div>'+  
-        
-        '<div style="margin-top:30px;width:100%;height:auto;overflow:auto;background:none;">';
-          var dtl2='';
-          var ctr=0;
-          var votes=0;
-          for(var i=0;i<aryCandi.length;i++){
-            if(aryCandi[i]['pos'] != pos){ continue; }
-
-            votes=parseInt(aryCandi[i]['votes']);
-            ctr++;
-
-            dtl2+=
-            '<div style="float:left;width:40%;height:20px;max-height:40px;text-align:left;background:none;">'+
-              aryCandi[i]['name']+
-            '</div>'+
-            '<div style="float:left;width:20%;height:20px;max-height:40px;text-align:center;background:none;">'+
-              votes+            
-            '</div>'+
-            '<div style="float:left;width:20%;height:20px;max-height:40px;text-align:center;background:none;">'+
-              'Rank '+ctr+
-            '</div>'+
-            '<div style="float:left;width:20%;height:20px;max-height:40px;text-align:center;background:none;">'+
-              round(((votes/tot_votes)*100),0)+'%'+
-            '</div>';
-            
-          }
-
-          dtl+=dtl2+
-          
-        '</div>'+  
-      '</div>'+ 
-
-    '</div>'+
-    
-    '<div style="width:100%;height:40px;padding:5px;text-align:center;color:white;background:red;">'+
-      '<input type="button" onclick="do_print_repo()" style="width:100px;height:100%;color:'+JBE_TXCLOR1+';border-radius:8px;background:none;" value="Print" />'+              
-    '</div>'+
-    
-  '</div>';          
-
-  JBE_OPEN_VIEW(dtl,'Report By Precincts','close_dispByPrecincts');
-  //update_rephead_total('1repo','brgy',CURR_CITYMUNCODE,tot_votes);
-  modal_ON(true);
-}
-
-function update_rephead_total(div,place_type,place_no,tot_counted){    
-  var fld;
-  //alert('div:'+div);
-  if(place_type=='citymun'){
-    fld='provCode';
-  }else if(place_type=='brgy'){
-    fld='citymunCode';
-  }else if(place_type=='cluster'){
-    fld='brgyCode';
-  }
-  
-  var tot_reg=500;
-  var tot_precinct=0;
-  for(var i=0;i<DB_CLUSTER.length;i++){
-    //alert(DB_CLUSTER[i][fld]+' vs '+place_no);
-    if(DB_CLUSTER[i][fld] != place_no){ continue; }
-    tot_reg+=parseInt(DB_CLUSTER[i]['regVoters']);
-    tot_precinct+=parseInt(DB_CLUSTER[i]['prec_len']);
-  }
-  
-  document.getElementById('headTotRegVoters_'+div).innerHTML=jformatNumber(tot_reg);
-  document.getElementById('headTotPrecincts_'+div).innerHTML=jformatNumber(tot_precinct);
-  document.getElementById('headTotVotes_'+div).innerHTML=jformatNumber(tot_counted);
-}
 
 //========================================================================
 
@@ -374,7 +272,7 @@ function dispByPrecincts(){
   }
   //f_RESIZE=false;  
   var dtl=
-  '<div id="main_prn_precincts" style="position:relative;width:100%;height:100%;padding:0px;color:white;padding:5px;background:yellow;">'+
+  '<div id="main_prn_precincts" style="position:relative;width:100%;height:100%;padding:0px;color:white;padding:5px;background:green;">'+
 
     '<div class="cls_repo" style="width:100%;height:'+(H_BODY-40)+'px;padding:10px;color:black;background:green;">'+      
 
@@ -384,7 +282,7 @@ function dispByPrecincts(){
           var dtl2='';
           for(var i=0;i<DB_CLUSTER.length;i++){
             dtl2+=
-            '<div class="box" style="float:left;width:47%;height:300px;margin:5px;text-align:center;font-size:14px;padding:5px;border:1px solid red;">'+
+            '<div class="box" style="float:left;width:47%;height:300px;margin:5px;text-align:center;font-size:14px;padding:5px;border:0px solid red;">'+
               '<div style="float:left;width:100%;height:20px;">Registered Voters: <span>999</span></div>'+
               '<div style="float:left;width:100%;height:20px;">Valid Ballots Counted: <span>888</span></div>'+
               '<div style="float:left;width:100%;height:20px;max-height:40px;background:red;">'+
