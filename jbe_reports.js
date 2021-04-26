@@ -82,10 +82,11 @@ function init_report(tilt,vsize){
     '</div>'+
     
     '<div style="width:100%;height:40px;padding:5px;text-align:center;color:white;background:dimgray;">'+
-      '<input type="button" onclick="do_print_repo()" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print" />'+
-      '<input type="button" onclick="printJS(&quot;prn_div&quot;,&quot;html&quot;)" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print JS" />'+
-      
-      '<input type="button" onclick="generatePDF('+w+','+h+',&quot;'+orient+'&quot;)" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="PDF" />'+
+      //'<input type="button" onclick="do_print_repo()" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print" />'+
+      //'<input type="button" onclick="printJS(&quot;prn_div&quot;,&quot;html&quot;)" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print JS" />'+      
+      //'<input type="button" onclick="generatePDF('+w+','+h+',&quot;'+orient+'&quot;)" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="PDF" />'+
+
+      '<input type="button" onclick="generatePDF('+w+','+h+',&quot;'+orient+'&quot;)" style="width:100px;height:100%;color:white;cursor:pointer;border-radius:8px;border:1px solid white;background:black;" value="Print" />'+
     '</div>'+
     
   '</div>';          
