@@ -161,7 +161,10 @@ function get_db_all(){
     //saving_candidate();
     
     //alert('DB_MSG.length '+DB_MSG.length);
-
+    
+    var clusterno=JBE_GETFLD('clusterno',DB_USER,'usercode',CURR_USER);
+    f_cluster_closed=false;
+    if(JBE_GETFLD('status',DB_CLUSTER,'clusterno',clusterno)=='1'){ f_cluster_closed=true; }
     
     if(CURR_SCOPE_TYPE == 2){
       var ctr=0;

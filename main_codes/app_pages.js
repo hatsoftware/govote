@@ -144,6 +144,10 @@ function view_box_candidate(vpos){
     snackBar('OFFLINE');
     return;
   }
+  if(f_cluster_closed){
+    snackBar('Precinct is CLOSED...');
+    return;
+  }
   if(!CURR_USER){ MSG_SHOW(vbOk,"ERROR:","Please Log In.",function(){},function(){}); return; }
   var dtl=
     '<div style="width:100%;height:100%;margin-top:0px;padding:5px;overflow:auto;background:white;">'+

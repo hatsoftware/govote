@@ -196,8 +196,6 @@ function fm_admin(){
     tsek="";
   }    
 
-  
-
   var precincts=aryDB['precincts'];
   var brgyCode=aryDB['brgyCode'];
   var citymunCode=aryDB['citymunCode'];
@@ -282,8 +280,10 @@ function proc_swipe(div){
   var closed=0;
   if(document.getElementById(div).checked){
     document.getElementById('swipe_stat').innerHTML='OPEN';
+    f_cluster_closed=false;
   }else{
     document.getElementById('swipe_stat').innerHTML='CLOSED';
+    f_cluster_closed=true;
     closed=1;
   }
   showProgress(true);    
