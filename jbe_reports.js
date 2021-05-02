@@ -106,7 +106,7 @@ function generatePDF(w,h,orient) {
     .set({ 
       html2canvas: { scale: 2 },
       filename: 'myPage.pdf',
-      margin: 0.2,
+      margin: 0.05,
       //pagebreak: { mode:'avoid-all', before:'#page2el' },
       //pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }, //It determines how HTML elements should be split.
       //image: {type: 'jpeg', quality: 0.9},
