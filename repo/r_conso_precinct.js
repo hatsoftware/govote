@@ -60,6 +60,7 @@ function print_proc_conso_precinct(){
     var vopen=result['vopen'];
     var vclosed=result['vclosed'];
     var vstatus='OPEN';
+    alert(perc);
     if(perc==100){ vstatus='CLOSED'; }
     perc=the_perc(perc);
 
