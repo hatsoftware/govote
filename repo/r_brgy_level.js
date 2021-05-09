@@ -67,6 +67,9 @@ function print_proc_brgy_level(vbrgyCode){
   
   var aryBrgy=tmp_ref_brgy;
   var aryPosition=DB_POSITION;
+  var aryCluster=DB_CLUSTER;
+  aryCluster.sort(sortByMultipleKey(['brgyCode','clusterno']));
+
   
   for(var i=0;i<aryBrgy.length;i++){
     if(vbrgyCode){ //single
@@ -97,9 +100,11 @@ function print_proc_brgy_level(vbrgyCode){
       lctr=lctr+2;
       
       var aryDATUM=getData_brgy_level(pos,brgyCode);
+      if(aryDATUM.length==0){ continue; }
 
       var aryDATA=aryDATUM[0];
       var aryDATAcluster=aryDATUM[1];
+      
       dtl_line='';
       
       for(var ii=0;ii<aryDATA.length;ii++){    
@@ -120,10 +125,11 @@ function print_proc_brgy_level(vbrgyCode){
           '<div id="the_perc" style="float:left;height:100%;width:1.4%;border:1px solid black;padding:3px;text-align:center;">'+perc+'</div>';
           
           var dtl2='';
-          
+          var votes=0;
           for(var ji=0;ji<aryDATAcluster.length;ji++){      
             if(aryDATAcluster[ji]['candi_no'] != candi_no){ continue; }
-            var votes=aryDATAcluster[ji]['clusterVotes'];
+            votes=parseInt(aryDATAcluster[ji]['cluster_votes']);
+            //alert(votes);
             dtl2+='<div style="float:left;height:100%;width:2%;text-align:center;padding:5px;border:1px solid black;background:none;">'+iif(votes==0,'',jformatNumber(votes))+'</div>';
           }             
           dtl_line+=dtl2+
@@ -179,8 +185,6 @@ function print_proc_brgy_level(vbrgyCode){
             //alert(ji+'. '+DB_CLUSTER[ji]['brgyCode']+' vs '+brgyCode);
             var vname='';
             if(DB_CLUSTER[ji]['brgyCode'] == brgyCode){ vname=DB_CLUSTER[ji]['clustername']; }
-              
-            
             vdtl3+='<div style="float:left;height:100%;width:2%;text-align:center;padding:3px 0 0 0;border:1px solid red;background:none;">'+vname+'</div>';
           }
           vdtl+=vdtl3+
@@ -222,6 +226,7 @@ function getData_brgy_level(pos,brgyCode){
   var aryDATAcluster=[];
   
   var aryCluster=DB_CLUSTER;
+  aryCluster.sort(sortByMultipleKey(['brgyCode','clusterno']));
 
   // main loop ============================================================================
   var i=0;
@@ -232,12 +237,12 @@ function getData_brgy_level(pos,brgyCode){
     //total_pos+=parseInt(aryTranVotes[i]['votes']);
     for(var ii=0;ii<aryCluster.length;ii++){
       var clusterno=aryCluster[ii]['clusterno'];
-      var clusterVotes=aryCluster[ii]['clusterVotes'];
+      var cluster_votes=aryCluster[ii]['votes'];
 
       let ob_cluster={
         "candi_no":sv_candi_no,
         "clusterno":clusterno,
-        "clusterVotes":clusterVotes
+        "cluster_votes":cluster_votes
       }
 
       aryDATAcluster[ctr_array]=ob_cluster;
