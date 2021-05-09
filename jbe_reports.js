@@ -135,13 +135,14 @@ function generatePDF(w,h,orient) {
 function the_perc(n){
   var tt=n+'%';
   var ww=n+'%';
+  if(n>100){ ww='100%'; }
   if(n <= 0){ 
     tt=''; 
     ww='0%';
   }
   var div=
-  //'<div style="width:'+ww+';height:100%;background:coral;">'+tt+'</div>';
-  '<div style="width:100%;height:100%;background:coral;">'+tt+'</div>';
+  '<div style="width:'+ww+';height:100%;background:coral;">'+tt+'</div>';
+  //'<div style="width:100%;height:100%;background:coral;">'+tt+'</div>';
   return div;
 }
 
