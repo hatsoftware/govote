@@ -1,4 +1,4 @@
-const cacheName = 'NPC_0101101';
+const cacheName = 'NPC_0101102';
 const staticAssets = [
   './',
   './index.html', 
