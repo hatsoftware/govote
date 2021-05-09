@@ -12,6 +12,7 @@ function dispReports(){
         '<button onclick="proc_consolidated()">Consolidated Report</button>'+
         '<button onclick="proc_precinct_level()">Precinct Level Report</button>'+
         '<button onclick="proc_conso_precinct()">Consolidated Precinct Status Group by Barangay Report</button>'+
+        '<button onclick="proc_brgy_level()">Barangay Level Report</button>'+
         '<br>'+
         //'<button onclick="proc_precinct_level2()">Precinct Level Report</button>'+
         //'<button onclick="proc_sample()">Sample Report</button>'+
@@ -65,6 +66,12 @@ function put_cluster(fld,val){
   document.getElementById('tx_repo_cityName').value = JBE_GETFLD('citymunDesc',ref_city,'citymunCode',aryDB['citymunCode']);
 }
 
+function put_brgy(fld,val){
+  var aryDB=JBE_GETARRY(tmp_ref_brgy,fld,val);    
+  document.getElementById('tx_repo_brgyCode').value = val;
+  document.getElementById('tx_repo_brgyName').value = JBE_GETFLD('brgyDesc',tmp_ref_brgy,'brgyCode',aryDB['brgyCode']);  
+}
+
 //========================================================================
 function init_report(tilt,vsize){
   var w=vsize[0];
@@ -95,12 +102,14 @@ function init_report(tilt,vsize){
 }
 
 function generatePDF(w,h,orient) {
+  showProgress(true);  
   const element = document.getElementById("prn_div");
   // Choose the element and save the PDF for our user.
   if(JBE_MOBILE){ //mobile
     html2pdf()
       .from(element)
       .save();
+      showProgress(false);  
   }else{
     html2pdf()
     .set({ 
@@ -116,11 +125,24 @@ function generatePDF(w,h,orient) {
     })
     .from(element).toPdf().get('pdf').then(function (pdf) {
       window.open(pdf.output('bloburl'),'_blank');
+      showProgress(false);  
     });  
+    
 
   }
 }
 
+function the_perc(n){
+  var tt=n+'%';
+  var ww=n+'%';
+  if(n <= 0){ 
+    tt=''; 
+    ww='0%';
+  }
+  var div=
+  '<div style="width:'+ww+';height:100%;background:coral;">'+tt+'</div>';
+  return div;
+}
 
 function JBE_POPUP(w,vdtl,tilt){  
   var dtl=

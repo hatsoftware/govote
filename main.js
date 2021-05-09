@@ -917,6 +917,7 @@ function myResizeFunction(){
   document.querySelectorAll('.myView').forEach(function(el) {
     el.style.height=H_VIEW+'px';
     el.style.width='100%';
+    //el.style.display='none';
   });
    
   document.querySelectorAll('.myView_dtl').forEach(function(el) {    
