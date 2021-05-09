@@ -228,7 +228,7 @@ function send_votes(){
   for(var i=0;i<ctr;i++){
     var v_code=document.getElementById('inpVote_'+(i+1)).getAttribute('data-code');
     //alert(i+' = '+v_code);
-    var cur_votes=parseInt(JBE_GETFLD('votes',DB_CANDIDATE,'code',v_code));
+    var cur_votes=0;//parseInt(JBE_GETFLD('votes',DB_CANDIDATE,'code',v_code));
     var pos=JBE_GETFLD('pos',DB_CANDIDATE,'code',v_code);
     var old_votes=parseInt(document.getElementById('inpVote_'+(i+1)).getAttribute('data-votes'));
     var new_votes=parseInt(document.getElementById('inpVote_'+(i+1)).value);
