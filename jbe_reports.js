@@ -140,7 +140,8 @@ function the_perc(n){
     ww='0%';
   }
   var div=
-  '<div style="width:'+ww+';height:100%;background:coral;">'+tt+'</div>';
+  //'<div style="width:'+ww+';height:100%;background:coral;">'+tt+'</div>';
+  '<div style="width:100%;height:100%;background:coral;">'+tt+'</div>';
   return div;
 }
 
