@@ -201,7 +201,7 @@
       ************************************************************************** -->
 <div id="wrapper" class="head_color" style="display:block;position:relative;height:100%;margin:0;overflow:auto;">  
 
-  <div id="page_main" class="page_class" style="display:block;width:100%;height:100%;overflow:auto;">
+  <div id="page_main" class="page_class" style="display:block;width:100%;height:100%;overflow:auto;border:0px solid red;">
 
     <div id="div_header" style="display:block;width:100%;height:60px;text-align:center;border:0px solid gray;padding:0px;color:white;">        
 
@@ -296,16 +296,12 @@
         </div-->
               
         <div style="position:absolute;bottom:10px;width:100%;height:30px;padding:2px;background:none;">
-          <!--div style="display:block;width:100%;height:70%;padding:2px;background:none;">
-            <span id="id_LiveTime" style="display:none;width:100%;height:30%;color:white;background:none;"></span>
-            <img id="id_LiveImg" src="../../gfx/live.gif" style="display:none;width:100%;height:70%;background:white;"/>        
-          </div-->
           <button id="btn_Live" onclick="nowLive()" data-live=0 style="width:100%;height:100%;margin-top:2%;padding:2px;border-radius:7px;border:1px solid white;color:white;background:black;">LIVE</button>
         </div>      
       
       </div>      
 
-      <div id="head_main" style="position:fixed;z-index:100;margin-top:0px;height:60px;border:1px solid lightgray;color:black;background:white;">
+      <div id="head_main" style="display:block;position:fixed;z-index:100;margin-top:0px;height:60px;border:1px solid lightgray;color:black;background:white;">
         <div style="float:left;width:30%;height:100%;padding:5px;background:none;">
           <img id="xhd_LiveImg" src="../../gfx/live.gif" style="display:none;height:100%;background:white;"/>        
         </div>
@@ -418,13 +414,13 @@
   
 
   <!--************************* footer -->
-  <div class="cls_fixed head_color" id="div_footer" style="position:relative;height:35px;width:100%;border:0px;">
+  <div class="cls_fixed head_color" id="div_footer" style="display:block;position:relative;height:35px;width:100%;border:0px;">
     <div id="copyright" style="font-size:12px;padding:6px;background:none;">HAT Software &copy; Copyright 2018. Bacolod City.</div>    
     <div id="id_LiveImg" style="display:none;position:absolute;width:auto;height:30px;top:3px;right:3px;"><img src="../../gfx/live.gif" style="height:100%;" /></div>    
   </div> <!--footer-->
 
 </div> <!--wrapper div-->
- 
+
 <link rel="stylesheet" href="../../styles.css" />
 <link rel="stylesheet" href="../../jmobile.css" />
 
@@ -475,6 +471,7 @@
 <script type='text/javascript' src='../../repo/r_consolidated.js'></script>
 <script type='text/javascript' src='../../repo/r_precinct_level.js'></script>
 <script type='text/javascript' src='../../repo/r_conso_precinct.js'></script>
+<script type='text/javascript' src='../../repo/r_brgy_level.js'></script>
 
 <!-- ======================REPORTS======================= -->
 
