@@ -61,20 +61,26 @@ function print_proc_conso_precinct(){
     var vclosed=result['vclosed'];
     var vstatus='OPEN';
     if(perc==100){ vstatus='CLOSED'; }
+    perc=the_perc(perc);
 
     //alert(brgyDesc);
     dtl_line+=    
     '<div style="height:25px;width:100%;padding:0px;border:0px solid blue;background:none;">'+      
-      '<div style="float:left;height:100%;width:30%;padding:4px;border:1px solid black;text-align:center;">'+brgyDesc+'</div>'+      
-      '<div style="float:left;height:100%;width:9.9%;padding:4px;border:1px solid black;text-align:right;">'+iif(voters>0,jformatNumber(voters),'')+'</div>'+
-      '<div style="float:left;height:100%;width:10.2%;padding:4px;border:1px solid black;text-align:right;">'+iif(votes>0,jformatNumber(votes),'')+'</div>'+
-      '<div style="float:left;height:100%;width:9.9%;padding:4px;border:1px solid black;text-align:right;">'+iif(clusters>0,jformatNumber(clusters),'')+'</div>'+
+      '<div style="float:left;height:100%;width:30%;padding:4px;border:1px solid black;text-align:left;">'+brgyDesc+'</div>'+  
+      
+      '<div style="float:left;height:100%;width:30%;padding:0px;border:0px solid black;">'+
+        '<div style="float:left;height:100%;width:33%;padding:4px;border:1px solid black;text-align:right;">'+iif(voters>0,jformatNumber(voters),'')+'</div>'+
+        '<div style="float:left;height:100%;width:34%;padding:4px;border:1px solid black;text-align:right;">'+iif(votes>0,jformatNumber(votes),'')+'</div>'+
+        '<div style="float:left;height:100%;width:33%;padding:4px;border:1px solid black;text-align:right;">'+iif(clusters>0,jformatNumber(clusters),'')+'</div>'+
+      '</div>'+
 
-      '<div style="float:left;height:100%;width:9.9%;padding:4px;border:1px solid black;text-align:center;">'+iif(perc>0,jformatNumber(perc)+'%','')+'</div>'+      
-      '<div style="float:left;height:100%;width:9.9%;padding:4px;border:1px solid black;text-align:right;">'+iif(vopen>0,jformatNumber(vopen),'')+'</div>'+      
-      '<div style="float:left;height:100%;width:10.2%;padding:4px;border:1px solid black;text-align:right;">'+iif(vclosed>0,jformatNumber(vclosed),'')+'</div>'+      
-      '<div style="float:left;height:100%;width:9.9%;padding:4px;border:1px solid black;text-align:center;">'+vstatus+'</div>'+      
+      '<div style="float:left;height:100%;width:14%;padding:4px;border:1px solid black;text-align:center;">'+perc+'</div>'+ 
 
+      '<div style="float:left;height:100%;width:26%;padding:0px;border:0px solid black;background:none;">'+
+        '<div style="float:left;height:100%;width:30%;padding:4px;border:1px solid black;text-align:right;">'+iif(vopen>0,jformatNumber(vopen),'')+'</div>'+      
+        '<div style="float:left;height:100%;width:34%;padding:4px;border:1px solid black;text-align:right;">'+iif(vclosed>0,jformatNumber(vclosed),'')+'</div>'+      
+        '<div style="float:left;height:100%;width:36%;padding:4px;border:1px solid black;text-align:left;">'+vstatus+'</div>'+      
+      '</div>'+
     '</div>';
     
     lctr++;
@@ -114,14 +120,14 @@ function print_proc_conso_precinct(){
           '</div>'+
         '</div>'+
 
-        '<div style="float:left;height:100%;width:10%;padding:14px;border:1px solid black;text-align:center;">PERC</div>'+
+        '<div style="float:left;height:100%;width:14%;padding:14px;border:1px solid black;text-align:center;">PERC</div>'+
 
-        '<div style="float:left;height:100%;width:30.004%;padding:0px;border:0px solid black;">'+
+        '<div style="float:left;height:100%;width:26%;padding:0px;border:0px solid black;">'+
           '<div style="height:50%;width:100%;padding:3px 0 0 0;border:1px solid black;text-align:center;">C L U S T E R</div>'+
           '<div style="height:50%;width:100%;padding:0px;border:0px solid black;text-align:center;">'+
-            '<div style="float:left;height:100%;width:33%;padding:3px 0 0 0;border:1px solid black;text-align:center;">OPEN</div>'+
+            '<div style="float:left;height:100%;width:30%;padding:3px 0 0 0;border:1px solid black;text-align:center;">OPEN</div>'+
             '<div style="float:left;height:100%;width:34%;padding:3px 0 0 0;border:1px solid black;text-align:center;">CLOSED</div>'+
-            '<div style="float:left;height:100%;width:33%;padding:3px 0 0 0;border:1px solid black;text-align:center;">STATUS</div>'+
+            '<div style="float:left;height:100%;width:36%;padding:3px 0 0 0;border:1px solid black;text-align:center;">STATUS</div>'+
           '</div>'+
         '</div>'+
 

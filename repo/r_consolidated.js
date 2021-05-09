@@ -69,15 +69,16 @@ function print_proc_consolidated(){
       var candi_name=JBE_GETFLD('name',DB_CANDIDATE,'code',candi_no).toUpperCase();
       var partyno=JBE_GETFLD('partyno',DB_CANDIDATE,'code',candi_no).toUpperCase();
       var partyname=JBE_GETFLD('partyname',DB_PARTY,'partyno',partyno).toUpperCase();
-      var perc=aryDATA[ii]['perc']+'%';
+      var perc=aryDATA[ii]['perc'];
+      perc=the_perc(perc);
       var candi_votes=aryDATA[ii]['candi_votes'];
       
       dtl_line=
       '<div style="height:25px;width:100%;background:none;">'+
-        '<div style="float:left;height:100%;width:0.705%;border:1px solid black;padding:3px;text-align:center;">'+(ii+1)+'. '+'</div>'+
+        '<div style="float:left;height:100%;width:0.7%;border:1px solid black;padding:3px;text-align:center;">'+(ii+1)+'. '+'</div>'+
         '<div style="float:left;height:100%;width:2.5%;border:1px solid black;padding:3px;text-align:left;">'+candi_name+'</div>'+
         '<div style="float:left;height:100%;width:2.4%;border:1px solid black;padding:3px;text-align:left;">'+partyname+'</div>'+
-        '<div style="float:left;height:100%;width:1.4%;border:1px solid black;padding:3px;text-align:center;">'+perc+'</div>';
+        '<div id="the_perc" style="float:left;height:100%;width:1.4%;border:1px solid black;padding:3px;text-align:center;">'+perc+'</div>';
         
         var dtl2='';
         
@@ -136,9 +137,9 @@ function print_proc_consolidated(){
     //alert('sub pg:'+pg+' lctr:'+lctr);
     var vdtl=
     '<div id="sub_pg_repo_consolidated_'+pg+'" style="width:100%;height:50px;border:0px solid coral;margin-top:10px;padding:0px;">'+    
-      '<div class="cls_line_pos" style="height:50%;width:100%;text-align:left;padding:3px;border:1px solid black;background:none;">FOR '+posname.toUpperCase()+'</div>'+
-      '<div style="height:50%;width:100%;border:0px solid blue;background:none;">'+      
-        '<div style="float:left;height:100%;width:0.705%;padding:3px;border:1px solid black;text-align:center;">RANK</div>'+
+      '<div class="cls_line_pos" style="height:50%;width:100%;text-align:left;padding:3px;border:1px solid black;background:lightgray;">FOR '+posname.toUpperCase()+'</div>'+
+      '<div style="height:50%;width:100%;border:0px solid blue;background:gray;">'+      
+        '<div style="float:left;height:100%;width:0.7%;padding:3px;border:1px solid black;text-align:center;">RANK</div>'+
         '<div style="float:left;height:100%;width:2.5%;padding:3px;border:1px solid black;text-align:left;">CANDIDATE</div>'+
         '<div style="float:left;height:100%;width:2.4%;padding:3px;border:1px solid black;text-align:left;">POLITICAL PARTY</div>'+
         '<div style="float:left;height:100%;width:1.4%;padding:3px;border:1px solid black;text-align:center;">PERCENTAGE</div>';
@@ -153,6 +154,7 @@ function print_proc_consolidated(){
     document.getElementById('repo_consolidated_body'+pg).innerHTML+=vdtl;        
   }
 }
+
 
 
 function getData_conso(pos){      
@@ -185,8 +187,7 @@ function getData_conso(pos){
     var sv_candi_no=aryTranVotes[i]['candi_no'];
     var candi_votes=0;    
     //total_pos+=parseInt(aryTranVotes[i]['votes']);
-    for(var ii=0;ii<aryBrgy.length;ii++){
-      var candi_no=aryBrgy[ii]['candi_no'];
+    for(var ii=0;ii<aryBrgy.length;ii++){      
       var brgyCode=aryBrgy[ii]['brgyCode'];
       var brgyVotes=0;      
 
@@ -230,8 +231,6 @@ function getData_conso(pos){
     if(i == aryTranVotes.length){ break; }    
   }
   
-  var dtl='';  
-
   aryData.sort(sortByMultipleKey(['*candi_votes']));
 
   var retArray=[];
@@ -239,47 +238,6 @@ function getData_conso(pos){
   retArray[1]=aryDataBrgy;
   
   return retArray;
-  
-  for(var i=0;i<aryData.length;i++){   
-    var candi_no=aryData[i]['candi_no'];
-    //alert('lk: '+i+' = '+candi_no);
-    var candi_name=JBE_GETFLD('name',DB_CANDIDATE,'code',candi_no).toUpperCase();
-    var partyno=JBE_GETFLD('partyno',DB_CANDIDATE,'code',candi_no).toUpperCase();
-    var partyname=JBE_GETFLD('partyname',DB_PARTY,'partyno',partyno).toUpperCase();
-    var perc=aryData[i]['perc']+'%';
-    var candi_votes=aryData[i]['candi_votes'];
-    //alert(candi_name);
-    /*
-    '<div style="float:left;height:100%;width:0.6%;padding:3px;border:1px solid black;text-align:center;">RANK</div>'+
-    '<div style="float:left;height:100%;width:2.2%;padding:3px;border:1px solid black;text-align:left;">CANDIDATE</div>'+
-    '<div style="float:left;height:100%;width:2%;padding:3px;border:1px solid black;text-align:left;">POLITICAL PARTY</div>'+
-    '<div style="float:left;height:100%;width:1.3%;padding:3px;border:1px solid black;text-align:center;">PERCENTAGE</div>';
-    */
-    dtl+=
-    '<div style="height:25px;width:100%;background:none;">'+
-      '<div style="float:left;height:100%;width:0.6%;border:1px solid black;padding:3px;text-align:center;">'+(i+1)+'. '+'</div>'+
-      '<div style="float:left;height:100%;width:2.2%;border:1px solid black;padding:3px;text-align:left;">'+candi_name+'</div>'+
-      '<div style="float:left;height:100%;width:2%;border:1px solid black;padding:3px;text-align:left;">'+partyname+'</div>'+
-      '<div style="float:left;height:100%;width:1.3%;border:1px solid black;padding:3px;text-align:center;">'+perc+'</div>';
-      
-      var dtl2='';
-      
-      for(var ji=0;ji<aryDataBrgy.length;ji++){      
-        if(aryDataBrgy[ji]['candi_no'] != candi_no){ continue; }
-        var votes=aryDataBrgy[ji]['brgyVotes'];          
-        dtl2+='<div style="float:left;height:100%;width:1.5%;text-align:center;padding:5px;border:1px solid black;background:none;">'+iif(votes==0,'',jformatNumber(votes))+'</div>';
-      }             
-      dtl+=dtl2+
-      
-      '<div style="float:left;height:100%;width:1.5%;text-align:center;padding:5px;border:1px solid black;background:none;">'+jformatNumber(aryData[i]['candi_votes'])+'</div>'+
-    '</div>';
-  }
-
-  let ob_data={
-    "dtl":dtl,
-    "ctr":i
-  };
-  return ob_data;
 
   function update_brgy(candi_no,brgyCode,brgyVotes){
     //brgyVotes=8888;

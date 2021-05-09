@@ -96,8 +96,8 @@ function print_proc_precinct_level(vclusterno){
         //alert(aryPosition.length);
         for(var ii=0;ii<aryPosition.length;ii++){
           //alert(pos);
-          var pos=aryPosition[ii]['pos'];	
-          var posname=aryPosition[ii]['descrp'];	
+          var pos=aryPosition[ii]['pos'];
+          var posname=aryPosition[ii]['descrp'];
           if(aryPosition[ii]['hide'] == 1) { continue; }  // hide dont display
           
           dtl+=
@@ -193,12 +193,13 @@ function getData_precinct(pos,clusterno,cluster_votes){
     var partyno=JBE_GETFLD('partyno',DB_CANDIDATE,'code',candi_no).toUpperCase();
     var partyname=JBE_GETFLD('partyname',DB_PARTY,'partyno',partyno).toUpperCase();
     var perc=aryData[i]['perc'];
+    perc=the_perc(perc);
     dtl+=
     '<div style="height:20px;width:100%;margin-top:5px;font-size:14px;padding:2px 0 0 0;background:none;">'+
       '<div style="float:left;height:100%;width:8%;text-align:center;background:none;">'+(i+1)+'. '+'</div>'+
       '<div style="float:left;height:100%;width:30%;text-align:left;">'+candi_name+'</div>'+
       '<div style="float:left;height:100%;width:30%;text-align:left;">'+partyname+'</div>'+
-      '<div style="float:left;height:100%;width:16%;text-align:center;">'+perc+'% </div>'+
+      '<div style="float:left;height:100%;width:16%;text-align:center;border:1px solid lightgray;">'+perc+'</div>'+
       '<div style="float:left;height:100%;width:16%;text-align:center;">'+jformatNumber(aryData[i]['candi_votes'])+'</div>'+
     '</div>';
   }
